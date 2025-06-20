@@ -1,0 +1,158 @@
+[
+{
+  "directory": "/mnt/d/AATFG/API/Codigo/tests/temp-build-tests/api_gateway",
+  "command": "/usr/bin/cc  -I/mnt/d/AATFG/API/Codigo/api_gateway/include -I/mnt/d/AATFG/API/Codigo/servidor_central/include -I/mnt/d/AATFG/API/Librerias/libcoap-install-linux/include -I/usr/include/cjson  --coverage -fprofile-arcs -ftest-coverage -g -std=gnu99 -I/mnt/d/AATFG/API/Librerias/libcoap-install-linux/include -o CMakeFiles/api_gateway.dir/src/main.c.o -c /mnt/d/AATFG/API/Codigo/api_gateway/src/main.c",
+  "file": "/mnt/d/AATFG/API/Codigo/api_gateway/src/main.c",
+  "output": "api_gateway/CMakeFiles/api_gateway.dir/src/main.c.o"
+},
+{
+  "directory": "/mnt/d/AATFG/API/Codigo/tests/temp-build-tests/api_gateway",
+  "command": "/usr/bin/cc  -I/mnt/d/AATFG/API/Codigo/api_gateway/include -I/mnt/d/AATFG/API/Codigo/servidor_central/include -I/mnt/d/AATFG/API/Librerias/libcoap-install-linux/include -I/usr/include/cjson  --coverage -fprofile-arcs -ftest-coverage -g -std=gnu99 -I/mnt/d/AATFG/API/Librerias/libcoap-install-linux/include -o CMakeFiles/api_gateway.dir/src/api_handlers.c.o -c /mnt/d/AATFG/API/Codigo/api_gateway/src/api_handlers.c",
+  "file": "/mnt/d/AATFG/API/Codigo/api_gateway/src/api_handlers.c",
+  "output": "api_gateway/CMakeFiles/api_gateway.dir/src/api_handlers.c.o"
+},
+{
+  "directory": "/mnt/d/AATFG/API/Codigo/tests/temp-build-tests/api_gateway",
+  "command": "/usr/bin/cc  -I/mnt/d/AATFG/API/Codigo/api_gateway/include -I/mnt/d/AATFG/API/Codigo/servidor_central/include -I/mnt/d/AATFG/API/Librerias/libcoap-install-linux/include -I/usr/include/cjson  --coverage -fprofile-arcs -ftest-coverage -g -std=gnu99 -I/mnt/d/AATFG/API/Librerias/libcoap-install-linux/include -o CMakeFiles/api_gateway.dir/src/elevator_state_manager.c.o -c /mnt/d/AATFG/API/Codigo/api_gateway/src/elevator_state_manager.c",
+  "file": "/mnt/d/AATFG/API/Codigo/api_gateway/src/elevator_state_manager.c",
+  "output": "api_gateway/CMakeFiles/api_gateway.dir/src/elevator_state_manager.c.o"
+},
+{
+  "directory": "/mnt/d/AATFG/API/Codigo/tests/temp-build-tests/api_gateway",
+  "command": "/usr/bin/cc  -I/mnt/d/AATFG/API/Codigo/api_gateway/include -I/mnt/d/AATFG/API/Codigo/servidor_central/include -I/mnt/d/AATFG/API/Librerias/libcoap-install-linux/include -I/usr/include/cjson  --coverage -fprofile-arcs -ftest-coverage -g -std=gnu99 -I/mnt/d/AATFG/API/Librerias/libcoap-install-linux/include -o CMakeFiles/api_gateway.dir/src/can_bridge.c.o -c /mnt/d/AATFG/API/Codigo/api_gateway/src/can_bridge.c",
+  "file": "/mnt/d/AATFG/API/Codigo/api_gateway/src/can_bridge.c",
+  "output": "api_gateway/CMakeFiles/api_gateway.dir/src/can_bridge.c.o"
+},
+{
+  "directory": "/mnt/d/AATFG/API/Codigo/tests/temp-build-tests/api_gateway",
+  "command": "/usr/bin/cc  -I/mnt/d/AATFG/API/Codigo/api_gateway/include -I/mnt/d/AATFG/API/Codigo/servidor_central/include -I/mnt/d/AATFG/API/Librerias/libcoap-install-linux/include -I/usr/include/cjson  --coverage -fprofile-arcs -ftest-coverage -g -std=gnu99 -I/mnt/d/AATFG/API/Librerias/libcoap-install-linux/include -o CMakeFiles/api_gateway.dir/src/mi_simulador_ascensor.c.o -c /mnt/d/AATFG/API/Codigo/api_gateway/src/mi_simulador_ascensor.c",
+  "file": "/mnt/d/AATFG/API/Codigo/api_gateway/src/mi_simulador_ascensor.c",
+  "output": "api_gateway/CMakeFiles/api_gateway.dir/src/mi_simulador_ascensor.c.o"
+},
+{
+  "directory": "/mnt/d/AATFG/API/Codigo/tests/temp-build-tests/api_gateway",
+  "command": "/usr/bin/cc  -I/mnt/d/AATFG/API/Codigo/api_gateway/include -I/mnt/d/AATFG/API/Codigo/servidor_central/include -I/mnt/d/AATFG/API/Librerias/libcoap-install-linux/include -I/usr/include/cjson  --coverage -fprofile-arcs -ftest-coverage -g -std=gnu99 -I/mnt/d/AATFG/API/Librerias/libcoap-install-linux/include -o CMakeFiles/api_gateway.dir/src/simulation_loader.c.o -c /mnt/d/AATFG/API/Codigo/api_gateway/src/simulation_loader.c",
+  "file": "/mnt/d/AATFG/API/Codigo/api_gateway/src/simulation_loader.c",
+  "output": "api_gateway/CMakeFiles/api_gateway.dir/src/simulation_loader.c.o"
+},
+{
+  "directory": "/mnt/d/AATFG/API/Codigo/tests/temp-build-tests/api_gateway",
+  "command": "/usr/bin/cc  -I/mnt/d/AATFG/API/Codigo/api_gateway/include -I/mnt/d/AATFG/API/Codigo/servidor_central/include -I/mnt/d/AATFG/API/Librerias/libcoap-install-linux/include -I/usr/include/cjson  --coverage -fprofile-arcs -ftest-coverage -g -std=gnu99 -I/mnt/d/AATFG/API/Librerias/libcoap-install-linux/include -o CMakeFiles/api_gateway.dir/src/execution_logger.c.o -c /mnt/d/AATFG/API/Codigo/api_gateway/src/execution_logger.c",
+  "file": "/mnt/d/AATFG/API/Codigo/api_gateway/src/execution_logger.c",
+  "output": "api_gateway/CMakeFiles/api_gateway.dir/src/execution_logger.c.o"
+},
+{
+  "directory": "/mnt/d/AATFG/API/Codigo/tests/temp-build-tests/api_gateway",
+  "command": "/usr/bin/cc  -I/mnt/d/AATFG/API/Codigo/api_gateway/include -I/mnt/d/AATFG/API/Codigo/servidor_central/include -I/mnt/d/AATFG/API/Librerias/libcoap-install-linux/include -I/usr/include/cjson  --coverage -fprofile-arcs -ftest-coverage -g -std=gnu99 -I/mnt/d/AATFG/API/Librerias/libcoap-install-linux/include -o CMakeFiles/api_gateway_dynamic.dir/src/main_dynamic_port.c.o -c /mnt/d/AATFG/API/Codigo/api_gateway/src/main_dynamic_port.c",
+  "file": "/mnt/d/AATFG/API/Codigo/api_gateway/src/main_dynamic_port.c",
+  "output": "api_gateway/CMakeFiles/api_gateway_dynamic.dir/src/main_dynamic_port.c.o"
+},
+{
+  "directory": "/mnt/d/AATFG/API/Codigo/tests/temp-build-tests/api_gateway",
+  "command": "/usr/bin/cc  -I/mnt/d/AATFG/API/Codigo/api_gateway/include -I/mnt/d/AATFG/API/Codigo/servidor_central/include -I/mnt/d/AATFG/API/Librerias/libcoap-install-linux/include -I/usr/include/cjson  --coverage -fprofile-arcs -ftest-coverage -g -std=gnu99 -I/mnt/d/AATFG/API/Librerias/libcoap-install-linux/include -o CMakeFiles/api_gateway_dynamic.dir/src/api_handlers.c.o -c /mnt/d/AATFG/API/Codigo/api_gateway/src/api_handlers.c",
+  "file": "/mnt/d/AATFG/API/Codigo/api_gateway/src/api_handlers.c",
+  "output": "api_gateway/CMakeFiles/api_gateway_dynamic.dir/src/api_handlers.c.o"
+},
+{
+  "directory": "/mnt/d/AATFG/API/Codigo/tests/temp-build-tests/api_gateway",
+  "command": "/usr/bin/cc  -I/mnt/d/AATFG/API/Codigo/api_gateway/include -I/mnt/d/AATFG/API/Codigo/servidor_central/include -I/mnt/d/AATFG/API/Librerias/libcoap-install-linux/include -I/usr/include/cjson  --coverage -fprofile-arcs -ftest-coverage -g -std=gnu99 -I/mnt/d/AATFG/API/Librerias/libcoap-install-linux/include -o CMakeFiles/api_gateway_dynamic.dir/src/can_bridge.c.o -c /mnt/d/AATFG/API/Codigo/api_gateway/src/can_bridge.c",
+  "file": "/mnt/d/AATFG/API/Codigo/api_gateway/src/can_bridge.c",
+  "output": "api_gateway/CMakeFiles/api_gateway_dynamic.dir/src/can_bridge.c.o"
+},
+{
+  "directory": "/mnt/d/AATFG/API/Codigo/tests/temp-build-tests/api_gateway",
+  "command": "/usr/bin/cc  -I/mnt/d/AATFG/API/Codigo/api_gateway/include -I/mnt/d/AATFG/API/Codigo/servidor_central/include -I/mnt/d/AATFG/API/Librerias/libcoap-install-linux/include -I/usr/include/cjson  --coverage -fprofile-arcs -ftest-coverage -g -std=gnu99 -I/mnt/d/AATFG/API/Librerias/libcoap-install-linux/include -o CMakeFiles/api_gateway_dynamic.dir/src/elevator_state_manager.c.o -c /mnt/d/AATFG/API/Codigo/api_gateway/src/elevator_state_manager.c",
+  "file": "/mnt/d/AATFG/API/Codigo/api_gateway/src/elevator_state_manager.c",
+  "output": "api_gateway/CMakeFiles/api_gateway_dynamic.dir/src/elevator_state_manager.c.o"
+},
+{
+  "directory": "/mnt/d/AATFG/API/Codigo/tests/temp-build-tests/api_gateway",
+  "command": "/usr/bin/cc  -I/mnt/d/AATFG/API/Codigo/api_gateway/include -I/mnt/d/AATFG/API/Codigo/servidor_central/include -I/mnt/d/AATFG/API/Librerias/libcoap-install-linux/include -I/usr/include/cjson  --coverage -fprofile-arcs -ftest-coverage -g -std=gnu99 -I/mnt/d/AATFG/API/Librerias/libcoap-install-linux/include -o CMakeFiles/api_gateway_dynamic.dir/src/mi_simulador_ascensor.c.o -c /mnt/d/AATFG/API/Codigo/api_gateway/src/mi_simulador_ascensor.c",
+  "file": "/mnt/d/AATFG/API/Codigo/api_gateway/src/mi_simulador_ascensor.c",
+  "output": "api_gateway/CMakeFiles/api_gateway_dynamic.dir/src/mi_simulador_ascensor.c.o"
+},
+{
+  "directory": "/mnt/d/AATFG/API/Codigo/tests/temp-build-tests/api_gateway",
+  "command": "/usr/bin/cc  -I/mnt/d/AATFG/API/Codigo/api_gateway/include -I/mnt/d/AATFG/API/Codigo/servidor_central/include -I/mnt/d/AATFG/API/Librerias/libcoap-install-linux/include -I/usr/include/cjson  --coverage -fprofile-arcs -ftest-coverage -g -std=gnu99 -I/mnt/d/AATFG/API/Librerias/libcoap-install-linux/include -o CMakeFiles/api_gateway_dynamic.dir/src/simulation_loader.c.o -c /mnt/d/AATFG/API/Codigo/api_gateway/src/simulation_loader.c",
+  "file": "/mnt/d/AATFG/API/Codigo/api_gateway/src/simulation_loader.c",
+  "output": "api_gateway/CMakeFiles/api_gateway_dynamic.dir/src/simulation_loader.c.o"
+},
+{
+  "directory": "/mnt/d/AATFG/API/Codigo/tests/temp-build-tests/api_gateway",
+  "command": "/usr/bin/cc  -I/mnt/d/AATFG/API/Codigo/api_gateway/include -I/mnt/d/AATFG/API/Codigo/servidor_central/include -I/mnt/d/AATFG/API/Librerias/libcoap-install-linux/include -I/usr/include/cjson  --coverage -fprofile-arcs -ftest-coverage -g -std=gnu99 -I/mnt/d/AATFG/API/Librerias/libcoap-install-linux/include -o CMakeFiles/api_gateway_dynamic.dir/src/execution_logger.c.o -c /mnt/d/AATFG/API/Codigo/api_gateway/src/execution_logger.c",
+  "file": "/mnt/d/AATFG/API/Codigo/api_gateway/src/execution_logger.c",
+  "output": "api_gateway/CMakeFiles/api_gateway_dynamic.dir/src/execution_logger.c.o"
+},
+{
+  "directory": "/mnt/d/AATFG/API/Codigo/tests/temp-build-tests/servidor_central",
+  "command": "/usr/bin/cc  -I/mnt/d/AATFG/API/Codigo/api_gateway/include -I/mnt/d/AATFG/API/Codigo/servidor_central/include -I/mnt/d/AATFG/API/Librerias/libcoap-install-linux/include -I/usr/include/cjson  --coverage -fprofile-arcs -ftest-coverage -g -std=gnu99 -o CMakeFiles/servidor_central.dir/src/main.c.o -c /mnt/d/AATFG/API/Codigo/servidor_central/src/main.c",
+  "file": "/mnt/d/AATFG/API/Codigo/servidor_central/src/main.c",
+  "output": "servidor_central/CMakeFiles/servidor_central.dir/src/main.c.o"
+},
+{
+  "directory": "/mnt/d/AATFG/API/Codigo/tests/temp-build-tests/tests",
+  "command": "/usr/bin/cc  -I/mnt/d/AATFG/API/Codigo/api_gateway/include -I/mnt/d/AATFG/API/Codigo/servidor_central/include -I/mnt/d/AATFG/API/Librerias/libcoap-install-linux/include -I/usr/include/cjson  --coverage -fprofile-arcs -ftest-coverage -g -std=gnu99 -o CMakeFiles/elevator_system_lib.dir/__/api_gateway/src/elevator_state_manager.c.o -c /mnt/d/AATFG/API/Codigo/api_gateway/src/elevator_state_manager.c",
+  "file": "/mnt/d/AATFG/API/Codigo/api_gateway/src/elevator_state_manager.c",
+  "output": "tests/CMakeFiles/elevator_system_lib.dir/__/api_gateway/src/elevator_state_manager.c.o"
+},
+{
+  "directory": "/mnt/d/AATFG/API/Codigo/tests/temp-build-tests/tests",
+  "command": "/usr/bin/cc  -I/mnt/d/AATFG/API/Codigo/api_gateway/include -I/mnt/d/AATFG/API/Codigo/servidor_central/include -I/mnt/d/AATFG/API/Librerias/libcoap-install-linux/include -I/usr/include/cjson  --coverage -fprofile-arcs -ftest-coverage -g -std=gnu99 -o CMakeFiles/elevator_system_lib.dir/__/api_gateway/src/can_bridge.c.o -c /mnt/d/AATFG/API/Codigo/api_gateway/src/can_bridge.c",
+  "file": "/mnt/d/AATFG/API/Codigo/api_gateway/src/can_bridge.c",
+  "output": "tests/CMakeFiles/elevator_system_lib.dir/__/api_gateway/src/can_bridge.c.o"
+},
+{
+  "directory": "/mnt/d/AATFG/API/Codigo/tests/temp-build-tests/tests",
+  "command": "/usr/bin/cc  -I/mnt/d/AATFG/API/Codigo/api_gateway/include -I/mnt/d/AATFG/API/Codigo/servidor_central/include -I/mnt/d/AATFG/API/Librerias/libcoap-install-linux/include -I/usr/include/cjson  --coverage -fprofile-arcs -ftest-coverage -g -std=gnu99 -o CMakeFiles/elevator_system_lib.dir/__/api_gateway/src/api_handlers.c.o -c /mnt/d/AATFG/API/Codigo/api_gateway/src/api_handlers.c",
+  "file": "/mnt/d/AATFG/API/Codigo/api_gateway/src/api_handlers.c",
+  "output": "tests/CMakeFiles/elevator_system_lib.dir/__/api_gateway/src/api_handlers.c.o"
+},
+{
+  "directory": "/mnt/d/AATFG/API/Codigo/tests/temp-build-tests/tests",
+  "command": "/usr/bin/cc  -I/mnt/d/AATFG/API/Codigo/api_gateway/include -I/mnt/d/AATFG/API/Codigo/servidor_central/include -I/mnt/d/AATFG/API/Librerias/libcoap-install-linux/include -I/usr/include/cjson -I/mnt/d/AATFG/API/Codigo/tests -I/mnt/d/AATFG/API/Codigo/tests/mocks  --coverage -fprofile-arcs -ftest-coverage -g -std=gnu99 -o CMakeFiles/test_elevator_state_manager.dir/unit/test_elevator_state_manager.c.o -c /mnt/d/AATFG/API/Codigo/tests/unit/test_elevator_state_manager.c",
+  "file": "/mnt/d/AATFG/API/Codigo/tests/unit/test_elevator_state_manager.c",
+  "output": "tests/CMakeFiles/test_elevator_state_manager.dir/unit/test_elevator_state_manager.c.o"
+},
+{
+  "directory": "/mnt/d/AATFG/API/Codigo/tests/temp-build-tests/tests",
+  "command": "/usr/bin/cc  -I/mnt/d/AATFG/API/Codigo/api_gateway/include -I/mnt/d/AATFG/API/Codigo/servidor_central/include -I/mnt/d/AATFG/API/Librerias/libcoap-install-linux/include -I/usr/include/cjson -I/mnt/d/AATFG/API/Codigo/tests -I/mnt/d/AATFG/API/Codigo/tests/mocks  --coverage -fprofile-arcs -ftest-coverage -g -std=gnu99 -o CMakeFiles/test_can_bridge.dir/unit/test_can_bridge.c.o -c /mnt/d/AATFG/API/Codigo/tests/unit/test_can_bridge.c",
+  "file": "/mnt/d/AATFG/API/Codigo/tests/unit/test_can_bridge.c",
+  "output": "tests/CMakeFiles/test_can_bridge.dir/unit/test_can_bridge.c.o"
+},
+{
+  "directory": "/mnt/d/AATFG/API/Codigo/tests/temp-build-tests/tests",
+  "command": "/usr/bin/cc  -I/mnt/d/AATFG/API/Codigo/api_gateway/include -I/mnt/d/AATFG/API/Codigo/servidor_central/include -I/mnt/d/AATFG/API/Librerias/libcoap-install-linux/include -I/usr/include/cjson -I/mnt/d/AATFG/API/Codigo/tests -I/mnt/d/AATFG/API/Codigo/tests/mocks  --coverage -fprofile-arcs -ftest-coverage -g -std=gnu99 -o CMakeFiles/test_can_to_coap.dir/integration/test_can_to_coap.c.o -c /mnt/d/AATFG/API/Codigo/tests/integration/test_can_to_coap.c",
+  "file": "/mnt/d/AATFG/API/Codigo/tests/integration/test_can_to_coap.c",
+  "output": "tests/CMakeFiles/test_can_to_coap.dir/integration/test_can_to_coap.c.o"
+},
+{
+  "directory": "/mnt/d/AATFG/API/Codigo/tests/temp-build-tests/tests",
+  "command": "/usr/bin/cc  -I/mnt/d/AATFG/API/Codigo/api_gateway/include -I/mnt/d/AATFG/API/Codigo/servidor_central/include -I/mnt/d/AATFG/API/Librerias/libcoap-install-linux/include -I/usr/include/cjson -I/mnt/d/AATFG/API/Codigo/tests -I/mnt/d/AATFG/API/Codigo/tests/mocks  --coverage -fprofile-arcs -ftest-coverage -g -std=gnu99 -o CMakeFiles/test_api_handlers.dir/unit/test_api_handlers.c.o -c /mnt/d/AATFG/API/Codigo/tests/unit/test_api_handlers.c",
+  "file": "/mnt/d/AATFG/API/Codigo/tests/unit/test_api_handlers.c",
+  "output": "tests/CMakeFiles/test_api_handlers.dir/unit/test_api_handlers.c.o"
+},
+{
+  "directory": "/mnt/d/AATFG/API/Codigo/tests/temp-build-tests/tests",
+  "command": "/usr/bin/cc  -I/mnt/d/AATFG/API/Codigo/api_gateway/include -I/mnt/d/AATFG/API/Codigo/servidor_central/include -I/mnt/d/AATFG/API/Librerias/libcoap-install-linux/include -I/usr/include/cjson -I/mnt/d/AATFG/API/Codigo/tests -I/mnt/d/AATFG/API/Codigo/tests/mocks  --coverage -fprofile-arcs -ftest-coverage -g -std=gnu99 -o CMakeFiles/test_servidor_central.dir/unit/test_servidor_central.c.o -c /mnt/d/AATFG/API/Codigo/tests/unit/test_servidor_central.c",
+  "file": "/mnt/d/AATFG/API/Codigo/tests/unit/test_servidor_central.c",
+  "output": "tests/CMakeFiles/test_servidor_central.dir/unit/test_servidor_central.c.o"
+},
+{
+  "directory": "/mnt/d/AATFG/API/Codigo/tests/temp-build-tests/tests/mocks",
+  "command": "/usr/bin/cc  -I/mnt/d/AATFG/API/Codigo/api_gateway/include -I/mnt/d/AATFG/API/Codigo/servidor_central/include -I/mnt/d/AATFG/API/Librerias/libcoap-install-linux/include -I/usr/include/cjson -I/mnt/d/AATFG/API/Codigo/tests/mocks  --coverage -fprofile-arcs -ftest-coverage -g -std=gnu99 -o CMakeFiles/test_mocks.dir/mock_coap_session.c.o -c /mnt/d/AATFG/API/Codigo/tests/mocks/mock_coap_session.c",
+  "file": "/mnt/d/AATFG/API/Codigo/tests/mocks/mock_coap_session.c",
+  "output": "tests/mocks/CMakeFiles/test_mocks.dir/mock_coap_session.c.o"
+},
+{
+  "directory": "/mnt/d/AATFG/API/Codigo/tests/temp-build-tests/tests/mocks",
+  "command": "/usr/bin/cc  -I/mnt/d/AATFG/API/Codigo/api_gateway/include -I/mnt/d/AATFG/API/Codigo/servidor_central/include -I/mnt/d/AATFG/API/Librerias/libcoap-install-linux/include -I/usr/include/cjson -I/mnt/d/AATFG/API/Codigo/tests/mocks  --coverage -fprofile-arcs -ftest-coverage -g -std=gnu99 -o CMakeFiles/test_mocks.dir/mock_can_interface.c.o -c /mnt/d/AATFG/API/Codigo/tests/mocks/mock_can_interface.c",
+  "file": "/mnt/d/AATFG/API/Codigo/tests/mocks/mock_can_interface.c",
+  "output": "tests/mocks/CMakeFiles/test_mocks.dir/mock_can_interface.c.o"
+},
+{
+  "directory": "/mnt/d/AATFG/API/Codigo/tests/temp-build-tests/tests/mocks",
+  "command": "/usr/bin/cc  -I/mnt/d/AATFG/API/Codigo/api_gateway/include -I/mnt/d/AATFG/API/Codigo/servidor_central/include -I/mnt/d/AATFG/API/Librerias/libcoap-install-linux/include -I/usr/include/cjson -I/mnt/d/AATFG/API/Codigo/tests/mocks  --coverage -fprofile-arcs -ftest-coverage -g -std=gnu99 -o CMakeFiles/test_mocks.dir/mock_execution_logger.c.o -c /mnt/d/AATFG/API/Codigo/tests/mocks/mock_execution_logger.c",
+  "file": "/mnt/d/AATFG/API/Codigo/tests/mocks/mock_execution_logger.c",
+  "output": "tests/mocks/CMakeFiles/test_mocks.dir/mock_execution_logger.c.o"
+}
+]

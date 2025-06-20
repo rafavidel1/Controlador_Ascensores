@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: servidor-central-deployment
+  labels:
+    app: servidor-central
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: servidor-central
+  template:
+    metadata:
+      labels:
+        app: servidor-central
+    spec:
+      containers:
+      - name: servidor-central
+        image: servidor-central:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 5684
+          protocol: UDP
+        resources:
+          requests:
+            cpu: "100m"
+          limits:
+            cpu: "500m"

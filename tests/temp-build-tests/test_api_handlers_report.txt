@@ -1,0 +1,52 @@
+=== REPORTE DE PRUEBAS: API HANDLERS ===
+Fecha: Jun 19 2025
+=========================================
+
+TEST: test_tracker_management_basic
+Descripción: Verifica la correcta inicialización y gestión de trackers de solicitudes
+Resultado: PASÓ
+Detalles: Estructura de tracker inicializada correctamente con todos los campos válidos
+----------------------------------------
+
+TEST: test_signal_handler
+Descripción: Verifica el correcto funcionamiento del manejador de señales SIGINT
+Resultado: PASÓ
+Detalles: Señal SIGINT manejada correctamente, bandera quit_main_loop establecida
+----------------------------------------
+
+TEST: test_json_payload_validation
+Descripción: Verifica la correcta validación de payloads JSON válidos e inválidos
+Resultado: PASÓ
+Detalles: JSON válido parseado correctamente; JSON inválido rechazado correctamente
+----------------------------------------
+
+TEST: test_json_elevator_state_format
+Descripción: Verifica el correcto formato JSON para el estado de ascensores
+Resultado: PASÓ
+Detalles: Formato JSON válido: ascensor=ASC_001, piso=3, estado=IDLE
+----------------------------------------
+
+TEST: test_elevator_state_integration
+Descripción: Verifica la correcta integración con el sistema de gestión de estado de ascensores
+Resultado: PASÓ
+Detalles: Integración exitosa: grupo inicializado con 2 ascensores, JSON generado correctamente
+----------------------------------------
+
+TEST: test_request_types
+Descripción: Verifica la correcta definición de tipos de solicitudes del API
+Resultado: PASÓ
+Detalles: Tipos de solicitudes válidos: FLOOR_CALL=1, CABIN_REQUEST=2
+----------------------------------------
+
+TEST: test_movement_directions
+Descripción: Verifica la correcta definición de direcciones de movimiento de ascensores
+Resultado: PASÓ
+Detalles: Direcciones de movimiento válidas: UP=0, DOWN=1, STOPPED=2
+----------------------------------------
+
+TEST: test_setup_teardown
+Descripción: Verifica el correcto funcionamiento del setup y teardown de la suite de pruebas
+Resultado: PASÓ
+Detalles: Setup llamado correctamente, suite de API handlers inicializada
+----------------------------------------
+

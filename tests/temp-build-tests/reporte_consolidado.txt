@@ -1,0 +1,331 @@
+===============================================================================
+                    REPORTE CONSOLIDADO DE PRUEBAS
+                    Sistema de Control de Ascensores
+===============================================================================
+
+Fecha de generación: 2025-06-19 19:07:03
+Proyecto: SistemaControlAscensores
+
+===============================================================================
+                              RESUMEN EJECUTIVO
+===============================================================================
+
+API HANDLERS:
+  - Archivo: test_api_handlers_report.txt
+  - Total de pruebas: 8
+  - Pruebas exitosas: 8
+  - Pruebas fallidas: 00
+  - Tasa de éxito: 100%
+
+PUENTE CAN:
+  - Archivo: test_can_bridge_report.txt
+  - Total de pruebas: 6
+  - Pruebas exitosas: 6
+  - Pruebas fallidas: 00
+  - Tasa de éxito: 100%
+
+INTEGRACIÓN CAN-COAP:
+  - Archivo: test_can_to_coap_report.txt
+  - Total de pruebas: 6
+  - Pruebas exitosas: 6
+  - Pruebas fallidas: 00
+  - Tasa de éxito: 100%
+
+GESTOR DE ESTADO DE ASCENSORES:
+  - Archivo: test_elevator_state_manager_report.txt
+  - Total de pruebas: 3
+  - Pruebas exitosas: 3
+  - Pruebas fallidas: 00
+  - Tasa de éxito: 100%
+
+SERVIDOR CENTRAL:
+  - Archivo: test_servidor_central_report.txt
+  - Total de pruebas: 11
+  - Pruebas exitosas: 11
+  - Pruebas fallidas: 00
+  - Tasa de éxito: 100%
+
+
+===============================================================================
+                              DETALLES DE PRUEBAS
+===============================================================================
+
+
+-------------------------------------------------------------------------------
+                        DETALLES: API HANDLERS
+-------------------------------------------------------------------------------
+
+=== REPORTE DE PRUEBAS: API HANDLERS ===
+Fecha: Jun 19 2025
+=========================================
+
+TEST: test_tracker_management_basic
+Descripción: Verifica la correcta inicialización y gestión de trackers de solicitudes
+Resultado: PASÓ
+Detalles: Estructura de tracker inicializada correctamente con todos los campos válidos
+----------------------------------------
+
+TEST: test_signal_handler
+Descripción: Verifica el correcto funcionamiento del manejador de señales SIGINT
+Resultado: PASÓ
+Detalles: Señal SIGINT manejada correctamente, bandera quit_main_loop establecida
+----------------------------------------
+
+TEST: test_json_payload_validation
+Descripción: Verifica la correcta validación de payloads JSON válidos e inválidos
+Resultado: PASÓ
+Detalles: JSON válido parseado correctamente; JSON inválido rechazado correctamente
+----------------------------------------
+
+TEST: test_json_elevator_state_format
+Descripción: Verifica el correcto formato JSON para el estado de ascensores
+Resultado: PASÓ
+Detalles: Formato JSON válido: ascensor=ASC_001, piso=3, estado=IDLE
+----------------------------------------
+
+TEST: test_elevator_state_integration
+Descripción: Verifica la correcta integración con el sistema de gestión de estado de ascensores
+Resultado: PASÓ
+Detalles: Integración exitosa: grupo inicializado con 2 ascensores, JSON generado correctamente
+----------------------------------------
+
+TEST: test_request_types
+Descripción: Verifica la correcta definición de tipos de solicitudes del API
+Resultado: PASÓ
+Detalles: Tipos de solicitudes válidos: FLOOR_CALL=1, CABIN_REQUEST=2
+----------------------------------------
+
+TEST: test_movement_directions
+Descripción: Verifica la correcta definición de direcciones de movimiento de ascensores
+Resultado: PASÓ
+Detalles: Direcciones de movimiento válidas: UP=0, DOWN=1, STOPPED=2
+----------------------------------------
+
+TEST: test_setup_teardown
+Descripción: Verifica el correcto funcionamiento del setup y teardown de la suite de pruebas
+Resultado: PASÓ
+Detalles: Setup llamado correctamente, suite de API handlers inicializada
+----------------------------------------
+
+
+
+-------------------------------------------------------------------------------
+                        DETALLES: PUENTE CAN
+-------------------------------------------------------------------------------
+
+=== REPORTE DE PRUEBAS: PUENTE CAN ===
+Fecha: Thu Jun 19 19:06:57 2025
+
+======================================
+
+TEST: test_can_bridge_init
+Descripción: Verifica la correcta inicialización del puente CAN
+Resultado: PASÓ
+Detalles: Puente CAN inicializado correctamente sin frames pendientes
+----------------------------------------
+
+TEST: test_process_floor_call_frame
+Descripción: Verifica el procesamiento de frames de llamada de piso
+Resultado: PASÓ
+Detalles: Frame de llamada de piso creado correctamente: ID=0x100, piso=3, dirección=0
+----------------------------------------
+
+TEST: test_process_cabin_request_frame
+Descripción: Verifica el procesamiento de frames de solicitud de cabina
+Resultado: PASÓ
+Detalles: Frame de solicitud de cabina creado correctamente: ID=0x200, ascensor=1, destino=7
+----------------------------------------
+
+TEST: test_send_response_frame
+Descripción: Verifica el envío correcto de frames de respuesta CAN
+Resultado: PASÓ
+Detalles: Frame de respuesta enviado correctamente: ID=0x180, DLC=8
+----------------------------------------
+
+TEST: test_can_send_error_handling
+Descripción: Verifica el manejo correcto de errores en envío CAN
+Resultado: PASÓ
+Detalles: Manejo de errores correcto: no se enviaron frames en modo fallo
+----------------------------------------
+
+TEST: test_multiple_frame_reception
+Descripción: Verifica la recepción correcta de múltiples frames CAN
+Resultado: PASÓ
+Detalles: Recepción múltiple correcta: 3 frames procesados, cola vacía
+----------------------------------------
+
+
+=== FIN DEL REPORTE ===
+
+
+-------------------------------------------------------------------------------
+                        DETALLES: INTEGRACIÓN CAN-COAP
+-------------------------------------------------------------------------------
+
+=== REPORTE DE PRUEBAS: INTEGRACIÓN CAN-COAP ===
+Fecha: Thu Jun 19 19:06:57 2025
+
+===============================================
+
+TEST: test_can_to_coap_flow
+Descripción: Verifica el flujo completo de procesamiento CAN a CoAP
+Resultado: PASÓ
+Detalles: Flujo CAN->CoAP simulado correctamente: frame ID=0x100 procesado, piso=5, dirección=DOWN
+----------------------------------------
+
+TEST: test_coap_session_creation
+Descripción: Verifica la creación correcta de sesiones CoAP
+Resultado: PASÓ
+Detalles: Sesión CoAP creada correctamente: estado=ESTABLISHED, protocolo=DTLS
+----------------------------------------
+
+TEST: test_coap_response_to_can
+Descripción: Verifica el procesamiento de respuestas CoAP a CAN
+Resultado: PASÓ
+Detalles: Respuesta CoAP->CAN procesada correctamente: ID=0x180, tarea=T_456, ascensor=E1A2, tiempo=45s
+----------------------------------------
+
+TEST: test_communication_error_handling
+Descripción: Verifica el manejo correcto de errores de comunicación
+Resultado: PASÓ
+Detalles: Manejo de errores correcto: fallos de CoAP y CAN manejados apropiadamente
+----------------------------------------
+
+TEST: test_concurrent_requests_flow
+Descripción: Verifica el manejo correcto de múltiples solicitudes concurrentes
+Resultado: PASÓ
+Detalles: Flujo concurrente procesado correctamente: 3 solicitudes recibidas y respondidas
+----------------------------------------
+
+TEST: test_json_format_validation
+Descripción: Verifica la validación correcta del formato JSON
+Resultado: PASÓ
+Detalles: Formato JSON validado correctamente: solicitud y respuesta con estructura válida
+----------------------------------------
+
+
+=== FIN DEL REPORTE ===
+
+
+-------------------------------------------------------------------------------
+                        DETALLES: GESTOR DE ESTADO DE ASCENSORES
+-------------------------------------------------------------------------------
+
+=== REPORTE DE PRUEBAS: GESTOR DE ESTADO DE ASCENSORES ===
+Fecha: Thu Jun 19 19:06:57 2025
+
+========================================================
+
+TEST: test_init_elevator_group
+Descripción: Verifica la correcta inicialización de un grupo de ascensores
+Resultado: PASÓ
+Detalles: Grupo inicializado correctamente: 3 ascensores en edificio E1, piso inicial=0
+----------------------------------------
+
+TEST: test_assign_task_to_elevator
+Descripción: Verifica la correcta asignación de tareas a ascensores
+Resultado: PASÓ
+Detalles: Tarea asignada correctamente: ascensor E1A1, tarea T_001, destino piso 5, dirección UP
+----------------------------------------
+
+TEST: test_elevator_group_to_json
+Descripción: Verifica la correcta serialización del estado del grupo a JSON
+Resultado: PASÓ
+Detalles: JSON generado correctamente con id_edificio='E1' y piso_origen_llamada=3
+----------------------------------------
+
+=== FIN DEL REPORTE ===
+
+
+-------------------------------------------------------------------------------
+                        DETALLES: SERVIDOR CENTRAL
+-------------------------------------------------------------------------------
+
+=== REPORTE DE PRUEBAS: SERVIDOR CENTRAL ===
+Fecha: Jun 19 2025
+=============================================
+
+TEST: test_task_id_generation_basic
+Descripción: Verifica la correcta generación de IDs únicos de tareas
+Resultado: PASÓ
+Detalles: IDs generados correctamente: T_1750352817623 y T_1750352817624, formato válido y únicos
+----------------------------------------
+
+TEST: test_task_id_generation_uniqueness
+Descripción: Verifica que los IDs de tareas generados son únicos entre múltiples llamadas
+Resultado: PASÓ
+Detalles: Generados 10 IDs únicos de 10 intentos, todos diferentes
+----------------------------------------
+
+TEST: test_floor_call_payload_validation_valid
+Descripción: Verifica la correcta validación de payloads JSON válidos para peticiones de piso
+Resultado: PASÓ
+Detalles: Payload válido: edificio=EDIFICIO_001, piso=3, dirección=UP, ascensores=1
+----------------------------------------
+
+TEST: test_floor_call_payload_validation_invalid
+Descripción: Verifica la correcta detección de payloads JSON inválidos
+Resultado: PASÓ
+Detalles: Payload con campos faltantes detectado correctamente
+----------------------------------------
+
+TEST: test_cabin_request_payload_validation
+Descripción: Verifica la correcta validación de payloads de solicitudes de cabina
+Resultado: PASÓ
+Detalles: Solicitud de cabina válida: edificio=EDIFICIO_001, ascensor=ASC_001, destino=7
+----------------------------------------
+
+TEST: test_elevator_assignment_algorithm_simple
+Descripción: Verifica el correcto funcionamiento del algoritmo de asignación de ascensores
+Resultado: PASÓ
+Detalles: Asignación exitosa: ascensor ASC_001 seleccionado
+----------------------------------------
+
+TEST: test_elevator_assignment_no_elevators
+Descripción: Verifica el manejo correcto cuando no hay ascensores disponibles
+Resultado: PASÓ
+Detalles: Detectado correctamente: array de ascensores vacío
+----------------------------------------
+
+TEST: test_response_generation_success
+Descripción: Verifica la correcta generación de respuestas JSON exitosas
+Resultado: PASÓ
+Detalles: Respuesta JSON generada correctamente: tarea_id=T_1750352817646, ascensor=ASC_001
+----------------------------------------
+
+TEST: test_response_generation_error
+Descripción: Verifica la correcta generación de respuestas de error
+Resultado: PASÓ
+Detalles: Respuesta de error generada correctamente
+----------------------------------------
+
+TEST: test_complete_floor_call_flow
+Descripción: Verifica el flujo completo de procesamiento de peticiones de piso
+Resultado: PASÓ
+Detalles: Flujo completo exitoso: edificio=EDIFICIO_TEST, piso=3, tarea=T_1750352817646, ascensor=ASC_TEST
+----------------------------------------
+
+TEST: test_setup_teardown_servidor
+Descripción: Verifica el correcto funcionamiento del setup y teardown de la suite
+Resultado: PASÓ
+Detalles: Setup llamado correctamente, suite inicializada
+----------------------------------------
+
+
+=== FIN DEL REPORTE ===
+
+
+===============================================================================
+                              RESUMEN FINAL
+===============================================================================
+
+Total de reportes procesados: 5
+Total de pruebas ejecutadas: 34
+Total de pruebas exitosas: 34
+Total de fallos detectados: 0
+Fecha de finalización: 2025-06-19 19:07:04
+
+✅ RESULTADO: TODAS LAS PRUEBAS PASARON EXITOSAMENTE
+
+El sistema ha superado todas las pruebas implementadas. Se puede proceder
+con confianza a la siguiente fase de desarrollo o despliegue.

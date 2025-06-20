@@ -1,0 +1,43 @@
+=== REPORTE DE PRUEBAS: PUENTE CAN ===
+Fecha: Thu Jun 19 19:06:57 2025
+
+======================================
+
+TEST: test_can_bridge_init
+Descripción: Verifica la correcta inicialización del puente CAN
+Resultado: PASÓ
+Detalles: Puente CAN inicializado correctamente sin frames pendientes
+----------------------------------------
+
+TEST: test_process_floor_call_frame
+Descripción: Verifica el procesamiento de frames de llamada de piso
+Resultado: PASÓ
+Detalles: Frame de llamada de piso creado correctamente: ID=0x100, piso=3, dirección=0
+----------------------------------------
+
+TEST: test_process_cabin_request_frame
+Descripción: Verifica el procesamiento de frames de solicitud de cabina
+Resultado: PASÓ
+Detalles: Frame de solicitud de cabina creado correctamente: ID=0x200, ascensor=1, destino=7
+----------------------------------------
+
+TEST: test_send_response_frame
+Descripción: Verifica el envío correcto de frames de respuesta CAN
+Resultado: PASÓ
+Detalles: Frame de respuesta enviado correctamente: ID=0x180, DLC=8
+----------------------------------------
+
+TEST: test_can_send_error_handling
+Descripción: Verifica el manejo correcto de errores en envío CAN
+Resultado: PASÓ
+Detalles: Manejo de errores correcto: no se enviaron frames en modo fallo
+----------------------------------------
+
+TEST: test_multiple_frame_reception
+Descripción: Verifica la recepción correcta de múltiples frames CAN
+Resultado: PASÓ
+Detalles: Recepción múltiple correcta: 3 frames procesados, cola vacía
+----------------------------------------
+
+
+=== FIN DEL REPORTE ===

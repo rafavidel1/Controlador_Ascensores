@@ -1,0 +1,7 @@
+/mnt/d/AATFG/API/Codigo/servidor_central/build/CMakeFiles/servidor_central.dir
+/mnt/d/AATFG/API/Codigo/servidor_central/build/CMakeFiles/edit_cache.dir
+/mnt/d/AATFG/API/Codigo/servidor_central/build/CMakeFiles/rebuild_cache.dir
+/mnt/d/AATFG/API/Codigo/servidor_central/build/CMakeFiles/list_install_components.dir
+/mnt/d/AATFG/API/Codigo/servidor_central/build/CMakeFiles/install.dir
+/mnt/d/AATFG/API/Codigo/servidor_central/build/CMakeFiles/install/local.dir
+/mnt/d/AATFG/API/Codigo/servidor_central/build/CMakeFiles/install/strip.dir

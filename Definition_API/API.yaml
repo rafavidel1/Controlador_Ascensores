@@ -1,0 +1,243 @@
+openapi: 3.0.3
+info:
+  title: API Gateway CoAP para Sistema de Ascensores
+  description: |
+    API Gateway de puente CAN-CoAP para sistema de control de ascensores.
+    
+    Este API Gateway actúa como intermediario entre controladores CAN de ascensores 
+    y el servidor central CoAP. NO es un servidor HTTP/REST, sino un puente de 
+    protocolo que:
+    
+    - Recibe frames CAN de controladores de ascensores
+    - Convierte a CoAP y envía al servidor central vía DTLS-PSK
+    - Procesa respuestas del servidor central
+    - Reenvía por CAN las asignaciones a los controladores
+    
+    Arquitectura del Sistema:
+    Controladores CAN ↔ API Gateway ↔ Servidor Central CoAP
+    
+  version: 2.0.0
+  contact:
+    name: Sistema de Control de Ascensores
+
+servers:
+  - url: coap://127.0.0.1:5684
+    description: Servidor Central (CoAP sobre DTLS-PSK)
+
+paths:
+  /peticion_piso:
+    post:
+      summary: Enviar una solicitud de llamada de ascensor desde un piso
+      description: |
+        Procesa una solicitud de llamada de ascensor desde un piso específico,
+        enviando el estado actual de todos los ascensores gestionados.
+        La solicitud se envía al servidor central a través de CoAP sobre DTLS-PSK.
+        
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FloorCallRequest'
+      
+      responses:
+        '200':
+          description: Respuesta exitosa del servidor central con la asignación del ascensor.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerResponse'
+        '400':
+          description: Error en la solicitud (e.g., formato JSON inválido o campos faltantes).
+        '500':
+          description: Error interno en el servidor central.
+
+  /peticion_cabina:
+    post:
+      summary: Enviar una solicitud de destino desde la cabina de un ascensor
+      description: |
+        Procesa una solicitud de destino desde el interior de una cabina de ascensor,
+        enviando el estado actual de todos los ascensores gestionados.
+        La solicitud se envía al servidor central a través de CoAP sobre DTLS-PSK.
+        
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CabinRequest'
+      
+      responses:
+        '200':
+          description: Respuesta exitosa del servidor central con la asignación del ascensor.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerResponse'
+        '400':
+          description: Error en la solicitud (e.g., formato JSON inválido o campos faltantes).
+        '500':
+          description: Error interno en el servidor central.
+
+components:
+  schemas:
+    DoorState:
+      type: string
+      enum: [CERRADA, ABIERTA, ABRIENDO, CERRANDO]
+      description: |
+        Estado actual de las puertas del ascensor:
+        - CERRADA: Puertas completamente cerradas y bloqueadas
+        - ABIERTA: Puertas completamente abiertas
+        - ABRIENDO: Puertas en proceso de apertura
+        - CERRANDO: Puertas en proceso de cierre
+      example: CERRADA
+      
+    MovementDirection:
+      type: string
+      enum: [SUBIENDO, BAJANDO, PARADO]
+      description: |
+        Dirección de movimiento del ascensor:
+        - SUBIENDO: Ascensor moviéndose hacia pisos superiores
+        - BAJANDO: Ascensor moviéndose hacia pisos inferiores  
+        - PARADO: Ascensor detenido en un piso
+      example: SUBIENDO
+
+    ElevatorState:
+      type: object
+      description: Estado completo de un ascensor individual.
+      properties:
+        id_ascensor:
+          type: string
+          description: Identificador único del ascensor (formato EdificioIDAnumero).
+          pattern: '^E[0-9]+A[0-9]+$'
+          example: E1A1
+          maxLength: 23
+        piso_actual:
+          type: integer
+          description: Piso actual del ascensor (0 = planta baja).
+          minimum: 0
+          maximum: 50
+          example: 0
+        estado_puerta:
+          $ref: '#/components/schemas/DoorState'
+        disponible:
+          type: boolean
+          description: Indica si el ascensor está disponible para nuevas tareas.
+          example: true
+        tarea_actual_id:
+          type: string
+          nullable: true
+          description: ID de la tarea actual asignada por el servidor central.
+          example: T_123456
+          maxLength: 31
+        destino_actual:
+          type: integer
+          nullable: true
+          description: Piso destino actual. Valor -1 o null indica sin destino asignado.
+          minimum: -1
+          maximum: 50
+          example: null
+      required:
+        - id_ascensor
+        - piso_actual
+        - estado_puerta
+        - disponible
+
+    FloorCallRequest:
+      type: object
+      description: Solicitud de llamada de ascensor desde un piso.
+      properties:
+        id_edificio:
+          type: string
+          description: Identificador único del edificio.
+          pattern: '^E[0-9]+$'
+          example: E1
+          maxLength: 23
+        piso_origen_llamada:
+          type: integer
+          description: Piso desde donde se realiza la llamada.
+          minimum: 0
+          maximum: 50
+          example: 2
+        direccion_llamada:
+          $ref: '#/components/schemas/MovementDirection'
+        elevadores_estado:
+          type: array
+          items:
+            $ref: '#/components/schemas/ElevatorState'
+          description: Estado actual de todos los ascensores gestionados por el gateway.
+          minItems: 1
+          maxItems: 6
+      required:
+        - id_edificio
+        - piso_origen_llamada
+        - direccion_llamada
+        - elevadores_estado
+
+    CabinRequest:
+      type: object
+      description: Solicitud de destino desde la cabina de un ascensor.
+      properties:
+        id_edificio:
+          type: string
+          description: Identificador único del edificio.
+          pattern: '^E[0-9]+$'
+          example: E1
+          maxLength: 23
+        solicitando_ascensor_id:
+          type: string
+          description: Identificador del ascensor desde el cual se realiza la solicitud.
+          pattern: '^E[0-9]+A[0-9]+$'
+          example: E1A1
+          maxLength: 23
+        piso_destino_solicitud:
+          type: integer
+          description: Piso destino solicitado desde la cabina.
+          minimum: 0
+          maximum: 50
+          example: 7
+        elevadores_estado:
+          type: array
+          items:
+            $ref: '#/components/schemas/ElevatorState'
+          description: Estado actual de todos los ascensores gestionados por el gateway.
+          minItems: 1
+          maxItems: 6
+      required:
+        - id_edificio
+        - solicitando_ascensor_id
+        - piso_destino_solicitud
+        - elevadores_estado
+
+    ServerResponse:
+      type: object
+      description: Respuesta del servidor central con asignación de ascensor.
+      properties:
+        ascensor_asignado_id:
+          type: string
+          description: ID del ascensor asignado para la tarea.
+          pattern: '^E[0-9]+A[0-9]+$'
+          example: E1A1
+          maxLength: 23
+        tarea_id:
+          type: string
+          description: ID único de la tarea asignada por el servidor central.
+          pattern: '^T_[0-9]+$'
+          example: T_123456
+          maxLength: 31
+        piso_destino_asignado:
+          type: integer
+          description: Piso destino asignado para esta tarea.
+          minimum: 0
+          maximum: 50
+          example: 7
+        tiempo_estimado_llegada:
+          type: integer
+          description: Tiempo estimado de llegada en segundos.
+          minimum: 0
+          maximum: 300
+          example: 45
+      required:
+        - ascensor_asignado_id
+        - tarea_id
+        - piso_destino_asignado 

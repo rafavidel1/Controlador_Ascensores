@@ -1,0 +1,373 @@
+API Gateway: Usando puerto personalizado 6072
+[32m[INFO-GW] [0m[CAN_Bridge] Inicializando el puente CAN simulado.
+[34m[DEBUG-GW] [0m[Main] Manejador de eventos CoAP global registrado.
+API Gateway: Listening on 0.0.0.0:6072 for CoAP messages (UDP).
+(Ctrl+C to quit)
+[32m[INFO-GW] [0mStateMgr: Inicializando 4 ascensores para edificio 'E1', 14 pisos.
+[34m[DEBUG-GW] [0mStateMgr: Ascensor E1A1 inicializado: Piso 0, Puerta CERRADA, Ocupado: No
+[34m[DEBUG-GW] [0mStateMgr: Ascensor E1A2 inicializado: Piso 0, Puerta CERRADA, Ocupado: No
+[34m[DEBUG-GW] [0mStateMgr: Ascensor E1A3 inicializado: Piso 0, Puerta CERRADA, Ocupado: No
+[34m[DEBUG-GW] [0mStateMgr: Ascensor E1A4 inicializado: Piso 0, Puerta CERRADA, Ocupado: No
+[32m[INFO-GW] [0mAPI Gateway: Grupo de 4 ascensores para edificio 'E1' inicializado.
+[32m[INFO-GW] [0m[CAN_Bridge] Registrando callback para enviar frames CAN a la simulación.
+[SIM_ASCENSOR] Simulador de ascensor inicializado y callback CAN registrado.
+[SIM_ASCENSOR] Intentando cargar datos de simulación desde: simulation_data.json
+[SIMULATION] Intentando abrir archivo: simulation_data.json
+[SIMULATION] Archivo abierto exitosamente
+[SIMULATION] Tamaño del archivo: 122653 bytes
+[SIMULATION] Cargados 100 edificios con 1000 peticiones totales
+[SIM_ASCENSOR] Datos de simulación cargados exitosamente desde simulation_data.json
+[SIM_ASCENSOR] Edificios cargados: 100, Datos válidos: Sí
+
+[EXEC_LOGGER] Directorio de trabajo actual: /mnt/d/AATFG/API/Codigo/api_gateway
+[EXEC_LOGGER] Detectado: ejecutando desde api_gateway/, usando logs
+[EXEC_LOGGER] Intentando crear directorio 'logs'...
+[EXEC_LOGGER] Directorio ya existe: logs
+[EXEC_LOGGER] Intentando crear directorio 'logs/2025-06-20'...
+[EXEC_LOGGER] Directorio ya existe: logs/2025-06-20
+[EXEC_LOGGER] Intentando crear archivo: logs/2025-06-20/ejecucion_20-30-27-460.md
+[EXEC_LOGGER] Sistema de logging inicializado: logs/2025-06-20/ejecucion_20-30-27-460.md
+
+[SIM_ASCENSOR] === INICIANDO SIMULACIÓN DE EVENTOS CAN ===
+[SIM_ASCENSOR] Usando simulación desde JSON con 100 edificios disponibles
+[SIMULATION] Edificio seleccionado: E024 (índice 23 de 100)
+[32m[INFO-GW] [0mStateMgr: Inicializando 4 ascensores para edificio 'E024', 14 pisos.
+[34m[DEBUG-GW] [0mStateMgr: Ascensor E024A1 inicializado: Piso 0, Puerta CERRADA, Ocupado: No
+[34m[DEBUG-GW] [0mStateMgr: Ascensor E024A2 inicializado: Piso 0, Puerta CERRADA, Ocupado: No
+[34m[DEBUG-GW] [0mStateMgr: Ascensor E024A3 inicializado: Piso 0, Puerta CERRADA, Ocupado: No
+[34m[DEBUG-GW] [0mStateMgr: Ascensor E024A4 inicializado: Piso 0, Puerta CERRADA, Ocupado: No
+[SIM_ASCENSOR] Sistema re-inicializado para edificio: E024
+[SIM_ASCENSOR] Ascensores disponibles: E024A1, E024A2, E024A3, E024A4
+[SIM_ASCENSOR] Ejecutando 10 peticiones del edificio E024...
+[SIM_ASCENSOR] --- Petición 1/10 ---
+[SIM_ASCENSOR] Ejecutando llamada de piso: Piso 1, Dirección down
+[SIM_ASCENSOR] Enviando LLAMADA DE PISO a GW (vía CAN): Piso 1, Dir BAJAR
+[32m[INFO-GW] [0m[CAN_Bridge] Procesando frame CAN ID: 0x100, DLC: 2
+[32m[INFO-GW] [0m[CAN_Bridge] Llamada de piso CAN: Piso 1, Dirección BAJANDO
+[32m[INFO-GW] [0m[33m[CAN_FloorCall] Gateway (Origen CAN ID: 0x100): Preparando solicitud para Servidor Central.[0m
+
+[34m[DEBUG-GW] [0m[CAN_FloorCall] Payload para Servidor Central (Origen CAN ID: 0x100): {"id_edificio":"E024","piso_origen_llamada":1,"direccion_llamada":"BAJANDO","elevadores_estado":[{"id_ascensor":"E024A1","piso_actual":0,"estado_puerta":"CERRADA","disponible":true,"tarea_actual_id":null,"destino_actual":null},{"id_ascensor":"E024A2","piso_actual":0,"estado_puerta":"CERRADA","disponible":true,"tarea_actual_id":null,"destino_actual":null},{"id_ascensor":"E024A3","piso_actual":0,"estado_puerta":"CERRADA","disponible":true,"tarea_actual_id":null,"destino_actual":null},{"id_ascensor":"E024A4","piso_actual":0,"estado_puerta":"CERRADA","disponible":true,"tarea_actual_id":null,"destino_actual":null}]}
+[32m[INFO-GW] [0m[SessionHelper] Creando NUEVA sesión DTLS-PSK con servidor central.
+[32m[INFO-GW] [0m[SessionHelper] NUEVA Sesión DTLS-PSK (0x0x5d137b0b7ce0) creada con servidor central. Identity: 'Gateway_Client_001'
+[34m[DEBUG-GW] [0m[CAN_Bridge] Stored token for CAN tracker: (len 1) 01
+[34m[DEBUG-GW] [0m[CAN_Bridge] Stored CAN ID 0x100 at index 0
+[32m[INFO-GW] [0m[36m[CAN_FloorCall] Gateway (Origen CAN ID: 0x100) -> Central: Enviando solicitud...[0m
+
+[32m[INFO-GW] [0m[32m[CAN_FloorCall] Gateway (Origen CAN ID: 0x100) -> Central: Solicitud enviada, esperando rsp...[0m
+
+[SIM_ASCENSOR] Procesando I/O CoAP por 1 segundo...
+[32m[INFO-GW] [0m[ResponseHandlerGW] Servidor Central -> Gateway: Respuesta recibida (Code: 2.69). MID: 59299
+[34m[DEBUG-GW] [0m[ResponseHandlerGW] JSON recibido de Servidor Central: {
+	"tarea_id":	"T_1750444227477",
+	"ascensor_asignado_id":	"E024A1"
+}
+[34m[DEBUG-GW] [0m[ResponseHandlerGW] Token recibido del servidor: (len 1) 01
+[34m[DEBUG-GW] [0m[CAN_Bridge] Finding token for CAN tracker: (len 1) 01
+[32m[INFO-GW] [0m[ResponseHandlerGW] Respuesta CoAP corresponde a una solicitud originada por CAN (ID: 0x100). Token 01
+[32m[INFO-GW] [0m[ResponseHandlerGW] Servidor Central (vía CAN origin) asignó tarea 'T_1750444227477' a ascensor 'E024A1'. Actualizando estado local.
+[32m[INFO-GW] [0mStateMgr: Tarea 'T_1750444227477' asignada a ascensor E024A1. Destino: piso 1. Piso actual: 0. Dirección: SUBIENDO
+[32m[INFO-GW] [0m[CAN_Bridge] Enviando respuesta CAN ID: 0x101, DLC: 8. Datos: 00 54 5F...
+[SIM_ASCENSOR] Recibido frame CAN de GW: ID=0x101, DLC=8, Datos: 00 54 5F 31 37 35 30 34
+    Simulador -> Respuesta de llamada de piso: Ascensor (índice 0) asignado.
+    Simulador -> Tarea ID (parcial): T_17504
+[34m[DEBUG-GW] [0m[ResponseHandlerGW] Respuesta recibida en la sesión DTLS global (0x0x5d137b0b7ce0). No se libera aquí.
+[SIM_ASCENSOR] --- Petición 2/10 ---
+[SIM_ASCENSOR] Ejecutando solicitud de cabina: Ascensor 2, Destino piso 4
+[SIM_ASCENSOR] Enviando SOLICITUD DE CABINA a GW (vía CAN): Ascensor idx 2, Piso Destino 4
+[32m[INFO-GW] [0m[CAN_Bridge] Procesando frame CAN ID: 0x200, DLC: 2
+[32m[INFO-GW] [0m[CAN_Bridge] Solicitud de cabina CAN: Ascensor E024A3 (idx 2), Piso Destino 4
+[32m[INFO-GW] [0m[33m[CAN_CabinReq] Gateway (Origen CAN ID: 0x200): Preparando solicitud para Servidor Central.[0m
+
+[34m[DEBUG-GW] [0m[CAN_CabinReq] Payload para Servidor Central (Origen CAN ID: 0x200): {"id_edificio":"E024","solicitando_ascensor_id":"E024A3","piso_destino_solicitud":4,"elevadores_estado":[{"id_ascensor":"E024A1","piso_actual":0,"estado_puerta":"CERRADA","disponible":false,"tarea_actual_id":"T_1750444227477","destino_actual":1},{"id_ascensor":"E024A2","piso_actual":0,"estado_puerta":"CERRADA","disponible":true,"tarea_actual_id":null,"destino_actual":null},{"id_ascensor":"E024A3","piso_actual":0,"estado_puerta":"CERRADA","disponible":true,"tarea_actual_id":null,"destino_actual":null},{"id_ascensor":"E024A4","piso_actual":0,"estado_puerta":"CERRADA","disponible":true,"tarea_actual_id":null,"destino_actual":null}]}
+[34m[DEBUG-GW] [0m[SessionHelper] Reutilizando sesión DTLS-PSK existente (0x0x5d137b0b7ce0) con servidor central.
+[34m[DEBUG-GW] [0m[CAN_Bridge] Stored token for CAN tracker: (len 1) 02
+[34m[DEBUG-GW] [0m[CAN_Bridge] Stored CAN ID 0x200 at index 1
+[32m[INFO-GW] [0m[36m[CAN_CabinReq] Gateway (Origen CAN ID: 0x200) -> Central: Enviando solicitud...[0m
+
+[32m[INFO-GW] [0m[32m[CAN_CabinReq] Gateway (Origen CAN ID: 0x200) -> Central: Solicitud enviada, esperando rsp...[0m
+
+[SIM_ASCENSOR] Procesando I/O CoAP por 1 segundo...
+[32m[INFO-GW] [0m[ResponseHandlerGW] Servidor Central -> Gateway: Respuesta recibida (Code: 2.69). MID: 59300
+[34m[DEBUG-GW] [0m[ResponseHandlerGW] JSON recibido de Servidor Central: {
+	"tarea_id":	"T_1750444228088",
+	"ascensor_asignado_id":	"E024A3"
+}
+[34m[DEBUG-GW] [0m[ResponseHandlerGW] Token recibido del servidor: (len 1) 02
+[34m[DEBUG-GW] [0m[CAN_Bridge] Finding token for CAN tracker: (len 1) 02
+[32m[INFO-GW] [0m[ResponseHandlerGW] Respuesta CoAP corresponde a una solicitud originada por CAN (ID: 0x200). Token 02
+[32m[INFO-GW] [0m[ResponseHandlerGW] Servidor Central (vía CAN origin) asignó tarea 'T_1750444228088' a ascensor 'E024A3'. Actualizando estado local.
+[32m[INFO-GW] [0mStateMgr: Tarea 'T_1750444228088' asignada a ascensor E024A3. Destino: piso 4. Piso actual: 0. Dirección: SUBIENDO
+[32m[INFO-GW] [0m[CAN_Bridge] Enviando respuesta CAN ID: 0x201, DLC: 8. Datos: 02 54 5F...
+[SIM_ASCENSOR] Recibido frame CAN de GW: ID=0x201, DLC=8, Datos: 02 54 5F 31 37 35 30 34
+    Simulador -> Respuesta de solicitud de cabina: Datos[0]=02
+    Simulador -> Tarea ID (parcial): T_17504
+[34m[DEBUG-GW] [0m[ResponseHandlerGW] Respuesta recibida en la sesión DTLS global (0x0x5d137b0b7ce0). No se libera aquí.
+[SIM_ASCENSOR] --- Petición 3/10 ---
+[SIM_ASCENSOR] Ejecutando llamada de piso: Piso 6, Dirección down
+[SIM_ASCENSOR] Enviando LLAMADA DE PISO a GW (vía CAN): Piso 6, Dir BAJAR
+[32m[INFO-GW] [0m[CAN_Bridge] Procesando frame CAN ID: 0x100, DLC: 2
+[32m[INFO-GW] [0m[CAN_Bridge] Llamada de piso CAN: Piso 6, Dirección BAJANDO
+[32m[INFO-GW] [0m[33m[CAN_FloorCall] Gateway (Origen CAN ID: 0x100): Preparando solicitud para Servidor Central.[0m
+
+[34m[DEBUG-GW] [0m[CAN_FloorCall] Payload para Servidor Central (Origen CAN ID: 0x100): {"id_edificio":"E024","piso_origen_llamada":6,"direccion_llamada":"BAJANDO","elevadores_estado":[{"id_ascensor":"E024A1","piso_actual":0,"estado_puerta":"CERRADA","disponible":false,"tarea_actual_id":"T_1750444227477","destino_actual":1},{"id_ascensor":"E024A2","piso_actual":0,"estado_puerta":"CERRADA","disponible":true,"tarea_actual_id":null,"destino_actual":null},{"id_ascensor":"E024A3","piso_actual":0,"estado_puerta":"CERRADA","disponible":false,"tarea_actual_id":"T_1750444228088","destino_actual":4},{"id_ascensor":"E024A4","piso_actual":0,"estado_puerta":"CERRADA","disponible":true,"tarea_actual_id":null,"destino_actual":null}]}
+[34m[DEBUG-GW] [0m[SessionHelper] Reutilizando sesión DTLS-PSK existente (0x0x5d137b0b7ce0) con servidor central.
+[34m[DEBUG-GW] [0m[CAN_Bridge] Stored token for CAN tracker: (len 1) 03
+[34m[DEBUG-GW] [0m[CAN_Bridge] Stored CAN ID 0x100 at index 2
+[32m[INFO-GW] [0m[36m[CAN_FloorCall] Gateway (Origen CAN ID: 0x100) -> Central: Enviando solicitud...[0m
+
+[32m[INFO-GW] [0m[32m[CAN_FloorCall] Gateway (Origen CAN ID: 0x100) -> Central: Solicitud enviada, esperando rsp...[0m
+
+[SIM_ASCENSOR] Procesando I/O CoAP por 1 segundo...
+[32m[INFO-GW] [0m[ResponseHandlerGW] Servidor Central -> Gateway: Respuesta recibida (Code: 2.69). MID: 59301
+[34m[DEBUG-GW] [0m[ResponseHandlerGW] JSON recibido de Servidor Central: {
+	"tarea_id":	"T_1750444229003",
+	"ascensor_asignado_id":	"E024A1"
+}
+[34m[DEBUG-GW] [0m[ResponseHandlerGW] Token recibido del servidor: (len 1) 03
+[34m[DEBUG-GW] [0m[CAN_Bridge] Finding token for CAN tracker: (len 1) 03
+[32m[INFO-GW] [0m[ResponseHandlerGW] Respuesta CoAP corresponde a una solicitud originada por CAN (ID: 0x100). Token 03
+[32m[INFO-GW] [0m[ResponseHandlerGW] Servidor Central (vía CAN origin) asignó tarea 'T_1750444229003' a ascensor 'E024A1'. Actualizando estado local.
+[32m[INFO-GW] [0mStateMgr: Tarea 'T_1750444229003' asignada a ascensor E024A1. Destino: piso 6. Piso actual: 0. Dirección: SUBIENDO
+[32m[INFO-GW] [0m[CAN_Bridge] Enviando respuesta CAN ID: 0x101, DLC: 8. Datos: 00 54 5F...
+[SIM_ASCENSOR] Recibido frame CAN de GW: ID=0x101, DLC=8, Datos: 00 54 5F 31 37 35 30 34
+    Simulador -> Respuesta de llamada de piso: Ascensor (índice 0) asignado.
+    Simulador -> Tarea ID (parcial): T_17504
+[34m[DEBUG-GW] [0m[ResponseHandlerGW] Respuesta recibida en la sesión DTLS global (0x0x5d137b0b7ce0). No se libera aquí.
+[SIM_ASCENSOR] --- Petición 4/10 ---
+[SIM_ASCENSOR] Ejecutando solicitud de cabina: Ascensor 1, Destino piso 4
+[SIM_ASCENSOR] Enviando SOLICITUD DE CABINA a GW (vía CAN): Ascensor idx 1, Piso Destino 4
+[32m[INFO-GW] [0m[CAN_Bridge] Procesando frame CAN ID: 0x200, DLC: 2
+[32m[INFO-GW] [0m[CAN_Bridge] Solicitud de cabina CAN: Ascensor E024A2 (idx 1), Piso Destino 4
+[32m[INFO-GW] [0m[33m[CAN_CabinReq] Gateway (Origen CAN ID: 0x200): Preparando solicitud para Servidor Central.[0m
+
+[34m[DEBUG-GW] [0m[CAN_CabinReq] Payload para Servidor Central (Origen CAN ID: 0x200): {"id_edificio":"E024","solicitando_ascensor_id":"E024A2","piso_destino_solicitud":4,"elevadores_estado":[{"id_ascensor":"E024A1","piso_actual":0,"estado_puerta":"CERRADA","disponible":false,"tarea_actual_id":"T_1750444229003","destino_actual":6},{"id_ascensor":"E024A2","piso_actual":0,"estado_puerta":"CERRADA","disponible":true,"tarea_actual_id":null,"destino_actual":null},{"id_ascensor":"E024A3","piso_actual":0,"estado_puerta":"CERRADA","disponible":false,"tarea_actual_id":"T_1750444228088","destino_actual":4},{"id_ascensor":"E024A4","piso_actual":0,"estado_puerta":"CERRADA","disponible":true,"tarea_actual_id":null,"destino_actual":null}]}
+[34m[DEBUG-GW] [0m[SessionHelper] Reutilizando sesión DTLS-PSK existente (0x0x5d137b0b7ce0) con servidor central.
+[34m[DEBUG-GW] [0m[CAN_Bridge] Stored token for CAN tracker: (len 1) 04
+[34m[DEBUG-GW] [0m[CAN_Bridge] Stored CAN ID 0x200 at index 3
+[32m[INFO-GW] [0m[36m[CAN_CabinReq] Gateway (Origen CAN ID: 0x200) -> Central: Enviando solicitud...[0m
+
+[32m[INFO-GW] [0m[32m[CAN_CabinReq] Gateway (Origen CAN ID: 0x200) -> Central: Solicitud enviada, esperando rsp...[0m
+
+[SIM_ASCENSOR] Procesando I/O CoAP por 1 segundo...
+[32m[INFO-GW] [0m[ResponseHandlerGW] Servidor Central -> Gateway: Respuesta recibida (Code: 2.69). MID: 59302
+[34m[DEBUG-GW] [0m[ResponseHandlerGW] JSON recibido de Servidor Central: {
+	"tarea_id":	"T_1750444229921",
+	"ascensor_asignado_id":	"E024A2"
+}
+[34m[DEBUG-GW] [0m[ResponseHandlerGW] Token recibido del servidor: (len 1) 04
+[34m[DEBUG-GW] [0m[CAN_Bridge] Finding token for CAN tracker: (len 1) 04
+[32m[INFO-GW] [0m[ResponseHandlerGW] Respuesta CoAP corresponde a una solicitud originada por CAN (ID: 0x200). Token 04
+[32m[INFO-GW] [0m[ResponseHandlerGW] Servidor Central (vía CAN origin) asignó tarea 'T_1750444229921' a ascensor 'E024A2'. Actualizando estado local.
+[32m[INFO-GW] [0mStateMgr: Tarea 'T_1750444229921' asignada a ascensor E024A2. Destino: piso 4. Piso actual: 0. Dirección: SUBIENDO
+[32m[INFO-GW] [0m[CAN_Bridge] Enviando respuesta CAN ID: 0x201, DLC: 8. Datos: 01 54 5F...
+[SIM_ASCENSOR] Recibido frame CAN de GW: ID=0x201, DLC=8, Datos: 01 54 5F 31 37 35 30 34
+    Simulador -> Respuesta de solicitud de cabina: Datos[0]=01
+    Simulador -> Tarea ID (parcial): T_17504
+[34m[DEBUG-GW] [0m[ResponseHandlerGW] Respuesta recibida en la sesión DTLS global (0x0x5d137b0b7ce0). No se libera aquí.
+[SIM_ASCENSOR] --- Petición 5/10 ---
+[SIM_ASCENSOR] Ejecutando llamada de piso: Piso 8, Dirección up
+[SIM_ASCENSOR] Enviando LLAMADA DE PISO a GW (vía CAN): Piso 8, Dir SUBIR
+[32m[INFO-GW] [0m[CAN_Bridge] Procesando frame CAN ID: 0x100, DLC: 2
+[32m[INFO-GW] [0m[CAN_Bridge] Llamada de piso CAN: Piso 8, Dirección SUBIENDO
+[32m[INFO-GW] [0m[33m[CAN_FloorCall] Gateway (Origen CAN ID: 0x100): Preparando solicitud para Servidor Central.[0m
+
+[34m[DEBUG-GW] [0m[CAN_FloorCall] Payload para Servidor Central (Origen CAN ID: 0x100): {"id_edificio":"E024","piso_origen_llamada":8,"direccion_llamada":"SUBIENDO","elevadores_estado":[{"id_ascensor":"E024A1","piso_actual":0,"estado_puerta":"CERRADA","disponible":false,"tarea_actual_id":"T_1750444229003","destino_actual":6},{"id_ascensor":"E024A2","piso_actual":0,"estado_puerta":"CERRADA","disponible":false,"tarea_actual_id":"T_1750444229921","destino_actual":4},{"id_ascensor":"E024A3","piso_actual":0,"estado_puerta":"CERRADA","disponible":false,"tarea_actual_id":"T_1750444228088","destino_actual":4},{"id_ascensor":"E024A4","piso_actual":0,"estado_puerta":"CERRADA","disponible":true,"tarea_actual_id":null,"destino_actual":null}]}
+[34m[DEBUG-GW] [0m[SessionHelper] Reutilizando sesión DTLS-PSK existente (0x0x5d137b0b7ce0) con servidor central.
+[34m[DEBUG-GW] [0m[CAN_Bridge] Stored token for CAN tracker: (len 1) 05
+[34m[DEBUG-GW] [0m[CAN_Bridge] Stored CAN ID 0x100 at index 4
+[32m[INFO-GW] [0m[36m[CAN_FloorCall] Gateway (Origen CAN ID: 0x100) -> Central: Enviando solicitud...[0m
+
+[32m[INFO-GW] [0m[32m[CAN_FloorCall] Gateway (Origen CAN ID: 0x100) -> Central: Solicitud enviada, esperando rsp...[0m
+
+[SIM_ASCENSOR] Procesando I/O CoAP por 1 segundo...
+[32m[INFO-GW] [0m[ResponseHandlerGW] Servidor Central -> Gateway: Respuesta recibida (Code: 2.69). MID: 59303
+[34m[DEBUG-GW] [0m[ResponseHandlerGW] JSON recibido de Servidor Central: {
+	"tarea_id":	"T_1750444230835",
+	"ascensor_asignado_id":	"E024A1"
+}
+[34m[DEBUG-GW] [0m[ResponseHandlerGW] Token recibido del servidor: (len 1) 05
+[34m[DEBUG-GW] [0m[CAN_Bridge] Finding token for CAN tracker: (len 1) 05
+[32m[INFO-GW] [0m[ResponseHandlerGW] Respuesta CoAP corresponde a una solicitud originada por CAN (ID: 0x100). Token 05
+[32m[INFO-GW] [0m[ResponseHandlerGW] Servidor Central (vía CAN origin) asignó tarea 'T_1750444230835' a ascensor 'E024A1'. Actualizando estado local.
+[32m[INFO-GW] [0mStateMgr: Tarea 'T_1750444230835' asignada a ascensor E024A1. Destino: piso 8. Piso actual: 0. Dirección: SUBIENDO
+[32m[INFO-GW] [0m[CAN_Bridge] Enviando respuesta CAN ID: 0x101, DLC: 8. Datos: 00 54 5F...
+[SIM_ASCENSOR] Recibido frame CAN de GW: ID=0x101, DLC=8, Datos: 00 54 5F 31 37 35 30 34
+    Simulador -> Respuesta de llamada de piso: Ascensor (índice 0) asignado.
+    Simulador -> Tarea ID (parcial): T_17504
+[34m[DEBUG-GW] [0m[ResponseHandlerGW] Respuesta recibida en la sesión DTLS global (0x0x5d137b0b7ce0). No se libera aquí.
+[SIM_ASCENSOR] --- Petición 6/10 ---
+[SIM_ASCENSOR] Ejecutando solicitud de cabina: Ascensor 0, Destino piso 6
+[SIM_ASCENSOR] Enviando SOLICITUD DE CABINA a GW (vía CAN): Ascensor idx 0, Piso Destino 6
+[32m[INFO-GW] [0m[CAN_Bridge] Procesando frame CAN ID: 0x200, DLC: 2
+[32m[INFO-GW] [0m[CAN_Bridge] Solicitud de cabina CAN: Ascensor E024A1 (idx 0), Piso Destino 6
+[32m[INFO-GW] [0m[33m[CAN_CabinReq] Gateway (Origen CAN ID: 0x200): Preparando solicitud para Servidor Central.[0m
+
+[34m[DEBUG-GW] [0m[CAN_CabinReq] Payload para Servidor Central (Origen CAN ID: 0x200): {"id_edificio":"E024","solicitando_ascensor_id":"E024A1","piso_destino_solicitud":6,"elevadores_estado":[{"id_ascensor":"E024A1","piso_actual":0,"estado_puerta":"CERRADA","disponible":false,"tarea_actual_id":"T_1750444230835","destino_actual":8},{"id_ascensor":"E024A2","piso_actual":0,"estado_puerta":"CERRADA","disponible":false,"tarea_actual_id":"T_1750444229921","destino_actual":4},{"id_ascensor":"E024A3","piso_actual":0,"estado_puerta":"CERRADA","disponible":false,"tarea_actual_id":"T_1750444228088","destino_actual":4},{"id_ascensor":"E024A4","piso_actual":0,"estado_puerta":"CERRADA","disponible":true,"tarea_actual_id":null,"destino_actual":null}]}
+[34m[DEBUG-GW] [0m[SessionHelper] Reutilizando sesión DTLS-PSK existente (0x0x5d137b0b7ce0) con servidor central.
+[34m[DEBUG-GW] [0m[CAN_Bridge] Stored token for CAN tracker: (len 1) 06
+[34m[DEBUG-GW] [0m[CAN_Bridge] Stored CAN ID 0x200 at index 5
+[32m[INFO-GW] [0m[36m[CAN_CabinReq] Gateway (Origen CAN ID: 0x200) -> Central: Enviando solicitud...[0m
+
+[32m[INFO-GW] [0m[32m[CAN_CabinReq] Gateway (Origen CAN ID: 0x200) -> Central: Solicitud enviada, esperando rsp...[0m
+
+[SIM_ASCENSOR] Procesando I/O CoAP por 1 segundo...
+[32m[INFO-GW] [0m[ResponseHandlerGW] Servidor Central -> Gateway: Respuesta recibida (Code: 2.69). MID: 59304
+[34m[DEBUG-GW] [0m[ResponseHandlerGW] JSON recibido de Servidor Central: {
+	"tarea_id":	"T_1750444231749",
+	"ascensor_asignado_id":	"E024A1"
+}
+[34m[DEBUG-GW] [0m[ResponseHandlerGW] Token recibido del servidor: (len 1) 06
+[34m[DEBUG-GW] [0m[CAN_Bridge] Finding token for CAN tracker: (len 1) 06
+[32m[INFO-GW] [0m[ResponseHandlerGW] Respuesta CoAP corresponde a una solicitud originada por CAN (ID: 0x200). Token 06
+[32m[INFO-GW] [0m[ResponseHandlerGW] Servidor Central (vía CAN origin) asignó tarea 'T_1750444231749' a ascensor 'E024A1'. Actualizando estado local.
+[32m[INFO-GW] [0mStateMgr: Tarea 'T_1750444231749' asignada a ascensor E024A1. Destino: piso 6. Piso actual: 0. Dirección: SUBIENDO
+[32m[INFO-GW] [0m[CAN_Bridge] Enviando respuesta CAN ID: 0x201, DLC: 8. Datos: 00 54 5F...
+[SIM_ASCENSOR] Recibido frame CAN de GW: ID=0x201, DLC=8, Datos: 00 54 5F 31 37 35 30 34
+    Simulador -> Respuesta de solicitud de cabina: Datos[0]=00
+    Simulador -> Tarea ID (parcial): T_17504
+[34m[DEBUG-GW] [0m[ResponseHandlerGW] Respuesta recibida en la sesión DTLS global (0x0x5d137b0b7ce0). No se libera aquí.
+[SIM_ASCENSOR] --- Petición 7/10 ---
+[SIM_ASCENSOR] Ejecutando llamada de piso: Piso 6, Dirección up
+[SIM_ASCENSOR] Enviando LLAMADA DE PISO a GW (vía CAN): Piso 6, Dir SUBIR
+[32m[INFO-GW] [0m[CAN_Bridge] Procesando frame CAN ID: 0x100, DLC: 2
+[32m[INFO-GW] [0m[CAN_Bridge] Llamada de piso CAN: Piso 6, Dirección SUBIENDO
+[32m[INFO-GW] [0m[33m[CAN_FloorCall] Gateway (Origen CAN ID: 0x100): Preparando solicitud para Servidor Central.[0m
+
+[34m[DEBUG-GW] [0m[CAN_FloorCall] Payload para Servidor Central (Origen CAN ID: 0x100): {"id_edificio":"E024","piso_origen_llamada":6,"direccion_llamada":"SUBIENDO","elevadores_estado":[{"id_ascensor":"E024A1","piso_actual":0,"estado_puerta":"CERRADA","disponible":false,"tarea_actual_id":"T_1750444231749","destino_actual":6},{"id_ascensor":"E024A2","piso_actual":0,"estado_puerta":"CERRADA","disponible":false,"tarea_actual_id":"T_1750444229921","destino_actual":4},{"id_ascensor":"E024A3","piso_actual":0,"estado_puerta":"CERRADA","disponible":false,"tarea_actual_id":"T_1750444228088","destino_actual":4},{"id_ascensor":"E024A4","piso_actual":0,"estado_puerta":"CERRADA","disponible":true,"tarea_actual_id":null,"destino_actual":null}]}
+[34m[DEBUG-GW] [0m[SessionHelper] Reutilizando sesión DTLS-PSK existente (0x0x5d137b0b7ce0) con servidor central.
+[34m[DEBUG-GW] [0m[CAN_Bridge] Stored token for CAN tracker: (len 1) 07
+[34m[DEBUG-GW] [0m[CAN_Bridge] Stored CAN ID 0x100 at index 6
+[32m[INFO-GW] [0m[36m[CAN_FloorCall] Gateway (Origen CAN ID: 0x100) -> Central: Enviando solicitud...[0m
+
+[32m[INFO-GW] [0m[32m[CAN_FloorCall] Gateway (Origen CAN ID: 0x100) -> Central: Solicitud enviada, esperando rsp...[0m
+
+[SIM_ASCENSOR] Procesando I/O CoAP por 1 segundo...
+[32m[INFO-GW] [0m[ResponseHandlerGW] Servidor Central -> Gateway: Respuesta recibida (Code: 2.69). MID: 59305
+[34m[DEBUG-GW] [0m[ResponseHandlerGW] JSON recibido de Servidor Central: {
+	"tarea_id":	"T_1750444232667",
+	"ascensor_asignado_id":	"E024A1"
+}
+[34m[DEBUG-GW] [0m[ResponseHandlerGW] Token recibido del servidor: (len 1) 07
+[34m[DEBUG-GW] [0m[CAN_Bridge] Finding token for CAN tracker: (len 1) 07
+[32m[INFO-GW] [0m[ResponseHandlerGW] Respuesta CoAP corresponde a una solicitud originada por CAN (ID: 0x100). Token 07
+[32m[INFO-GW] [0m[ResponseHandlerGW] Servidor Central (vía CAN origin) asignó tarea 'T_1750444232667' a ascensor 'E024A1'. Actualizando estado local.
+[32m[INFO-GW] [0mStateMgr: Tarea 'T_1750444232667' asignada a ascensor E024A1. Destino: piso 6. Piso actual: 0. Dirección: SUBIENDO
+[32m[INFO-GW] [0m[CAN_Bridge] Enviando respuesta CAN ID: 0x101, DLC: 8. Datos: 00 54 5F...
+[SIM_ASCENSOR] Recibido frame CAN de GW: ID=0x101, DLC=8, Datos: 00 54 5F 31 37 35 30 34
+    Simulador -> Respuesta de llamada de piso: Ascensor (índice 0) asignado.
+    Simulador -> Tarea ID (parcial): T_17504
+[34m[DEBUG-GW] [0m[ResponseHandlerGW] Respuesta recibida en la sesión DTLS global (0x0x5d137b0b7ce0). No se libera aquí.
+[SIM_ASCENSOR] --- Petición 8/10 ---
+[SIM_ASCENSOR] Ejecutando solicitud de cabina: Ascensor 2, Destino piso 9
+[SIM_ASCENSOR] Enviando SOLICITUD DE CABINA a GW (vía CAN): Ascensor idx 2, Piso Destino 9
+[32m[INFO-GW] [0m[CAN_Bridge] Procesando frame CAN ID: 0x200, DLC: 2
+[32m[INFO-GW] [0m[CAN_Bridge] Solicitud de cabina CAN: Ascensor E024A3 (idx 2), Piso Destino 9
+[32m[INFO-GW] [0m[33m[CAN_CabinReq] Gateway (Origen CAN ID: 0x200): Preparando solicitud para Servidor Central.[0m
+
+[34m[DEBUG-GW] [0m[CAN_CabinReq] Payload para Servidor Central (Origen CAN ID: 0x200): {"id_edificio":"E024","solicitando_ascensor_id":"E024A3","piso_destino_solicitud":9,"elevadores_estado":[{"id_ascensor":"E024A1","piso_actual":0,"estado_puerta":"CERRADA","disponible":false,"tarea_actual_id":"T_1750444232667","destino_actual":6},{"id_ascensor":"E024A2","piso_actual":0,"estado_puerta":"CERRADA","disponible":false,"tarea_actual_id":"T_1750444229921","destino_actual":4},{"id_ascensor":"E024A3","piso_actual":0,"estado_puerta":"CERRADA","disponible":false,"tarea_actual_id":"T_1750444228088","destino_actual":4},{"id_ascensor":"E024A4","piso_actual":0,"estado_puerta":"CERRADA","disponible":true,"tarea_actual_id":null,"destino_actual":null}]}
+[34m[DEBUG-GW] [0m[SessionHelper] Reutilizando sesión DTLS-PSK existente (0x0x5d137b0b7ce0) con servidor central.
+[34m[DEBUG-GW] [0m[CAN_Bridge] Stored token for CAN tracker: (len 1) 08
+[34m[DEBUG-GW] [0m[CAN_Bridge] Stored CAN ID 0x200 at index 7
+[32m[INFO-GW] [0m[36m[CAN_CabinReq] Gateway (Origen CAN ID: 0x200) -> Central: Enviando solicitud...[0m
+
+[32m[INFO-GW] [0m[32m[CAN_CabinReq] Gateway (Origen CAN ID: 0x200) -> Central: Solicitud enviada, esperando rsp...[0m
+
+[SIM_ASCENSOR] Procesando I/O CoAP por 1 segundo...
+[32m[INFO-GW] [0m[ResponseHandlerGW] Servidor Central -> Gateway: Respuesta recibida (Code: 2.69). MID: 59306
+[34m[DEBUG-GW] [0m[ResponseHandlerGW] JSON recibido de Servidor Central: {
+	"tarea_id":	"T_1750444233603",
+	"ascensor_asignado_id":	"E024A3"
+}
+[34m[DEBUG-GW] [0m[ResponseHandlerGW] Token recibido del servidor: (len 1) 08
+[34m[DEBUG-GW] [0m[CAN_Bridge] Finding token for CAN tracker: (len 1) 08
+[32m[INFO-GW] [0m[ResponseHandlerGW] Respuesta CoAP corresponde a una solicitud originada por CAN (ID: 0x200). Token 08
+[32m[INFO-GW] [0m[ResponseHandlerGW] Servidor Central (vía CAN origin) asignó tarea 'T_1750444233603' a ascensor 'E024A3'. Actualizando estado local.
+[32m[INFO-GW] [0mStateMgr: Tarea 'T_1750444233603' asignada a ascensor E024A3. Destino: piso 9. Piso actual: 0. Dirección: SUBIENDO
+[32m[INFO-GW] [0m[CAN_Bridge] Enviando respuesta CAN ID: 0x201, DLC: 8. Datos: 02 54 5F...
+[SIM_ASCENSOR] Recibido frame CAN de GW: ID=0x201, DLC=8, Datos: 02 54 5F 31 37 35 30 34
+    Simulador -> Respuesta de solicitud de cabina: Datos[0]=02
+    Simulador -> Tarea ID (parcial): T_17504
+[34m[DEBUG-GW] [0m[ResponseHandlerGW] Respuesta recibida en la sesión DTLS global (0x0x5d137b0b7ce0). No se libera aquí.
+[SIM_ASCENSOR] --- Petición 9/10 ---
+[SIM_ASCENSOR] Ejecutando llamada de piso: Piso 4, Dirección down
+[SIM_ASCENSOR] Enviando LLAMADA DE PISO a GW (vía CAN): Piso 4, Dir BAJAR
+[32m[INFO-GW] [0m[CAN_Bridge] Procesando frame CAN ID: 0x100, DLC: 2
+[32m[INFO-GW] [0m[CAN_Bridge] Llamada de piso CAN: Piso 4, Dirección BAJANDO
+[32m[INFO-GW] [0m[33m[CAN_FloorCall] Gateway (Origen CAN ID: 0x100): Preparando solicitud para Servidor Central.[0m
+
+[34m[DEBUG-GW] [0m[CAN_FloorCall] Payload para Servidor Central (Origen CAN ID: 0x100): {"id_edificio":"E024","piso_origen_llamada":4,"direccion_llamada":"BAJANDO","elevadores_estado":[{"id_ascensor":"E024A1","piso_actual":0,"estado_puerta":"CERRADA","disponible":false,"tarea_actual_id":"T_1750444232667","destino_actual":6},{"id_ascensor":"E024A2","piso_actual":0,"estado_puerta":"CERRADA","disponible":false,"tarea_actual_id":"T_1750444229921","destino_actual":4},{"id_ascensor":"E024A3","piso_actual":0,"estado_puerta":"CERRADA","disponible":false,"tarea_actual_id":"T_1750444233603","destino_actual":9},{"id_ascensor":"E024A4","piso_actual":0,"estado_puerta":"CERRADA","disponible":true,"tarea_actual_id":null,"destino_actual":null}]}
+[34m[DEBUG-GW] [0m[SessionHelper] Reutilizando sesión DTLS-PSK existente (0x0x5d137b0b7ce0) con servidor central.
+[34m[DEBUG-GW] [0m[CAN_Bridge] Stored token for CAN tracker: (len 1) 09
+[34m[DEBUG-GW] [0m[CAN_Bridge] Stored CAN ID 0x100 at index 8
+[32m[INFO-GW] [0m[36m[CAN_FloorCall] Gateway (Origen CAN ID: 0x100) -> Central: Enviando solicitud...[0m
+
+[32m[INFO-GW] [0m[32m[CAN_FloorCall] Gateway (Origen CAN ID: 0x100) -> Central: Solicitud enviada, esperando rsp...[0m
+
+[SIM_ASCENSOR] Procesando I/O CoAP por 1 segundo...
+[32m[INFO-GW] [0m[ResponseHandlerGW] Servidor Central -> Gateway: Respuesta recibida (Code: 2.69). MID: 59307
+[34m[DEBUG-GW] [0m[ResponseHandlerGW] JSON recibido de Servidor Central: {
+	"tarea_id":	"T_1750444234529",
+	"ascensor_asignado_id":	"E024A1"
+}
+[34m[DEBUG-GW] [0m[ResponseHandlerGW] Token recibido del servidor: (len 1) 09
+[34m[DEBUG-GW] [0m[CAN_Bridge] Finding token for CAN tracker: (len 1) 09
+[32m[INFO-GW] [0m[ResponseHandlerGW] Respuesta CoAP corresponde a una solicitud originada por CAN (ID: 0x100). Token 09
+[32m[INFO-GW] [0m[ResponseHandlerGW] Servidor Central (vía CAN origin) asignó tarea 'T_1750444234529' a ascensor 'E024A1'. Actualizando estado local.
+[32m[INFO-GW] [0mStateMgr: Tarea 'T_1750444234529' asignada a ascensor E024A1. Destino: piso 4. Piso actual: 0. Dirección: SUBIENDO
+[32m[INFO-GW] [0m[CAN_Bridge] Enviando respuesta CAN ID: 0x101, DLC: 8. Datos: 00 54 5F...
+[SIM_ASCENSOR] Recibido frame CAN de GW: ID=0x101, DLC=8, Datos: 00 54 5F 31 37 35 30 34
+    Simulador -> Respuesta de llamada de piso: Ascensor (índice 0) asignado.
+    Simulador -> Tarea ID (parcial): T_17504
+[34m[DEBUG-GW] [0m[ResponseHandlerGW] Respuesta recibida en la sesión DTLS global (0x0x5d137b0b7ce0). No se libera aquí.
+[SIM_ASCENSOR] --- Petición 10/10 ---
+[SIM_ASCENSOR] Ejecutando solicitud de cabina: Ascensor 2, Destino piso 0
+[SIM_ASCENSOR] Enviando SOLICITUD DE CABINA a GW (vía CAN): Ascensor idx 2, Piso Destino 0
+[32m[INFO-GW] [0m[CAN_Bridge] Procesando frame CAN ID: 0x200, DLC: 2
+[32m[INFO-GW] [0m[CAN_Bridge] Solicitud de cabina CAN: Ascensor E024A3 (idx 2), Piso Destino 0
+[32m[INFO-GW] [0m[33m[CAN_CabinReq] Gateway (Origen CAN ID: 0x200): Preparando solicitud para Servidor Central.[0m
+
+[34m[DEBUG-GW] [0m[CAN_CabinReq] Payload para Servidor Central (Origen CAN ID: 0x200): {"id_edificio":"E024","solicitando_ascensor_id":"E024A3","piso_destino_solicitud":0,"elevadores_estado":[{"id_ascensor":"E024A1","piso_actual":0,"estado_puerta":"CERRADA","disponible":false,"tarea_actual_id":"T_1750444234529","destino_actual":4},{"id_ascensor":"E024A2","piso_actual":0,"estado_puerta":"CERRADA","disponible":false,"tarea_actual_id":"T_1750444229921","destino_actual":4},{"id_ascensor":"E024A3","piso_actual":0,"estado_puerta":"CERRADA","disponible":false,"tarea_actual_id":"T_1750444233603","destino_actual":9},{"id_ascensor":"E024A4","piso_actual":0,"estado_puerta":"CERRADA","disponible":true,"tarea_actual_id":null,"destino_actual":null}]}
+[34m[DEBUG-GW] [0m[SessionHelper] Reutilizando sesión DTLS-PSK existente (0x0x5d137b0b7ce0) con servidor central.
+[34m[DEBUG-GW] [0m[CAN_Bridge] Stored token for CAN tracker: (len 1) 0a
+[34m[DEBUG-GW] [0m[CAN_Bridge] Stored CAN ID 0x200 at index 9
+[32m[INFO-GW] [0m[36m[CAN_CabinReq] Gateway (Origen CAN ID: 0x200) -> Central: Enviando solicitud...[0m
+
+[32m[INFO-GW] [0m[32m[CAN_CabinReq] Gateway (Origen CAN ID: 0x200) -> Central: Solicitud enviada, esperando rsp...[0m
+
+[SIM_ASCENSOR] Procesando I/O CoAP por 1 segundo...
+[32m[INFO-GW] [0m[ResponseHandlerGW] Servidor Central -> Gateway: Respuesta recibida (Code: 2.69). MID: 59308
+[34m[DEBUG-GW] [0m[ResponseHandlerGW] JSON recibido de Servidor Central: {
+	"tarea_id":	"T_1750444235442",
+	"ascensor_asignado_id":	"E024A3"
+}
+[34m[DEBUG-GW] [0m[ResponseHandlerGW] Token recibido del servidor: (len 1) 0a
+[34m[DEBUG-GW] [0m[CAN_Bridge] Finding token for CAN tracker: (len 1) 0a
+[32m[INFO-GW] [0m[ResponseHandlerGW] Respuesta CoAP corresponde a una solicitud originada por CAN (ID: 0x200). Token 0a
+[32m[INFO-GW] [0m[ResponseHandlerGW] Servidor Central (vía CAN origin) asignó tarea 'T_1750444235442' a ascensor 'E024A3'. Actualizando estado local.
+[32m[INFO-GW] [0mStateMgr: Tarea 'T_1750444235442' asignada a ascensor E024A3. Destino: piso 0. Piso actual: 0. Dirección: PARADO
+[32m[INFO-GW] [0m[CAN_Bridge] Enviando respuesta CAN ID: 0x201, DLC: 8. Datos: 02 54 5F...
+[SIM_ASCENSOR] Recibido frame CAN de GW: ID=0x201, DLC=8, Datos: 02 54 5F 31 37 35 30 34
+    Simulador -> Respuesta de solicitud de cabina: Datos[0]=02
+    Simulador -> Tarea ID (parcial): T_17504
+[34m[DEBUG-GW] [0m[ResponseHandlerGW] Respuesta recibida en la sesión DTLS global (0x0x5d137b0b7ce0). No se libera aquí.
+[SIM_ASCENSOR] === FIN SIMULACIÓN DEL EDIFICIO E024 ===
+[SIM_ASCENSOR] Peticiones ejecutadas exitosamente: 10/10
+[SIM_ASCENSOR] === FIN SIMULACIÓN DE EVENTOS CAN ===
+
+[32m[INFO-GW] [0m[SimStep] Ascensor E024A1 SUBE a piso 1 (Destino: 4, Tarea: T_1750444234529)
+[32m[INFO-GW] [0m[SimStep] Ascensor E024A2 SUBE a piso 1 (Destino: 4, Tarea: T_1750444229921)
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E024A3 está ocupado y en su destino 0. Verificando si la tarea debe completarse.
+[32m[INFO-GW] [0mStateMgr: Ascensor E024A3 completó tarea T_1750444235442 en piso 0.
+[32m[INFO-GW] [0m[SimStep] Tarea completada por E024A3 (estaba en destino).
+[32m[INFO-GW] [0m[SimStep] Ascensor E024A1 SUBE a piso 2 (Destino: 4, Tarea: T_1750444234529)
+[32m[INFO-GW] [0m[SimStep] Ascensor E024A2 SUBE a piso 2 (Destino: 4, Tarea: T_1750444229921)
+[32m[INFO-GW] [0m[SimStep] Ascensor E024A1 SUBE a piso 3 (Destino: 4, Tarea: T_1750444234529)
+[32m[INFO-GW] [0m[SimStep] Ascensor E024A2 SUBE a piso 3 (Destino: 4, Tarea: T_1750444229921)
+[32m[INFO-GW] [0m[SimStep] Ascensor E024A1 SUBE a piso 4 (Destino: 4, Tarea: T_1750444234529)
+[32m[INFO-GW] [0m[SimStep] Ascensor E024A1 LLEGÓ a destino 4.
+[32m[INFO-GW] [0mStateMgr: Ascensor E024A1 completó tarea T_1750444234529 en piso 4.
+[32m[INFO-GW] [0m[SimStep] Tarea completada por E024A1.
+[32m[INFO-GW] [0m[SimStep] Ascensor E024A2 SUBE a piso 4 (Destino: 4, Tarea: T_1750444229921)
+[32m[INFO-GW] [0m[SimStep] Ascensor E024A2 LLEGÓ a destino 4.
+[32m[INFO-GW] [0mStateMgr: Ascensor E024A2 completó tarea T_1750444229921 en piso 4.
+[32m[INFO-GW] [0m[SimStep] Tarea completada por E024A2.

@@ -1,0 +1,17 @@
+=== REPORTE DE PRUEBA MASIVA DE API GATEWAYS ===
+Fecha: Fri Jun 20 20:31:17 CEST 2025
+Servidor destino: 192.168.49.2:5684
+Instancias solicitadas: 100
+Instancias iniciadas exitosamente: 100
+Instancias aún ejecutándose al final: 100
+Puerto base: 6000
+Rango de puertos: 6000-6099
+Tiempo de ejecución: 30 segundos
+
+=== CONCLUSIÓN ===
+Esta prueba demuestra que múltiples instancias del API Gateway
+pueden ejecutarse simultáneamente usando puertos diferentes.
+Cada instancia escucha en su puerto asignado y se conecta
+al mismo servidor central (192.168.49.2:5684) sin conflictos.
+
+Tasa de éxito: 100%

@@ -1,0 +1,2 @@
+/usr/bin/ar qc libtest_mocks.a CMakeFiles/test_mocks.dir/mock_coap_session.c.o CMakeFiles/test_mocks.dir/mock_can_interface.c.o CMakeFiles/test_mocks.dir/mock_execution_logger.c.o
+/usr/bin/ranlib libtest_mocks.a
