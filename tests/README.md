@@ -313,89 +313,6 @@ doxygen Doxyfile
 - **@expected**: Resultado esperado de la prueba
 - **@see**: Referencias a archivos relacionados
 
-## 📈 Métricas de Cobertura
-
-### Habilitar Cobertura de Código
-
-```bash
-# Configurar con cobertura habilitada
-cmake -DBUILD_TESTS=ON -DENABLE_COVERAGE=ON -DCMAKE_BUILD_TYPE=Debug ..
-make -j$(nproc)
-
-# Ejecutar pruebas
-./tests/run_all_tests.sh
-
-# Generar reporte de cobertura
-gcov -r $(find . -name "*.gcno")
-```
-
-### Con LCOV (Reporte HTML)
-
-```bash
-# Instalar lcov
-sudo apt-get install lcov
-
-# Generar reporte HTML
-lcov --capture --directory . --output-file coverage.info
-lcov --remove coverage.info '/usr/*' --output-file coverage.info
-genhtml coverage.info --output-directory coverage_html
-
-# Ver reporte en navegador
-firefox coverage_html/index.html
-```
-
-## 🔄 Integración Continua
-
-### GitHub Actions
-
-```yaml
-name: Tests
-on: [push, pull_request]
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: Install dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y libcunit1-dev libcjson-dev libssl-dev
-    - name: Run tests
-      run: ./tests/run_all_tests.sh
-    - name: Upload test reports
-      uses: actions/upload-artifact@v2
-      with:
-        name: test-reports
-        path: build-tests/test_reports/
-```
-
-### Jenkins Pipeline
-
-```groovy
-pipeline {
-    agent any
-    stages {
-        stage('Test') {
-            steps {
-                sh './tests/run_all_tests.sh'
-            }
-            post {
-                always {
-                    archiveArtifacts 'build-tests/test_reports/**'
-                    publishHTML([
-                        allowMissing: false,
-                        alwaysLinkToLastBuild: true,
-                        keepAll: true,
-                        reportDir: 'build-tests/test_reports',
-                        reportFiles: 'reporte_consolidado.html',
-                        reportName: 'Test Report'
-                    ])
-                }
-            }
-        }
-    }
-}
-```
 
 ## 🐛 Solución de Problemas
 
@@ -437,16 +354,6 @@ valgrind --leak-check=full ./test_api_handlers
 # Ver logs detallados
 ./test_servidor_central --verbose
 ```
-
-## 📞 Soporte
-
-Para problemas con las pruebas:
-
-1. **Verificar dependencias**: Ejecutar script de verificación
-2. **Limpiar build**: `rm -rf build-tests` antes de ejecutar
-3. **Revisar logs**: Los reportes contienen información detallada de fallos
-4. **Ejecutar pruebas individuales**: Para aislar problemas específicos
-
 ---
 
 **Última actualización**: Junio 2025  

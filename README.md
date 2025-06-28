@@ -4,11 +4,9 @@
 [![Version](https://img.shields.io/badge/version-2.0-blue.svg)](https://github.com/user/repo/releases)
 [![Language](https://img.shields.io/badge/language-C-blue.svg)](https://en.wikipedia.org/wiki/C_(programming_language))
 [![Protocol](https://img.shields.io/badge/protocol-CoAP%2FDTLS--PSK-orange.svg)](https://tools.ietf.org/html/rfc7252)
-[![Database](https://img.shields.io/badge/database-SQLite-lightblue.svg)](https://www.sqlite.org/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![Tests](https://img.shields.io/badge/tests-34%2F34%20passing-brightgreen.svg)](tests/)
 
-> **Sistema distribuido de alta disponibilidad para la gestión inteligente de ascensores mediante comunicación segura CoAP/DTLS-PSK**
+> **Sistema distribuido para la gestión inteligente de ascensores mediante comunicación segura CoAP/DTLS-PSK**
 
 ## 📋 Tabla de Contenidos
 
@@ -23,7 +21,6 @@
 - [🔒 Seguridad](#-seguridad)
 - [📈 Rendimiento](#-rendimiento)
 - [🐛 Solución de Problemas](#-solución-de-problemas)
-- [🤝 Contribución](#-contribución)
 - [📄 Licencia](#-licencia)
 
 ## 🎯 Descripción General
@@ -412,16 +409,6 @@ firefox coverage/index.html
 - **Persistencia**: Base de datos SQLite
 - **Métricas**: Asignaciones, tiempos de respuesta
 
-### 📈 Métricas de Rendimiento
-
-| Métrica | Objetivo | Monitoreo |
-|---------|----------|-----------|
-| **Latencia Media** | < 100ms | Tiempo de respuesta CoAP |
-| **Throughput** | > 1000 req/s | Peticiones procesadas |
-| **Disponibilidad** | > 99.9% | Uptime del sistema |
-| **Tasa de Éxito** | > 99.5% | Respuestas exitosas |
-| **Utilización CPU** | < 70% | Carga del sistema |
-| **Uso de Memoria** | < 512MB | Consumo de RAM |
 
 ### 🎨 Visualización
 
@@ -457,71 +444,17 @@ El sistema implementa **defensa en profundidad** con múltiples capas:
 - ✅ **Confiabilidad**: Sin dependencias de CA
 - ✅ **Mantenimiento**: Gestión simplificada
 
-#### Mejores Prácticas:
-```bash
-# 1. Rotar claves periódicamente
-# 2. Usar claves fuertes (>32 caracteres)
-# 3. Mantener claves sincronizadas
-# 4. Auditar eventos de autenticación
-# 5. Monitorear fallos de handshake
-```
 
-### 🚨 Indicadores de Seguridad
-
-| Evento | Nivel | Acción |
-|--------|-------|--------|
-| Fallo de autenticación DTLS | 🔴 CRÍTICO | Verificar claves PSK |
-| Múltiples intentos fallidos | 🟡 ALERTA | Revisar firewall |
-| Handshake timeout | 🟡 ADVERTENCIA | Verificar red |
-| Sesión cerrada inesperadamente | 🔵 INFO | Revisar logs |
-
-## 📈 Rendimiento
-
-### ⚡ Optimizaciones Implementadas
-
-#### API Gateway:
-- 🔄 **Reutilización de Sesiones DTLS**: Evita handshakes repetidos
-- 📊 **Buffer Circular**: Gestión eficiente de trackers CAN
-- 🧠 **Estado Local**: Reduce consultas al servidor central
-- ⚡ **Procesamiento Asíncrono**: I/O no bloqueante
-
-#### Servidor Central:
-- 💾 **SQLite Optimizado**: Índices y transacciones eficientes
-- 🧠 **Algoritmos Inteligentes**: Asignación optimizada O(log n)
-- 🔄 **Pool de Conexiones**: Reutilización de recursos
-- 📊 **Caché de Estado**: Reducción de consultas DB
 
 ### 📊 Benchmarks
 
 ```bash
-# Test de carga básico
+# Test de carga 
 cd api_gateway
 ./run_100_api_gateways.sh -n 50 -t 60
 
-# Resultados típicos:
-# Latencia media: 45ms
-# Throughput: 1,250 req/s
-# CPU usage: 35%
-# Memory: 128MB
-# Tasa de éxito: 99.8%
 ```
 
-### 🎯 Tuning de Rendimiento
-
-```bash
-# Optimizaciones del sistema
-echo 'net.core.rmem_max = 16777216' >> /etc/sysctl.conf
-echo 'net.core.wmem_max = 16777216' >> /etc/sysctl.conf
-sysctl -p
-
-# Optimizaciones de libcoap
-export COAP_MAX_BLOCK_SZX=6
-export COAP_DEFAULT_LEISURE=5
-
-# Optimizaciones de SQLite
-export SQLITE_TMPDIR=/tmp
-export SQLITE_ENABLE_FTS5=1
-```
 
 ## 🐛 Solución de Problemas
 
@@ -564,21 +497,6 @@ make -j$(nproc)
 ./run_all_tests.sh
 ```
 
-#### 4. Alto Uso de CPU
-```bash
-# Síntoma
-CPU usage > 80%
-
-# Diagnóstico
-top -p $(pgrep api_gateway)
-perf record -p $(pgrep api_gateway) sleep 10
-perf report
-
-# Soluciones
-- Reducir frecuencia de simulación
-- Optimizar consultas a base de datos
-- Ajustar niveles de logging
-```
 
 ### 🔍 Herramientas de Diagnóstico
 
@@ -601,53 +519,6 @@ gdb ./api_gateway
 (gdb) bt  # backtrace en caso de crash
 ```
 
-### 📞 Obtener Ayuda
-
-| Problema | Recurso | Comando/Enlace |
-|----------|---------|----------------|
-| **Uso general** | Documentación | `./component --help` |
-| **Bugs** | Issues | [GitHub Issues](https://github.com/user/repo/issues) |
-| **Configuración** | README específico | Ver README de cada componente |
-| **Rendimiento** | Profiling | `perf record ./component` |
-| **Seguridad** | Logs de auditoría | `grep -E "(DTLS|PSK)" logs/` |
-
-## 🤝 Contribución
-
-### 🛠️ Configuración de Desarrollo
-
-```bash
-# 1. Fork y clonar
-git clone https://github.com/tu-usuario/sistema-control-ascensores.git
-cd sistema-control-ascensores
-
-# 2. Configurar entorno de desarrollo
-git checkout -b feature/nueva-funcionalidad
-
-# 3. Instalar dependencias de desarrollo
-sudo apt-get install -y valgrind cppcheck clang-format
-
-# 4. Configurar hooks de pre-commit
-cp scripts/pre-commit .git/hooks/
-chmod +x .git/hooks/pre-commit
-```
-
-### 📝 Estándares de Desarrollo
-
-#### Estilo de Código
-- **C99 Standard**: Código compatible con C99
-- **Documentación Doxygen**: Todos los headers documentados
-- **Nombres descriptivos**: Variables y funciones autoexplicativas
-- **Error handling**: Manejo robusto de errores
-- **Memory safety**: Sin leaks de memoria
-
-#### Mensajes de Commit
-```bash
-# Formato: tipo(componente): descripción
-feat(api_gateway): añadir soporte para múltiples edificios
-fix(servidor_central): corregir leak de memoria en asignaciones
-docs(readme): actualizar instrucciones de instalación
-test(integration): añadir test end-to-end completo
-```
 
 #### Testing
 - ✅ **Tests unitarios** para nuevas funcionalidades
@@ -656,24 +527,6 @@ test(integration): añadir test end-to-end completo
 - ✅ **Sin regresiones** en tests existentes
 - ✅ **Cobertura mantenida** al 100%
 
-### 📋 Proceso de Contribución
-
-1. **🔍 Issue**: Crear o asignar issue existente
-2. **🌿 Branch**: Crear rama desde `main`
-3. **💻 Desarrollo**: Implementar cambios con tests
-4. **🧪 Testing**: Ejecutar suite completa de tests
-5. **📝 Documentación**: Actualizar README y docs
-6. **🔄 Pull Request**: Crear PR con descripción detallada
-7. **👀 Review**: Revisión de código por mantainer
-8. **🚀 Merge**: Integración a rama principal
-
-### 🏆 Reconocimientos
-
-Contribuidores al proyecto:
-- **Arquitectura del Sistema**: [Tu Nombre]
-- **Implementación CoAP/DTLS**: [Tu Nombre]
-- **Sistema de Testing**: [Tu Nombre]
-- **Documentación**: [Tu Nombre]
 
 ## 📄 Licencia
 
@@ -707,6 +560,6 @@ SOFTWARE.
 
 **🏢 Sistema de Control de Ascensores v2.0**
 
-**[🚀 Inicio Rápido](#-inicio-rápido) • [📖 Documentación](#-componentes-del-sistema) • [🧪 Testing](#-testing-y-validación) • [🤝 Contribuir](#-contribución)**
+**[🚀 Inicio Rápido](#-inicio-rápido) • [📖 Documentación](#-componentes-del-sistema) • [🧪 Testing](#-testing-y-validación)**
 
 </div> 

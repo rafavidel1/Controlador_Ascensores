@@ -587,43 +587,6 @@ El sistema utiliza DTLS 1.2 con claves pre-compartidas para:
 // Clave compartida (debe coincidir en servidor y gateway)
 #define KEY_FOR_SERVER "SecretGatewayServidorCentralKey"
 ```
-
-### 🛡️ Mejores Prácticas de Seguridad
-
-1. **🔄 Rotación de Claves**
-   ```bash
-   # Cambiar claves PSK periódicamente
-   # Actualizar en gateway y servidor simultáneamente
-   ```
-
-2. **🚫 Validación de Entrada**
-   ```c
-   // Todos los payloads JSON son validados
-   // Límites estrictos en tamaños de mensaje
-   // Sanitización de datos de entrada
-   ```
-
-3. **📊 Auditoría**
-   ```bash
-   # Todos los eventos de seguridad se registran
-   grep -E "(DTLS|PSK|AUTH)" logs/*/ejecucion_*.md
-   ```
-
-4. **🔒 Aislamiento de Red**
-   ```bash
-   # Ejecutar en red aislada o VPN
-   # Firewall con puertos específicos (5683, 5684)
-   ```
-
-### 🚨 Indicadores de Seguridad
-
-| Evento | Nivel | Acción Recomendada |
-|--------|-------|-------------------|
-| Fallo de autenticación DTLS | 🔴 CRIT | Verificar claves PSK |
-| Timeout de handshake | 🟡 WARN | Verificar conectividad |
-| Sesión DTLS cerrada inesperadamente | 🟡 WARN | Revisar logs del servidor |
-| Múltiples fallos de conexión | 🔴 ERROR | Posible ataque, revisar firewall |
-
 ## 🐛 Solución de Problemas
 
 ### ❓ Problemas Comunes
@@ -695,54 +658,6 @@ sudo tcpdump -i any -w gateway_traffic.pcap port 5683 or port 5684
 wireshark gateway_traffic.pcap
 ```
 
-#### Debugging de Memoria
-
-```bash
-# Ejecutar con valgrind
-valgrind --leak-check=full --show-leak-kinds=all ./api_gateway
-
-# Ejecutar con AddressSanitizer
-gcc -fsanitize=address -g -o api_gateway_debug src/*.c
-./api_gateway_debug
-```
-
-#### Logs de Sistema
-
-```bash
-# Revisar logs del sistema
-sudo journalctl -u api-gateway --since "1 hour ago"
-
-# Logs de red
-sudo netstat -tlnp | grep 5683
-sudo ss -tlnp | grep 5684
-```
-
-### 📞 Obtener Ayuda
-
-| Problema | Recurso | Comando |
-|----------|---------|---------|
-| Uso general | Ayuda integrada | `./api_gateway --help` |
-| Bugs | Issues en GitHub | Crear issue con logs |
-| Configuración | Documentación | Ver sección de configuración |
-| Rendimiento | Profiling | `perf record ./api_gateway` |
-
-## 🤝 Contribución
-
-### 🛠️ Configuración de Desarrollo
-
-```bash
-# 1. Fork del repositorio
-git clone https://github.com/tu-usuario/api-gateway.git
-cd api-gateway
-
-# 2. Crear rama de desarrollo
-git checkout -b feature/nueva-funcionalidad
-
-# 3. Configurar hooks de pre-commit
-cp scripts/pre-commit .git/hooks/
-chmod +x .git/hooks/pre-commit
-```
-
 ### 📝 Estándares de Código
 
 #### Estilo de Código C
@@ -762,43 +677,7 @@ static void handle_floor_call_response(const coap_pdu_t *response);
 
 // ❌ Incorrecto: Nombres genéricos
 static void handle_resp(const coap_pdu_t *r);
-```
 
-#### Mensajes de Commit
-
-```bash
-# ✅ Formato correcto
-feat(can_bridge): añadir soporte para frames 0x400
-fix(dtls): corregir leak de memoria en sesiones
-docs(readme): actualizar instrucciones de instalación
-
-# ❌ Formato incorrecto
-Fixed bug
-Update code
-```
-
-### 🧪 Testing
-
-```bash
-# Ejecutar tests unitarios
-make test
-
-# Ejecutar tests de integración
-./scripts/integration_tests.sh
-
-# Verificar cobertura de código
-gcov src/*.c
-lcov --capture --directory . --output-file coverage.info
-```
-
-### 📋 Checklist de Pull Request
-
-- [ ] ✅ Código sigue estándares de estilo
-- [ ] 📝 Documentación actualizada
-- [ ] 🧪 Tests añadidos/actualizados
-- [ ] 🔄 CI/CD pasa sin errores
-- [ ] 📊 Cobertura de código mantenida
-- [ ] 🔒 Revisión de seguridad completada
 
 ## 📄 Licencia
 

@@ -5,7 +5,6 @@
 [![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen.svg)](./tests/)
 [![Language](https://img.shields.io/badge/language-C-blue.svg)](https://en.wikipedia.org/wiki/C_(programming_language))
 [![Protocol](https://img.shields.io/badge/protocol-CoAP%2FDTLS--PSK-orange.svg)](https://tools.ietf.org/html/rfc7252)
-[![Database](https://img.shields.io/badge/database-SQLite-lightblue.svg)](https://www.sqlite.org/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 > **Servidor central de alta disponibilidad para la gestión inteligente de sistemas de ascensores multi-edificio con comunicación segura CoAP/DTLS-PSK**
@@ -286,7 +285,7 @@ ls -la servidor_central/servidor_central
 ./servidor_central --test-mode
 ```
 
-## 🔌 API Endpoints
+## 🔌 Endpoints
 
 ### 📍 Endpoint: `POST /peticion_piso`
 
@@ -424,89 +423,6 @@ CREATE TABLE logs_operaciones (
     resultado TEXT
 );
 ```
-
-### 🔧 Operaciones de Base de Datos
-
-<details>
-<summary><strong>Ver datos de ejemplo</strong></summary>
-
-```sql
--- Ver edificios configurados
-SELECT * FROM edificios;
-
--- Ver estado de ascensores
-SELECT * FROM ascensores_estado 
-WHERE edificio_id = 'EDIFICIO_TEST';
-
--- Ver logs recientes
-SELECT * FROM logs_operaciones 
-ORDER BY timestamp DESC 
-LIMIT 10;
-```
-</details>
-
-### 🛠️ Mantenimiento de Base de Datos
-
-```bash
-# Verificar integridad
-sqlite3 elevators.db "PRAGMA integrity_check;"
-
-# Backup de base de datos
-cp elevators.db elevators_backup_$(date +%Y%m%d_%H%M%S).db
-
-# Optimizar base de datos
-sqlite3 elevators.db "VACUUM; ANALYZE;"
-```
-
-## 🧪 Testing
-
-### 📈 Estado de las Pruebas
-
-![Tests Status](https://img.shields.io/badge/tests-11%2F11%20passing-brightgreen.svg)
-
-El Servidor Central cuenta con **11 pruebas unitarias** que verifican todos los componentes críticos:
-
-| Componente | Pruebas | Estado |
-|------------|---------|---------|
-| **Core Functions** | 2/2 | ✅ Passing |
-| **JSON Validation** | 4/4 | ✅ Passing |
-| **Assignment Algorithm** | 2/2 | ✅ Passing |
-| **Response Generation** | 2/2 | ✅ Passing |
-| **Integration Flow** | 1/1 | ✅ Passing |
-
-### 🏃‍♂️ Ejecutar Pruebas
-
-```bash
-# Ejecutar todas las pruebas del sistema
-./tests/run_all_tests.sh
-
-# Ejecutar solo pruebas del Servidor Central
-cd build-tests/tests
-./test_servidor_central
-
-# Resultado esperado: 11/11 pruebas exitosas (100%)
-```
-
-### 📋 Detalle de Pruebas
-
-<details>
-<summary><strong>Ver lista completa de pruebas</strong></summary>
-
-| Prueba | Descripción | Componente |
-|--------|-------------|------------|
-| `test_task_id_generation_basic` | Generación básica de IDs únicos | Core |
-| `test_task_id_generation_uniqueness` | Verificación de unicidad de IDs | Core |
-| `test_validate_floor_payload_valid` | Validación de payload de piso válido | JSON |
-| `test_validate_floor_payload_invalid` | Validación de payload de piso inválido | JSON |
-| `test_validate_cabin_payload_valid` | Validación de payload de cabina válido | JSON |
-| `test_validate_cabin_payload_invalid` | Validación de payload de cabina inválido | JSON |
-| `test_assignment_algorithm_basic` | Algoritmo de asignación básico | Algorithm |
-| `test_assignment_algorithm_optimal` | Algoritmo de asignación óptimo | Algorithm |
-| `test_generate_response_floor_call` | Generación de respuesta para piso | Response |
-| `test_generate_response_cabin_request` | Generación de respuesta para cabina | Response |
-| `test_full_processing_flow` | Flujo completo de procesamiento | Integration |
-</details>
-
 ### 📊 Cobertura de Código
 
 Las pruebas cubren:
@@ -731,68 +647,4 @@ int basic_assignment_algorithm(elevator_info_t* elevators, int count, int target
 - **Formato de Datos**: JSON (RFC 7159)
 - **Arquitectura**: Cliente-Servidor
 
-## 🤝 Contribución
-
-### 🔄 Flujo de Contribución
-
-1. **Fork** el repositorio
-2. **Crear** una rama feature (`git checkout -b feature/nueva-funcionalidad`)
-3. **Commit** los cambios (`git commit -am 'Añadir nueva funcionalidad'`)
-4. **Push** a la rama (`git push origin feature/nueva-funcionalidad`)
-5. **Crear** un Pull Request
-
-### 📝 Estándares de Código
-
-- **Estilo**: Seguir estilo K&R para C
-- **Documentación**: Comentarios Doxygen obligatorios
-- **Testing**: Pruebas unitarias para nuevas funcionalidades
-- **Commits**: Mensajes descriptivos en español
-
-### 🧪 Antes de Enviar PR
-
-```bash
-# Ejecutar todas las pruebas
-./tests/run_all_tests.sh
-
-# Verificar estilo de código
-cppcheck --enable=all src/
-
-# Verificar memory leaks
-valgrind --leak-check=full ./servidor_central --test-mode
-```
-
 ---
-
-## 📊 Información del Proyecto
-
-| Atributo | Valor |
-|----------|-------|
-| **Versión** | 2.0.0 |
-| **Estado** | ✅ Producción |
-| **Pruebas** | 11/11 (100%) |
-| **Cobertura** | 100% componentes críticos |
-| **Última actualización** | Junio 2025 |
-| **Licencia** | MIT |
-
-### 🏆 Estadísticas
-
-- **Líneas de código**: ~2,500
-- **Archivos fuente**: 12
-- **Pruebas unitarias**: 11
-- **Tiempo de compilación**: ~30s
-- **Memoria utilizada**: <10MB
-- **Rendimiento**: >1000 req/s
-
----
-
-<div align="center">
-
-**📧 Contacto**: [desarrollador@sistema-ascensores.com](mailto:desarrollador@sistema-ascensores.com)
-
-**🔗 Enlaces**: [Documentación](./docs/) | [Issues](https://github.com/usuario/repo/issues) | [Wiki](https://github.com/usuario/repo/wiki)
-
----
-
-*Desarrollado con ❤️ para sistemas de control de ascensores de alta disponibilidad*
-
-</div> 
