@@ -11,6 +11,10 @@ pkg_check_modules(LIBCOAP REQUIRED libcoap-3-openssl)
 # Find cJSON using pkg-config
 pkg_check_modules(LIBCJSON REQUIRED libcjson)
 
+# Dotenv-c
+set(DOTENV_SRC ../dotenv-c/src/dotenv.c)
+set(DOTENV_INC ../dotenv-c/src)
+
 # Source files for the executable
 set(API_GATEWAY_SOURCES
     src/main.c
@@ -23,7 +27,7 @@ set(API_GATEWAY_SOURCES
 )
 
 # Add the executable
-add_executable(api_gateway ${API_GATEWAY_SOURCES})
+add_executable(api_gateway ${API_GATEWAY_SOURCES} ${DOTENV_SRC})
 
 # Crear ejecutable adicional con puerto dinámico para pruebas de carga
 add_executable(api_gateway_dynamic
@@ -34,6 +38,7 @@ add_executable(api_gateway_dynamic
     src/mi_simulador_ascensor.c
     src/simulation_loader.c
     src/execution_logger.c
+    ${DOTENV_SRC}
 )
 
 # Configure include directories and link libraries for the target
@@ -50,6 +55,7 @@ if(LIBCOAP_FOUND)
         ${CMAKE_CURRENT_SOURCE_DIR}/include
         ${LIBCOAP_INCLUDE_DIRS}
         ${LIBCJSON_INCLUDE_DIRS}
+        ${DOTENV_INC}
     )
 
     if(LIBCOAP_CFLAGS)
@@ -71,6 +77,7 @@ if(LIBCOAP_FOUND)
         ${CMAKE_CURRENT_SOURCE_DIR}/include
         ${LIBCOAP_INCLUDE_DIRS}
         ${LIBCJSON_INCLUDE_DIRS}
+        ${DOTENV_INC}
     )
 
     if(LIBCOAP_CFLAGS)
@@ -82,6 +89,18 @@ if(LIBCOAP_FOUND)
     target_link_libraries(api_gateway_dynamic PRIVATE 
         ${LIBCOAP_LIBRARIES}
         ${LIBCJSON_LIBRARIES}
+    )
+
+    add_custom_command(TARGET api_gateway POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        ${CMAKE_CURRENT_SOURCE_DIR}/gateway.env
+        $<TARGET_FILE_DIR:api_gateway>/gateway.env
+    )
+
+    add_custom_command(TARGET api_gateway_dynamic POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        ${CMAKE_CURRENT_SOURCE_DIR}/gateway.env
+        $<TARGET_FILE_DIR:api_gateway_dynamic>/gateway.env
     )
 
 else()

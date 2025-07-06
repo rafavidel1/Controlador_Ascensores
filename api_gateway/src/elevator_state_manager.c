@@ -29,7 +29,6 @@
  */
 
 #include "api_gateway/elevator_state_manager.h"
-#include "api_gateway/api_common_defs.h" // For LOG_INFO_GW etc.
 #include "api_gateway/execution_logger.h" // Sistema de logging de ejecuciones
 #include <string.h> // For strcpy, memset, snprintf
 #include <stdio.h> // For snprintf
@@ -121,17 +120,17 @@ void init_elevator_group(elevator_group_state_t *group, const char* edificio_id_
     }
 
     memset(group, 0, sizeof(elevator_group_state_t)); // Limpiar toda la estructura
-    strncpy(group->edificio_id_str_grupo, edificio_id_str, ID_STRING_MAX_LEN -1);
-    group->edificio_id_str_grupo[ID_STRING_MAX_LEN -1] = '\0'; // Asegurar null-termination
+    strncpy(group->edificio_id_str_grupo, edificio_id_str, atoi(getenv("ID_STRING_MAX_LEN")) -1);
+    group->edificio_id_str_grupo[atoi(getenv("ID_STRING_MAX_LEN")) -1] = '\0'; // Asegurar null-termination
     group->num_elevadores_en_grupo = num_elevadores;
 
     LOG_INFO_GW("StateMgr: Inicializando %d ascensores para edificio '%s', %d pisos.", num_elevadores, edificio_id_str, num_pisos);
 
     for (int i = 0; i < num_elevadores; ++i) {
         elevator_status_t *elevator = &group->ascensores[i];
-        snprintf(elevator->ascensor_id, ID_STRING_MAX_LEN, "%sA%d", edificio_id_str, i + 1);
-        strncpy(elevator->id_edificio_str, edificio_id_str, ID_STRING_MAX_LEN - 1);
-        elevator->id_edificio_str[ID_STRING_MAX_LEN - 1] = '\0';
+        snprintf(elevator->ascensor_id, atoi(getenv("ID_STRING_MAX_LEN")), "%sA%d", edificio_id_str, i + 1);
+        strncpy(elevator->id_edificio_str, edificio_id_str, atoi(getenv("ID_STRING_MAX_LEN")) - 1);
+        elevator->id_edificio_str[atoi(getenv("ID_STRING_MAX_LEN")) - 1] = '\0';
         
         elevator->piso_actual = 0; // Todos empiezan en planta baja (piso 0)
         elevator->estado_puerta_enum = DOOR_CLOSED;
@@ -240,8 +239,8 @@ void assign_task_to_elevator(elevator_group_state_t *group, const char* elevator
     for (int i = 0; i < group->num_elevadores_en_grupo; ++i) {
         elevator_status_t *elevator = &group->ascensores[i];
         if (strcmp(elevator->ascensor_id, elevator_id_to_update) == 0) {
-            strncpy(elevator->tarea_actual_id, task_id, TASK_ID_MAX_LEN - 1);
-            elevator->tarea_actual_id[TASK_ID_MAX_LEN - 1] = '\0';
+                    strncpy(elevator->tarea_actual_id, task_id, atoi(getenv("TASK_ID_MAX_LEN")) - 1);
+        elevator->tarea_actual_id[atoi(getenv("TASK_ID_MAX_LEN")) - 1] = '\0';
             elevator->destino_actual = target_floor;
             elevator->ocupado = true;
 

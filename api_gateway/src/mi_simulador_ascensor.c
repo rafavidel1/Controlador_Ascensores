@@ -34,7 +34,6 @@
 #include "api_gateway/can_bridge.h"
 #include "api_gateway/elevator_state_manager.h"
 #include "api_gateway/simulation_loader.h"
-#include "api_gateway/api_common_defs.h"
 #include "api_gateway/execution_logger.h"
 #include <stdio.h>
 #include <string.h>

@@ -23,15 +23,13 @@
 #include <coap3/coap_address.h>
 #include <coap3/coap_event.h>
 
-#include <api_gateway/coap_config.h>
 #include "api_gateway/api_handlers.h"
-#include "api_gateway/api_common_defs.h"
 #include "api_gateway/elevator_state_manager.h"
 #include "api_gateway/can_bridge.h"
 #include <cJSON.h>
 #include "api_gateway/logging_gw.h"
-#include "api_gateway/dtls_common_config.h"
 #include "api_gateway/execution_logger.h"
+#include "dotenv.h"
 
 // Variables globales (igual que en main.c original)
 volatile sig_atomic_t quit_main_loop = 0;
@@ -89,27 +87,27 @@ coap_session_t* get_or_create_central_server_dtls_session(coap_context_t *ctx) {
     coap_address_init(&server_addr);
     server_addr.addr.sin.sin_family = AF_INET;
     
-    if (inet_pton(AF_INET, CENTRAL_SERVER_IP, &server_addr.addr.sin.sin_addr) != 1) {
-        LOG_ERROR_GW("[SessionHelper] Error convirtiendo IP del servidor central: %s", CENTRAL_SERVER_IP);
+    if (inet_pton(AF_INET, getenv("CENTRAL_SERVER_IP"), &server_addr.addr.sin.sin_addr) != 1) {
+        LOG_ERROR_GW("[SessionHelper] Error convirtiendo IP del servidor central: %s", getenv("CENTRAL_SERVER_IP"));
         return NULL;
     }
-    server_addr.addr.sin.sin_port = htons(atoi(CENTRAL_SERVER_PORT));
+    server_addr.addr.sin.sin_port = htons(atoi(getenv("CENTRAL_SERVER_PORT")));
 
     // Crear sesión DTLS con PSK
     g_dtls_session_to_central_server = coap_new_client_session_psk(
         ctx, NULL, &server_addr, COAP_PROTO_DTLS,
-        IDENTITY_TO_PRESENT_TO_SERVER,
-        (const uint8_t*)KEY_FOR_SERVER, strlen(KEY_FOR_SERVER)
+        getenv("IDENTITY_TO_PRESENT_TO_SERVER"),
+        (const uint8_t*)getenv("KEY_FOR_SERVER"), strlen(getenv("KEY_FOR_SERVER"))
     );
 
     if (!g_dtls_session_to_central_server) {
         LOG_ERROR_GW("[SessionHelper] Error creando sesión DTLS con servidor central %s:%s", 
-                     CENTRAL_SERVER_IP, CENTRAL_SERVER_PORT);
+                     getenv("CENTRAL_SERVER_IP"), getenv("CENTRAL_SERVER_PORT"));
         return NULL;
     }
 
     LOG_INFO_GW("[SessionHelper] Nueva sesión DTLS creada con servidor central %s:%s", 
-                CENTRAL_SERVER_IP, CENTRAL_SERVER_PORT);
+                getenv("CENTRAL_SERVER_IP"), getenv("CENTRAL_SERVER_PORT"));
     return g_dtls_session_to_central_server;
 }
 
@@ -204,6 +202,7 @@ static void simulate_elevator_group_step(coap_context_t *ctx, elevator_group_sta
 
 // Función principal modificada
 int main(int argc, char *argv[]) {
+    env_load("gateway.env", true); // Cargar variables de entorno desde gateway.env
     coap_context_t *ctx = NULL;
     coap_address_t listen_addr;
     int result;
@@ -235,8 +234,8 @@ int main(int argc, char *argv[]) {
     coap_address_init(&listen_addr);
     listen_addr.addr.sin.sin_family = AF_INET;
     
-    if (inet_pton(AF_INET, GW_LISTEN_IP, &listen_addr.addr.sin.sin_addr) != 1) {
-        fprintf(stderr, "Error convirtiendo IP de escucha '%s': %s\n", GW_LISTEN_IP, strerror(errno));
+    if (inet_pton(AF_INET, getenv("GW_LISTEN_IP"), &listen_addr.addr.sin.sin_addr) != 1) {
+        fprintf(stderr, "Error convirtiendo IP de escucha '%s': %s\n", getenv("GW_LISTEN_IP"), strerror(errno));
         coap_cleanup();
         return EXIT_FAILURE;
     }
@@ -265,7 +264,7 @@ int main(int argc, char *argv[]) {
     }
 
     printf("API Gateway: Escuchando en %s:%d para mensajes CoAP (UDP).\n", 
-           GW_LISTEN_IP, dynamic_listen_port);
+           getenv("GW_LISTEN_IP"), dynamic_listen_port);
     printf("(Ctrl+C para salir)\n");
 
     // Inicializar grupo de ascensores

@@ -42,9 +42,7 @@
 #include <coap3/coap_address.h> // Para coap_address_to_str
 #include <coap3/coap_event.h>   // Para coap_event_str
 
-#include <api_gateway/coap_config.h>  // Gateway-specific CoAP configurations
 #include "api_gateway/api_handlers.h"      // Corrected path for Declarations for CoAP handlers
-#include "api_gateway/api_common_defs.h" // For LOG_* macros
 #include "api_gateway/elevator_state_manager.h" // <--- NUEVO INCLUDE
 
 // NUEVA INCLUSIÓN PARA EL PUENTE CAN
@@ -54,8 +52,7 @@
 #include <cJSON.h> 
 
 #include "api_gateway/logging_gw.h"
-#include "api_gateway/coap_config.h" // Para CENTRAL_SERVER_IP, CENTRAL_SERVER_PORT
-#include "api_gateway/dtls_common_config.h" // Para PSK defines
+#include "dotenv.h"
 #include "api_gateway/execution_logger.h" // Sistema de logging de ejecuciones
 
 /**
@@ -191,7 +188,6 @@ static int event_handler_gw(coap_session_t *session, coap_event_t event) {
  * - Clave PSK: KEY_FOR_SERVER
  * 
  * @see event_handler_gw()
- * @see dtls_common_config.h
  * @see coap_config.h
  */
 coap_session_t* get_or_create_central_server_dtls_session(coap_context_t *ctx) {
@@ -218,25 +214,25 @@ coap_session_t* get_or_create_central_server_dtls_session(coap_context_t *ctx) {
     coap_address_t central_server_addr;
     coap_address_init(&central_server_addr);
     central_server_addr.addr.sin.sin_family = AF_INET;
-    if (inet_pton(AF_INET, CENTRAL_SERVER_IP, &central_server_addr.addr.sin.sin_addr) <= 0) {
-        LOG_ERROR_GW("[SessionHelper] Error convirtiendo IP del servidor central: %s", CENTRAL_SERVER_IP);
+    if (inet_pton(AF_INET, getenv("CENTRAL_SERVER_IP"), &central_server_addr.addr.sin.sin_addr) <= 0) {
+        LOG_ERROR_GW("[SessionHelper] Error convirtiendo IP del servidor central: %s", getenv("CENTRAL_SERVER_IP"));
         return NULL;
     }
-    central_server_addr.addr.sin.sin_port = htons(atoi(CENTRAL_SERVER_PORT));
+    central_server_addr.addr.sin.sin_port = htons(atoi(getenv("CENTRAL_SERVER_PORT")));
 
     g_dtls_session_to_central_server = coap_new_client_session_psk(ctx,
                                                                    NULL, // local_if
                                                                    &central_server_addr,
                                                                    COAP_PROTO_DTLS,
-                                                                   IDENTITY_TO_PRESENT_TO_SERVER,
-                                                                   (const uint8_t *)KEY_FOR_SERVER,
-                                                                   strlen(KEY_FOR_SERVER));
+                                                                   getenv("IDENTITY_TO_PRESENT_TO_SERVER"),
+                                                                   (const uint8_t *)getenv("KEY_FOR_SERVER"),
+                                                                   strlen(getenv("KEY_FOR_SERVER")));
 
     if (!g_dtls_session_to_central_server) {
-        LOG_ERROR_GW("[SessionHelper] Error creando NUEVA sesión DTLS-PSK con servidor central. Identity: '%s'", IDENTITY_TO_PRESENT_TO_SERVER);
+        LOG_ERROR_GW("[SessionHelper] Error creando NUEVA sesión DTLS-PSK con servidor central. Identity: '%s'", getenv("IDENTITY_TO_PRESENT_TO_SERVER"));
         return NULL;
     }
-    LOG_INFO_GW("[SessionHelper] NUEVA Sesión DTLS-PSK (0x%p) creada con servidor central. Identity: '%s'", (void*)g_dtls_session_to_central_server, IDENTITY_TO_PRESENT_TO_SERVER);
+    LOG_INFO_GW("[SessionHelper] NUEVA Sesión DTLS-PSK (0x%p) creada con servidor central. Identity: '%s'", (void*)g_dtls_session_to_central_server, getenv("IDENTITY_TO_PRESENT_TO_SERVER"));
     coap_session_reference(g_dtls_session_to_central_server); // Tomamos una referencia explícita
     
     // Guardar el contexto para el event handler (si no lo hemos hecho ya o si cambia)
@@ -382,10 +378,11 @@ simulate_elevator_group_step(coap_context_t *ctx, elevator_group_state_t *group)
  * @return EXIT_SUCCESS on successful execution and shutdown, EXIT_FAILURE on error.
  */
 int main(int argc, char *argv[]) {
+    env_load("gateway.env", true); // Cargar variables de entorno desde gateway.env
     coap_context_t  *ctx = NULL;      // CoAP context
     coap_address_t   listen_addr;    // Address for the gateway to listen on
     int result;                       // Result of CoAP I/O operations
-    int listen_port = atoi(GW_LISTEN_PORT); // Puerto por defecto
+    int listen_port = atoi(getenv("GW_LISTEN_PORT")); // Puerto por defecto
 
     // Procesar argumentos de línea de comandos
     if (argc > 1) {
@@ -424,8 +421,8 @@ int main(int argc, char *argv[]) {
     listen_addr.addr.sin.sin_family = AF_INET; // IPv4
     
     // Convert the listen IP string (from coap_config.h) to a network address.
-    if (inet_pton(AF_INET, GW_LISTEN_IP, &listen_addr.addr.sin.sin_addr) != 1) {
-        fprintf(stderr, "API Gateway: Error converting listen IP address '%s'. Check GW_LISTEN_IP in coap_config.h. Error: %s\n", GW_LISTEN_IP, strerror(errno));
+    if (inet_pton(AF_INET, getenv("GW_LISTEN_IP"), &listen_addr.addr.sin.sin_addr) != 1) {
+        fprintf(stderr, "API Gateway: Error converting listen IP address '%s'. Check GW_LISTEN_IP in gateway.env. Error: %s\n", getenv("GW_LISTEN_IP"), strerror(errno));
         coap_cleanup(); // Cleanup libcoap before exiting
         return EXIT_FAILURE;
     }
@@ -460,7 +457,7 @@ int main(int argc, char *argv[]) {
 
     printf("API Gateway: Listening on %s:%d for CoAP messages (UDP).\n"            
            "(Ctrl+C to quit)\n", 
-           GW_LISTEN_IP, listen_port);
+           getenv("GW_LISTEN_IP"), listen_port);
 
     // Inicializar el estado del grupo de ascensores
     // Por ejemplo, Edificio E1 con 4 ascensores y 14 plantas

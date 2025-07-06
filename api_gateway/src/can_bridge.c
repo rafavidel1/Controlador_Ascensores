@@ -32,8 +32,6 @@
 
 #include "api_gateway/can_bridge.h"
 #include "api_gateway/api_handlers.h" // Para api_request_tracker_t, forward_request_to_central_server, get_or_create_central_server_dtls_session
-#include "api_gateway/coap_config.h"  // Para CENTRAL_SERVER_*_PATH
-#include "api_gateway/api_common_defs.h" // Para LOG_*
 #include "api_gateway/elevator_state_manager.h" // Para las enums y structs de estado, y elevator_group_to_json_for_server
 #include "api_gateway/dtls_common_config.h" // <--- AÑADIDO PARA DTLS PSK DEFINES
 #include "api_gateway/execution_logger.h" // Sistema de logging de ejecuciones
@@ -164,8 +162,8 @@ static void store_can_tracker(coap_bin_const_t token, uint32_t can_id,
     tracker->target_floor_for_task = target_floor;
     tracker->call_reference_floor = ref_floor;
     if (elevator_id_if_cabin) {
-        strncpy(tracker->requesting_elevator_id_if_cabin, elevator_id_if_cabin, ID_STRING_MAX_LEN -1);
-        tracker->requesting_elevator_id_if_cabin[ID_STRING_MAX_LEN -1] = '\0';
+        strncpy(tracker->requesting_elevator_id_if_cabin, elevator_id_if_cabin, atoi(getenv("ID_STRING_MAX_LEN")) -1);
+        tracker->requesting_elevator_id_if_cabin[atoi(getenv("ID_STRING_MAX_LEN")) -1] = '\0';
     } else {
         tracker->requesting_elevator_id_if_cabin[0] = '\0';
     }
@@ -330,7 +328,7 @@ void ag_can_bridge_process_incoming_frame(simulated_can_frame_t* frame, coap_con
                 
                 forward_can_originated_request_to_central_server(
                     coap_ctx, frame->id,
-                    CENTRAL_SERVER_FLOOR_CALL_PATH, 
+                    getenv("FLOOR_CALL_RESOURCE"), 
                     "CAN_FloorCall", 
                     GW_REQUEST_TYPE_FLOOR_CALL, 
                     piso_origen, 
@@ -344,9 +342,9 @@ void ag_can_bridge_process_incoming_frame(simulated_can_frame_t* frame, coap_con
 
         case 0x200: // Ejemplo: Solicitud de cabina
             if (frame->dlc >= 2) {
-                char elevator_id_str[ID_STRING_MAX_LEN];
+                char elevator_id_str[atoi(getenv("ID_STRING_MAX_LEN"))];
                 int elevator_number = frame->data[0] + 1;
-                int max_building_id_len = ID_STRING_MAX_LEN - 1 /*null*/ - 1 /*A*/ - 3 /*NNN for elevator number*/;
+                int max_building_id_len = atoi(getenv("ID_STRING_MAX_LEN")) - 1 /*null*/ - 1 /*A*/ - 3 /*NNN for elevator number*/;
                 if (max_building_id_len < 1) max_building_id_len = 1; // ensure at least 1 char for building id part
 
                 snprintf(elevator_id_str, sizeof(elevator_id_str), "%.*sA%d", 
@@ -358,7 +356,7 @@ void ag_can_bridge_process_incoming_frame(simulated_can_frame_t* frame, coap_con
 
                 forward_can_originated_request_to_central_server(
                     coap_ctx, frame->id,
-                    CENTRAL_SERVER_CABIN_REQUEST_PATH, 
+                    getenv("CABIN_REQUEST_RESOURCE"), 
                     "CAN_CabinReq", 
                     GW_REQUEST_TYPE_CABIN_REQUEST, 
                     -1, // No aplica origin_floor para cabin request aquí como ref_floor para el tracker (podría ser el actual del elevador)
@@ -372,9 +370,9 @@ void ag_can_bridge_process_incoming_frame(simulated_can_frame_t* frame, coap_con
         
         case 0x300: // Ejemplo: Notificación de llegada (esto lo maneja la simulación interna, pero si viniera de CAN)
             if (frame->dlc >= 2) {
-                char elevator_id_str[ID_STRING_MAX_LEN];
+                char elevator_id_str[atoi(getenv("ID_STRING_MAX_LEN"))];
                 int elevator_number = frame->data[0] + 1;
-                int max_building_id_len = ID_STRING_MAX_LEN - 1 /*null*/ - 1 /*A*/ - 3 /*NNN for elevator number*/;
+                int max_building_id_len = atoi(getenv("ID_STRING_MAX_LEN")) - 1 /*null*/ - 1 /*A*/ - 3 /*NNN for elevator number*/;
                 if (max_building_id_len < 1) max_building_id_len = 1; // ensure at least 1 char for building id part
                 
                 snprintf(elevator_id_str, sizeof(elevator_id_str), "%.*sA%d", 
@@ -577,8 +575,8 @@ forward_can_originated_request_to_central_server(
             break;
         case GW_REQUEST_TYPE_CABIN_REQUEST:
             if (requesting_elevator_id_cabin_param) {
-                strncpy(json_details.requesting_elevator_id_cr, requesting_elevator_id_cabin_param, ID_STRING_MAX_LEN - 1);
-                json_details.requesting_elevator_id_cr[ID_STRING_MAX_LEN-1] = '\0';
+                strncpy(json_details.requesting_elevator_id_cr, requesting_elevator_id_cabin_param, atoi(getenv("ID_STRING_MAX_LEN")) - 1);
+                json_details.requesting_elevator_id_cr[atoi(getenv("ID_STRING_MAX_LEN"))-1] = '\0';
             }
             json_details.target_floor_cr = target_floor_for_task_param;
             break;

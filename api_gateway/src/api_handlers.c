@@ -33,9 +33,8 @@
 #include <coap3/coap_net.h> // Include network/context definitions
 
 #include "api_gateway/api_handlers.h" // Corrected path for Definiciones de nuestras funciones y estructuras
-#include <api_gateway/coap_config.h> // Configuraciones de CoAP (IPs, puertos, etc.)
 #include "api_gateway/elevator_state_manager.h" // Para gestionar estado y serializar a JSON
-#include "api_gateway/dtls_common_config.h" // <--- AÑADIDO PARA DTLS PSK DEFINES
+// Eliminar cualquier referencia a dtls_common_config.h
 
 // NUEVA INCLUSIÓN PARA EL PUENTE CAN
 #include "api_gateway/can_bridge.h"

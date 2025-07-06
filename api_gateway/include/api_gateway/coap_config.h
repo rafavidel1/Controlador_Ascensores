@@ -22,7 +22,6 @@
  * Las configuraciones aquí definidas deben coincidir con las rutas
  * y configuraciones del servidor central para garantizar la comunicación.
  * 
- * @see dtls_common_config.h
  * @see servidor_central/main.c
  */
 #ifndef COAP_CONFIG_H
