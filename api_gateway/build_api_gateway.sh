@@ -6,7 +6,7 @@ RED='\033[0;31m'
 NC='\033[0m' # Sin color
 
 # Directorios base
-BASE_DIR="/mnt/d/AATFG/API/Codigo/api_gateway"
+BASE_DIR="/mnt/d/AATFG/API/Codigo/git/api_gateway"
 BUILD_DIR="$BASE_DIR/build"
 
 # Función para verificar comandos
@@ -130,7 +130,6 @@ else
   echo -e "${RED}Error: No se encontró el ejecutable api_gateway en $BUILD_DIR.${NC}"
   exit 1
 fi
-
 # 7. Ejecutar api_gateway
 echo "Ejecutando $API_GATEWAY_EXEC..."
 "$API_GATEWAY_EXEC"

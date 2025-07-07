@@ -53,6 +53,62 @@
 
 #include "api_gateway/logging_gw.h"
 #include "dotenv.h"
+#include <unistd.h> // Para getpid()
+#include "psk_manager.h" // Gestor de claves PSK
+
+// Función para generar identidad única para cada instancia
+static char* generate_unique_identity() {
+    static char identity[64];
+    pid_t pid = getpid();
+    time_t now = time(NULL);
+    snprintf(identity, sizeof(identity), "Gateway_Client_%d_%ld", (int)pid, now);
+    return identity;
+}
+
+// Función para generar clave PSK determinística basada en la identidad
+static char* generate_unique_psk_key() {
+    static char psk_key[128];
+    
+    // Generar identidad única para esta instancia
+    char* unique_identity = generate_unique_identity();
+    
+    // Obtener clave determinística basada en la identidad
+    // Usa el mismo algoritmo que el servidor central
+    if (psk_manager_get_deterministic_key(unique_identity, psk_key, sizeof(psk_key)) == 0) {
+        LOG_DEBUG_GW("[PSK] Clave determinística para identidad '%s': %s", unique_identity, psk_key);
+        return psk_key;
+    }
+    
+    // Si falla, intentar obtener clave aleatoria con reintentos
+    int max_retries = 10;
+    int retry_count = 0;
+    
+    while (retry_count < max_retries) {
+        if (psk_manager_get_random_key(psk_key, sizeof(psk_key)) == 0) {
+            LOG_DEBUG_GW("[PSK] Clave aleatoria seleccionada: %s", psk_key);
+            return psk_key;
+        }
+        
+        retry_count++;
+        LOG_WARN_GW("[PSK] Error obteniendo clave aleatoria (intento %d/%d), reintentando...", retry_count, max_retries);
+        
+        // Pequeña pausa entre reintentos
+        usleep(100000); // 100ms
+    }
+    
+    // Si todos los reintentos fallan, usar la primera clave del archivo como fallback
+    LOG_ERROR_GW("[PSK] Todos los reintentos fallaron. Usando primera clave del archivo como fallback.");
+    if (psk_manager_get_first_key(psk_key, sizeof(psk_key)) == 0) {
+        LOG_INFO_GW("[PSK] Usando primera clave como fallback: %s", psk_key);
+        return psk_key;
+    }
+    
+    // Último recurso: usar una clave hardcodeada que sabemos que está en la lista
+    LOG_ERROR_GW("[PSK] Error crítico: no se pudo obtener ninguna clave PSK válida");
+    strncpy(psk_key, "GatewayKey_00001", sizeof(psk_key) - 1);
+    psk_key[sizeof(psk_key) - 1] = '\0';
+    return psk_key;
+}
 #include "api_gateway/execution_logger.h" // Sistema de logging de ejecuciones
 
 /**
@@ -130,6 +186,17 @@ static coap_context_t *g_coap_context_for_session_mgnt = NULL;
  * - COAP_EVENT_SESSION_FAILED: Sesión falló
  */
 static int event_handler_gw(coap_session_t *session, coap_event_t event) {
+    // Manejar eventos de establecimiento de sesión
+    if (event == COAP_EVENT_DTLS_CONNECTED || event == COAP_EVENT_SESSION_CONNECTED) {
+        if (g_dtls_session_to_central_server && session == g_dtls_session_to_central_server) {
+            LOG_INFO_GW("[EventHandlerGW] Sesión DTLS global (0x%p) establecida exitosamente con servidor central.", (void*)g_dtls_session_to_central_server);
+        } else {
+            LOG_DEBUG_GW("[EventHandlerGW] Sesión DTLS (0x%p) establecida (no es la sesión global).", (void*)session);
+        }
+        return 0;
+    }
+    
+    // Manejar eventos de cierre/error de sesión
     if (event == COAP_EVENT_DTLS_CLOSED || event == COAP_EVENT_DTLS_ERROR || 
         event == COAP_EVENT_SESSION_CLOSED || event == COAP_EVENT_SESSION_FAILED) {
         
@@ -163,6 +230,14 @@ static int event_handler_gw(coap_session_t *session, coap_event_t event) {
             // No gestionamos la liberación de sesiones no globales aquí, el dueño debe hacerlo.
         }
     }
+    
+    // Manejar otros eventos de sesión
+    if (event == COAP_EVENT_DTLS_CONNECTED) {
+        if (g_dtls_session_to_central_server && session == g_dtls_session_to_central_server) {
+            LOG_DEBUG_GW("[EventHandlerGW] Sesión DTLS global (0x%p) conectando con servidor central...", (void*)g_dtls_session_to_central_server);
+        }
+    }
+    
     return 0;
 }
 
@@ -191,48 +266,136 @@ static int event_handler_gw(coap_session_t *session, coap_event_t event) {
  * @see coap_config.h
  */
 coap_session_t* get_or_create_central_server_dtls_session(coap_context_t *ctx) {
+    static int creating_session = 0; // Evitar crear múltiples sesiones simultáneamente
+    
     if (!ctx) {
         LOG_ERROR_GW("[SessionHelper] Contexto CoAP es NULL. No se puede obtener/crear sesión.");
         return NULL;
     }
+    
+    // Si ya estamos creando una sesión, esperar
+    if (creating_session) {
+        LOG_DEBUG_GW("[SessionHelper] Ya se está creando una sesión. Esperando...");
+        int wait_count = 0;
+        while (creating_session && wait_count < 50) { // Esperar hasta 5 segundos
+            coap_io_process(ctx, 100);
+            wait_count++;
+        }
+        if (g_dtls_session_to_central_server && 
+            coap_session_get_state(g_dtls_session_to_central_server) == COAP_SESSION_STATE_ESTABLISHED) {
+            return g_dtls_session_to_central_server;
+        }
+    }
 
+    // Verificar si ya tenemos una sesión establecida y válida
     if (g_dtls_session_to_central_server != NULL && 
-        coap_session_get_state(g_dtls_session_to_central_server) == COAP_SESSION_STATE_ESTABLISHED &&
-        coap_session_get_context(g_dtls_session_to_central_server) == ctx) { // Asegurarse que es del mismo contexto
-        LOG_DEBUG_GW("[SessionHelper] Reutilizando sesión DTLS-PSK existente (0x%p) con servidor central.", (void*)g_dtls_session_to_central_server);
+        coap_session_get_state(g_dtls_session_to_central_server) == COAP_SESSION_STATE_ESTABLISHED) {
+        LOG_DEBUG_GW("[SessionHelper] Reutilizando sesión DTLS-PSK establecida (0x%p) con servidor central.", (void*)g_dtls_session_to_central_server);
         return g_dtls_session_to_central_server;
     }
 
-    // Si la sesión existe pero no está establecida, o es de un contexto diferente, liberarla antes de crear una nueva.
+    // Si la sesión existe pero está en estado CONNECTING, esperar un poco
+    if (g_dtls_session_to_central_server != NULL && 
+        coap_session_get_state(g_dtls_session_to_central_server) == COAP_SESSION_STATE_CONNECTING) {
+        LOG_INFO_GW("[SessionHelper] Sesión DTLS-PSK (0x%p) está conectando. Esperando establecimiento...", (void*)g_dtls_session_to_central_server);
+        
+        // Esperar hasta 5 segundos para que se establezca la sesión
+        int max_wait_attempts = 50; // 50 * 100ms = 5 segundos
+        int wait_count = 0;
+        
+        while (wait_count < max_wait_attempts) {
+            coap_io_process(ctx, 100); // Procesar eventos por 100ms
+            
+            if (coap_session_get_state(g_dtls_session_to_central_server) == COAP_SESSION_STATE_ESTABLISHED) {
+                LOG_INFO_GW("[SessionHelper] Sesión DTLS-PSK (0x%p) establecida exitosamente después de %d intentos.", 
+                           (void*)g_dtls_session_to_central_server, wait_count);
+                return g_dtls_session_to_central_server;
+            } else if (coap_session_get_state(g_dtls_session_to_central_server) == COAP_SESSION_STATE_NONE) {
+                LOG_WARN_GW("[SessionHelper] Sesión DTLS-PSK (0x%p) falló durante la conexión. Creando nueva sesión.", 
+                           (void*)g_dtls_session_to_central_server);
+                break;
+            }
+            
+            wait_count++;
+        }
+        
+        if (wait_count >= max_wait_attempts) {
+            LOG_WARN_GW("[SessionHelper] Timeout esperando establecimiento de sesión DTLS-PSK (0x%p). Creando nueva sesión.", 
+                       (void*)g_dtls_session_to_central_server);
+        }
+    }
+
+    // Si la sesión existe pero no está establecida, liberarla antes de crear una nueva.
     if (g_dtls_session_to_central_server != NULL) {
-        LOG_INFO_GW("[SessionHelper] Sesión DTLS-PSK existente (0x%p) no está establecida o es de otro contexto. Creando una nueva.", (void*)g_dtls_session_to_central_server);
+        LOG_INFO_GW("[SessionHelper] Liberando sesión DTLS-PSK existente (0x%p) para crear una nueva.", (void*)g_dtls_session_to_central_server);
         coap_session_release(g_dtls_session_to_central_server);
         g_dtls_session_to_central_server = NULL;
     }
 
     LOG_INFO_GW("[SessionHelper] Creando NUEVA sesión DTLS-PSK con servidor central.");
+    creating_session = 1; // Marcar que estamos creando una sesión
     coap_address_t central_server_addr;
     coap_address_init(&central_server_addr);
     central_server_addr.addr.sin.sin_family = AF_INET;
-    if (inet_pton(AF_INET, getenv("CENTRAL_SERVER_IP"), &central_server_addr.addr.sin.sin_addr) <= 0) {
-        LOG_ERROR_GW("[SessionHelper] Error convirtiendo IP del servidor central: %s", getenv("CENTRAL_SERVER_IP"));
+    
+    // Obtener y limpiar la IP del servidor central
+    const char* server_ip_raw = getenv("CENTRAL_SERVER_IP") ?: "192.168.49.2";
+    char server_ip[16];
+    strncpy(server_ip, server_ip_raw, sizeof(server_ip) - 1);
+    server_ip[sizeof(server_ip) - 1] = '\0';
+    
+    // Remover caracteres de nueva línea
+    char *newline_server = strchr(server_ip, '\n');
+    if (newline_server) *newline_server = '\0';
+    newline_server = strchr(server_ip, '\r');
+    if (newline_server) *newline_server = '\0';
+    
+    LOG_INFO_GW("[SessionHelper] Debug - server_ip = '%s' (longitud: %d)", server_ip, (int)strlen(server_ip));
+    LOG_INFO_GW("[SessionHelper] Debug - CENTRAL_SERVER_IP env var = '%s'", getenv("CENTRAL_SERVER_IP") ?: "NULL");
+    
+    if (inet_pton(AF_INET, server_ip, &central_server_addr.addr.sin.sin_addr) <= 0) {
+        LOG_ERROR_GW("[SessionHelper] Error convirtiendo IP del servidor central: %s", server_ip);
         return NULL;
     }
-    central_server_addr.addr.sin.sin_port = htons(atoi(getenv("CENTRAL_SERVER_PORT")));
+    
+    // Obtener y limpiar el puerto del servidor central
+    const char* server_port_raw = getenv("CENTRAL_SERVER_PORT") ?: "5684";
+    char server_port_str[8];
+    strncpy(server_port_str, server_port_raw, sizeof(server_port_str) - 1);
+    server_port_str[sizeof(server_port_str) - 1] = '\0';
+    
+    // Remover caracteres de nueva línea
+    char *newline_server_port = strchr(server_port_str, '\n');
+    if (newline_server_port) *newline_server_port = '\0';
+    newline_server_port = strchr(server_port_str, '\r');
+    if (newline_server_port) *newline_server_port = '\0';
+    
+    central_server_addr.addr.sin.sin_port = htons(atoi(server_port_str));
 
+    // Generar identidad y clave únicas para esta instancia
+    char* unique_identity = generate_unique_identity();
+    char* unique_psk_key = generate_unique_psk_key();
+    
+    // Establecer variables de entorno únicas para esta instancia
+    setenv("IDENTITY_TO_PRESENT_TO_SERVER", unique_identity, 1);
+    setenv("KEY_FOR_SERVER", unique_psk_key, 1);
+    
+    LOG_INFO_GW("[SessionHelper] Usando identidad única: '%s'", unique_identity);
+    
     g_dtls_session_to_central_server = coap_new_client_session_psk(ctx,
                                                                    NULL, // local_if
                                                                    &central_server_addr,
                                                                    COAP_PROTO_DTLS,
-                                                                   getenv("IDENTITY_TO_PRESENT_TO_SERVER"),
-                                                                   (const uint8_t *)getenv("KEY_FOR_SERVER"),
-                                                                   strlen(getenv("KEY_FOR_SERVER")));
+                                                                   unique_identity,
+                                                                   (const uint8_t *)unique_psk_key,
+                                                                   strlen(unique_psk_key));
 
     if (!g_dtls_session_to_central_server) {
-        LOG_ERROR_GW("[SessionHelper] Error creando NUEVA sesión DTLS-PSK con servidor central. Identity: '%s'", getenv("IDENTITY_TO_PRESENT_TO_SERVER"));
+        LOG_ERROR_GW("[SessionHelper] Error creando NUEVA sesión DTLS-PSK con servidor central. Identity: '%s'", unique_identity);
         return NULL;
     }
-    LOG_INFO_GW("[SessionHelper] NUEVA Sesión DTLS-PSK (0x%p) creada con servidor central. Identity: '%s'", (void*)g_dtls_session_to_central_server, getenv("IDENTITY_TO_PRESENT_TO_SERVER"));
+    
+    LOG_INFO_GW("[SessionHelper] NUEVA Sesión DTLS-PSK (0x%p) creada con servidor central. Identity: '%s'", (void*)g_dtls_session_to_central_server, unique_identity);
     coap_session_reference(g_dtls_session_to_central_server); // Tomamos una referencia explícita
     
     // Guardar el contexto para el event handler (si no lo hemos hecho ya o si cambia)
@@ -242,7 +405,38 @@ coap_session_t* get_or_create_central_server_dtls_session(coap_context_t *ctx) {
         LOG_DEBUG_GW("[SessionHelper] Manejador de eventos CoAP registrado para la gestión de sesiones DTLS.");
     }
 
-    return g_dtls_session_to_central_server;
+    // Esperar a que la nueva sesión se establezca
+    LOG_INFO_GW("[SessionHelper] Esperando establecimiento de nueva sesión DTLS-PSK (0x%p)...", (void*)g_dtls_session_to_central_server);
+    
+    int max_wait_attempts = 50; // 50 * 100ms = 5 segundos
+    int wait_count = 0;
+    
+    while (wait_count < max_wait_attempts) {
+        coap_io_process(ctx, 100); // Procesar eventos por 100ms
+        
+        if (coap_session_get_state(g_dtls_session_to_central_server) == COAP_SESSION_STATE_ESTABLISHED) {
+            LOG_INFO_GW("[SessionHelper] Nueva sesión DTLS-PSK (0x%p) establecida exitosamente después de %d intentos.", 
+                       (void*)g_dtls_session_to_central_server, wait_count);
+            creating_session = 0; // Desmarcar que estamos creando una sesión
+            return g_dtls_session_to_central_server;
+        } else if (coap_session_get_state(g_dtls_session_to_central_server) == COAP_SESSION_STATE_NONE) {
+            LOG_ERROR_GW("[SessionHelper] Nueva sesión DTLS-PSK (0x%p) falló durante la conexión.", 
+                       (void*)g_dtls_session_to_central_server);
+            coap_session_release(g_dtls_session_to_central_server);
+            g_dtls_session_to_central_server = NULL;
+            creating_session = 0; // Desmarcar que estamos creando una sesión
+            return NULL;
+        }
+        
+        wait_count++;
+    }
+    
+    LOG_ERROR_GW("[SessionHelper] Timeout esperando establecimiento de nueva sesión DTLS-PSK (0x%p).", 
+               (void*)g_dtls_session_to_central_server);
+    coap_session_release(g_dtls_session_to_central_server);
+    g_dtls_session_to_central_server = NULL;
+    creating_session = 0; // Desmarcar que estamos creando una sesión
+    return NULL;
 }
 // --- Fin: Gestión de Sesión DTLS Global para Servidor Central ---
 
@@ -378,11 +572,32 @@ simulate_elevator_group_step(coap_context_t *ctx, elevator_group_state_t *group)
  * @return EXIT_SUCCESS on successful execution and shutdown, EXIT_FAILURE on error.
  */
 int main(int argc, char *argv[]) {
-    env_load("gateway.env", true); // Cargar variables de entorno desde gateway.env
+    printf("API Gateway: Intentando cargar gateway.env...\n");
+    if (env_load("gateway.env", true) != 0) {
+        printf("API Gateway: Error cargando gateway.env\n");
+    } else {
+        printf("API Gateway: gateway.env cargado exitosamente\n");
+    }
     coap_context_t  *ctx = NULL;      // CoAP context
     coap_address_t   listen_addr;    // Address for the gateway to listen on
     int result;                       // Result of CoAP I/O operations
-    int listen_port = atoi(getenv("GW_LISTEN_PORT")); // Puerto por defecto
+    // Obtener y limpiar el puerto
+    const char* port_raw = getenv("GW_LISTEN_PORT") ?: "5683";
+    char port_str[8];
+    strncpy(port_str, port_raw, sizeof(port_str) - 1);
+    port_str[sizeof(port_str) - 1] = '\0';
+    
+    // Remover caracteres de nueva línea
+    char *newline_port = strchr(port_str, '\n');
+    if (newline_port) *newline_port = '\0';
+    newline_port = strchr(port_str, '\r');
+    if (newline_port) *newline_port = '\0';
+    
+    int listen_port = atoi(port_str); // Puerto por defecto
+    
+    // Debug: mostrar valores cargados
+    printf("API Gateway: GW_LISTEN_IP = '%s'\n", getenv("GW_LISTEN_IP") ?: "NULL");
+    printf("API Gateway: GW_LISTEN_PORT = '%s'\n", getenv("GW_LISTEN_PORT") ?: "NULL");
 
     // Procesar argumentos de línea de comandos
     if (argc > 1) {
@@ -421,8 +636,23 @@ int main(int argc, char *argv[]) {
     listen_addr.addr.sin.sin_family = AF_INET; // IPv4
     
     // Convert the listen IP string (from coap_config.h) to a network address.
-    if (inet_pton(AF_INET, getenv("GW_LISTEN_IP"), &listen_addr.addr.sin.sin_addr) != 1) {
-        fprintf(stderr, "API Gateway: Error converting listen IP address '%s'. Check GW_LISTEN_IP in gateway.env. Error: %s\n", getenv("GW_LISTEN_IP"), strerror(errno));
+    const char* listen_ip_raw = getenv("GW_LISTEN_IP") ?: "0.0.0.0";
+    
+    // Limpiar caracteres de nueva línea del valor
+    char listen_ip[16];
+    strncpy(listen_ip, listen_ip_raw, sizeof(listen_ip) - 1);
+    listen_ip[sizeof(listen_ip) - 1] = '\0';
+    
+    // Remover caracteres de nueva línea
+    char *newline = strchr(listen_ip, '\n');
+    if (newline) *newline = '\0';
+    newline = strchr(listen_ip, '\r');
+    if (newline) *newline = '\0';
+    
+
+    
+    if (inet_pton(AF_INET, listen_ip, &listen_addr.addr.sin.sin_addr) != 1) {
+        fprintf(stderr, "API Gateway: Error converting listen IP address '%s'. Check GW_LISTEN_IP in gateway.env. Error: %s\n", listen_ip, strerror(errno));
         coap_cleanup(); // Cleanup libcoap before exiting
         return EXIT_FAILURE;
     }
@@ -457,15 +687,23 @@ int main(int argc, char *argv[]) {
 
     printf("API Gateway: Listening on %s:%d for CoAP messages (UDP).\n"            
            "(Ctrl+C to quit)\n", 
-           getenv("GW_LISTEN_IP"), listen_port);
+           listen_ip, listen_port);
 
     // Inicializar el estado del grupo de ascensores
+    // NOTA: La inicialización se hará desde la simulación JSON, no aquí
     // Por ejemplo, Edificio E1 con 4 ascensores y 14 plantas
     // Los IDs de los ascensores serán E1A1, E1A2, E1A3, E1A4
     init_elevator_group(&managed_elevator_group, "E1", 4, 14); 
     LOG_INFO_GW("API Gateway: Grupo de %d ascensores para edificio '%s' inicializado.", 
                 managed_elevator_group.num_elevadores_en_grupo, 
                 managed_elevator_group.edificio_id_str_grupo);
+
+    // Inicializar gestor de claves PSK
+    if (psk_manager_init("psk_keys.txt") != 0) {
+        LOG_WARN_GW("[Main] No se pudo inicializar el gestor de claves PSK. Continuando con clave fija.");
+    } else {
+        LOG_INFO_GW("[Main] Gestor de claves PSK inicializado correctamente.");
+    }
 
     // Inicialización de la simulación de ascensor (registrará su callback CAN)
     inicializar_mi_simulacion_ascensor();
@@ -502,6 +740,9 @@ int main(int argc, char *argv[]) {
     }
 
     printf("API Gateway: Shutting down...\n");
+    
+    // Finalizar gestor de claves PSK
+    psk_manager_cleanup();
     
     // Finalizar sistema de logging de ejecuciones
     exec_logger_finish();

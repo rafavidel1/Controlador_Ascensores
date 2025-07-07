@@ -57,6 +57,98 @@
 // #include "servidor_central/config.h" // REMOVED as it may not exist or be needed
 #include "servidor_central/logging.h" 
 #include "servidor_central/dtls_common_config.h" // <--- AÑADIDO para PSK_SERVER_HINT, PSK_CLIENT_IDENTITY, PSK_KEY
+#include "psk_validator.h" // Validador de claves PSK
+
+
+
+/**
+ * @brief Callback para configurar sesiones DTLS con timeouts optimizados
+ * @param session Sesión CoAP que se está configurando
+ * @param event Tipo de evento (COAP_EVENT_SERVER_SESSION_NEW)
+ * @param data Datos del evento (no usado)
+ */
+static int session_event_handler(coap_session_t *session,
+                               const coap_event_t event) {
+    if (event == COAP_EVENT_SERVER_SESSION_NEW) {
+        // Configurar timeouts optimizados para la nueva sesión
+        coap_fixed_point_t timeout;
+        timeout.integer_part = 5;      // 5 segundos para ACK
+        timeout.fractional_part = 0;
+        coap_session_set_ack_timeout(session, timeout);
+        
+        coap_fixed_point_t random_factor;
+        random_factor.integer_part = 1;  // 1.5 factor aleatorio para ACK
+        random_factor.fractional_part = 500;  // 0.5 en formato fixed point
+        coap_session_set_ack_random_factor(session, random_factor);
+        
+        coap_session_set_max_retransmit(session, 4);  // Máximo 4 retransmisiones
+        
+        SRV_LOG_DEBUG("Nueva sesión DTLS configurada con timeouts optimizados");
+    } else if (event == COAP_EVENT_DTLS_CLOSED) {
+        SRV_LOG_INFO("=== SESIÓN DTLS CERRADA ===");
+    } else if (event == COAP_EVENT_DTLS_ERROR) {
+        SRV_LOG_ERROR("=== ERROR DTLS ===");
+    } else if (event == COAP_EVENT_SERVER_SESSION_DEL) {
+        SRV_LOG_INFO("=== SESIÓN SERVIDOR ELIMINADA ===");
+    }
+    return 0;
+}
+
+/**
+ * @brief Callback PSK personalizado para aceptar patrones de identidad y clave
+ * @param identity Identidad del cliente
+ * @param coap_session Sesión CoAP
+ * @param arg Argumento de usuario (no usado)
+ * @return Puntero a la clave PSK o NULL si no se encuentra
+ * 
+ * Este callback permite al servidor aceptar cualquier identidad que
+ * empiece con "Gateway_Client_" y usar la clave PSK configurada.
+ * También acepta claves PSK que empiecen con "SecretGateway_".
+ */
+static const coap_bin_const_t *get_psk_info(coap_bin_const_t *identity,
+                                           coap_session_t *session,
+                                           void *arg) {
+    SRV_LOG_INFO("PSK callback: Función ejecutándose...");
+    
+    if (!identity) {
+        SRV_LOG_ERROR("PSK callback: identity es NULL");
+        return NULL;
+    }
+    
+    // Convertir identity a string para verificar patrón
+    char identity_str[256];
+    size_t copy_len = identity->length < sizeof(identity_str) - 1 ? identity->length : sizeof(identity_str) - 1;
+    memcpy(identity_str, identity->s, copy_len);
+    identity_str[copy_len] = '\0';
+    
+    SRV_LOG_INFO("PSK callback: Cliente intentando conectar con identidad: '%s'", identity_str);
+    
+    // Verificar si la identidad empieza con "Gateway_Client_"
+    if (strncmp(identity_str, "Gateway_Client_", 15) == 0) {
+        SRV_LOG_INFO("PSK callback: Identidad aceptada (patrón válido): '%s'", identity_str);
+        
+        // Crear estructura estática para la clave PSK
+        static coap_bin_const_t psk_key;
+        static uint8_t key_buffer[128];
+        
+        // Usar el mismo algoritmo determinístico que el API Gateway
+        // para obtener la clave basada en la identidad
+        if (psk_validator_get_key_for_identity(identity_str, key_buffer, sizeof(key_buffer)) == 0) {
+            size_t key_len = strlen((char*)key_buffer);
+            SRV_LOG_INFO("PSK callback: Clave determinística para identidad '%s': '%s'", identity_str, key_buffer);
+            
+            psk_key.s = key_buffer;
+            psk_key.length = key_len;
+            return &psk_key;
+        } else {
+            SRV_LOG_WARN("PSK callback: No se pudo obtener clave determinística para identidad '%s'", identity_str);
+            return NULL;
+        }
+    } else {
+        SRV_LOG_WARN("PSK callback: Identidad rechazada (patrón inválido): '%s'", identity_str);
+        return NULL;
+    }
+}
 
 /**
  * @brief Ruta del recurso CoAP para peticiones de piso
@@ -351,6 +443,8 @@ static void hnd_floor_call(coap_resource_t *resource, coap_session_t *session,
                            const coap_pdu_t *request, const coap_string_t *query,
                            coap_pdu_t *response)
 {
+    SRV_LOG_INFO("=== MANEJADOR FLOOR CALL EJECUTÁNDOSE ===");
+    SRV_LOG_INFO("=== PETICIÓN POST RECIBIDA EN /peticion_piso ===");
     const coap_str_const_t *uri_path_fc = coap_resource_get_uri_path(resource);
     if (uri_path_fc) {
         SRV_LOG_INFO("Received request on /%.*s (Peticion Piso)", (int)uri_path_fc->length, uri_path_fc->s);
@@ -511,6 +605,7 @@ static void hnd_cabin_request(coap_resource_t *resource, coap_session_t *session
                               const coap_pdu_t *request, const coap_string_t *query,
                               coap_pdu_t *response)
 {
+    SRV_LOG_INFO("=== MANEJADOR CABIN REQUEST EJECUTÁNDOSE ===");
     const coap_str_const_t *uri_path_cr = coap_resource_get_uri_path(resource);
     if (uri_path_cr) {
         SRV_LOG_INFO("Received request on /%.*s (Peticion Cabina)", (int)uri_path_cr->length, uri_path_cr->s);
@@ -636,12 +731,53 @@ int main(int argc, char **argv) {
         return EXIT_FAILURE;
     }
 
-    // Configurar PSK para el contexto del servidor usando la clave y el hint definidos
-    if (!coap_context_set_psk(ctx, PSK_SERVER_HINT, (const uint8_t *)PSK_KEY, strlen(PSK_KEY))) {
-        SRV_LOG_ERROR("Error: No se pudo configurar la información PSK del servidor (coap_context_set_psk falló). Error: %s. Asegúrate de que libcoap esté compilada con soporte DTLS-PSK.", strerror(errno));
+    // Configurar callback PSK personalizado para aceptar patrones de identidad
+    coap_dtls_spsk_t setup_data;
+    memset(&setup_data, 0, sizeof(setup_data));
+    setup_data.version = COAP_DTLS_SPSK_SETUP_VERSION;
+    setup_data.validate_id_call_back = get_psk_info;
+    setup_data.id_call_back_arg = NULL;
+    
+    // Configurar hint (la clave se obtendrá dinámicamente en el callback)
+    setup_data.psk_info.hint.s = (const uint8_t *)PSK_SERVER_HINT;
+    setup_data.psk_info.hint.length = strlen(PSK_SERVER_HINT);
+    
+    SRV_LOG_INFO("Configurando callback PSK personalizado...");
+    SRV_LOG_INFO("Callback function pointer: %p", (void*)get_psk_info);
+    SRV_LOG_INFO("PSK_SERVER_HINT: '%s'", PSK_SERVER_HINT);
+    
+    if (!coap_context_set_psk2(ctx, &setup_data)) {
+        SRV_LOG_ERROR("Error: No se pudo configurar la información PSK del servidor (coap_context_set_psk2 falló).");
     } else {
-        SRV_LOG_INFO("Información PSK del servidor configurada mediante coap_context_set_psk (hint: %s).", PSK_SERVER_HINT);
+        SRV_LOG_INFO("Callback PSK personalizado configurado para aceptar identidades con patrón 'Gateway_Client_*'");
     }
+
+    // Inicializar validador de claves PSK
+    // Intentar diferentes rutas para el archivo de claves
+    const char* psk_paths[] = {
+        "/app/psk_keys.txt",  // Ruta en Docker/Kubernetes
+        "psk_keys.txt",       // Ruta local
+        "./psk_keys.txt"      // Ruta relativa
+    };
+    
+    int psk_initialized = 0;
+    for (int i = 0; i < 3; i++) {
+        if (psk_validator_init(psk_paths[i]) == 0) {
+            SRV_LOG_INFO("Validador de claves PSK inicializado correctamente desde: %s", psk_paths[i]);
+            psk_initialized = 1;
+            break;
+        }
+    }
+    
+    if (!psk_initialized) {
+        SRV_LOG_WARN("No se pudo inicializar el validador de claves PSK desde ninguna ruta. Continuando con validación básica.");
+    }
+
+    // Registrar callback para configurar sesiones DTLS con timeouts optimizados
+    coap_register_event_handler(ctx, session_event_handler);
+    SRV_LOG_INFO("Callback de eventos de sesión registrado para optimizar timeouts DTLS");
+    
+
 
     coap_endpoint_t *endpoint = coap_new_endpoint(ctx, &serv_addr, COAP_PROTO_DTLS);
     if (!endpoint) {
@@ -685,7 +821,7 @@ int main(int argc, char **argv) {
     SRV_LOG_INFO(ANSI_COLOR_GREEN "Stateless CoAP dispatcher server started. Waiting for requests... (Ctrl+C to stop)" ANSI_COLOR_RESET);
 
     while (running) {
-        int result = coap_io_process(ctx, 1000);
+        int result = coap_io_process(ctx, 5000);  // 5 segundos de timeout para mejor estabilidad DTLS
         if (result < 0) {
             SRV_LOG_ERROR("Error in coap_io_process: %d. Shutting down.", result);
             running = 0;
@@ -694,6 +830,10 @@ int main(int argc, char **argv) {
 
 finish:
     SRV_LOG_WARN("Shutting down CoAP server...");
+    
+    // Finalizar validador de claves PSK
+    psk_validator_cleanup();
+    
     if (ctx) {
         coap_free_context(ctx);
         SRV_LOG_INFO("CoAP context freed.");

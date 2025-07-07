@@ -30,6 +30,25 @@
 #include "api_gateway/logging_gw.h"
 #include "api_gateway/execution_logger.h"
 #include "dotenv.h"
+#include <unistd.h> // Para getpid()
+
+// Función para generar identidad única para cada instancia
+static char* generate_unique_identity() {
+    static char identity[64];
+    pid_t pid = getpid();
+    time_t now = time(NULL);
+    snprintf(identity, sizeof(identity), "Gateway_Client_%d_%ld", (int)pid, now);
+    return identity;
+}
+
+// Función para generar clave PSK única para cada instancia
+static char* generate_unique_psk_key() {
+    static char psk_key[128];
+    pid_t pid = getpid();
+    time_t now = time(NULL);
+    snprintf(psk_key, sizeof(psk_key), "SecretGateway_%d_%ld_Key", (int)pid, now);
+    return psk_key;
+}
 
 // Variables globales (igual que en main.c original)
 volatile sig_atomic_t quit_main_loop = 0;
@@ -93,11 +112,21 @@ coap_session_t* get_or_create_central_server_dtls_session(coap_context_t *ctx) {
     }
     server_addr.addr.sin.sin_port = htons(atoi(getenv("CENTRAL_SERVER_PORT")));
 
+    // Generar identidad y clave únicas para esta instancia
+    char* unique_identity = generate_unique_identity();
+    char* unique_psk_key = generate_unique_psk_key();
+    
+    // Establecer variables de entorno únicas para esta instancia
+    setenv("IDENTITY_TO_PRESENT_TO_SERVER", unique_identity, 1);
+    setenv("KEY_FOR_SERVER", unique_psk_key, 1);
+    
+    LOG_INFO_GW("[SessionHelper] Usando identidad única: '%s'", unique_identity);
+    
     // Crear sesión DTLS con PSK
     g_dtls_session_to_central_server = coap_new_client_session_psk(
         ctx, NULL, &server_addr, COAP_PROTO_DTLS,
-        getenv("IDENTITY_TO_PRESENT_TO_SERVER"),
-        (const uint8_t*)getenv("KEY_FOR_SERVER"), strlen(getenv("KEY_FOR_SERVER"))
+        unique_identity,
+        (const uint8_t*)unique_psk_key, strlen(unique_psk_key)
     );
 
     if (!g_dtls_session_to_central_server) {
@@ -202,7 +231,11 @@ static void simulate_elevator_group_step(coap_context_t *ctx, elevator_group_sta
 
 // Función principal modificada
 int main(int argc, char *argv[]) {
-    env_load("gateway.env", true); // Cargar variables de entorno desde gateway.env
+    if (env_load("gateway.env", true) != 0) {
+        printf("API Gateway: Error cargando gateway.env\n");
+    } else {
+        printf("API Gateway: gateway.env cargado exitosamente\n");
+    }
     coap_context_t *ctx = NULL;
     coap_address_t listen_addr;
     int result;

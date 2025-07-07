@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /mnt/d/AATFG/API/Codigo/servidor_central
+CMAKE_SOURCE_DIR = /mnt/d/AATFG/API/Codigo/git/servidor_central
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /mnt/d/AATFG/API/Codigo/servidor_central/build
+CMAKE_BINARY_DIR = /mnt/d/AATFG/API/Codigo/git/servidor_central/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/servidor_central.dir/depend.make
@@ -70,31 +70,48 @@ include CMakeFiles/servidor_central.dir/progress.make
 include CMakeFiles/servidor_central.dir/flags.make
 
 CMakeFiles/servidor_central.dir/src/main.c.o: CMakeFiles/servidor_central.dir/flags.make
-CMakeFiles/servidor_central.dir/src/main.c.o: /mnt/d/AATFG/API/Codigo/servidor_central/src/main.c
+CMakeFiles/servidor_central.dir/src/main.c.o: /mnt/d/AATFG/API/Codigo/git/servidor_central/src/main.c
 CMakeFiles/servidor_central.dir/src/main.c.o: CMakeFiles/servidor_central.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/d/AATFG/API/Codigo/servidor_central/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/servidor_central.dir/src/main.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/servidor_central.dir/src/main.c.o -MF CMakeFiles/servidor_central.dir/src/main.c.o.d -o CMakeFiles/servidor_central.dir/src/main.c.o -c /mnt/d/AATFG/API/Codigo/servidor_central/src/main.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/d/AATFG/API/Codigo/git/servidor_central/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/servidor_central.dir/src/main.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/servidor_central.dir/src/main.c.o -MF CMakeFiles/servidor_central.dir/src/main.c.o.d -o CMakeFiles/servidor_central.dir/src/main.c.o -c /mnt/d/AATFG/API/Codigo/git/servidor_central/src/main.c
 
 CMakeFiles/servidor_central.dir/src/main.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/servidor_central.dir/src/main.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /mnt/d/AATFG/API/Codigo/servidor_central/src/main.c > CMakeFiles/servidor_central.dir/src/main.c.i
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /mnt/d/AATFG/API/Codigo/git/servidor_central/src/main.c > CMakeFiles/servidor_central.dir/src/main.c.i
 
 CMakeFiles/servidor_central.dir/src/main.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/servidor_central.dir/src/main.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /mnt/d/AATFG/API/Codigo/servidor_central/src/main.c -o CMakeFiles/servidor_central.dir/src/main.c.s
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /mnt/d/AATFG/API/Codigo/git/servidor_central/src/main.c -o CMakeFiles/servidor_central.dir/src/main.c.s
+
+CMakeFiles/servidor_central.dir/src/psk_validator.c.o: CMakeFiles/servidor_central.dir/flags.make
+CMakeFiles/servidor_central.dir/src/psk_validator.c.o: /mnt/d/AATFG/API/Codigo/git/servidor_central/src/psk_validator.c
+CMakeFiles/servidor_central.dir/src/psk_validator.c.o: CMakeFiles/servidor_central.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/d/AATFG/API/Codigo/git/servidor_central/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/servidor_central.dir/src/psk_validator.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/servidor_central.dir/src/psk_validator.c.o -MF CMakeFiles/servidor_central.dir/src/psk_validator.c.o.d -o CMakeFiles/servidor_central.dir/src/psk_validator.c.o -c /mnt/d/AATFG/API/Codigo/git/servidor_central/src/psk_validator.c
+
+CMakeFiles/servidor_central.dir/src/psk_validator.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/servidor_central.dir/src/psk_validator.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /mnt/d/AATFG/API/Codigo/git/servidor_central/src/psk_validator.c > CMakeFiles/servidor_central.dir/src/psk_validator.c.i
+
+CMakeFiles/servidor_central.dir/src/psk_validator.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/servidor_central.dir/src/psk_validator.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /mnt/d/AATFG/API/Codigo/git/servidor_central/src/psk_validator.c -o CMakeFiles/servidor_central.dir/src/psk_validator.c.s
 
 # Object files for target servidor_central
 servidor_central_OBJECTS = \
-"CMakeFiles/servidor_central.dir/src/main.c.o"
+"CMakeFiles/servidor_central.dir/src/main.c.o" \
+"CMakeFiles/servidor_central.dir/src/psk_validator.c.o"
 
 # External object files for target servidor_central
 servidor_central_EXTERNAL_OBJECTS =
 
 servidor_central: CMakeFiles/servidor_central.dir/src/main.c.o
+servidor_central: CMakeFiles/servidor_central.dir/src/psk_validator.c.o
 servidor_central: CMakeFiles/servidor_central.dir/build.make
 servidor_central: CMakeFiles/servidor_central.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/mnt/d/AATFG/API/Codigo/servidor_central/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking C executable servidor_central"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/mnt/d/AATFG/API/Codigo/git/servidor_central/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking C executable servidor_central"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/servidor_central.dir/link.txt --verbose=$(VERBOSE)
+	/usr/bin/cmake -E copy_if_different /mnt/d/AATFG/API/Codigo/git/servidor_central/psk_keys.txt /mnt/d/AATFG/API/Codigo/git/servidor_central/build/psk_keys.txt
 
 # Rule to build all files generated by this target.
 CMakeFiles/servidor_central.dir/build: servidor_central
@@ -105,6 +122,6 @@ CMakeFiles/servidor_central.dir/clean:
 .PHONY : CMakeFiles/servidor_central.dir/clean
 
 CMakeFiles/servidor_central.dir/depend:
-	cd /mnt/d/AATFG/API/Codigo/servidor_central/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /mnt/d/AATFG/API/Codigo/servidor_central /mnt/d/AATFG/API/Codigo/servidor_central /mnt/d/AATFG/API/Codigo/servidor_central/build /mnt/d/AATFG/API/Codigo/servidor_central/build /mnt/d/AATFG/API/Codigo/servidor_central/build/CMakeFiles/servidor_central.dir/DependInfo.cmake "--color=$(COLOR)"
+	cd /mnt/d/AATFG/API/Codigo/git/servidor_central/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /mnt/d/AATFG/API/Codigo/git/servidor_central /mnt/d/AATFG/API/Codigo/git/servidor_central /mnt/d/AATFG/API/Codigo/git/servidor_central/build /mnt/d/AATFG/API/Codigo/git/servidor_central/build /mnt/d/AATFG/API/Codigo/git/servidor_central/build/CMakeFiles/servidor_central.dir/DependInfo.cmake "--color=$(COLOR)"
 .PHONY : CMakeFiles/servidor_central.dir/depend
 

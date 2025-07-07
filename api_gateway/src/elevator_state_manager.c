@@ -29,9 +29,11 @@
  */
 
 #include "api_gateway/elevator_state_manager.h"
-#include "api_gateway/execution_logger.h" // Sistema de logging de ejecuciones
+#include "api_gateway/execution_logger.h"
+#include "api_gateway/logging_gw.h" // Para LOG_ERROR_GW, LOG_INFO_GW, etc. // Sistema de logging de ejecuciones
 #include <string.h> // For strcpy, memset, snprintf
 #include <stdio.h> // For snprintf
+#include <stdlib.h> // For atoi, getenv
 
 // --- Implementación de Funciones ---
 

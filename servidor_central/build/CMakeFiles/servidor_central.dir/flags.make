@@ -4,7 +4,7 @@
 # compile C with /usr/bin/cc
 C_DEFINES = 
 
-C_INCLUDES = -I/mnt/d/AATFG/API/Codigo/servidor_central/include -I/mnt/d/AATFG/API/Librerias/libcoap-install-linux/include -I/usr/include/cjson
+C_INCLUDES = -I/mnt/d/AATFG/API/Codigo/git/servidor_central/include -I/mnt/d/AATFG/API/Librerias/libcoap-install-linux/include -I/usr/include/cjson
 
 C_FLAGS = -std=gnu99
 

@@ -57,10 +57,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /mnt/d/AATFG/API/Codigo/servidor_central
+CMAKE_SOURCE_DIR = /mnt/d/AATFG/API/Codigo/git/servidor_central
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /mnt/d/AATFG/API/Codigo/servidor_central/build
+CMAKE_BINARY_DIR = /mnt/d/AATFG/API/Codigo/git/servidor_central/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -132,9 +132,9 @@ install/strip/fast: preinstall/fast
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/AATFG/API/Codigo/servidor_central/build/CMakeFiles /mnt/d/AATFG/API/Codigo/servidor_central/build//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/AATFG/API/Codigo/git/servidor_central/build/CMakeFiles /mnt/d/AATFG/API/Codigo/git/servidor_central/build//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/AATFG/API/Codigo/servidor_central/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/AATFG/API/Codigo/git/servidor_central/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -198,6 +198,30 @@ src/main.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/servidor_central.dir/build.make CMakeFiles/servidor_central.dir/src/main.c.s
 .PHONY : src/main.c.s
 
+src/psk_validator.o: src/psk_validator.c.o
+.PHONY : src/psk_validator.o
+
+# target to build an object file
+src/psk_validator.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/servidor_central.dir/build.make CMakeFiles/servidor_central.dir/src/psk_validator.c.o
+.PHONY : src/psk_validator.c.o
+
+src/psk_validator.i: src/psk_validator.c.i
+.PHONY : src/psk_validator.i
+
+# target to preprocess a source file
+src/psk_validator.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/servidor_central.dir/build.make CMakeFiles/servidor_central.dir/src/psk_validator.c.i
+.PHONY : src/psk_validator.c.i
+
+src/psk_validator.s: src/psk_validator.c.s
+.PHONY : src/psk_validator.s
+
+# target to generate assembly for a file
+src/psk_validator.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/servidor_central.dir/build.make CMakeFiles/servidor_central.dir/src/psk_validator.c.s
+.PHONY : src/psk_validator.c.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -214,6 +238,9 @@ help:
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/psk_validator.o"
+	@echo "... src/psk_validator.i"
+	@echo "... src/psk_validator.s"
 .PHONY : help
 
 

@@ -1,0 +1,5504 @@
+{
+  "edificios": [
+    {
+      "id_edificio": "E001",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 1,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 4
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 3,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 1
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 8,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 6
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 0,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 3
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 3,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 3
+        }
+      ]
+    },
+    {
+      "id_edificio": "E002",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 8,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 7
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 9,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 2
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 6,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 2
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 3,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 1
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 6,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 5
+        }
+      ]
+    },
+    {
+      "id_edificio": "E003",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 9,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 7
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 8,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 1
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 8,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 9
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 5,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 1
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 0,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 1
+        }
+      ]
+    },
+    {
+      "id_edificio": "E004",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 3,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 4
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 7,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 5
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 5,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 4
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 1,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 3
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 2,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 4
+        }
+      ]
+    },
+    {
+      "id_edificio": "E005",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 8,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 5
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 0,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 5
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 6,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 3
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 9,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 7
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 6,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 4
+        }
+      ]
+    },
+    {
+      "id_edificio": "E006",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 2,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 8
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 8,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 9
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 6,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 3
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 2,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 0
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 1,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 2
+        }
+      ]
+    },
+    {
+      "id_edificio": "E007",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 6,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 6
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 9,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 4
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 8,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 1
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 8,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 5
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 1,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 2
+        }
+      ]
+    },
+    {
+      "id_edificio": "E008",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 7,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 4
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 8,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 1
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 4,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 5
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 2,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 5
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 7,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 5
+        }
+      ]
+    },
+    {
+      "id_edificio": "E009",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 4,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 3
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 9,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 7
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 1,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 7
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 8,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 8
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 9,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 8
+        }
+      ]
+    },
+    {
+      "id_edificio": "E010",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 3,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 5
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 7,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 3
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 3,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 0
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 9,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 3
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 0,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 0
+        }
+      ]
+    },
+    {
+      "id_edificio": "E011",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 3,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 5
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 1,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 7
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 3,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 9
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 9,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 7
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 6,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 1
+        }
+      ]
+    },
+    {
+      "id_edificio": "E012",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 6,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 6
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 7,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 1
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 0,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 5
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 1,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 3
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 8,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 6
+        }
+      ]
+    },
+    {
+      "id_edificio": "E013",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 2,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 3
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 1,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 1
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 0,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 3
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 2,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 7
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 3,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 2
+        }
+      ]
+    },
+    {
+      "id_edificio": "E014",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 6,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 4
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 7,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 8
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 7,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 4
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 3,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 8
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 0,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 0
+        }
+      ]
+    },
+    {
+      "id_edificio": "E015",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 9,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 8
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 2,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 1
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 2,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 1
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 3,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 9
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 3,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 1
+        }
+      ]
+    },
+    {
+      "id_edificio": "E016",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 6,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 3
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 5,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 6
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 2,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 5
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 1,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 9
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 9,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 8
+        }
+      ]
+    },
+    {
+      "id_edificio": "E017",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 3,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 5
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 1,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 4
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 2,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 4
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 9,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 8
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 4,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 4
+        }
+      ]
+    },
+    {
+      "id_edificio": "E018",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 1,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 8
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 2,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 9
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 3,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 4
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 8,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 0
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 1,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 0
+        }
+      ]
+    },
+    {
+      "id_edificio": "E019",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 0,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 4
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 2,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 6
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 8,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 1
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 2,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 9
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 8,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 2
+        }
+      ]
+    },
+    {
+      "id_edificio": "E020",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 0,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 0
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 5,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 3
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 1,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 6
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 9,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 2
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 2,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 2
+        }
+      ]
+    },
+    {
+      "id_edificio": "E021",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 5,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 3
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 4,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 1
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 6,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 3
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 3,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 4
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 3,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 3
+        }
+      ]
+    },
+    {
+      "id_edificio": "E022",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 6,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 1
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 4,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 8
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 6,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 1
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 4,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 4
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 0,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 6
+        }
+      ]
+    },
+    {
+      "id_edificio": "E023",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 5,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 9
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 8,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 9
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 3,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 6
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 0,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 6
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 1,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 5
+        }
+      ]
+    },
+    {
+      "id_edificio": "E024",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 1,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 4
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 6,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 4
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 8,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 6
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 6,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 9
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 4,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 0
+        }
+      ]
+    },
+    {
+      "id_edificio": "E025",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 4,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 6
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 9,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 7
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 7,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 7
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 2,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 8
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 9,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 3
+        }
+      ]
+    },
+    {
+      "id_edificio": "E026",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 4,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 2
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 0,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 7
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 9,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 6
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 9,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 6
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 7,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 2
+        }
+      ]
+    },
+    {
+      "id_edificio": "E027",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 0,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 3
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 2,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 8
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 3,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 2
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 7,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 9
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 8,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 7
+        }
+      ]
+    },
+    {
+      "id_edificio": "E028",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 2,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 4
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 3,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 7
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 3,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 1
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 4,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 5
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 5,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 2
+        }
+      ]
+    },
+    {
+      "id_edificio": "E029",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 3,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 2
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 3,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 6
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 5,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 0
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 3,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 9
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 0,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 0
+        }
+      ]
+    },
+    {
+      "id_edificio": "E030",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 5,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 6
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 8,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 3
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 4,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 0
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 6,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 6
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 2,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 9
+        }
+      ]
+    },
+    {
+      "id_edificio": "E031",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 8,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 9
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 9,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 6
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 2,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 0
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 4,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 3
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 7,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 6
+        }
+      ]
+    },
+    {
+      "id_edificio": "E032",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 4,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 1
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 7,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 8
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 0,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 1
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 0,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 3
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 0,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 2
+        }
+      ]
+    },
+    {
+      "id_edificio": "E033",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 7,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 3
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 7,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 2
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 9,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 4
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 1,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 9
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 6,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 3
+        }
+      ]
+    },
+    {
+      "id_edificio": "E034",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 1,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 4
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 9,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 0
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 5,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 5
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 1,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 6
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 7,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 5
+        }
+      ]
+    },
+    {
+      "id_edificio": "E035",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 7,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 2
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 8,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 8
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 7,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 9
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 4,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 1
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 4,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 7
+        }
+      ]
+    },
+    {
+      "id_edificio": "E036",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 9,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 0
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 7,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 7
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 3,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 5
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 4,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 0
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 8,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 3
+        }
+      ]
+    },
+    {
+      "id_edificio": "E037",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 6,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 3
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 7,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 0
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 1,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 6
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 3,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 9
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 5,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 8
+        }
+      ]
+    },
+    {
+      "id_edificio": "E038",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 5,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 8
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 5,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 7
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 4,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 3
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 1,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 1
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 8,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 3
+        }
+      ]
+    },
+    {
+      "id_edificio": "E039",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 7,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 9
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 8,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 3
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 4,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 2
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 4,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 8
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 2,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 0
+        }
+      ]
+    },
+    {
+      "id_edificio": "E040",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 8,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 2
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 7,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 9
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 4,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 7
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 5,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 4
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 7,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 6
+        }
+      ]
+    },
+    {
+      "id_edificio": "E041",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 7,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 0
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 2,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 4
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 1,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 8
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 6,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 6
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 7,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 9
+        }
+      ]
+    },
+    {
+      "id_edificio": "E042",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 6,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 9
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 0,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 3
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 4,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 3
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 2,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 0
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 6,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 9
+        }
+      ]
+    },
+    {
+      "id_edificio": "E043",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 7,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 3
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 4,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 7
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 1,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 9
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 3,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 8
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 3,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 2
+        }
+      ]
+    },
+    {
+      "id_edificio": "E044",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 1,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 4
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 9,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 1
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 7,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 6
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 4,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 1
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 9,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 5
+        }
+      ]
+    },
+    {
+      "id_edificio": "E045",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 9,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 1
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 3,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 4
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 9,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 7
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 8,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 2
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 9,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 7
+        }
+      ]
+    },
+    {
+      "id_edificio": "E046",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 1,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 6
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 5,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 1
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 2,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 7
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 4,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 0
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 7,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 4
+        }
+      ]
+    },
+    {
+      "id_edificio": "E047",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 5,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 8
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 0,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 0
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 3,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 7
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 7,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 4
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 8,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 7
+        }
+      ]
+    },
+    {
+      "id_edificio": "E048",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 7,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 9
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 3,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 8
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 0,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 3
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 1,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 2
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 7,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 4
+        }
+      ]
+    },
+    {
+      "id_edificio": "E049",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 6,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 3
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 7,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 3
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 9,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 4
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 6,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 4
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 0,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 4
+        }
+      ]
+    },
+    {
+      "id_edificio": "E050",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 9,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 7
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 8,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 5
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 8,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 5
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 3,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 6
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 3,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 5
+        }
+      ]
+    },
+    {
+      "id_edificio": "E051",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 7,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 2
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 7,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 8
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 9,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 7
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 1,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 2
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 6,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 7
+        }
+      ]
+    },
+    {
+      "id_edificio": "E052",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 4,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 6
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 1,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 8
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 6,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 7
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 8,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 1
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 3,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 1
+        }
+      ]
+    },
+    {
+      "id_edificio": "E053",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 6,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 1
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 7,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 4
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 0,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 0
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 4,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 6
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 2,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 6
+        }
+      ]
+    },
+    {
+      "id_edificio": "E054",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 9,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 2
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 1,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 3
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 7,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 7
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 4,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 0
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 7,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 8
+        }
+      ]
+    },
+    {
+      "id_edificio": "E055",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 2,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 5
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 9,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 6
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 4,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 3
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 6,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 3
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 6,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 4
+        }
+      ]
+    },
+    {
+      "id_edificio": "E056",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 4,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 6
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 4,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 0
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 9,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 3
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 9,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 3
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 9,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 2
+        }
+      ]
+    },
+    {
+      "id_edificio": "E057",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 1,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 7
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 0,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 2
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 1,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 6
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 2,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 8
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 5,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 4
+        }
+      ]
+    },
+    {
+      "id_edificio": "E058",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 7,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 5
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 1,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 2
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 3,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 5
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 1,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 4
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 8,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 5
+        }
+      ]
+    },
+    {
+      "id_edificio": "E059",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 4,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 5
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 1,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 0
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 9,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 3
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 1,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 4
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 6,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 0
+        }
+      ]
+    },
+    {
+      "id_edificio": "E060",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 0,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 1
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 1,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 2
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 6,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 8
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 6,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 1
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 7,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 0
+        }
+      ]
+    },
+    {
+      "id_edificio": "E061",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 5,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 7
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 3,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 5
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 8,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 6
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 4,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 7
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 1,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 9
+        }
+      ]
+    },
+    {
+      "id_edificio": "E062",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 0,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 3
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 2,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 8
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 3,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 5
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 2,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 2
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 2,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 1
+        }
+      ]
+    },
+    {
+      "id_edificio": "E063",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 0,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 5
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 3,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 2
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 4,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 6
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 8,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 1
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 7,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 8
+        }
+      ]
+    },
+    {
+      "id_edificio": "E064",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 9,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 8
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 3,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 8
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 4,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 0
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 0,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 6
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 1,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 7
+        }
+      ]
+    },
+    {
+      "id_edificio": "E065",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 1,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 9
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 2,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 4
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 9,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 9
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 8,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 8
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 9,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 1
+        }
+      ]
+    },
+    {
+      "id_edificio": "E066",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 8,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 7
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 3,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 7
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 6,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 1
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 5,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 4
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 5,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 7
+        }
+      ]
+    },
+    {
+      "id_edificio": "E067",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 1,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 1
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 6,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 5
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 2,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 8
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 8,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 1
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 6,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 6
+        }
+      ]
+    },
+    {
+      "id_edificio": "E068",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 0,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 4
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 5,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 8
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 3,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 7
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 3,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 8
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 5,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 9
+        }
+      ]
+    },
+    {
+      "id_edificio": "E069",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 3,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 9
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 9,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 4
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 0,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 4
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 5,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 2
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 2,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 2
+        }
+      ]
+    },
+    {
+      "id_edificio": "E070",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 0,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 8
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 3,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 7
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 5,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 4
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 5,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 2
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 2,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 1
+        }
+      ]
+    },
+    {
+      "id_edificio": "E071",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 4,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 6
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 7,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 4
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 3,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 6
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 1,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 9
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 7,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 3
+        }
+      ]
+    },
+    {
+      "id_edificio": "E072",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 6,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 3
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 4,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 4
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 4,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 0
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 7,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 2
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 6,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 8
+        }
+      ]
+    },
+    {
+      "id_edificio": "E073",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 5,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 0
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 6,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 1
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 5,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 6
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 6,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 6
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 0,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 9
+        }
+      ]
+    },
+    {
+      "id_edificio": "E074",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 7,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 6
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 1,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 9
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 6,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 4
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 5,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 2
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 1,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 8
+        }
+      ]
+    },
+    {
+      "id_edificio": "E075",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 3,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 2
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 3,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 4
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 3,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 2
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 1,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 7
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 7,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 9
+        }
+      ]
+    },
+    {
+      "id_edificio": "E076",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 9,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 5
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 2,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 7
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 7,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 9
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 0,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 1
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 4,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 0
+        }
+      ]
+    },
+    {
+      "id_edificio": "E077",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 0,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 1
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 1,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 9
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 8,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 9
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 3,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 7
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 8,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 7
+        }
+      ]
+    },
+    {
+      "id_edificio": "E078",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 1,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 1
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 8,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 3
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 7,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 8
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 9,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 5
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 4,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 5
+        }
+      ]
+    },
+    {
+      "id_edificio": "E079",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 9,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 5
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 1,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 8
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 6,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 9
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 2,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 9
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 2,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 6
+        }
+      ]
+    },
+    {
+      "id_edificio": "E080",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 2,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 8
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 6,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 8
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 1,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 5
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 0,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 2
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 3,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 3
+        }
+      ]
+    },
+    {
+      "id_edificio": "E081",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 3,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 1
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 4,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 8
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 8,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 5
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 9,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 6
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 2,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 9
+        }
+      ]
+    },
+    {
+      "id_edificio": "E082",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 2,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 6
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 5,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 9
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 4,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 8
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 3,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 3
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 5,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 4
+        }
+      ]
+    },
+    {
+      "id_edificio": "E083",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 6,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 3
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 9,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 0
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 7,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 1
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 8,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 1
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 2,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 8
+        }
+      ]
+    },
+    {
+      "id_edificio": "E084",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 2,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 3
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 7,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 6
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 0,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 5
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 3,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 5
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 3,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 1
+        }
+      ]
+    },
+    {
+      "id_edificio": "E085",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 5,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 0
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 4,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 2
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 7,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 0
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 1,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 3
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 2,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 4
+        }
+      ]
+    },
+    {
+      "id_edificio": "E086",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 3,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 0
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 3,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 9
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 7,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 7
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 9,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 8
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 9,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 2
+        }
+      ]
+    },
+    {
+      "id_edificio": "E087",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 4,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 9
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 5,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 6
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 2,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 5
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 1,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 7
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 0,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 4
+        }
+      ]
+    },
+    {
+      "id_edificio": "E088",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 0,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 5
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 3,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 5
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 2,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 8
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 5,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 7
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 7,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 1
+        }
+      ]
+    },
+    {
+      "id_edificio": "E089",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 7,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 3
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 0,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 5
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 4,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 7
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 4,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 3
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 4,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 5
+        }
+      ]
+    },
+    {
+      "id_edificio": "E090",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 4,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 6
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 6,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 5
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 2,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 7
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 5,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 6
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 1,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 2
+        }
+      ]
+    },
+    {
+      "id_edificio": "E091",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 8,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 1
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 1,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 4
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 4,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 6
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 2,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 7
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 0,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 6
+        }
+      ]
+    },
+    {
+      "id_edificio": "E092",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 4,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 6
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 5,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 2
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 9,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 2
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 1,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 5
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 5,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 0
+        }
+      ]
+    },
+    {
+      "id_edificio": "E093",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 9,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 7
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 5,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 1
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 9,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 5
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 6,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 4
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 3,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 2
+        }
+      ]
+    },
+    {
+      "id_edificio": "E094",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 7,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 1
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 4,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 7
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 3,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 7
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 3,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 1
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 7,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 7
+        }
+      ]
+    },
+    {
+      "id_edificio": "E095",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 1,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 5
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 1,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 2
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 2,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 3
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 1,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 3
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 7,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 8
+        }
+      ]
+    },
+    {
+      "id_edificio": "E096",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 9,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 8
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 2,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 4
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 6,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 6
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 6,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 5
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 1,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 8
+        }
+      ]
+    },
+    {
+      "id_edificio": "E097",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 5,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 9
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 2,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 8
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 0,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 2
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 4,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 5
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 3,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 4
+        }
+      ]
+    },
+    {
+      "id_edificio": "E098",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 1,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 8
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 4,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 4
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 9,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 2
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 9,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 9
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 9,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 0
+        }
+      ]
+    },
+    {
+      "id_edificio": "E099",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 0,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 9
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 4,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 2,
+          "piso_destino": 6
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 9,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 8
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 4,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 3
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 6,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 1
+        }
+      ]
+    },
+    {
+      "id_edificio": "E100",
+      "peticiones": [
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 0,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 6
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 7,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 5
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 9,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 5
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 5,
+          "direccion": "down"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 0,
+          "piso_destino": 5
+        },
+        {
+          "tipo": "llamada_piso",
+          "piso_origen": 8,
+          "direccion": "up"
+        },
+        {
+          "tipo": "solicitud_cabina",
+          "indice_ascensor": 1,
+          "piso_destino": 3
+        }
+      ]
+    }
+  ]
+}

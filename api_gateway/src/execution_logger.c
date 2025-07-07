@@ -253,23 +253,43 @@ bool exec_logger_init(void) {
         printf("[EXEC_LOGGER] Directorio de trabajo actual: %s\n", cwd);
     }
     
+    // Verificar si hay variables de entorno únicas para esta instancia
+    const char* instance_id = getenv("GATEWAY_INSTANCE_ID");
+    const char* instance_port = getenv("GATEWAY_PORT");
+    const char* custom_log_dir = getenv("GATEWAY_LOG_DIR");
+    
     // Determinar la ruta base correcta para los logs
     char base_logs_dir[512];  // Aumentar tamaño del buffer
     
-    // Verificar si estamos en build/ o en api_gateway/
-    struct stat st = {0};
-    if (stat("../logs", &st) == 0) {
-        // Estamos en build/, los logs están en ../logs
-        strcpy(base_logs_dir, "../logs");
-        printf("[EXEC_LOGGER] Detectado: ejecutando desde build/, usando ../logs\n");
-    } else if (stat("logs", &st) == 0) {
-        // Estamos en api_gateway/, usar logs directamente
-        strcpy(base_logs_dir, "logs");
-        printf("[EXEC_LOGGER] Detectado: ejecutando desde api_gateway/, usando logs\n");
+    if (custom_log_dir && strlen(custom_log_dir) > 0) {
+        // Usar directorio personalizado si se especifica
+        strcpy(base_logs_dir, custom_log_dir);
+        printf("[EXEC_LOGGER] Usando directorio personalizado: %s\n", base_logs_dir);
     } else {
-        // Crear logs en el directorio padre (desde build/)
-        strcpy(base_logs_dir, "../logs");
-        printf("[EXEC_LOGGER] Creando logs en: ../logs\n");
+        // Verificar si estamos en build/ o en api_gateway/
+        struct stat st = {0};
+        if (stat("../logs", &st) == 0) {
+            // Estamos en build/, los logs están en ../logs
+            strcpy(base_logs_dir, "../logs");
+            printf("[EXEC_LOGGER] Detectado: ejecutando desde build/, usando ../logs\n");
+        } else if (stat("logs", &st) == 0) {
+            // Estamos en api_gateway/, usar logs directamente
+            strcpy(base_logs_dir, "logs");
+            printf("[EXEC_LOGGER] Detectado: ejecutando desde api_gateway/, usando logs\n");
+        } else {
+            // Crear logs en el directorio padre (desde build/)
+            strcpy(base_logs_dir, "../logs");
+            printf("[EXEC_LOGGER] Creando logs en: ../logs\n");
+        }
+        
+        // Si hay ID de instancia, crear subdirectorio único
+        if (instance_id && instance_port) {
+            char instance_dir[1024];
+            snprintf(instance_dir, sizeof(instance_dir), "%s/instance_%s_port_%s", 
+                    base_logs_dir, instance_id, instance_port);
+            strcpy(base_logs_dir, instance_dir);
+            printf("[EXEC_LOGGER] Creando directorio único para instancia: %s\n", base_logs_dir);
+        }
     }
     
     // Crear estructura de directorios

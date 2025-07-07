@@ -1,1 +1,1 @@
-/usr/bin/cc CMakeFiles/servidor_central.dir/src/main.c.o -o servidor_central   -L/mnt/d/AATFG/API/Librerias/libcoap-install-linux/lib  -Wl,-rpath,/mnt/d/AATFG/API/Librerias/libcoap-install-linux/lib: -lcoap-3-openssl -lcjson 
+/usr/bin/cc CMakeFiles/servidor_central.dir/src/main.c.o CMakeFiles/servidor_central.dir/src/psk_validator.c.o -o servidor_central   -L/mnt/d/AATFG/API/Librerias/libcoap-install-linux/lib  -Wl,-rpath,/mnt/d/AATFG/API/Librerias/libcoap-install-linux/lib: -lcoap-3-openssl -lcjson 

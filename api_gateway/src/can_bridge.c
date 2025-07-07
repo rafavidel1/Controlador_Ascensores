@@ -33,7 +33,7 @@
 #include "api_gateway/can_bridge.h"
 #include "api_gateway/api_handlers.h" // Para api_request_tracker_t, forward_request_to_central_server, get_or_create_central_server_dtls_session
 #include "api_gateway/elevator_state_manager.h" // Para las enums y structs de estado, y elevator_group_to_json_for_server
-#include "api_gateway/dtls_common_config.h" // <--- AÑADIDO PARA DTLS PSK DEFINES
+// #include "api_gateway/dtls_common_config.h" // <--- ELIMINADO: Migrado a variables de entorno
 #include "api_gateway/execution_logger.h" // Sistema de logging de ejecuciones
 
 #include <coap3/coap.h> 
@@ -633,10 +633,35 @@ forward_can_originated_request_to_central_server(
     // ---- Añadir Opciones de URI (Uri-Path) ----
     char qualified_target_path[256];
     const char* path_to_use = central_server_path;
-    if (path_to_use[0] == '/') {
-        strncpy(qualified_target_path, path_to_use, sizeof(qualified_target_path) - 1);
+    
+    // Limpiar la cadena de caracteres de control y espacios
+    char cleaned_path[256];
+    size_t cleaned_len = 0;
+    for (size_t i = 0; path_to_use[i] != '\0' && i < sizeof(cleaned_path) - 1; i++) {
+        if (path_to_use[i] != '\r' && path_to_use[i] != '\n' && path_to_use[i] != '\t') {
+            cleaned_path[cleaned_len++] = path_to_use[i];
+        }
+    }
+    cleaned_path[cleaned_len] = '\0';
+    
+    // Eliminar espacios al final
+    while (cleaned_len > 0 && (cleaned_path[cleaned_len-1] == ' ' || cleaned_path[cleaned_len-1] == '\t')) {
+        cleaned_path[--cleaned_len] = '\0';
+    }
+    
+    if (cleaned_path[0] == '/') {
+        strncpy(qualified_target_path, cleaned_path, sizeof(qualified_target_path) - 1);
     } else {
-        snprintf(qualified_target_path, sizeof(qualified_target_path), "/%s", path_to_use);
+        // Verificar que hay espacio suficiente para "/" + cleaned_path + null terminator
+        size_t max_path_len = sizeof(qualified_target_path) - 1; // Reservar espacio para null terminator
+        if (strlen(cleaned_path) + 1 <= max_path_len) { // +1 para el "/"
+            snprintf(qualified_target_path, sizeof(qualified_target_path), "/%s", cleaned_path);
+        } else {
+            // Si es demasiado largo, truncar
+            strncpy(qualified_target_path, "/", sizeof(qualified_target_path) - 1);
+            size_t remaining_space = sizeof(qualified_target_path) - 2; // -2 para "/" y null terminator
+            strncat(qualified_target_path, cleaned_path, remaining_space);
+        }
     }
     qualified_target_path[sizeof(qualified_target_path) - 1] = '\0';
 
@@ -676,6 +701,15 @@ forward_can_originated_request_to_central_server(
         }
     }
 
+    // ---- Verificar estado de sesión antes de enviar ----
+    coap_session_state_t session_state = coap_session_get_state(session_to_central);
+    if (session_state != COAP_SESSION_STATE_ESTABLISHED) {
+        LOG_ERROR_GW(ANSI_COLOR_RED "[%s] Error: Sesión DTLS no establecida (estado: %d). No se puede enviar petición." ANSI_COLOR_RESET "\n", log_tag_param, session_state);
+        coap_delete_pdu(pdu_to_central);
+        free(json_payload_str);
+        return;
+    }
+    
     // ---- Enviar PDU ----
     LOG_INFO_GW(ANSI_COLOR_CYAN "[%s] Gateway (Origen CAN ID: 0x%X) -> Central: Enviando solicitud..." ANSI_COLOR_RESET "\n", log_tag_param, original_can_id);
     

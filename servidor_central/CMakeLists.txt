@@ -39,6 +39,7 @@ link_directories(
 # Add executable
 add_executable(servidor_central
     src/main.c
+    src/psk_validator.c
     # src/database_manager.c # Removed
 )
 
@@ -48,6 +49,13 @@ target_link_libraries(servidor_central
     ${LIBCOAP_LIBRARIES}
     # ${SQLITE3_LIBRARIES}   # Remove SQLite3
     ${CJSON_LIBRARIES}      # Keep cJSON
+)
+
+# Copy psk_keys.txt to build directory
+add_custom_command(TARGET servidor_central POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    ${CMAKE_CURRENT_SOURCE_DIR}/psk_keys.txt
+    $<TARGET_FILE_DIR:servidor_central>/psk_keys.txt
 )
 
 # Installation (optional, but good practice)

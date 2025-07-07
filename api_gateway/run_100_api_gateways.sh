@@ -169,7 +169,17 @@ run_instance() {
     local log_file="$LOG_DIR/gateway_${instance_id}_port_${port}.log"
     
     cd "$SCRIPT_DIR"
-    nohup ./"$EXECUTABLE" "$port" > "$log_file" 2>&1 &
+    
+    # Crear directorio único para logs de esta instancia
+    local instance_log_dir="logs/instance_${instance_id}_port_${port}"
+    mkdir -p "$instance_log_dir"
+    
+    # Ejecutar con variables de entorno únicas
+    nohup env \
+        GATEWAY_INSTANCE_ID="${instance_id}" \
+        GATEWAY_PORT="${port}" \
+        GATEWAY_LOG_DIR="${instance_log_dir}" \
+        ./"$EXECUTABLE" "$port" > "$log_file" 2>&1 &
     local pid=$!
     
     echo "$pid" > "$LOG_DIR/pid_${instance_id}.txt"

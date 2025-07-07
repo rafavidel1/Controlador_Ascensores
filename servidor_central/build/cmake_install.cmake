@@ -1,4 +1,4 @@
-# Install script for directory: /mnt/d/AATFG/API/Codigo/servidor_central
+# Install script for directory: /mnt/d/AATFG/API/Codigo/git/servidor_central
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -49,7 +49,7 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT
          FILE "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/servidor_central"
          RPATH "")
   endif()
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/bin" TYPE EXECUTABLE FILES "/mnt/d/AATFG/API/Codigo/servidor_central/build/servidor_central")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/bin" TYPE EXECUTABLE FILES "/mnt/d/AATFG/API/Codigo/git/servidor_central/build/servidor_central")
   if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/servidor_central" AND
      NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/bin/servidor_central")
     file(RPATH_CHANGE
@@ -63,7 +63,7 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  include("/mnt/d/AATFG/API/Codigo/servidor_central/build/CMakeFiles/servidor_central.dir/install-cxx-module-bmi-noconfig.cmake" OPTIONAL)
+  include("/mnt/d/AATFG/API/Codigo/git/servidor_central/build/CMakeFiles/servidor_central.dir/install-cxx-module-bmi-noconfig.cmake" OPTIONAL)
 endif()
 
 if(CMAKE_INSTALL_COMPONENT)
@@ -74,5 +74,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/mnt/d/AATFG/API/Codigo/servidor_central/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/mnt/d/AATFG/API/Codigo/git/servidor_central/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

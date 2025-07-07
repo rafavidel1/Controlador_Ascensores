@@ -1,5 +1,5 @@
 CMakeFiles/servidor_central.dir/src/main.c.o: \
- /mnt/d/AATFG/API/Codigo/servidor_central/src/main.c \
+ /mnt/d/AATFG/API/Codigo/git/servidor_central/src/main.c \
  /usr/include/stdc-predef.h /usr/include/stdio.h \
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
  /usr/include/features.h /usr/include/features-time64.h \
@@ -164,5 +164,6 @@ CMakeFiles/servidor_central.dir/src/main.c.o: \
  /mnt/d/AATFG/API/Librerias/libcoap-install-linux/include/coap3/coap_uri.h \
  /mnt/d/AATFG/API/Librerias/libcoap-install-linux/include/coap3/coap_ws.h \
  /usr/include/cjson/cJSON.h \
- /mnt/d/AATFG/API/Codigo/servidor_central/include/servidor_central/logging.h \
- /mnt/d/AATFG/API/Codigo/servidor_central/include/servidor_central/dtls_common_config.h
+ /mnt/d/AATFG/API/Codigo/git/servidor_central/include/servidor_central/logging.h \
+ /mnt/d/AATFG/API/Codigo/git/servidor_central/include/servidor_central/dtls_common_config.h \
+ /mnt/d/AATFG/API/Codigo/git/servidor_central/src/psk_validator.h

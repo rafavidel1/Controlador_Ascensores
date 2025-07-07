@@ -148,12 +148,13 @@ sistema-control-ascensores/
 - ✅ **Escalabilidad**: Soporte para múltiples gateways simultáneos
 - ✅ **Kubernetes Ready**: Configuración para despliegue en contenedores
 
-### 🔒 **Seguridad Robusta**
-- ✅ **DTLS 1.2**: Cifrado de extremo a extremo
-- ✅ **Pre-Shared Keys**: Autenticación mutua simplificada
-- ✅ **Validación de Entrada**: Sanitización completa de datos
-- ✅ **Auditoría**: Registro completo de eventos de seguridad
-- ✅ **Aislamiento**: Comunicación segura entre componentes
+### 🔒 **Seguridad Robusta DTLS-PSK**
+- ✅ **DTLS 1.2 con Pre-Shared Keys**: Cifrado de extremo a extremo con autenticación mutua
+- ✅ **Sistema de claves determinístico**: Basado en identidad del cliente para sincronización perfecta
+- ✅ **Archivo de claves PSK**: 15,000 claves únicas pre-generadas en `psk_keys.txt`
+- ✅ **Gestión de sesiones DTLS**: Evita múltiples conexiones simultáneas y timeouts
+- ✅ **Configuración por variables de entorno**: Sistema flexible y seguro de configuración
+- ✅ **Validación automática**: Verificación de claves PSK y estado de conexiones
 
 ### 🧪 **Testing Exhaustivo**
 - ✅ **34 Tests Unitarios**: Cobertura del 100% de módulos críticos
@@ -195,9 +196,46 @@ cd ../tests
 
 ### 🚀 Ejecución del Sistema Completo
 
+#### 🐳 Despliegue en Kubernetes (Recomendado)
+
+El sistema está optimizado para ejecutarse en Kubernetes con Minikube:
+
 ```bash
-# Terminal 1: Servidor Central
+# 1. Configurar Minikube y MetalLB
 cd servidor_central
+./deploy.sh
+
+# El script automáticamente:
+# - Configura el entorno de Docker de Minikube
+# - Verifica y construye la imagen Docker con libcjson1
+# - Instala y configura MetalLB con IPAddressPool
+# - Despliega el servidor central con imagePullPolicy: Never
+# - Asigna IP externa automáticamente (192.168.49.2-192.168.49.10)
+
+# 2. Verificar el despliegue
+kubectl get pods
+kubectl get svc
+kubectl logs -f deployment/servidor-central-deployment
+
+# 3. Ejecutar API Gateway
+cd ../api_gateway
+./build_api_gateway.sh
+./api_gateway
+```
+
+#### 🖥️ Ejecución Local (Desarrollo)
+
+```bash
+# Terminal 1: Servidor Central (Docker optimizado)
+cd servidor_central
+docker build -t servidor-central .  # Imagen optimizada 90% más pequeña
+docker run -d --name servidor-central -p 5684:5684 servidor-central
+
+# Terminal 2: API Gateway
+cd api_gateway
+./build_api_gateway.sh
+./api_gateway
+```
 ./deploy.sh
 
 # Terminal 2: API Gateway
@@ -223,6 +261,30 @@ docker-compose logs -f
 ```
 
 ## 📦 Componentes del Sistema
+
+### 🐳 Docker Optimizado
+
+El sistema incluye **imágenes Docker optimizadas** con las siguientes mejoras:
+
+#### **Servidor Central - Docker Multi-Stage**
+
+```dockerfile
+# Beneficios del Docker optimizado:
+# ✅ 90% reducción de tamaño: De ~2GB a ~200MB
+# ✅ Seguridad mejorada: Usuario no-root, sin herramientas de compilación
+# ✅ Mejor rendimiento: Menos capas, dependencias mínimas
+# ✅ Configuración por variables de entorno: Sistema flexible
+# ✅ Multi-stage build: Compilación y runtime separados
+```
+
+#### **Configuración Automática**
+
+```bash
+# Los archivos de configuración se copian automáticamente durante el build:
+# - psk_keys.txt: 15,000 claves PSK pre-generadas
+# - simulation_data.json: Datos de simulación (100 edificios)
+# - gateway.env/server.env: Variables de entorno
+```
 
 ### 🌐 API Gateway (`api_gateway/`)
 
@@ -425,6 +487,68 @@ sudo tcpdump -i any -w traffic.pcap port 5683 or port 5684
 ```
 
 ## 🔒 Seguridad
+
+### 🔐 Sistema DTLS-PSK Avanzado
+
+El sistema implementa un mecanismo de seguridad DTLS-PSK sofisticado con las siguientes características:
+
+#### **Sistema de Claves Determinístico**
+
+```bash
+# Cliente (API Gateway) y Servidor usan el mismo algoritmo para seleccionar claves
+# 1. Cliente genera identidad única: Gateway_Client_[PID]_[TIMESTAMP]
+# 2. Ambos calculan hash de la identidad
+# 3. Ambos seleccionan la misma clave del archivo psk_keys.txt
+# 4. Establecen sesión DTLS con autenticación mutua
+```
+
+#### **Archivo de Claves Pre-Generadas**
+
+```bash
+# Archivo: psk_keys.txt (15,000 claves únicas)
+# Formato: una clave por línea (64 caracteres hexadecimales)
+# Ubicación: Copiado automáticamente al directorio build durante compilación
+# Validación: Servidor verifica que la clave esté en la lista autorizada
+```
+
+#### **Configuración por Variables de Entorno**
+
+```bash
+# API Gateway (gateway.env)
+IDENTITY_TO_PRESENT_TO_SERVER=Gateway_Client_001
+CENTRAL_SERVER_IP=192.168.49.2
+CENTRAL_SERVER_PORT=5684
+FLOOR_CALL_RESOURCE=peticion_piso
+CABIN_REQUEST_RESOURCE=peticion_cabina
+
+# Servidor Central (server.env)
+PSK_SERVER_HINT=ServidorCentralHint
+PSK_IDENTITY_PATTERN=Gateway_Client_*
+PSK_KEYS_FILE=psk_keys.txt
+DTLS_PORT=5684
+```
+
+#### **Timeouts y Configuración de Sesiones**
+
+```bash
+# Configuración optimizada para máxima estabilidad
+ACK_TIMEOUT=5.0              # Timeout para ACK
+ACK_RANDOM_FACTOR=1.5        # Factor aleatorio para retransmisión
+MAX_RETRANSMIT=4             # Máximo número de reintentos
+COAP_REQUEST_TIMEOUT_MS=5000 # Timeout para peticiones CoAP
+COAP_MAX_RETRIES=3           # Máximo número de reintentos CoAP
+```
+
+#### **Gestión de Sesiones Optimizada**
+
+```c
+// Características de la gestión de sesiones DTLS:
+// - Reutilización de sesiones establecidas
+// - Reconexión automática en caso de fallo
+// - Timeouts configurados para máxima estabilidad
+// - Manejo de errores robusto con reintentos
+// - Validación de integridad de mensajes
+```
 
 ### 🛡️ Modelo de Seguridad
 

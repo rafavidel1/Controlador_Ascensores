@@ -8,7 +8,8 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/mnt/d/AATFG/API/Codigo/servidor_central/src/main.c" "CMakeFiles/servidor_central.dir/src/main.c.o" "gcc" "CMakeFiles/servidor_central.dir/src/main.c.o.d"
+  "/mnt/d/AATFG/API/Codigo/git/servidor_central/src/main.c" "CMakeFiles/servidor_central.dir/src/main.c.o" "gcc" "CMakeFiles/servidor_central.dir/src/main.c.o.d"
+  "/mnt/d/AATFG/API/Codigo/git/servidor_central/src/psk_validator.c" "CMakeFiles/servidor_central.dir/src/psk_validator.c.o" "gcc" "CMakeFiles/servidor_central.dir/src/psk_validator.c.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

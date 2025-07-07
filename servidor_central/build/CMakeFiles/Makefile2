@@ -54,10 +54,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /mnt/d/AATFG/API/Codigo/servidor_central
+CMAKE_SOURCE_DIR = /mnt/d/AATFG/API/Codigo/git/servidor_central
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /mnt/d/AATFG/API/Codigo/servidor_central/build
+CMAKE_BINARY_DIR = /mnt/d/AATFG/API/Codigo/git/servidor_central/build
 
 #=============================================================================
 # Directory level rules for the build root directory
@@ -81,14 +81,14 @@ clean: CMakeFiles/servidor_central.dir/clean
 CMakeFiles/servidor_central.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/servidor_central.dir/build.make CMakeFiles/servidor_central.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/servidor_central.dir/build.make CMakeFiles/servidor_central.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/mnt/d/AATFG/API/Codigo/servidor_central/build/CMakeFiles --progress-num=1,2 "Built target servidor_central"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/mnt/d/AATFG/API/Codigo/git/servidor_central/build/CMakeFiles --progress-num=1,2,3 "Built target servidor_central"
 .PHONY : CMakeFiles/servidor_central.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/servidor_central.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/AATFG/API/Codigo/servidor_central/build/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/AATFG/API/Codigo/git/servidor_central/build/CMakeFiles 3
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/servidor_central.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/AATFG/API/Codigo/servidor_central/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/AATFG/API/Codigo/git/servidor_central/build/CMakeFiles 0
 .PHONY : CMakeFiles/servidor_central.dir/rule
 
 # Convenience name for target.

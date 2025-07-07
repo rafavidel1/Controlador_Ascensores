@@ -51,11 +51,13 @@ El **API Gateway CoAP** es un componente crítico del Sistema de Control de Asce
 - ✅ Simulación realista de movimiento
 - ✅ Serialización JSON optimizada para servidor central
 
-### 🔐 **Comunicación Segura**
-- ✅ DTLS 1.2 con Pre-Shared Keys (PSK)
-- ✅ Reutilización de sesiones para optimización
-- ✅ Gestión automática de conexiones
-- ✅ Manejo robusto de errores de red
+### 🔐 **Comunicación Segura DTLS-PSK**
+- ✅ **DTLS 1.2 con Pre-Shared Keys (PSK)** y autenticación mutua
+- ✅ **Sistema de claves determinístico** basado en identidad del cliente
+- ✅ **Gestión de sesiones optimizada** con reconexión automática
+- ✅ **Validación de claves** contra archivo de 15,000 claves pre-generadas
+- ✅ **Timeouts configurados** para máxima estabilidad de conexión
+- ✅ **Manejo robusto de errores** de red y reconexión automática
 
 ### 🧪 **Sistema de Simulación Integrado**
 - ✅ 100 edificios con 10 peticiones cada uno (5,504 líneas de datos JSON)
@@ -134,7 +136,7 @@ api_gateway/
 │   ├── 🏢 elevator_state_manager.h
 │   ├── 🔄 can_bridge.h
 │   ├── ⚙️ coap_config.h        # Configuración CoAP
-│   ├── 🔐 dtls_common_config.h # Configuración DTLS-PSK
+│   ├── 🔐 dtls_common_config.h # Configuración DTLS-PSK y PSK Manager
 │   ├── 📊 execution_logger.h
 │   ├── 🎨 logging_gw.h         # Macros de logging con colores
 │   └── 📋 simulation_loader.h
@@ -197,526 +199,386 @@ docker exec api-gateway-test ls /app/logs/
 ```bash
 # Dependencias del sistema
 sudo apt-get update
-sudo apt-get install -y build-essential cmake pkg-config git
+sudo apt-get install -y build-essential cmake pkg-config
 sudo apt-get install -y libcjson-dev libssl-dev
+sudo apt-get install -y git wget ca-certificates
 
-# Instalar libcoap desde fuente (recomendado)
-git clone https://github.com/obgm/libcoap.git /tmp/libcoap
-cd /tmp/libcoap
+# Instalar pandoc para reportes PDF
+sudo apt-get install -y pandoc
+
+# Compilar libcoap desde fuente
+cd ../Librerias/libcoap
 ./autogen.sh
-./configure --prefix=/usr/local --enable-dtls --with-openssl
+./configure --prefix=/usr/local --enable-dtls --with-openssl --disable-doxygen --disable-manpages
 make -j$(nproc) && sudo make install && sudo ldconfig
-
-# Para generación de PDFs (opcional)
-sudo apt-get install -y pandoc texlive-xetex
 ```
 
 #### CentOS/RHEL
 ```bash
-# Habilitar EPEL
-sudo yum install -y epel-release
+# Dependencias del sistema
+sudo yum groupinstall "Development Tools"
+sudo yum install cmake pkg-config
+sudo yum install libcjson-devel openssl-devel
+sudo yum install git wget ca-certificates
 
-# Dependencias
-sudo yum groupinstall -y "Development Tools"
-sudo yum install -y cmake3 pkg-config openssl-devel
+# Instalar pandoc para reportes PDF
+sudo yum install pandoc
 
-# Compilar cJSON y libcoap desde fuente
-# (seguir instrucciones similares a Ubuntu)
+# Compilar libcoap desde fuente
+cd ../Librerias/libcoap
+./autogen.sh
+./configure --prefix=/usr/local --enable-dtls --with-openssl --disable-doxygen --disable-manpages
+make -j$(nproc) && sudo make install && sudo ldconfig
+```
+
+### 🔨 Compilación
+
+```bash
+# Crear directorio de build
+mkdir build && cd build
+
+# Configurar CMake
+cmake -DBUILD_API_GATEWAY=ON -DCMAKE_BUILD_TYPE=Release ..
+
+# Compilar
+make -j$(nproc)
+
+# Instalar (opcional)
+sudo make install
 ```
 
 ### ⚙️ Configuración
 
-#### 1. Configuración de Red
+#### 🔐 Configuración DTLS-PSK
 
-Editar `include/api_gateway/coap_config.h`:
-
-```c
-// Configuración del servidor central
-#define CENTRAL_SERVER_IP "192.168.1.100"    // IP del servidor
-#define CENTRAL_SERVER_PORT "5684"            // Puerto DTLS
-#define GW_LISTEN_PORT "5683"                 // Puerto de escucha
-
-// Recursos CoAP
-#define CENTRAL_SERVER_FLOOR_CALL_PATH "/peticion_piso"
-#define CENTRAL_SERVER_CABIN_REQUEST_PATH "/peticion_cabina"
-```
-
-#### 2. Configuración DTLS-PSK
-
-Editar `include/api_gateway/dtls_common_config.h`:
-
-```c
-// Credenciales DTLS (deben coincidir con el servidor)
-#define IDENTITY_TO_PRESENT_TO_SERVER "Gateway_Client_001"
-#define KEY_FOR_SERVER "SecretGatewayServidorCentralKey"
-```
-
-#### 3. Variables de Entorno
+El gateway utiliza el mismo sistema de claves PSK que el servidor central:
 
 ```bash
-# Configuración opcional via variables de entorno
-export GATEWAY_LOG_LEVEL=DEBUG
-export GATEWAY_SERVER_IP=192.168.1.100
-export GATEWAY_SERVER_PORT=5684
-export GATEWAY_BUILDING_ID=EDIFICIO_PROD
+# Archivo de claves PSK (compartido con servidor central)
+psk_keys.txt
+
+# Formato de las claves:
+# client_id:psk_key
+# Ejemplo:
+# gateway_001:abc123def456
+# gateway_002:xyz789uvw012
+```
+
+#### 🌍 Variables de Entorno
+
+```bash
+# Configuración del servidor central
+export SERVIDOR_CENTRAL_HOST=192.168.49.2  # IP asignada por MetalLB
+export SERVIDOR_CENTRAL_PUERTO=5684
+
+# Configuración DTLS
+export DTLS_PSK_FILE=psk_keys.txt
+export DTLS_TIMEOUT=30
+export DTLS_MTU=1280
+
+# Configuración de logging
+export LOG_LEVEL=INFO
+export LOG_DIR=logs
+export GENERATE_PDF_REPORTS=true
+```
+
+#### 📁 Estructura de Archivos
+
+```
+api_gateway/
+├── 📁 src/                    # Código fuente
+├── 📁 include/api_gateway/    # Headers
+├── 📁 logs/                   # Logs organizados por fecha
+├── 🔨 CMakeLists.txt          # Configuración de build
+├── 📜 build_api_gateway.sh    # Script de compilación
+├── 📄 generate_pdf_report.sh  # Generación de reportes
+├── 📊 simulation_data.json    # Datos de simulación
+└── 📖 README.md               # Este archivo
 ```
 
 ## 📖 Guía de Uso
 
-### 🎮 Modo Básico
+### 🚀 Ejecución Básica
 
 ```bash
-# Ejecución estándar
+# Compilar y ejecutar
+./build_api_gateway.sh
+
+# Ver logs en tiempo real
+tail -f logs/$(date +%Y-%m-%d)/api_gateway_$(date +%H-%M-%S).md
+```
+
+### 🧪 Simulación Completa
+
+```bash
+# Ejecutar simulación con 100 edificios
 ./api_gateway
 
-# Con puerto personalizado
-./api_gateway 6000
+# Ver estadísticas
+cat logs/$(date +%Y-%m-%d)/estadisticas.txt
 
-# Con configuración específica
-./api_gateway --building-id "EDIFICIO_A" --elevators 4 --floors 15
-```
-
-### 🧪 Modo Simulación
-
-```bash
-# Simulación con edificio aleatorio
-./api_gateway --demo-mode
-
-# Simulación acelerada
-./api_gateway --fast-simulation
-
-# Solo testing de conexión
-./api_gateway --test-connection
-```
-
-### 📊 Modo Debugging
-
-```bash
-# Logs detallados
-./api_gateway --verbose --log-level debug
-
-# Con salida a archivo
-./api_gateway --log-file gateway.log
-
-# Modo interactivo
-./api_gateway --interactive
-```
-
-### 🔄 Opciones de Línea de Comandos
-
-| Opción | Descripción | Ejemplo |
-|--------|-------------|---------|
-| `--help` | Muestra ayuda completa | `./api_gateway --help` |
-| `--version` | Información de versión | `./api_gateway --version` |
-| `--building-id <ID>` | ID del edificio | `--building-id "E001"` |
-| `--elevators <N>` | Número de ascensores | `--elevators 6` |
-| `--floors <N>` | Número de pisos | `--floors 20` |
-| `--server-ip <IP>` | IP del servidor central | `--server-ip 10.0.0.1` |
-| `--server-port <PORT>` | Puerto del servidor | `--server-port 5685` |
-| `--verbose` | Salida detallada | `--verbose` |
-| `--demo-mode` | Modo demostración | `--demo-mode` |
-| `--test-connection` | Solo test de conexión | `--test-connection` |
-
-## 🔧 API y Configuración
-
-### 🌐 Endpoints CoAP
-
-#### Servidor Central (Salientes)
-
-| Endpoint | Método | Propósito | Payload |
-|----------|--------|-----------|---------|
-| `/peticion_piso` | POST | Llamadas de piso | JSON con estado de ascensores |
-| `/peticion_cabina` | POST | Solicitudes de cabina | JSON con estado de ascensores |
-
-#### Gateway (Entrantes - Deprecados)
-
-| Endpoint | Método | Estado | Descripción |
-|----------|--------|--------|-------------|
-| `/llamada_piso_gw` | POST | ⚠️ Deprecado | Usar simulación CAN |
-| `/solicitud_cabina_gw` | POST | ⚠️ Deprecado | Usar simulación CAN |
-
-### 📋 Formato de Mensajes
-
-#### Payload para Llamada de Piso
-
-```json
-{
-  "id_edificio": "EDIFICIO_TEST",
-  "piso_origen_llamada": 3,
-  "direccion_llamada": "SUBIENDO",
-  "elevadores_estado": [
-    {
-      "id_ascensor": "EDIFICIO_TESTA1",
-      "piso_actual": 0,
-      "estado_puerta": "CERRADA",
-      "disponible": true,
-      "tarea_actual_id": null,
-      "destino_actual": null
-    }
-  ]
-}
-```
-
-#### Payload para Solicitud de Cabina
-
-```json
-{
-  "id_edificio": "EDIFICIO_TEST",
-  "solicitando_ascensor_id": "EDIFICIO_TESTA1",
-  "piso_destino_solicitud": 7,
-  "elevadores_estado": [
-    {
-      "id_ascensor": "EDIFICIO_TESTA1",
-      "piso_actual": 3,
-      "estado_puerta": "CERRADA",
-      "disponible": false,
-      "tarea_actual_id": "T_1234567890",
-      "destino_actual": 7
-    }
-  ]
-}
-```
-
-#### Respuesta del Servidor Central
-
-```json
-{
-  "tarea_id": "T_1234567890",
-  "ascensor_asignado_id": "EDIFICIO_TESTA1",
-  "piso_destino": 7,
-  "prioridad": "NORMAL",
-  "tiempo_estimado": 45
-}
-```
-
-### 🔄 Protocolo CAN Simulado
-
-#### Tipos de Frames
-
-| ID CAN | Tipo | DLC | Datos | Descripción |
-|--------|------|-----|-------|-------------|
-| `0x100` | Floor Call | 2 | `[piso, dirección]` | Llamada de piso |
-| `0x200` | Cabin Request | 2 | `[ascensor_idx, piso_destino]` | Solicitud de cabina |
-| `0x300` | Arrival | 2 | `[ascensor_idx, piso_actual]` | Notificación de llegada |
-| `0x101` | Floor Response | 1-8 | `[ascensor_idx, tarea_id...]` | Respuesta a llamada |
-| `0x201` | Cabin Response | 1-8 | `[confirmación, tarea_id...]` | Respuesta a solicitud |
-| `0xFE` | Error | 2 | `[can_id_original, error_code]` | Error del gateway |
-
-#### Ejemplo de Intercambio CAN
-
-```
-Simulador -> Gateway: ID=0x100, DLC=2, Data=[03, 00]  // Llamada piso 3, dirección UP
-Gateway -> Servidor: POST /peticion_piso (JSON con estado)
-Servidor -> Gateway: 200 OK (JSON con asignación)
-Gateway -> Simulador: ID=0x101, DLC=8, Data=[01, T_, 1_, 2_, 3_, 4_, 5_, 6_]  // Ascensor 1, tarea T_123456
-```
-
-## 🧪 Testing y Simulación
-
-### 🎯 Sistema de Simulación
-
-El API Gateway incluye un sistema de simulación completo con:
-
-- **100 edificios únicos** con configuraciones variadas
-- **10 peticiones por edificio** (mix de floor calls y cabin requests)
-- **Selección aleatoria** de edificio por ejecución
-- **5,504 líneas de datos JSON** para testing exhaustivo
-
-#### Estructura de Datos de Simulación
-
-```json
-{
-  "edificios": [
-    {
-      "id_edificio": "E001",
-      "peticiones": [
-        {
-          "tipo": "llamada_piso",
-          "piso_origen": 0,
-          "direccion": "up"
-        },
-        {
-          "tipo": "solicitud_cabina",
-          "indice_ascensor": 0,
-          "piso_destino": 5
-        }
-      ]
-    }
-  ]
-}
-```
-
-### 🧪 Casos de Prueba
-
-#### Test de Conexión DTLS
-
-```bash
-# Verificar conectividad con servidor central
-./api_gateway --test-connection
-
-# Salida esperada:
-# [INFO-GW] Probando conexión DTLS con servidor central...
-# [INFO-GW] ✓ Sesión DTLS establecida correctamente
-# [INFO-GW] ✓ Handshake PSK completado
-# [INFO-GW] ✓ Test de conectividad exitoso
-```
-
-#### Test de Simulación Básica
-
-```bash
-# Ejecutar simulación con logging detallado
-./api_gateway --demo-mode --verbose
-
-# Verificar logs generados
-ls -la logs/$(date +%Y-%m-%d)/
-cat logs/$(date +%Y-%m-%d)/ejecucion_*.md
-```
-
-#### Test de Carga
-
-```bash
-# Ejecutar múltiples instancias (requiere puertos diferentes)
-for i in {7000..7010}; do
-  ./api_gateway $i &
-done
-
-# Monitorear procesos
-ps aux | grep api_gateway
-```
-
-### 📊 Métricas de Rendimiento
-
-El sistema registra automáticamente:
-
-- **Latencia de solicitudes CoAP** (tiempo de respuesta)
-- **Throughput del sistema** (peticiones/segundo)
-- **Tasa de éxito** (respuestas exitosas vs errores)
-- **Utilización de ascensores** (tiempo ocupado vs libre)
-- **Eficiencia de correlación** (trackers utilizados vs disponibles)
-
-## 📊 Logging y Monitoreo
-
-### 📝 Sistema de Logging
-
-#### Estructura de Archivos
-
-```
-logs/
-├── 2025-01-17/
-│   ├── ejecucion_14-30-25-123.md    # Log de ejecución
-│   ├── ejecucion_14-30-25-123.pdf   # Reporte PDF generado
-│   └── ejecucion_15-45-10-456.md
-└── 2025-01-18/
-    └── ejecucion_09-15-30-789.md
-```
-
-#### Contenido de Logs
-
-Cada archivo de log incluye:
-
-1. **📋 Resumen Ejecutivo**
-   - Información del sistema y configuración
-   - Métricas de rendimiento
-   - Estado de la ejecución
-
-2. **📊 Registro de Eventos**
-   - Eventos CAN enviados/recibidos
-   - Solicitudes CoAP y respuestas
-   - Asignaciones y completaciones de tareas
-   - Movimientos de ascensores
-
-3. **📈 Estadísticas Finales**
-   - Duración total de ejecución
-   - Número de peticiones procesadas
-   - Tasa de éxito y errores
-   - Throughput del sistema
-
-#### Generación de Reportes PDF
-
-```bash
-# Convertir el log más reciente
+# Generar reporte PDF
 ./generate_pdf_report.sh --latest
-
-# Convertir todos los logs
-./generate_pdf_report.sh --all
-
-# Convertir un archivo específico
-./generate_pdf_report.sh logs/2025-01-17/ejecucion_14-30-25-123.md
 ```
-
-### 🎨 Niveles de Logging
-
-| Nivel | Color | Propósito | Ejemplo |
-|-------|-------|-----------|---------|
-| `INFO` | 🟢 Verde | Información general | Conexión establecida |
-| `DEBUG` | 🔵 Azul | Depuración detallada | Token CoAP recibido |
-| `WARN` | 🟡 Amarillo | Advertencias | Timeout de conexión |
-| `ERROR` | 🔴 Rojo | Errores | Fallo de autenticación |
-| `CRIT` | 🟣 Magenta | Errores críticos | Servidor no disponible |
 
 ### 📊 Monitoreo en Tiempo Real
 
 ```bash
-# Seguir logs en tiempo real
-tail -f logs/$(date +%Y-%m-%d)/ejecucion_*.md
+# Ver logs del último ejecución
+ls -la logs/$(date +%Y-%m-%d)/
 
-# Filtrar solo errores
-./api_gateway --verbose 2>&1 | grep -E "(ERROR|CRIT)"
+# Ver estadísticas de rendimiento
+cat logs/$(date +%Y-%m-%d)/estadisticas.txt
 
-# Métricas de red
-./api_gateway --verbose 2>&1 | grep -E "(CoAP|DTLS)"
+# Ver conexiones DTLS activas
+netstat -an | grep 5684
+```
+
+## 🔧 API y Configuración
+
+### 📡 Endpoints CoAP
+
+| Endpoint | Método | Descripción | Autenticación |
+|----------|--------|-------------|---------------|
+| `/peticion_piso` | POST | Solicitar asignación de ascensor | DTLS-PSK |
+| `/peticion_cab` | POST | Solicitar ascensor específico | DTLS-PSK |
+
+### 🔄 Frames CAN Procesados
+
+| Frame ID | Tipo | Descripción | Payload |
+|----------|------|-------------|---------|
+| `0x100` | Llamada de piso | Solicitud de ascensor | `{piso_origen, piso_destino}` |
+| `0x200` | Estado de cabina | Información de ascensor | `{ascensor_id, estado, piso_actual}` |
+| `0x300` | Confirmación | Respuesta de asignación | `{tarea_id, ascensor_asignado}` |
+
+### 📝 Formato de Peticiones JSON
+
+```json
+{
+  "edificio_id": "edificio_001",
+  "piso_origen": 5,
+  "piso_destino": 10,
+  "prioridad": "normal",
+  "timestamp": 1640995200
+}
+```
+
+### 📤 Formato de Respuestas JSON
+
+```json
+{
+  "status": "success",
+  "ascensor_asignado": "ascensor_003",
+  "tiempo_estimado": 45,
+  "tarea_id": "tarea_12345",
+  "timestamp": 1640995200
+}
+```
+
+## 🧪 Testing y Simulación
+
+### 🧪 Tests Unitarios
+
+```bash
+# Ejecutar tests unitarios
+cd tests/unit
+make test
+
+# Verificar cobertura
+make coverage
+```
+
+### 🔗 Tests de Integración
+
+```bash
+# Ejecutar tests de integración
+cd tests/integration
+./run_integration_tests.sh
+```
+
+### 🧪 Simulación Automática
+
+```bash
+# Ejecutar simulación completa
+./api_gateway
+
+# Ver resultados
+ls -la logs/$(date +%Y-%m-%d)/
+
+# Generar reporte
+./generate_pdf_report.sh --latest
+```
+
+## 📊 Logging y Monitoreo
+
+### 📈 Sistema de Logs
+
+```bash
+# Estructura de logs
+logs/
+├── 2024-01-15/
+│   ├── api_gateway_10-30-00.md
+│   ├── estadisticas.txt
+│   ├── metricas.json
+│   └── reporte_10-30-00.pdf
+└── 2024-01-16/
+    └── ...
+```
+
+### 📊 Métricas en Tiempo Real
+
+```bash
+# Ver métricas de rendimiento
+cat logs/$(date +%Y-%m-%d)/estadisticas.txt
+
+# Ver conexiones DTLS
+netstat -an | grep 5684
+
+# Ver uso de memoria
+ps aux | grep api_gateway
+```
+
+### 📄 Generación de Reportes
+
+```bash
+# Generar reporte PDF del último log
+./generate_pdf_report.sh --latest
+
+# Generar reporte de fecha específica
+./generate_pdf_report.sh --date 2024-01-15
+
+# Generar todos los reportes
+./generate_pdf_report.sh --all
 ```
 
 ## 🔒 Seguridad
 
-### 🔐 DTLS-PSK (Pre-Shared Key)
+### 🔑 Sistema de Claves PSK
 
-El sistema utiliza DTLS 1.2 con claves pre-compartidas para:
+El gateway utiliza el mismo sistema de claves PSK que el servidor central:
 
-- **🔒 Autenticación mutua** entre gateway y servidor
-- **🛡️ Cifrado end-to-end** de toda la comunicación
-- **🔑 Gestión de claves** simplificada sin PKI
-- **⚡ Rendimiento optimizado** con reutilización de sesiones
+```bash
+# Archivo de claves PSK
+psk_keys.txt
 
-#### Configuración de Seguridad
+# Verificación de claves
+./verify_psk_keys.sh
+```
+
+### 🔒 Configuración DTLS
 
 ```c
-// Gateway presenta esta identidad al servidor
-#define IDENTITY_TO_PRESENT_TO_SERVER "Gateway_Client_001"
-
-// Clave compartida (debe coincidir en servidor y gateway)
-#define KEY_FOR_SERVER "SecretGatewayServidorCentralKey"
+// Configuración DTLS-PSK
+#define DTLS_PSK_FILE "psk_keys.txt"
+#define DTLS_TIMEOUT 30
+#define DTLS_MTU 1280
+#define DTLS_RETRANSMIT_TIMEOUT 2
 ```
+
+### 🛡️ Medidas de Seguridad
+
+- ✅ **Cifrado de extremo a extremo** con DTLS 1.2
+- ✅ **Autenticación mutua** mediante PSK
+- ✅ **Validación de claves** contra archivo pre-generado
+- ✅ **Timeouts optimizados** para prevenir ataques
+- ✅ **Manejo robusto de errores** de red
+- ✅ **Reconexión automática** en caso de fallos
+
 ## 🐛 Solución de Problemas
 
-### ❓ Problemas Comunes
+### 🔍 Problemas Comunes
 
-#### 1. Error de Compilación: libcoap no encontrada
-
-```bash
-# Síntoma
-CMake Error: Could not find libcoap-3-openssl
-
-# Solución
-sudo apt-get install pkg-config
-# O compilar libcoap desde fuente (ver sección de instalación)
-```
-
-#### 2. Error DTLS: Handshake Failed
+<details>
+<summary><strong>Error: Connection refused</strong></summary>
 
 ```bash
-# Síntoma
-[ERROR-GW] DTLS handshake failed with server
+# Verificar que el servidor central esté ejecutándose
+kubectl get pods -l app=servidor-central
+kubectl get svc servidor-central-service
 
-# Verificaciones
-1. Comprobar que el servidor central está ejecutándose
-2. Verificar que las claves PSK coinciden
-3. Comprobar conectividad de red (ping, telnet)
-4. Revisar configuración de firewall
+# Verificar conectividad
+telnet 192.168.49.2 5684
 ```
 
-#### 3. No se generan logs
+</details>
+
+<details>
+<summary><strong>Error: DTLS handshake failed</strong></summary>
 
 ```bash
-# Síntoma
-Directorio logs/ vacío después de ejecución
+# Verificar archivo de claves PSK
+ls -la psk_keys.txt
 
-# Solución
-1. Verificar permisos de escritura: chmod 755 .
-2. Crear directorio manualmente: mkdir -p logs
-3. Verificar espacio en disco: df -h
+# Verificar configuración DTLS
+cat include/api_gateway/dtls_common_config.h
 ```
 
-#### 4. Simulación no ejecuta peticiones
+</details>
+
+<details>
+<summary><strong>Error: JSON parsing failed</strong></summary>
 
 ```bash
-# Síntoma
-[SIM_ASCENSOR] No se pudieron cargar datos de simulación
+# Verificar formato JSON
+cat simulation_data.json | jq .
 
-# Solución
-1. Verificar que simulation_data.json existe
-2. Comprobar formato JSON: jq . simulation_data.json
-3. Verificar permisos de lectura: chmod 644 simulation_data.json
+# Verificar codificación
+file simulation_data.json
 ```
 
-### 🔍 Debugging Avanzado
+</details>
 
-#### Habilitar Debugging de libcoap
+### 🛠️ Herramientas de Debugging
 
 ```bash
-export COAP_LOG_LEVEL=7  # Máximo nivel de debug
-./api_gateway --verbose
+# Ver logs detallados
+tail -f logs/$(date +%Y-%m-%d)/api_gateway_*.md
+
+# Ver conexiones de red
+netstat -an | grep 5684
+
+# Ver uso de recursos
+top -p $(pgrep api_gateway)
+
+# Ver logs del sistema
+journalctl -u api-gateway -f
 ```
 
-#### Análisis de Red con Wireshark
+## 🤝 Contribución
+
+### 📝 Guías de Contribución
+
+1. **Fork** el repositorio
+2. **Crear** una rama para tu feature (`git checkout -b feature/nueva-funcionalidad`)
+3. **Commit** tus cambios (`git commit -am 'Agregar nueva funcionalidad'`)
+4. **Push** a la rama (`git push origin feature/nueva-funcionalidad`)
+5. **Crear** un Pull Request
+
+### 🧪 Testing
 
 ```bash
-# Capturar tráfico CoAP/DTLS
-sudo tcpdump -i any -w gateway_traffic.pcap port 5683 or port 5684
+# Ejecutar todos los tests
+./run_all_tests.sh
 
-# Analizar con wireshark
-wireshark gateway_traffic.pcap
+# Verificar cobertura
+make coverage
 ```
 
-### 📝 Estándares de Código
+### 📋 Checklist de Contribución
 
-#### Estilo de Código C
-
-```c
-// ✅ Correcto: Documentación Doxygen
-/**
- * @brief Procesa un frame CAN entrante
- * @param frame Puntero al frame CAN a procesar
- * @param ctx Contexto CoAP para envío de solicitudes
- * @return true si se procesó exitosamente, false en caso de error
- */
-bool process_can_frame(const can_frame_t *frame, coap_context_t *ctx);
-
-// ✅ Correcto: Nombres descriptivos
-static void handle_floor_call_response(const coap_pdu_t *response);
-
-// ❌ Incorrecto: Nombres genéricos
-static void handle_resp(const coap_pdu_t *r);
-
-
-## 📄 Licencia
-
-```
-MIT License
-
-Copyright (c) 2025 Sistema de Control de Ascensores
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-```
+- [ ] Tests unitarios pasando
+- [ ] Tests de integración pasando
+- [ ] Documentación actualizada
+- [ ] Código siguiendo estándares
+- [ ] Configuración DTLS-PSK verificada
+- [ ] Logs generados correctamente
 
 ---
 
-<div align="center">
+## 📄 Licencia
 
-**🏢 API Gateway CoAP v2.0**
+Este proyecto está bajo la Licencia MIT. Ver el archivo [LICENSE](../LICENSE) para más detalles.
 
-*Sistema de Control de Ascensores - Trabajo de Fin de Grado*
+---
 
-[![GitHub](https://img.shields.io/badge/GitHub-Repository-blue.svg)](https://github.com/user/repo)
-[![Documentation](https://img.shields.io/badge/Docs-Complete-brightgreen.svg)](docs/)
-[![Support](https://img.shields.io/badge/Support-Available-orange.svg)](mailto:support@example.com)
-
-*Desarrollado con ❤️ para la gestión inteligente de ascensores*
-
-</div> 
+**🏢 API Gateway CoAP** - Gateway inteligente y seguro para la gestión distribuida de sistemas de ascensores mediante CoAP/DTLS-PSK. 

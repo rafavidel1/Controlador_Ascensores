@@ -54,10 +54,13 @@ El **Servidor Central** es el núcleo del sistema de gestión de ascensores, dis
 - Estado en tiempo real sincronizado
 - Sistema de logs completo
 
-### 🔐 **Seguridad Avanzada**
-- Cifrado DTLS-PSK de extremo a extremo
-- Autenticación por Pre-Shared Keys
-- Verificación de integridad de mensajes
+### 🔐 **Seguridad DTLS-PSK Avanzada**
+- **Cifrado DTLS 1.2 con Pre-Shared Keys**: Comunicación segura de extremo a extremo
+- **Sistema de claves determinístico**: 15,000 claves únicas basadas en identidad del cliente
+- **Archivo de claves PSK**: `psk_keys.txt` con claves pre-generadas para sincronización perfecta
+- **Gestión de sesiones DTLS**: Evita múltiples conexiones simultáneas y timeouts
+- **Configuración por variables de entorno**: Sistema flexible y seguro de configuración
+- **Validación automática**: Verificación de claves PSK y estado de conexiones
 
 ### 📊 **Monitorización**
 - Métricas en tiempo real
@@ -96,15 +99,68 @@ El **Servidor Central** es el núcleo del sistema de gestión de ascensores, dis
 
 ### 🔄 Flujo de Procesamiento
 
-1. **Recepción**: API Gateway envía solicitud CoAP/DTLS
-2. **Validación**: Verificación de autenticación y formato JSON
-3. **Procesamiento**: Ejecución de algoritmos de asignación
-4. **Persistencia**: Actualización de estado en base de datos
-5. **Respuesta**: Generación de respuesta estructurada
+1. **Recepción**: API Gateway envía solicitud CoAP/DTLS-PSK
+2. **Autenticación**: Verificación de clave PSK basada en identidad del cliente
+3. **Validación**: Verificación de formato JSON y datos de entrada
+4. **Procesamiento**: Ejecución de algoritmos de asignación optimizada
+5. **Persistencia**: Actualización de estado en base de datos SQLite
+6. **Respuesta**: Generación de respuesta estructurada con tarea asignada
 
 ## 🚀 Inicio Rápido
 
-### Prerrequisitos
+### 🐳 **Despliegue en Kubernetes (Recomendado)**
+
+El sistema está optimizado para ejecutarse en Kubernetes con Minikube y MetalLB:
+
+```bash
+# 1. Desplegar automáticamente
+./deploy.sh
+
+# El script automáticamente:
+# - Configura el entorno de Docker de Minikube
+# - Verifica y construye la imagen Docker con libcjson1
+# - Instala y configura MetalLB con IPAddressPool (192.168.49.2-192.168.49.10)
+# - Despliega el servidor central con imagePullPolicy: Never
+# - Asigna IP externa automáticamente
+
+# 2. Verificar el despliegue
+kubectl get pods
+kubectl get svc
+kubectl logs -f deployment/servidor-central-deployment
+
+# 3. Acceder al servicio
+# El servicio estará disponible en la IP asignada por MetalLB
+```
+
+### 🐳 **Docker Optimizado (Desarrollo)**
+
+El proyecto incluye un **Dockerfile optimizado con multi-stage build**:
+
+```bash
+# Construir imagen optimizada
+docker build -t servidor-central .
+
+# Ejecutar contenedor
+docker run -d \
+  --name servidor-central \
+  -p 5684:5684 \
+  -v $(pwd)/data:/app/data \
+  servidor-central
+
+# Verificar funcionamiento
+docker logs servidor-central
+```
+
+**Características del Docker optimizado:**
+- ✅ **Multi-stage build**: Compilación y runtime separados
+- ✅ **Dependencias mínimas**: Solo libcjson1, libssl3, libc6
+- ✅ **Seguridad mejorada**: Usuario no-root, sin herramientas de compilación
+- ✅ **Configuración por variables de entorno**: Sistema flexible
+- ✅ **Archivo de claves PSK incluido**: `psk_keys.txt` copiado al contenedor
+
+### 📦 **Instalación Local**
+
+#### Prerrequisitos
 
 ```bash
 # Ubuntu/Debian
@@ -113,13 +169,9 @@ sudo apt-get install -y build-essential cmake pkg-config
 sudo apt-get install -y libcjson-dev libsqlite3-dev libssl-dev
 ```
 
-### Compilación Express
+#### Compilación
 
 ```bash
-# Clonar repositorio
-git clone https://github.com/usuario/sistema-ascensores.git
-cd sistema-ascensores
-
 # Compilar libcoap (requerido)
 cd Librerias/libcoap
 ./autogen.sh && ./configure --enable-dtls --with-openssl
@@ -132,7 +184,7 @@ cmake -DBUILD_SERVIDOR_CENTRAL=ON -DCMAKE_BUILD_TYPE=Release ..
 make -j$(nproc)
 ```
 
-### Ejecución
+#### Ejecución
 
 ```bash
 # Ejecutar servidor
@@ -152,22 +204,17 @@ curl -X POST http://localhost:5684/.well-known/core
 ```bash
 # Paquetes base
 sudo apt-get update
-sudo apt-get install -y \
-    build-essential \
-    cmake \
-    pkg-config \
-    git \
-    autotools-dev \
-    automake \
-    libtool
+sudo apt-get install -y build-essential cmake pkg-config
+sudo apt-get install -y libcjson-dev libsqlite3-dev libssl-dev
+sudo apt-get install -y git wget ca-certificates
 
-# Dependencias de desarrollo
-sudo apt-get install -y \
-    libcjson-dev \
-    libsqlite3-dev \
-    libssl-dev \
-    libcoap-2-dev
+# Compilar libcoap desde fuente
+cd Librerias/libcoap
+./autogen.sh
+./configure --prefix=/usr/local --enable-dtls --with-openssl --disable-doxygen --disable-manpages
+make -j$(nproc) && sudo make install && sudo ldconfig
 ```
+
 </details>
 
 <details>
@@ -175,476 +222,363 @@ sudo apt-get install -y \
 
 ```bash
 # Paquetes base
-sudo yum groupinstall -y "Development Tools"
-sudo yum install -y cmake pkg-config git
+sudo yum groupinstall "Development Tools"
+sudo yum install cmake pkg-config
+sudo yum install libcjson-devel sqlite-devel openssl-devel
+sudo yum install git wget ca-certificates
 
-# Dependencias específicas
-sudo yum install -y \
-    cjson-devel \
-    sqlite-devel \
-    openssl-devel
+# Compilar libcoap desde fuente
+cd Librerias/libcoap
+./autogen.sh
+./configure --prefix=/usr/local --enable-dtls --with-openssl --disable-doxygen --disable-manpages
+make -j$(nproc) && sudo make install && sudo ldconfig
 ```
+
 </details>
 
-### 📚 Compilación de libcoap
+### 🔨 Compilación
 
 ```bash
-cd Librerias/libcoap
+# Crear directorio de build
+mkdir build && cd build
 
-# Configuración automática
-./autogen.sh
+# Configurar CMake
+cmake -DBUILD_SERVIDOR_CENTRAL=ON -DCMAKE_BUILD_TYPE=Release ..
 
-# Configuración con DTLS
-./configure \
-    --prefix=/usr/local \
-    --enable-dtls \
-    --with-openssl \
-    --enable-shared \
-    --enable-static
-
-# Compilación e instalación
+# Compilar
 make -j$(nproc)
+
+# Instalar (opcional)
 sudo make install
-sudo ldconfig
-
-# Verificación
-pkg-config --modversion libcoap-3-openssl
-```
-
-### 🏗️ Compilación del Proyecto
-
-```bash
-# Crear directorio de compilación
-mkdir -p build
-cd build
-
-# Configuración CMake
-cmake \
-    -DBUILD_SERVIDOR_CENTRAL=ON \
-    -DCMAKE_BUILD_TYPE=Release \
-    -DENABLE_TESTING=ON \
-    -DENABLE_COVERAGE=OFF \
-    ..
-
-# Compilación
-make -j$(nproc)
-
-# Verificación de binarios
-ls -la servidor_central/servidor_central
 ```
 
 ## ⚙️ Configuración
 
-### 🌐 Configuración de Red
-
-```c
-// servidor_central/include/servidor_central/config.h
-#define SERVER_IP "127.0.0.1"          // IP del servidor
-#define SERVER_PORT 5684                // Puerto CoAP estándar
-#define MAX_CONCURRENT_SESSIONS 50      // Sesiones simultáneas
-#define COAP_MAX_PDU_SIZE 1024         // Tamaño máximo de PDU
-```
-
 ### 🔐 Configuración DTLS-PSK
 
-```c
-// servidor_central/include/servidor_central/dtls_config.h
-#define DTLS_PSK_HINT "central_server"         // Hint del servidor
-#define DTLS_PSK_KEY "secreto_compartido_2024" // Clave compartida
-#define DTLS_PSK_KEY_LEN 22                    // Longitud de clave
-#define DTLS_TIMEOUT_MS 5000                   // Timeout DTLS
-```
-
-### 💾 Configuración de Base de Datos
-
-```c
-// servidor_central/include/servidor_central/database_config.h
-#define DATABASE_FILE "elevators.db"    // Archivo de base de datos
-#define DB_TIMEOUT_MS 3000             // Timeout de operaciones
-#define MAX_DB_CONNECTIONS 10          // Conexiones máximas
-#define BACKUP_INTERVAL_HOURS 24       // Intervalo de backup
-```
-
-### 🎛️ Opciones de Línea de Comandos
+El sistema utiliza un archivo de claves PSK pre-generadas:
 
 ```bash
-# Mostrar ayuda
-./servidor_central --help
+# Archivo de claves PSK (15,000 claves únicas)
+psk_keys.txt
 
-# Configuración personalizada
-./servidor_central \
-    --ip "0.0.0.0" \
-    --port 5685 \
-    --database "custom.db" \
-    --max-sessions 100
-
-# Modo verbose para debugging
-./servidor_central --verbose
-
-# Modo de prueba
-./servidor_central --test-mode
+# Formato de las claves:
+# client_id:psk_key
+# Ejemplo:
+# gateway_001:abc123def456
+# gateway_002:xyz789uvw012
 ```
 
-## 🔌 Endpoints
-
-### 📍 Endpoint: `POST /peticion_piso`
-
-**Descripción**: Procesa solicitudes de llamada desde piso
-
-**Payload de Entrada**:
-```json
-{
-  "id_edificio": "EDIFICIO_TEST",
-  "piso_origen_llamada": 3,
-  "direccion_llamada": "SUBIENDO",
-  "elevadores_estado": [
-    {
-      "id_ascensor": "EDIFICIO_TESTA1",
-      "piso_actual": 0,
-      "estado_puerta": "CERRADA",
-      "disponible": true,
-      "tarea_actual_id": null,
-      "destino_actual": null
-    }
-  ]
-}
-```
-
-**Respuesta Exitosa** (`2.01 Created`):
-```json
-{
-  "mensaje": "Solicitud de piso procesada exitosamente",
-  "ascensor_asignado_id": "EDIFICIO_TESTA1",
-  "tarea_id": "T_1749908537046",
-  "piso_destino": 3,
-  "tiempo_estimado": 30
-}
-```
-
-### 🚪 Endpoint: `POST /peticion_cabina`
-
-**Descripción**: Procesa solicitudes desde interior de cabina
-
-**Payload de Entrada**:
-```json
-{
-  "id_edificio": "EDIFICIO_TEST",
-  "solicitando_ascensor_id": "EDIFICIO_TESTA1",
-  "piso_destino_solicitud": 7,
-  "elevadores_estado": [
-    {
-      "id_ascensor": "EDIFICIO_TESTA1",
-      "piso_actual": 3,
-      "estado_puerta": "CERRADA",
-      "disponible": false,
-      "tarea_actual_id": "T_1234567890",
-      "destino_actual": 7
-    }
-  ]
-}
-```
-
-**Respuesta Exitosa** (`2.01 Created`):
-```json
-{
-  "mensaje": "Solicitud de cabina procesada exitosamente",
-  "tarea_id": "T_1749908537047",
-  "confirmacion": "Destino registrado para ascensor EDIFICIO_TESTA1"
-}
-```
-
-### 📊 Códigos de Respuesta
-
-| Código | Estado | Descripción |
-|--------|---------|-------------|
-| `2.01` | Created | Solicitud procesada exitosamente |
-| `4.00` | Bad Request | JSON malformado o campos faltantes |
-| `4.04` | Not Found | Edificio no encontrado en base de datos |
-| `5.00` | Internal Server Error | Error interno del servidor |
-| `5.03` | Service Unavailable | No hay ascensores disponibles |
-
-### 🧪 Testing de Endpoints
+### 🌍 Variables de Entorno
 
 ```bash
-# Probar con coap-client
-coap-client -m post \
-    -T "application/json" \
-    -e '{"id_edificio":"TEST","piso_origen_llamada":3,"direccion_llamada":"SUBIENDO","elevadores_estado":[]}' \
-    coap://127.0.0.1:5684/peticion_piso
+# Configuración del servidor
+export SERVIDOR_PUERTO=5684
+export SERVIDOR_HOST=0.0.0.0
 
-# Con DTLS-PSK
-coap-client -k "secreto_compartido_2024" \
-    -u "gateway_client" \
-    -m post \
-    -T "application/json" \
-    -e '{"test":"payload"}' \
-    coaps://127.0.0.1:5684/peticion_piso
+# Configuración de base de datos
+export DB_PATH=/app/data/servidor_central.db
+
+# Configuración de logging
+export LOG_LEVEL=INFO
+export LOG_FILE=/app/logs/servidor_central.log
+
+# Configuración DTLS
+export DTLS_PSK_FILE=/app/psk_keys.txt
+export DTLS_TIMEOUT=30
+```
+
+### 📁 Estructura de Archivos
+
+```
+servidor_central/
+├── 📁 src/                    # Código fuente
+├── 📁 include/                # Headers
+├── 📁 kustomize/              # Configuración Kubernetes
+│   ├── deployment.yaml        # Deployment con imagePullPolicy: Never
+│   ├── service.yaml           # Service LoadBalancer
+│   └── hpa.yaml              # Horizontal Pod Autoscaler
+├── 🐳 Dockerfile              # Multi-stage build optimizado
+├── 📜 deploy.sh               # Script de despliegue automatizado
+├── 📜 metallb-config.yaml     # Configuración MetalLB (IPAddressPool)
+├── 📜 psk_keys.txt            # 15,000 claves PSK pre-generadas
+└── 📖 README.md               # Este archivo
+```
+
+## 🔌 API Endpoints
+
+### 📡 Endpoints CoAP/DTLS-PSK
+
+| Endpoint | Método | Descripción | Autenticación |
+|----------|--------|-------------|---------------|
+| `/peticion_piso` | POST | Solicitar asignación de ascensor | DTLS-PSK |
+| `/peticion_cab` | POST | Solicitar ascensor específico | DTLS-PSK |
+| `/.well-known/core` | GET | Descubrimiento de recursos | DTLS-PSK |
+
+### 📝 Formato de Peticiones
+
+```json
+{
+  "edificio_id": "edificio_001",
+  "piso_origen": 5,
+  "piso_destino": 10,
+  "prioridad": "normal",
+  "timestamp": 1640995200
+}
+```
+
+### 📤 Formato de Respuestas
+
+```json
+{
+  "status": "success",
+  "ascensor_asignado": "ascensor_003",
+  "tiempo_estimado": 45,
+  "tarea_id": "tarea_12345",
+  "timestamp": 1640995200
+}
 ```
 
 ## 💾 Base de Datos
 
-### 📊 Esquema de Base de Datos
+### 🗄️ Esquema SQLite
 
-#### Tabla `edificios`
 ```sql
+-- Tabla de edificios
 CREATE TABLE edificios (
-    id_edificio TEXT PRIMARY KEY,
-    num_plantas INTEGER NOT NULL,
-    num_ascensores_total INTEGER NOT NULL,
-    fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP,
-    activo INTEGER DEFAULT 1
+    id TEXT PRIMARY KEY,
+    nombre TEXT NOT NULL,
+    num_ascensores INTEGER DEFAULT 4,
+    configuracion TEXT
 );
-```
 
-#### Tabla `ascensores_estado`
-```sql
+-- Tabla de estado de ascensores
 CREATE TABLE ascensores_estado (
-    ascensor_id TEXT PRIMARY KEY,
-    edificio_id TEXT NOT NULL,
-    piso_actual INTEGER NOT NULL DEFAULT 0,
-    estado_puerta TEXT NOT NULL DEFAULT 'CERRADA',
-    disponible INTEGER NOT NULL DEFAULT 1,
-    tarea_actual_id TEXT,
-    destino_actual INTEGER,
-    ultima_actualizacion DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (edificio_id) REFERENCES edificios(id_edificio)
+    id TEXT PRIMARY KEY,
+    edificio_id TEXT,
+    piso_actual INTEGER DEFAULT 1,
+    estado TEXT DEFAULT 'disponible',
+    ultima_actualizacion TIMESTAMP,
+    FOREIGN KEY (edificio_id) REFERENCES edificios(id)
 );
-```
 
-#### Tabla `logs_operaciones`
-```sql
-CREATE TABLE logs_operaciones (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+-- Tabla de tareas asignadas
+CREATE TABLE tareas (
+    id TEXT PRIMARY KEY,
     edificio_id TEXT,
     ascensor_id TEXT,
-    operacion TEXT,
-    detalles TEXT,
-    resultado TEXT
+    piso_origen INTEGER,
+    piso_destino INTEGER,
+    estado TEXT DEFAULT 'pendiente',
+    timestamp TIMESTAMP,
+    FOREIGN KEY (edificio_id) REFERENCES edificios(id),
+    FOREIGN KEY (ascensor_id) REFERENCES ascensores_estado(id)
 );
 ```
-### 📊 Cobertura de Código
 
-Las pruebas cubren:
-- ✅ **Generación de IDs**: Unicidad y formato correcto
-- ✅ **Validación JSON**: Payloads válidos e inválidos
-- ✅ **Algoritmos de asignación**: Lógica básica y optimizada
-- ✅ **Generación de respuestas**: Formato correcto
-- ✅ **Flujo completo**: Integración end-to-end
-- ✅ **Manejo de errores**: Casos de error y recuperación
+## 🧪 Testing
+
+### 🧪 Tests Unitarios
+
+```bash
+# Ejecutar tests unitarios
+cd tests/unit
+make test
+
+# Verificar cobertura
+make coverage
+```
+
+### 🔗 Tests de Integración
+
+```bash
+# Ejecutar tests de integración
+cd tests/integration
+./run_integration_tests.sh
+```
+
+### 🐳 Tests de Contenedor
+
+```bash
+# Test de imagen Docker
+docker build -t servidor-central-test .
+docker run --rm servidor-central-test ./run_tests.sh
+```
 
 ## 🔐 Seguridad
 
-### 🔑 DTLS-PSK Implementation
+### 🔑 Sistema de Claves PSK
 
-El servidor implementa **DTLS-PSK** (Datagram Transport Layer Security with Pre-Shared Keys) para asegurar todas las comunicaciones:
-
-```c
-/**
- * @brief Callback de validación PSK
- * Valida la identidad del cliente y proporciona la clave compartida
- */
-static unsigned int psk_server_callback(
-    coap_session_t *session,
-    const uint8_t *hint, size_t hint_len,
-    const uint8_t *identity, size_t identity_len,
-    uint8_t *key, size_t max_key_len
-) {
-    // Validar identidad del cliente
-    if (identity_len == strlen("gateway_client") &&
-        memcmp(identity, "gateway_client", identity_len) == 0) {
-        
-        if (max_key_len >= psk_key_len) {
-            memcpy(key, psk_key, psk_key_len);
-            return psk_key_len;
-        }
-    }
-    
-    return 0; // Fallo de autenticación
-}
-```
-
-### 🛡️ Características de Seguridad
-
-- **Cifrado de extremo a extremo**: Todos los datos están cifrados
-- **Autenticación mutua**: Cliente y servidor se autentican
-- **Integridad de mensajes**: Verificación de integridad automática
-- **Protección contra replay**: Prevención de ataques de repetición
-
-### 🔧 Configuración de Seguridad
+El sistema utiliza un archivo de 15,000 claves PSK pre-generadas:
 
 ```bash
-# Generar nueva clave PSK (recomendado para producción)
-openssl rand -hex 16
+# Generación de claves (ya incluido)
+python3 generate_psk_keys.py
 
-# Configurar claves en ambos extremos
-# servidor_central/include/servidor_central/dtls_config.h
-# api_gateway/include/api_gateway/dtls_common_config.h
+# Verificación de claves
+./verify_psk_keys.sh
 ```
+
+### 🔒 Configuración DTLS
+
+```c
+// Configuración DTLS-PSK
+#define DTLS_PSK_FILE "/app/psk_keys.txt"
+#define DTLS_TIMEOUT 30
+#define DTLS_MTU 1280
+#define DTLS_RETRANSMIT_TIMEOUT 2
+```
+
+### 🛡️ Medidas de Seguridad
+
+- ✅ **Cifrado de extremo a extremo** con DTLS 1.2
+- ✅ **Autenticación mutua** mediante PSK
+- ✅ **Validación de claves** contra archivo pre-generado
+- ✅ **Timeouts optimizados** para prevenir ataques
+- ✅ **Usuario no-root** en contenedor Docker
+- ✅ **Dependencias mínimas** para reducir superficie de ataque
 
 ## 📊 Monitorización
 
 ### 📈 Métricas en Tiempo Real
 
 ```bash
-# Estado del servidor
-sqlite3 elevators.db "SELECT * FROM ascensores_estado;"
+# Ver logs del servidor
+kubectl logs -f deployment/servidor-central-deployment
 
-# Conexiones activas
-ss -tulpn | grep 5684
+# Ver métricas de recursos
+kubectl top pods
 
-# Uso de recursos
-htop -p $(pgrep servidor_central)
+# Ver estado de servicios
+kubectl get svc
 ```
 
-### 📝 Sistema de Logs
+### 📊 Logs Estructurados
 
-```bash
-# Logs del sistema
-tail -f /var/log/servidor_central.log
-
-# Logs de base de datos
-sqlite3 elevators.db "SELECT * FROM logs_operaciones ORDER BY timestamp DESC LIMIT 10;"
-
-# Habilitar logging detallado
-export SQLITE_DEBUG=1
-./servidor_central --verbose
-```
-
-### 🔍 Herramientas de Debugging
-
-```bash
-# Con GDB
-gdb ./servidor_central
-(gdb) set args --verbose
-(gdb) run
-
-# Con Valgrind (detección de memory leaks)
-valgrind --leak-check=full ./servidor_central
-
-# Análisis de rendimiento
-perf record ./servidor_central
-perf report
+```json
+{
+  "timestamp": "2024-01-15T10:30:00Z",
+  "level": "INFO",
+  "component": "assignment_engine",
+  "message": "Ascensor asignado: ascensor_003",
+  "metadata": {
+    "edificio_id": "edificio_001",
+    "piso_origen": 5,
+    "piso_destino": 10,
+    "tiempo_procesamiento": 15
+  }
+}
 ```
 
 ## 🐛 Solución de Problemas
 
-### ❌ Errores Comunes
+### 🔍 Problemas Comunes
 
 <details>
-<summary><strong>Error: "Database connection failed"</strong></summary>
+<summary><strong>Error: ImagePullBackOff</strong></summary>
 
 ```bash
-# Verificar permisos
-ls -la elevators.db
-chmod 664 elevators.db
+# Solución: Configurar entorno de Docker de Minikube
+eval $(minikube docker-env)
+docker build -t servidor-central .
 
-# Verificar integridad
-sqlite3 elevators.db "PRAGMA integrity_check;"
-
-# Recrear si está corrupta
-rm elevators.db && ./servidor_central
+# Verificar que imagePullPolicy: Never esté configurado
+kubectl get deployment servidor-central-deployment -o yaml
 ```
+
 </details>
 
 <details>
-<summary><strong>Error: "DTLS handshake failed"</strong></summary>
+<summary><strong>Error: libcjson.so.1 not found</strong></summary>
 
 ```bash
-# Verificar configuración PSK
-grep -r "DTLS_PSK" include/servidor_central/
+# Solución: Agregar libcjson1 al Dockerfile
+RUN apt-get install -y libcjson1
 
-# Verificar sincronización de claves
-diff servidor_central/include/servidor_central/dtls_config.h \
-     api_gateway/include/api_gateway/dtls_common_config.h
-
-# Probar sin DTLS (debugging)
-./servidor_central --no-dtls
+# Reconstruir imagen
+docker build -t servidor-central .
 ```
+
 </details>
 
 <details>
-<summary><strong>Error: "Port already in use"</strong></summary>
+<summary><strong>Error: Service en estado pending</strong></summary>
 
 ```bash
-# Identificar proceso
-sudo netstat -tulpn | grep 5684
-sudo lsof -i :5684
-
-# Terminar proceso
-sudo kill -9 <PID>
-
-# Usar puerto alternativo
-./servidor_central --port 5685
+# Solución: Verificar configuración de MetalLB
+kubectl get ipaddresspools -n metallb-system
+kubectl apply -f metallb-config.yaml
 ```
+
 </details>
 
-### 🔧 Comandos de Diagnóstico
+### 🛠️ Herramientas de Debugging
 
 ```bash
-# Verificar dependencias
-pkg-config --exists libcoap-3-openssl && echo "✅ libcoap OK"
-pkg-config --exists libcjson && echo "✅ cJSON OK"
-sqlite3 --version && echo "✅ SQLite OK"
+# Ver logs detallados
+kubectl logs -f deployment/servidor-central-deployment
 
-# Test de conectividad
-coap-client -m get coap://127.0.0.1:5684/.well-known/core
+# Ver eventos del pod
+kubectl describe pod <pod-name>
 
-# Verificar base de datos
-sqlite3 elevators.db ".tables"
-sqlite3 elevators.db "SELECT COUNT(*) FROM edificios;"
+# Ver configuración del deployment
+kubectl get deployment servidor-central-deployment -o yaml
+
+# Ver estado de servicios
+kubectl get svc -o wide
 ```
 
 ## 📚 Documentación
 
-### 📖 Documentación del Código
+### 📖 Documentación Técnica
 
-Todo el código está documentado usando **Doxygen**:
+- [📋 Especificación CoAP/DTLS-PSK](./docs/coap-dtls-spec.md)
+- [🏗️ Arquitectura del Sistema](./docs/architecture.md)
+- [🔐 Guía de Seguridad](./docs/security.md)
+- [📊 Guía de Monitorización](./docs/monitoring.md)
+
+### 🔗 Enlaces Útiles
+
+- [📦 Repositorio Principal](../README.md)
+- [🔌 API Gateway](../api_gateway/README.md)
+- [🧪 Tests](../tests/README.md)
+- [📊 Monitorización](../monitoring/README.md)
+
+## 🤝 Contribución
+
+### 📝 Guías de Contribución
+
+1. **Fork** el repositorio
+2. **Crear** una rama para tu feature (`git checkout -b feature/nueva-funcionalidad`)
+3. **Commit** tus cambios (`git commit -am 'Agregar nueva funcionalidad'`)
+4. **Push** a la rama (`git push origin feature/nueva-funcionalidad`)
+5. **Crear** un Pull Request
+
+### 🧪 Testing
 
 ```bash
-# Generar documentación
-doxygen Doxyfile
+# Ejecutar todos los tests
+./run_all_tests.sh
 
-# Ver documentación
-firefox docs/html/index.html
+# Verificar cobertura
+make coverage
 ```
 
-### 🏗️ Algoritmos de Asignación
+### 📋 Checklist de Contribución
 
-<details>
-<summary><strong>Algoritmo Básico por Proximidad</strong></summary>
-
-```c
-/**
- * @brief Algoritmo de asignación básico por proximidad
- * Selecciona el ascensor disponible más cercano al piso objetivo
- */
-int basic_assignment_algorithm(elevator_info_t* elevators, int count, int target_floor) {
-    int best_elevator = -1;
-    int min_distance = INT_MAX;
-    
-    for (int i = 0; i < count; i++) {
-        if (elevators[i].available) {
-            int distance = abs(elevators[i].current_floor - target_floor);
-            if (distance < min_distance) {
-                min_distance = distance;
-                best_elevator = i;
-            }
-        }
-    }
-    
-    return best_elevator;
-}
-```
-</details>
-
-### 📋 Especificaciones Técnicas
-
-- **Lenguaje**: C (C99)
-- **Protocolo**: CoAP (RFC 7252)
-- **Seguridad**: DTLS-PSK (RFC 4279)
-- **Base de Datos**: SQLite 3.x
-- **Formato de Datos**: JSON (RFC 7159)
-- **Arquitectura**: Cliente-Servidor
+- [ ] Tests unitarios pasando
+- [ ] Tests de integración pasando
+- [ ] Documentación actualizada
+- [ ] Código siguiendo estándares
+- [ ] Configuración DTLS-PSK verificada
+- [ ] Imagen Docker construida correctamente
 
 ---
+
+## 📄 Licencia
+
+Este proyecto está bajo la Licencia MIT. Ver el archivo [LICENSE](../LICENSE) para más detalles.
+
+---
+
+**🏢 Sistema de Control de Ascensores** - Comunicación segura CoAP/DTLS-PSK para gestión inteligente de ascensores multi-edificio.

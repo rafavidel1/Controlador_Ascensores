@@ -24,6 +24,7 @@ set(API_GATEWAY_SOURCES
     src/mi_simulador_ascensor.c
     src/simulation_loader.c
     src/execution_logger.c
+    src/psk_manager.c
 )
 
 # Add the executable
@@ -97,10 +98,34 @@ if(LIBCOAP_FOUND)
         $<TARGET_FILE_DIR:api_gateway>/gateway.env
     )
 
+    add_custom_command(TARGET api_gateway POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        ${CMAKE_CURRENT_SOURCE_DIR}/psk_keys.txt
+        $<TARGET_FILE_DIR:api_gateway>/psk_keys.txt
+    )
+
+    add_custom_command(TARGET api_gateway POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        ${CMAKE_CURRENT_SOURCE_DIR}/simulation_data.json
+        $<TARGET_FILE_DIR:api_gateway>/simulation_data.json
+    )
+
     add_custom_command(TARGET api_gateway_dynamic POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
         ${CMAKE_CURRENT_SOURCE_DIR}/gateway.env
         $<TARGET_FILE_DIR:api_gateway_dynamic>/gateway.env
+    )
+
+    add_custom_command(TARGET api_gateway_dynamic POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        ${CMAKE_CURRENT_SOURCE_DIR}/psk_keys.txt
+        $<TARGET_FILE_DIR:api_gateway_dynamic>/psk_keys.txt
+    )
+
+    add_custom_command(TARGET api_gateway_dynamic POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        ${CMAKE_CURRENT_SOURCE_DIR}/simulation_data.json
+        $<TARGET_FILE_DIR:api_gateway_dynamic>/simulation_data.json
     )
 
 else()

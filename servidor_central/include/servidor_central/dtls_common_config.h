@@ -36,20 +36,6 @@
 #define PSK_CLIENT_IDENTITY "Gateway_Client_001"
 
 /**
- * @brief Clave PSK compartida para autenticación
- * 
- * Clave secreta compartida utilizada para autenticar y cifrar
- * las comunicaciones DTLS entre el servidor central y los API Gateways.
- * 
- * **CRÍTICO:** Esta clave debe ser idéntica en:
- * - Servidor Central: PSK_KEY
- * - API Gateway: KEY_FOR_SERVER
- * 
- * @warning Mantener esta clave segura y sincronizada entre componentes
- */
-#define PSK_KEY "SecretGatewayServidorCentralKey"
-
-/**
  * @brief Hint del servidor para selección de credenciales
  * 
  * Hint enviado por el servidor central a los clientes durante
