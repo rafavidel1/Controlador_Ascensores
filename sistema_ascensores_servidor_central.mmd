@@ -1,0 +1,219 @@
+---
+config:
+  theme: redux
+  look: neo
+  layout: fixed
+---
+flowchart TB
+ subgraph KubernetesInfrastructure["🚢 Kubernetes Infrastructure"]
+    direction TB
+        MetalLBIP["⚖️ MetalLB External IP<br/>192.168.49.2:5684<br/>UDP Load Balancer<br/>IPAddressPool"]
+        K8sService["🔀 Kubernetes Service<br/>UDP LoadBalancer<br/>Port 5684<br/>Selector: app=servidor-central"]
+        K8sEndpoints["📍 Kubernetes Endpoints<br/>Pod IP discovery<br/>Service routing<br/>Health checks"]
+        K8sIngress["🌐 Ingress Controller<br/>Traffic routing<br/>Load balancing<br/>Session affinity"]
+        
+        MetalLBIP --> K8sService
+        K8sService --> K8sEndpoints
+        K8sEndpoints --> K8sIngress
+  end
+
+ subgraph K8sOrchestration["🎯 Kubernetes Orchestration"]
+    direction TB
+        K8sDeployment["📦 Deployment<br/>servidor-central<br/>Replicas: 1-500<br/>Rolling updates"]
+        K8sReplicaSet["🔄 ReplicaSet<br/>Pod management<br/>Scaling control<br/>Desired state"]
+        K8sHPA["📈 HPA Autoscaler<br/>CPU: 70% threshold<br/>Memory: 80% threshold<br/>Min: 1, Max: 500"]
+        K8sPod["🎯 Pod<br/>servidor-central<br/>Ubuntu 22.04<br/>97MB optimized image"]
+        
+        K8sDeployment --> K8sReplicaSet
+        K8sReplicaSet --> K8sHPA
+        K8sHPA --> K8sPod
+  end
+
+ subgraph ContainerRuntime["🐳 Container Runtime"]
+    direction TB
+        DockerRuntime["🐳 Docker Runtime<br/>Container execution<br/>Resource isolation<br/>Security context"]
+        ProcessManager["⚙️ Process Manager<br/>PID 1 init<br/>Signal handling<br/>Zombie reaping"]
+        MainProcess["🚀 Main Process<br/>servidor_central<br/>./main<br/>SIGINT handler"]
+        
+        DockerRuntime --> ProcessManager
+        ProcessManager --> MainProcess
+  end
+
+ subgraph NetworkStack["🌐 Network Stack"]
+    direction TB
+        CoAPServer["🌐 CoAP Server<br/>libcoap 4.3.0<br/>coap_new_context()<br/>UDP port 5684"]
+        DTLSServer["🔐 DTLS Server<br/>coap_context_set_psk2()<br/>Session management<br/>Handshake handling"]
+        SocketLayer["🔌 Socket Layer<br/>UDP socket<br/>bind(0.0.0.0:5684)<br/>Non-blocking I/O"]
+        EventLoop["🔄 Event Loop<br/>coap_io_process()<br/>Message processing<br/>Timeout handling"]
+        
+        CoAPServer --> DTLSServer
+        DTLSServer --> SocketLayer
+        SocketLayer --> EventLoop
+  end
+
+ subgraph SecurityLayer["🔐 Security Layer"]
+    direction TB
+        PSKValidator["🔑 PSK Validator<br/>psk_validator.c<br/>get_psk_info()<br/>validate_psk()"]
+        PSKManager["🗝️ PSK Manager<br/>psk_validator_init()<br/>Key lookup<br/>Identity validation"]
+        SessionHandler["🔗 Session Handler<br/>session_event_handler()<br/>DTLS timeouts<br/>Reconnection logic"]
+        AuthContext["🛡️ Auth Context<br/>Client authentication<br/>Session state<br/>Security context"]
+        
+        PSKValidator --> PSKManager
+        PSKManager --> SessionHandler
+        SessionHandler --> AuthContext
+  end
+
+ subgraph JSONProcessing["📖 JSON Processing Layer"]
+    direction TB
+        JSONParser["📖 JSON Parser<br/>cJSON library<br/>cJSON_Parse()<br/>cJSON_GetObjectItem()"]
+        RequestValidator["✅ Request Validator<br/>validate_floor_call_request()<br/>validate_cabin_request()<br/>Schema validation"]
+        DataExtractor["📤 Data Extractor<br/>extract_elevator_states()<br/>extract_request_details()<br/>Type conversion"]
+        ErrorHandler["⚠️ Error Handler<br/>JSON error reporting<br/>400 Bad Request<br/>Error logging"]
+        
+        JSONParser --> RequestValidator
+        RequestValidator --> DataExtractor
+        DataExtractor --> ErrorHandler
+  end
+
+ subgraph BusinessLogic["⚡ Business Logic Layer"]
+    direction TB
+        TaskScheduler["⚡ Task Scheduler<br/>assign_task_to_elevator()<br/>select_optimal_elevator()<br/>Proximity algorithm"]
+        ElevatorManager["🏗️ Elevator Manager<br/>update_elevator_state()<br/>mark_elevator_busy()<br/>State transitions"]
+        DistanceCalculator["📏 Distance Calculator<br/>calculate_distance()<br/>abs(current_floor - target)<br/>Optimal selection"]
+        RandomSelector["🎲 Random Selector<br/>select_random_from_equal()<br/>Load balancing<br/>Tie breaking"]
+        
+        TaskScheduler --> ElevatorManager
+        ElevatorManager --> DistanceCalculator
+        DistanceCalculator --> RandomSelector
+  end
+
+ subgraph ResponseGeneration["📤 Response Generation Layer"]
+    direction TB
+        ResponseGenerator["📤 Response Generator<br/>create_server_response()<br/>JSON response building<br/>Success/Error handling"]
+        TaskIDGenerator["🔢 Task ID Generator<br/>generate_unique_task_id()<br/>Timestamp-based<br/>T_[timestamp] format"]
+        ResponseBuilder["🏗️ Response Builder<br/>build_json_response()<br/>ascensor_asignado_id<br/>tarea_id, piso_destino"]
+        ResponseValidator["✅ Response Validator<br/>validate_response_json()<br/>Schema compliance<br/>Field validation"]
+        
+        ResponseGenerator --> TaskIDGenerator
+        TaskIDGenerator --> ResponseBuilder
+        ResponseBuilder --> ResponseValidator
+  end
+
+ subgraph ResourceHandlers["🔧 Resource Handlers"]
+    direction TB
+        FloorCallHandler["🏢 Floor Call Handler<br/>hnd_floor_call()<br/>POST /peticion_piso<br/>Floor call processing"]
+        CabinRequestHandler["🚪 Cabin Request Handler<br/>hnd_cabin_request()<br/>POST /peticion_cabina<br/>Cabin request processing"]
+        CoreDiscovery["🔍 Core Discovery<br/>/.well-known/core<br/>Resource discovery<br/>CoAP standard"]
+        
+        FloorCallHandler --> CabinRequestHandler
+        CabinRequestHandler --> CoreDiscovery
+  end
+
+ subgraph StorageLayer["💾 Storage Layer"]
+    direction TB
+        PSKKeysFile["🔐 PSK Keys File<br/>psk_keys.txt<br/>15,000 pre-generated keys<br/>Gateway_Client_* identities"]
+        LogSystem["📋 Log System<br/>Structured logging<br/>SRV_LOG_* macros<br/>Timestamp + level"]
+        ConfigFiles["⚙️ Config Files<br/>Environment variables<br/>Runtime configuration<br/>Security parameters"]
+        
+        PSKKeysFile --> LogSystem
+        LogSystem --> ConfigFiles
+  end
+
+ subgraph ServidorCentral["🗄️ Servidor Central Process"]
+    direction TB
+        NetworkStack
+        SecurityLayer
+        JSONProcessing
+        BusinessLogic
+        ResponseGeneration
+        ResourceHandlers
+        StorageLayer
+  end
+
+    %% Data Flow Connections
+    MetalLBIP -- "UDP traffic<br/>Port 5684<br/>Load balanced<br/>External IP routing<br/>Session persistence" --> K8sService
+    
+    K8sService -- "Service routing<br/>Pod selection<br/>Health check filtering<br/>Load balancing<br/>ClusterIP translation" --> K8sPod
+    
+    K8sPod -- "Container networking<br/>Process routing<br/>PID namespace<br/>Network namespace<br/>Port forwarding" --> CoAPServer
+    
+    CoAPServer -- "CoAP message parsing<br/>coap_pdu_t structure<br/>coap_session_t context<br/>Message ID correlation<br/>Token validation" --> DTLSServer
+    
+    DTLSServer -- "DTLS handshake<br/>PSK identity extraction<br/>Gateway_Client_* validation<br/>Session establishment<br/>Decryption" --> PSKValidator
+    
+    PSKValidator -- "Authentication result<br/>Session context<br/>Security state<br/>Client identity<br/>Authorized session" --> JSONParser
+    
+    JSONParser -- "Parsed JSON objects<br/>FloorCallRequest/CabinRequest<br/>Validation result<br/>Structured data<br/>Type-safe objects" --> TaskScheduler
+    
+    TaskScheduler -- "Task assignment<br/>Elevator selection<br/>Optimal elevator choice<br/>Distance calculation<br/>Assignment result" --> ResponseGenerator
+    
+    ResponseGenerator -- "ServerResponse JSON<br/>Task assignment details<br/>ascensor_asignado_id<br/>tarea_id<br/>piso_destino_asignado" --> TaskIDGenerator
+    
+    TaskIDGenerator -- "Generated tarea_id<br/>Unique timestamp identifier<br/>T_[timestamp] format<br/>Collision-free ID<br/>Trackable identifier" --> ResponseGenerator
+    
+    ResponseGenerator -- "Complete ServerResponse<br/>JSON structure<br/>Success/Error status<br/>Assignment details<br/>Validation passed" --> CoAPServer
+    
+    CoAPServer -- "CoAP 200 OK response<br/>JSON payload<br/>Token correlation<br/>Message ID match<br/>Session context" --> K8sPod
+
+    %% Storage Access
+    PSKValidator -. "Key lookup<br/>Identity validation<br/>psk_keys.txt access<br/>Linear search<br/>Gateway_Client_* pattern" .-> PSKKeysFile
+    
+    CoAPServer -. "Event logging<br/>Request/Response audit<br/>Performance metrics<br/>Error tracking<br/>Structured logs" .-> LogSystem
+    
+    SessionHandler -. "Configuration access<br/>Timeout values<br/>Security parameters<br/>Runtime settings<br/>Environment variables" .-> ConfigFiles
+
+    %% Kubernetes Dependencies
+    K8sService -. "Service discovery<br/>Pod selection<br/>Health monitoring<br/>Endpoint management<br/>Traffic routing" .-> K8sEndpoints
+    
+    K8sHPA -. "Scaling decisions<br/>Resource monitoring<br/>CPU/Memory metrics<br/>Replica management<br/>Auto-scaling" .-> K8sReplicaSet
+    
+    MainProcess -. "Process lifecycle<br/>Signal handling<br/>Graceful shutdown<br/>Resource cleanup<br/>Container exit" .-> ProcessManager
+
+    %% Styling
+    MetalLBIP:::k8sStyle
+    K8sService:::k8sStyle
+    K8sEndpoints:::k8sStyle
+    K8sIngress:::k8sStyle
+    K8sDeployment:::k8sStyle
+    K8sReplicaSet:::k8sStyle
+    K8sHPA:::k8sStyle
+    K8sPod:::k8sStyle
+    DockerRuntime:::containerStyle
+    ProcessManager:::containerStyle
+    MainProcess:::containerStyle
+    CoAPServer:::networkStyle
+    DTLSServer:::networkStyle
+    SocketLayer:::networkStyle
+    EventLoop:::networkStyle
+    PSKValidator:::securityStyle
+    PSKManager:::securityStyle
+    SessionHandler:::securityStyle
+    AuthContext:::securityStyle
+    JSONParser:::processingStyle
+    RequestValidator:::processingStyle
+    DataExtractor:::processingStyle
+    ErrorHandler:::processingStyle
+    TaskScheduler:::businessStyle
+    ElevatorManager:::businessStyle
+    DistanceCalculator:::businessStyle
+    RandomSelector:::businessStyle
+    ResponseGenerator:::responseStyle
+    TaskIDGenerator:::responseStyle
+    ResponseBuilder:::responseStyle
+    ResponseValidator:::responseStyle
+    FloorCallHandler:::handlerStyle
+    CabinRequestHandler:::handlerStyle
+    CoreDiscovery:::handlerStyle
+    PSKKeysFile:::storageStyle
+    LogSystem:::storageStyle
+    ConfigFiles:::storageStyle
+    
+    classDef k8sStyle fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    classDef containerStyle fill:#e3f2fd,stroke:#1565c0,stroke-width:2px
+    classDef networkStyle fill:#fce4ec,stroke:#880e4f,stroke-width:2px
+    classDef securityStyle fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+    classDef processingStyle fill:#e8f5e8,stroke:#1b5e20,stroke-width:2px
+    classDef businessStyle fill:#fff9c4,stroke:#f57f17,stroke-width:2px
+    classDef responseStyle fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+    classDef handlerStyle fill:#f1f8e9,stroke:#33691e,stroke-width:2px
+    classDef storageStyle fill:#fafafa,stroke:#424242,stroke-width:2px 

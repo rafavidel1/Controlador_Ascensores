@@ -1,0 +1,64 @@
+\doxysection{dtls\+\_\+common\+\_\+config.\+h}
+\label{dtls__common__config_8h_source}\index{include/servidor\_central/dtls\_common\_config.h@{include/servidor\_central/dtls\_common\_config.h}}
+\textbf{ Go to the documentation of this file.}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#ifndef\ DTLS\_COMMON\_CONFIG\_H}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#define\ DTLS\_COMMON\_CONFIG\_H}}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ <openssl/ssl.h>}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#include\ <openssl/err.h>}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#include\ <coap3/coap.h>}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00024\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00033\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keywordtype}{char}\ *psk\_file;\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keywordtype}{int}\ psk\_timeout;\ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keywordtype}{int}\ dtls\_mtu;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keywordtype}{int}\ retransmit\_timeout;\ \ \ \ \ }
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keywordtype}{int}\ max\_connections;\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keywordtype}{int}\ session\_cache\_size;\ \ \ \ \ }
+\DoxyCodeLine{00040\ \}\ dtls\_config\_t;}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00052\ \textcolor{preprocessor}{\#define\ DEFAULT\_DTLS\_CONFIG\ \{\ \(\backslash\)}}
+\DoxyCodeLine{00053\ \textcolor{preprocessor}{\ \ \ \ .psk\_file\ =\ "{}/app/psk\_keys.txt"{},\ \(\backslash\)}}
+\DoxyCodeLine{00054\ \textcolor{preprocessor}{\ \ \ \ .psk\_timeout\ =\ 30,\ \(\backslash\)}}
+\DoxyCodeLine{00055\ \textcolor{preprocessor}{\ \ \ \ .dtls\_mtu\ =\ 1280,\ \(\backslash\)}}
+\DoxyCodeLine{00056\ \textcolor{preprocessor}{\ \ \ \ .retransmit\_timeout\ =\ 2,\ \(\backslash\)}}
+\DoxyCodeLine{00057\ \textcolor{preprocessor}{\ \ \ \ .max\_connections\ =\ 100,\ \(\backslash\)}}
+\DoxyCodeLine{00058\ \textcolor{preprocessor}{\ \ \ \ .session\_cache\_size\ =\ 50\ \(\backslash\)}}
+\DoxyCodeLine{00059\ \textcolor{preprocessor}{\}}}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00066\ \textcolor{preprocessor}{\#define\ DEFAULT\_DTLS\_PORT\ 5684}}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00073\ \textcolor{preprocessor}{\#define\ MAX\_PSK\_LENGTH\ 128}}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00080\ \textcolor{preprocessor}{\#define\ MAX\_PSK\_IDENTITY\_LENGTH\ 64}}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00087\ \textcolor{preprocessor}{\#define\ NUM\_PSK\_KEYS\ 15000}}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00107\ \textcolor{keywordtype}{int}\ init\_ssl\_context(SSL\_CTX\ **ssl\_ctx,\ \textcolor{keyword}{const}\ dtls\_config\_t\ *config);}
+\DoxyCodeLine{00108\ }
+\DoxyCodeLine{00122\ \textcolor{keywordtype}{void}\ cleanup\_ssl\_context(SSL\_CTX\ *ssl\_ctx);}
+\DoxyCodeLine{00123\ }
+\DoxyCodeLine{00141\ \textcolor{keywordtype}{int}\ setup\_dtls\_session(coap\_context\_t\ *ctx,\ SSL\_CTX\ *ssl\_ctx,\ \textcolor{keywordtype}{int}\ port);}
+\DoxyCodeLine{00142\ }
+\DoxyCodeLine{00162\ \textcolor{keywordtype}{int}\ psk\_server\_callback(SSL\ *ssl,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *identity,\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ *psk,\ }
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ max\_psk\_len);}
+\DoxyCodeLine{00164\ }
+\DoxyCodeLine{00183\ \textcolor{keywordtype}{int}\ validate\_psk\_key(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *identity,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *psk,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *psk\_file);}
+\DoxyCodeLine{00184\ }
+\DoxyCodeLine{00202\ \textcolor{keywordtype}{int}\ get\_dtls\_config\_from\_env(dtls\_config\_t\ *config);}
+\DoxyCodeLine{00203\ }
+\DoxyCodeLine{00220\ \textcolor{keywordtype}{int}\ configure\_dtls\_session(SSL\ *ssl,\ \textcolor{keyword}{const}\ dtls\_config\_t\ *config);}
+\DoxyCodeLine{00221\ }
+\DoxyCodeLine{00222\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00223\ \}}
+\DoxyCodeLine{00224\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00225\ }
+\DoxyCodeLine{00226\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ DTLS\_COMMON\_CONFIG\_H\ */}\textcolor{preprocessor}{\ }}
+
+\end{DoxyCode}

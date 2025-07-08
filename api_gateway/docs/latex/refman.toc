@@ -1,0 +1,341 @@
+\@ifundefined {etoctocstyle}{\let \etoc@startlocaltoc \@gobble \let \etoc@settocdepth \@gobble \let \etoc@depthtag \@gobble \let \etoc@setlocaltop \@gobble }{}
+\contentsline {chapter}{\numberline {1}Topic Documentation}{1}{}%
+\contentsline {section}{\numberline {1.1}Configuración de Escucha del Gateway}{1}{}%
+\contentsline {section}{\numberline {1.2}Configuración del Servidor Central}{1}{}%
+\contentsline {section}{\numberline {1.3}Recursos Co\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}AP}{1}{}%
+\contentsline {section}{\numberline {1.4}Configuraciones de Timeout}{1}{}%
+\contentsline {section}{\numberline {1.5}Códigos de Color ANSI para Gateway}{1}{}%
+\contentsline {section}{\numberline {1.6}Macros de Logging del Gateway}{2}{}%
+\contentsline {section}{\numberline {1.7}Estructuras de Datos de Simulación}{2}{}%
+\contentsline {subsection}{\numberline {1.7.1}Detailed Description}{2}{}%
+\contentsline {subsection}{\numberline {1.7.2}Enumeration Type Documentation}{2}{}%
+\contentsline {subsubsection}{\numberline {1.7.2.1}tipo\_peticion\_t}{2}{}%
+\contentsline {section}{\numberline {1.8}Funciones de Simulación}{3}{}%
+\contentsline {subsection}{\numberline {1.8.1}Detailed Description}{3}{}%
+\contentsline {subsection}{\numberline {1.8.2}Function Documentation}{3}{}%
+\contentsline {subsubsection}{\numberline {1.8.2.1}cargar\_datos\_simulacion()}{3}{}%
+\contentsline {subsubsection}{\numberline {1.8.2.2}convertir\_direccion\_string()}{4}{}%
+\contentsline {subsubsection}{\numberline {1.8.2.3}ejecutar\_peticiones\_edificio()}{4}{}%
+\contentsline {subsubsection}{\numberline {1.8.2.4}liberar\_datos\_simulacion()}{5}{}%
+\contentsline {subsubsection}{\numberline {1.8.2.5}seleccionar\_edificio\_aleatorio()}{5}{}%
+\contentsline {chapter}{\numberline {2}Data Structure Documentation}{7}{}%
+\contentsline {section}{\numberline {2.1}api\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}request\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}details\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}for\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}json\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}t Struct Reference}{7}{}%
+\contentsline {subsection}{\numberline {2.1.1}Detailed Description}{7}{}%
+\contentsline {subsection}{\numberline {2.1.2}Field Documentation}{7}{}%
+\contentsline {subsubsection}{\numberline {2.1.2.1}direction\_fc}{7}{}%
+\contentsline {subsubsection}{\numberline {2.1.2.2}origin\_floor\_fc}{8}{}%
+\contentsline {subsubsection}{\numberline {2.1.2.3}requesting\_elevator\_id\_cr}{8}{}%
+\contentsline {subsubsection}{\numberline {2.1.2.4}target\_floor\_cr}{8}{}%
+\contentsline {section}{\numberline {2.2}api\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}request\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}tracker\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}t Struct Reference}{8}{}%
+\contentsline {subsection}{\numberline {2.2.1}Detailed Description}{9}{}%
+\contentsline {subsection}{\numberline {2.2.2}Field Documentation}{9}{}%
+\contentsline {subsubsection}{\numberline {2.2.2.1}log\_tag}{9}{}%
+\contentsline {subsubsection}{\numberline {2.2.2.2}origin\_floor}{9}{}%
+\contentsline {subsubsection}{\numberline {2.2.2.3}original\_elevator\_session}{9}{}%
+\contentsline {subsubsection}{\numberline {2.2.2.4}original\_mid}{9}{}%
+\contentsline {subsubsection}{\numberline {2.2.2.5}original\_token}{10}{}%
+\contentsline {subsubsection}{\numberline {2.2.2.6}request\_type}{10}{}%
+\contentsline {subsubsection}{\numberline {2.2.2.7}requested\_direction\_floor}{10}{}%
+\contentsline {subsubsection}{\numberline {2.2.2.8}requesting\_elevator\_id\_cabin}{10}{}%
+\contentsline {subsubsection}{\numberline {2.2.2.9}target\_floor\_for\_task}{10}{}%
+\contentsline {section}{\numberline {2.3}can\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}origin\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}tracker\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}t Struct Reference}{10}{}%
+\contentsline {subsection}{\numberline {2.3.1}Detailed Description}{11}{}%
+\contentsline {subsection}{\numberline {2.3.2}Field Documentation}{11}{}%
+\contentsline {subsubsection}{\numberline {2.3.2.1}call\_reference\_floor}{11}{}%
+\contentsline {subsubsection}{\numberline {2.3.2.2}coap\_token}{11}{}%
+\contentsline {subsubsection}{\numberline {2.3.2.3}original\_can\_id}{11}{}%
+\contentsline {subsubsection}{\numberline {2.3.2.4}request\_type}{11}{}%
+\contentsline {subsubsection}{\numberline {2.3.2.5}requesting\_elevator\_id\_if\_cabin}{12}{}%
+\contentsline {subsubsection}{\numberline {2.3.2.6}target\_floor\_for\_task}{12}{}%
+\contentsline {section}{\numberline {2.4}central\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}request\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}entry\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}t Struct Reference}{12}{}%
+\contentsline {subsection}{\numberline {2.4.1}Detailed Description}{12}{}%
+\contentsline {subsection}{\numberline {2.4.2}Field Documentation}{12}{}%
+\contentsline {subsubsection}{\numberline {2.4.2.1}token}{12}{}%
+\contentsline {subsubsection}{\numberline {2.4.2.2}tracker\_data}{13}{}%
+\contentsline {section}{\numberline {2.5}datos\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}simulacion\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}t Struct Reference}{13}{}%
+\contentsline {subsection}{\numberline {2.5.1}Detailed Description}{13}{}%
+\contentsline {subsection}{\numberline {2.5.2}Field Documentation}{13}{}%
+\contentsline {subsubsection}{\numberline {2.5.2.1}datos\_cargados}{13}{}%
+\contentsline {subsubsection}{\numberline {2.5.2.2}edificios}{13}{}%
+\contentsline {subsubsection}{\numberline {2.5.2.3}num\_edificios}{14}{}%
+\contentsline {section}{\numberline {2.6}edificio\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}simulacion\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}t Struct Reference}{14}{}%
+\contentsline {subsection}{\numberline {2.6.1}Detailed Description}{14}{}%
+\contentsline {subsection}{\numberline {2.6.2}Field Documentation}{14}{}%
+\contentsline {subsubsection}{\numberline {2.6.2.1}id\_edificio}{14}{}%
+\contentsline {subsubsection}{\numberline {2.6.2.2}num\_peticiones}{14}{}%
+\contentsline {subsubsection}{\numberline {2.6.2.3}peticiones}{15}{}%
+\contentsline {section}{\numberline {2.7}elevator\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}group\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}state\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}t Struct Reference}{15}{}%
+\contentsline {subsection}{\numberline {2.7.1}Detailed Description}{15}{}%
+\contentsline {subsection}{\numberline {2.7.2}Field Documentation}{15}{}%
+\contentsline {subsubsection}{\numberline {2.7.2.1}ascensores}{15}{}%
+\contentsline {subsubsection}{\numberline {2.7.2.2}edificio\_id\_str\_grupo}{15}{}%
+\contentsline {subsubsection}{\numberline {2.7.2.3}num\_elevadores\_en\_grupo}{16}{}%
+\contentsline {section}{\numberline {2.8}elevator\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}status\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}t Struct Reference}{16}{}%
+\contentsline {subsection}{\numberline {2.8.1}Detailed Description}{16}{}%
+\contentsline {subsection}{\numberline {2.8.2}Field Documentation}{16}{}%
+\contentsline {subsubsection}{\numberline {2.8.2.1}ascensor\_id}{16}{}%
+\contentsline {subsubsection}{\numberline {2.8.2.2}destino\_actual}{17}{}%
+\contentsline {subsubsection}{\numberline {2.8.2.3}direccion\_movimiento\_enum}{17}{}%
+\contentsline {subsubsection}{\numberline {2.8.2.4}estado\_puerta\_enum}{17}{}%
+\contentsline {subsubsection}{\numberline {2.8.2.5}id\_edificio\_str}{17}{}%
+\contentsline {subsubsection}{\numberline {2.8.2.6}ocupado}{17}{}%
+\contentsline {subsubsection}{\numberline {2.8.2.7}piso\_actual}{17}{}%
+\contentsline {subsubsection}{\numberline {2.8.2.8}tarea\_actual\_id}{17}{}%
+\contentsline {section}{\numberline {2.9}execution\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}stats\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}t Struct Reference}{18}{}%
+\contentsline {subsection}{\numberline {2.9.1}Detailed Description}{18}{}%
+\contentsline {subsection}{\numberline {2.9.2}Field Documentation}{18}{}%
+\contentsline {subsubsection}{\numberline {2.9.2.1}building\_id}{18}{}%
+\contentsline {subsubsection}{\numberline {2.9.2.2}building\_requests}{18}{}%
+\contentsline {subsubsection}{\numberline {2.9.2.3}execution\_duration\_sec}{19}{}%
+\contentsline {subsubsection}{\numberline {2.9.2.4}total\_can\_frames\_received}{19}{}%
+\contentsline {subsubsection}{\numberline {2.9.2.5}total\_can\_frames\_sent}{19}{}%
+\contentsline {subsubsection}{\numberline {2.9.2.6}total\_coap\_requests}{19}{}%
+\contentsline {subsubsection}{\numberline {2.9.2.7}total\_coap\_responses}{19}{}%
+\contentsline {subsubsection}{\numberline {2.9.2.8}total\_elevator\_movements}{19}{}%
+\contentsline {subsubsection}{\numberline {2.9.2.9}total\_errors}{19}{}%
+\contentsline {subsubsection}{\numberline {2.9.2.10}total\_tasks\_assigned}{19}{}%
+\contentsline {subsubsection}{\numberline {2.9.2.11}total\_tasks\_completed}{20}{}%
+\contentsline {section}{\numberline {2.10}log\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}event\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}t Struct Reference}{20}{}%
+\contentsline {subsection}{\numberline {2.10.1}Detailed Description}{20}{}%
+\contentsline {subsection}{\numberline {2.10.2}Field Documentation}{20}{}%
+\contentsline {subsubsection}{\numberline {2.10.2.1}description}{20}{}%
+\contentsline {subsubsection}{\numberline {2.10.2.2}details}{20}{}%
+\contentsline {subsubsection}{\numberline {2.10.2.3}timestamp}{21}{}%
+\contentsline {subsubsection}{\numberline {2.10.2.4}type}{21}{}%
+\contentsline {section}{\numberline {2.11}peticion\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}simulacion\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}t Struct Reference}{21}{}%
+\contentsline {subsection}{\numberline {2.11.1}Detailed Description}{21}{}%
+\contentsline {subsection}{\numberline {2.11.2}Field Documentation}{21}{}%
+\contentsline {subsubsection}{\numberline {2.11.2.1}direccion}{21}{}%
+\contentsline {subsubsection}{\numberline {2.11.2.2}indice\_ascensor}{22}{}%
+\contentsline {subsubsection}{\numberline {2.11.2.3}piso\_destino}{22}{}%
+\contentsline {subsubsection}{\numberline {2.11.2.4}piso\_origen}{22}{}%
+\contentsline {subsubsection}{\numberline {2.11.2.5}tipo}{22}{}%
+\contentsline {section}{\numberline {2.12}psk\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}keys\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}t Struct Reference}{22}{}%
+\contentsline {subsection}{\numberline {2.12.1}Field Documentation}{22}{}%
+\contentsline {subsubsection}{\numberline {2.12.1.1}capacity}{22}{}%
+\contentsline {subsubsection}{\numberline {2.12.1.2}count}{22}{}%
+\contentsline {subsubsection}{\numberline {2.12.1.3}keys}{23}{}%
+\contentsline {section}{\numberline {2.13}simulated\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}can\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}frame\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}t Struct Reference}{23}{}%
+\contentsline {subsection}{\numberline {2.13.1}Detailed Description}{23}{}%
+\contentsline {subsection}{\numberline {2.13.2}Field Documentation}{23}{}%
+\contentsline {subsubsection}{\numberline {2.13.2.1}data}{23}{}%
+\contentsline {subsubsection}{\numberline {2.13.2.2}dlc}{23}{}%
+\contentsline {subsubsection}{\numberline {2.13.2.3}id}{23}{}%
+\contentsline {chapter}{\numberline {3}File Documentation}{25}{}%
+\contentsline {section}{\numberline {3.1}include/api\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}gateway/api\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}common\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}defs.h File Reference}{25}{}%
+\contentsline {section}{\numberline {3.2}api\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}common\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}defs.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{25}{}%
+\contentsline {section}{\numberline {3.3}include/api\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}gateway/can\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}bridge.h File Reference}{25}{}%
+\contentsline {subsection}{\numberline {3.3.1}Detailed Description}{26}{}%
+\contentsline {subsection}{\numberline {3.3.2}Typedef Documentation}{27}{}%
+\contentsline {subsubsection}{\numberline {3.3.2.1}can\_send\_callback\_t}{27}{}%
+\contentsline {subsection}{\numberline {3.3.3}Function Documentation}{27}{}%
+\contentsline {subsubsection}{\numberline {3.3.3.1}ag\_can\_bridge\_init()}{27}{}%
+\contentsline {subsubsection}{\numberline {3.3.3.2}ag\_can\_bridge\_process\_incoming\_frame()}{28}{}%
+\contentsline {subsubsection}{\numberline {3.3.3.3}ag\_can\_bridge\_register\_send\_callback()}{30}{}%
+\contentsline {subsubsection}{\numberline {3.3.3.4}ag\_can\_bridge\_send\_response\_frame()}{31}{}%
+\contentsline {subsubsection}{\numberline {3.3.3.5}find\_can\_tracker()}{32}{}%
+\contentsline {section}{\numberline {3.4}can\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}bridge.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{33}{}%
+\contentsline {section}{\numberline {3.5}include/api\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}gateway/coap\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}config.h File Reference}{34}{}%
+\contentsline {subsection}{\numberline {3.5.1}Detailed Description}{34}{}%
+\contentsline {section}{\numberline {3.6}coap\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}config.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{35}{}%
+\contentsline {section}{\numberline {3.7}include/api\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}gateway/elevator\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}state\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}manager.h File Reference}{35}{}%
+\contentsline {subsection}{\numberline {3.7.1}Detailed Description}{36}{}%
+\contentsline {subsection}{\numberline {3.7.2}Enumeration Type Documentation}{37}{}%
+\contentsline {subsubsection}{\numberline {3.7.2.1}door\_state\_enum\_t}{37}{}%
+\contentsline {subsubsection}{\numberline {3.7.2.2}gw\_request\_type\_t}{37}{}%
+\contentsline {subsubsection}{\numberline {3.7.2.3}movement\_direction\_enum\_t}{38}{}%
+\contentsline {subsection}{\numberline {3.7.3}Function Documentation}{38}{}%
+\contentsline {subsubsection}{\numberline {3.7.3.1}assign\_task\_to\_elevator()}{38}{}%
+\contentsline {subsubsection}{\numberline {3.7.3.2}door\_state\_to\_string()}{39}{}%
+\contentsline {subsubsection}{\numberline {3.7.3.3}elevator\_group\_to\_json\_for\_server()}{39}{}%
+\contentsline {subsubsection}{\numberline {3.7.3.4}init\_elevator\_group()}{40}{}%
+\contentsline {subsubsection}{\numberline {3.7.3.5}movement\_direction\_to\_string()}{41}{}%
+\contentsline {section}{\numberline {3.8}elevator\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}state\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}manager.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{42}{}%
+\contentsline {section}{\numberline {3.9}include/api\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}gateway/execution\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}logger.h File Reference}{43}{}%
+\contentsline {subsection}{\numberline {3.9.1}Detailed Description}{44}{}%
+\contentsline {subsection}{\numberline {3.9.2}Enumeration Type Documentation}{45}{}%
+\contentsline {subsubsection}{\numberline {3.9.2.1}log\_event\_type\_t}{45}{}%
+\contentsline {subsection}{\numberline {3.9.3}Function Documentation}{45}{}%
+\contentsline {subsubsection}{\numberline {3.9.3.1}exec\_logger\_finish()}{45}{}%
+\contentsline {subsubsection}{\numberline {3.9.3.2}exec\_logger\_get\_stats()}{46}{}%
+\contentsline {subsubsection}{\numberline {3.9.3.3}exec\_logger\_init()}{46}{}%
+\contentsline {subsubsection}{\numberline {3.9.3.4}exec\_logger\_is\_active()}{46}{}%
+\contentsline {subsubsection}{\numberline {3.9.3.5}exec\_logger\_log\_can\_received()}{46}{}%
+\contentsline {subsubsection}{\numberline {3.9.3.6}exec\_logger\_log\_can\_sent()}{47}{}%
+\contentsline {subsubsection}{\numberline {3.9.3.7}exec\_logger\_log\_coap\_received()}{47}{}%
+\contentsline {subsubsection}{\numberline {3.9.3.8}exec\_logger\_log\_coap\_sent()}{47}{}%
+\contentsline {subsubsection}{\numberline {3.9.3.9}exec\_logger\_log\_elevator\_moved()}{48}{}%
+\contentsline {subsubsection}{\numberline {3.9.3.10}exec\_logger\_log\_error()}{48}{}%
+\contentsline {subsubsection}{\numberline {3.9.3.11}exec\_logger\_log\_event()}{48}{}%
+\contentsline {subsubsection}{\numberline {3.9.3.12}exec\_logger\_log\_simulation\_end()}{49}{}%
+\contentsline {subsubsection}{\numberline {3.9.3.13}exec\_logger\_log\_simulation\_start()}{49}{}%
+\contentsline {subsubsection}{\numberline {3.9.3.14}exec\_logger\_log\_task\_assigned()}{49}{}%
+\contentsline {subsubsection}{\numberline {3.9.3.15}exec\_logger\_log\_task\_completed()}{50}{}%
+\contentsline {section}{\numberline {3.10}execution\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}logger.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{50}{}%
+\contentsline {section}{\numberline {3.11}include/api\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}gateway/logging\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}gw.h File Reference}{51}{}%
+\contentsline {subsection}{\numberline {3.11.1}Detailed Description}{51}{}%
+\contentsline {section}{\numberline {3.12}logging\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}gw.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{52}{}%
+\contentsline {section}{\numberline {3.13}include/api\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}gateway/simulation\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}loader.h File Reference}{53}{}%
+\contentsline {subsection}{\numberline {3.13.1}Detailed Description}{54}{}%
+\contentsline {section}{\numberline {3.14}simulation\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}loader.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{54}{}%
+\contentsline {section}{\numberline {3.15}src/api\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}handlers.c File Reference}{55}{}%
+\contentsline {subsection}{\numberline {3.15.1}Detailed Description}{56}{}%
+\contentsline {subsection}{\numberline {3.15.2}Function Documentation}{57}{}%
+\contentsline {subsubsection}{\numberline {3.15.2.1}add\_central\_request\_tracker()}{57}{}%
+\contentsline {subsubsection}{\numberline {3.15.2.2}find\_and\_remove\_central\_request\_tracker()}{57}{}%
+\contentsline {subsubsection}{\numberline {3.15.2.3}forward\_request\_to\_central\_server()}{58}{}%
+\contentsline {subsubsection}{\numberline {3.15.2.4}handle\_sigint\_gw()}{59}{}%
+\contentsline {subsubsection}{\numberline {3.15.2.5}hnd\_cabin\_request\_from\_elevator\_gw()}{59}{}%
+\contentsline {subsubsection}{\numberline {3.15.2.6}hnd\_central\_server\_response\_gw()}{59}{}%
+\contentsline {subsubsection}{\numberline {3.15.2.7}hnd\_elevator\_api\_request\_gw()}{60}{}%
+\contentsline {subsubsection}{\numberline {3.15.2.8}hnd\_floor\_call\_from\_elevator\_gw()}{60}{}%
+\contentsline {subsection}{\numberline {3.15.3}Variable Documentation}{61}{}%
+\contentsline {subsubsection}{\numberline {3.15.3.1}g\_dtls\_session\_to\_central\_server}{61}{}%
+\contentsline {subsubsection}{\numberline {3.15.3.2}managed\_elevator\_group}{61}{}%
+\contentsline {subsubsection}{\numberline {3.15.3.3}num\_pending\_central\_requests}{61}{}%
+\contentsline {subsubsection}{\numberline {3.15.3.4}pending\_central\_requests}{62}{}%
+\contentsline {subsubsection}{\numberline {3.15.3.5}quit\_main\_loop}{62}{}%
+\contentsline {section}{\numberline {3.16}include/api\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}gateway/api\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}handlers.h File Reference}{62}{}%
+\contentsline {subsection}{\numberline {3.16.1}Typedef Documentation}{63}{}%
+\contentsline {subsubsection}{\numberline {3.16.1.1}api\_request\_tracker\_t}{63}{}%
+\contentsline {subsection}{\numberline {3.16.2}Function Documentation}{63}{}%
+\contentsline {subsubsection}{\numberline {3.16.2.1}get\_or\_create\_central\_server\_dtls\_session()}{63}{}%
+\contentsline {subsubsection}{\numberline {3.16.2.2}handle\_sigint\_gw()}{64}{}%
+\contentsline {subsubsection}{\numberline {3.16.2.3}hnd\_cabin\_request\_from\_elevator\_gw()}{65}{}%
+\contentsline {subsubsection}{\numberline {3.16.2.4}hnd\_central\_server\_response\_gw()}{65}{}%
+\contentsline {subsubsection}{\numberline {3.16.2.5}hnd\_elevator\_api\_request\_gw()}{66}{}%
+\contentsline {subsubsection}{\numberline {3.16.2.6}hnd\_floor\_call\_from\_elevator\_gw()}{66}{}%
+\contentsline {subsection}{\numberline {3.16.3}Variable Documentation}{66}{}%
+\contentsline {subsubsection}{\numberline {3.16.3.1}quit\_main\_loop}{66}{}%
+\contentsline {section}{\numberline {3.17}api\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}handlers.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{67}{}%
+\contentsline {section}{\numberline {3.18}src/api\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}handlers.h File Reference}{68}{}%
+\contentsline {subsection}{\numberline {3.18.1}Detailed Description}{68}{}%
+\contentsline {subsection}{\numberline {3.18.2}Enumeration Type Documentation}{68}{}%
+\contentsline {subsubsection}{\numberline {3.18.2.1}gw\_request\_type\_t}{68}{}%
+\contentsline {subsection}{\numberline {3.18.3}Function Documentation}{69}{}%
+\contentsline {subsubsection}{\numberline {3.18.3.1}handle\_sigint\_gw()}{69}{}%
+\contentsline {subsubsection}{\numberline {3.18.3.2}hnd\_central\_server\_response\_gw()}{69}{}%
+\contentsline {section}{\numberline {3.19}api\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}handlers.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{71}{}%
+\contentsline {section}{\numberline {3.20}src/can\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}bridge.c File Reference}{71}{}%
+\contentsline {subsection}{\numberline {3.20.1}Detailed Description}{72}{}%
+\contentsline {subsection}{\numberline {3.20.2}Function Documentation}{73}{}%
+\contentsline {subsubsection}{\numberline {3.20.2.1}ag\_can\_bridge\_init()}{73}{}%
+\contentsline {subsubsection}{\numberline {3.20.2.2}ag\_can\_bridge\_process\_incoming\_frame()}{74}{}%
+\contentsline {subsubsection}{\numberline {3.20.2.3}ag\_can\_bridge\_register\_send\_callback()}{75}{}%
+\contentsline {subsubsection}{\numberline {3.20.2.4}ag\_can\_bridge\_send\_response\_frame()}{75}{}%
+\contentsline {subsubsection}{\numberline {3.20.2.5}find\_can\_tracker()}{76}{}%
+\contentsline {subsubsection}{\numberline {3.20.2.6}forward\_can\_originated\_request\_to\_central\_server()}{77}{}%
+\contentsline {subsubsection}{\numberline {3.20.2.7}log\_coap\_token()}{77}{}%
+\contentsline {subsubsection}{\numberline {3.20.2.8}store\_can\_tracker()}{77}{}%
+\contentsline {subsection}{\numberline {3.20.3}Variable Documentation}{78}{}%
+\contentsline {subsubsection}{\numberline {3.20.3.1}can\_trackers}{78}{}%
+\contentsline {subsubsection}{\numberline {3.20.3.2}managed\_elevator\_group}{78}{}%
+\contentsline {subsubsection}{\numberline {3.20.3.3}next\_can\_tracker\_idx}{79}{}%
+\contentsline {subsubsection}{\numberline {3.20.3.4}send\_to\_simulation\_callback}{79}{}%
+\contentsline {section}{\numberline {3.21}src/elevator\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}state\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}manager.c File Reference}{79}{}%
+\contentsline {subsection}{\numberline {3.21.1}Detailed Description}{80}{}%
+\contentsline {subsection}{\numberline {3.21.2}Function Documentation}{81}{}%
+\contentsline {subsubsection}{\numberline {3.21.2.1}assign\_task\_to\_elevator()}{81}{}%
+\contentsline {subsubsection}{\numberline {3.21.2.2}door\_state\_to\_string()}{81}{}%
+\contentsline {subsubsection}{\numberline {3.21.2.3}elevator\_group\_to\_json\_for\_server()}{82}{}%
+\contentsline {subsubsection}{\numberline {3.21.2.4}init\_elevator\_group()}{82}{}%
+\contentsline {subsubsection}{\numberline {3.21.2.5}movement\_direction\_to\_string()}{83}{}%
+\contentsline {section}{\numberline {3.22}src/execution\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}logger.c File Reference}{84}{}%
+\contentsline {subsection}{\numberline {3.22.1}Detailed Description}{85}{}%
+\contentsline {subsection}{\numberline {3.22.2}Function Documentation}{85}{}%
+\contentsline {subsubsection}{\numberline {3.22.2.1}create\_directory()}{85}{}%
+\contentsline {subsubsection}{\numberline {3.22.2.2}exec\_logger\_finish()}{86}{}%
+\contentsline {subsubsection}{\numberline {3.22.2.3}exec\_logger\_get\_stats()}{86}{}%
+\contentsline {subsubsection}{\numberline {3.22.2.4}exec\_logger\_init()}{86}{}%
+\contentsline {subsubsection}{\numberline {3.22.2.5}exec\_logger\_is\_active()}{87}{}%
+\contentsline {subsubsection}{\numberline {3.22.2.6}exec\_logger\_log\_can\_received()}{87}{}%
+\contentsline {subsubsection}{\numberline {3.22.2.7}exec\_logger\_log\_can\_sent()}{87}{}%
+\contentsline {subsubsection}{\numberline {3.22.2.8}exec\_logger\_log\_coap\_received()}{87}{}%
+\contentsline {subsubsection}{\numberline {3.22.2.9}exec\_logger\_log\_coap\_sent()}{88}{}%
+\contentsline {subsubsection}{\numberline {3.22.2.10}exec\_logger\_log\_elevator\_moved()}{88}{}%
+\contentsline {subsubsection}{\numberline {3.22.2.11}exec\_logger\_log\_error()}{88}{}%
+\contentsline {subsubsection}{\numberline {3.22.2.12}exec\_logger\_log\_event()}{89}{}%
+\contentsline {subsubsection}{\numberline {3.22.2.13}exec\_logger\_log\_simulation\_end()}{89}{}%
+\contentsline {subsubsection}{\numberline {3.22.2.14}exec\_logger\_log\_simulation\_start()}{89}{}%
+\contentsline {subsubsection}{\numberline {3.22.2.15}exec\_logger\_log\_task\_assigned()}{90}{}%
+\contentsline {subsubsection}{\numberline {3.22.2.16}exec\_logger\_log\_task\_completed()}{90}{}%
+\contentsline {subsubsection}{\numberline {3.22.2.17}get\_event\_label()}{90}{}%
+\contentsline {subsubsection}{\numberline {3.22.2.18}get\_formatted\_timestamp()}{90}{}%
+\contentsline {subsubsection}{\numberline {3.22.2.19}write\_markdown\_footer()}{91}{}%
+\contentsline {subsubsection}{\numberline {3.22.2.20}write\_markdown\_header()}{91}{}%
+\contentsline {subsection}{\numberline {3.22.3}Variable Documentation}{91}{}%
+\contentsline {subsubsection}{\numberline {3.22.3.1}current\_log\_path}{91}{}%
+\contentsline {subsubsection}{\numberline {3.22.3.2}log\_file}{91}{}%
+\contentsline {subsubsection}{\numberline {3.22.3.3}logger\_active}{91}{}%
+\contentsline {subsubsection}{\numberline {3.22.3.4}start\_time}{91}{}%
+\contentsline {subsubsection}{\numberline {3.22.3.5}stats}{92}{}%
+\contentsline {section}{\numberline {3.23}src/main.c File Reference}{92}{}%
+\contentsline {subsection}{\numberline {3.23.1}Detailed Description}{93}{}%
+\contentsline {subsection}{\numberline {3.23.2}Function Documentation}{93}{}%
+\contentsline {subsubsection}{\numberline {3.23.2.1}event\_handler\_gw()}{93}{}%
+\contentsline {subsubsection}{\numberline {3.23.2.2}generate\_unique\_identity()}{94}{}%
+\contentsline {subsubsection}{\numberline {3.23.2.3}generate\_unique\_psk\_key()}{94}{}%
+\contentsline {subsubsection}{\numberline {3.23.2.4}get\_or\_create\_central\_server\_dtls\_session()}{94}{}%
+\contentsline {subsubsection}{\numberline {3.23.2.5}inicializar\_mi\_simulacion\_ascensor()}{95}{}%
+\contentsline {subsubsection}{\numberline {3.23.2.6}main()}{95}{}%
+\contentsline {subsubsection}{\numberline {3.23.2.7}simular\_eventos\_ascensor()}{96}{}%
+\contentsline {subsubsection}{\numberline {3.23.2.8}simulate\_elevator\_group\_step()}{96}{}%
+\contentsline {subsection}{\numberline {3.23.3}Variable Documentation}{97}{}%
+\contentsline {subsubsection}{\numberline {3.23.3.1}g\_coap\_context}{97}{}%
+\contentsline {subsubsection}{\numberline {3.23.3.2}g\_coap\_context\_for\_session\_mgnt}{97}{}%
+\contentsline {subsubsection}{\numberline {3.23.3.3}g\_dtls\_session\_to\_central\_server}{98}{}%
+\contentsline {subsubsection}{\numberline {3.23.3.4}managed\_elevator\_group}{98}{}%
+\contentsline {subsubsection}{\numberline {3.23.3.5}quit\_main\_loop}{98}{}%
+\contentsline {section}{\numberline {3.24}src/main\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}dynamic\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}port.c File Reference}{98}{}%
+\contentsline {subsection}{\numberline {3.24.1}Detailed Description}{99}{}%
+\contentsline {subsection}{\numberline {3.24.2}Function Documentation}{99}{}%
+\contentsline {subsubsection}{\numberline {3.24.2.1}event\_handler\_gw()}{99}{}%
+\contentsline {subsubsection}{\numberline {3.24.2.2}generate\_unique\_identity()}{99}{}%
+\contentsline {subsubsection}{\numberline {3.24.2.3}generate\_unique\_psk\_key()}{100}{}%
+\contentsline {subsubsection}{\numberline {3.24.2.4}get\_or\_create\_central\_server\_dtls\_session()}{100}{}%
+\contentsline {subsubsection}{\numberline {3.24.2.5}inicializar\_mi\_simulacion\_ascensor()}{101}{}%
+\contentsline {subsubsection}{\numberline {3.24.2.6}main()}{101}{}%
+\contentsline {subsubsection}{\numberline {3.24.2.7}simular\_eventos\_ascensor()}{101}{}%
+\contentsline {subsubsection}{\numberline {3.24.2.8}simulate\_elevator\_group\_step()}{102}{}%
+\contentsline {subsection}{\numberline {3.24.3}Variable Documentation}{102}{}%
+\contentsline {subsubsection}{\numberline {3.24.3.1}dynamic\_listen\_port}{102}{}%
+\contentsline {subsubsection}{\numberline {3.24.3.2}g\_coap\_context}{102}{}%
+\contentsline {subsubsection}{\numberline {3.24.3.3}g\_coap\_context\_for\_session\_mgnt}{103}{}%
+\contentsline {subsubsection}{\numberline {3.24.3.4}g\_dtls\_session\_to\_central\_server}{103}{}%
+\contentsline {subsubsection}{\numberline {3.24.3.5}managed\_elevator\_group}{103}{}%
+\contentsline {subsubsection}{\numberline {3.24.3.6}quit\_main\_loop}{104}{}%
+\contentsline {section}{\numberline {3.25}src/mi\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}simulador\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}ascensor.c File Reference}{104}{}%
+\contentsline {subsection}{\numberline {3.25.1}Detailed Description}{105}{}%
+\contentsline {subsection}{\numberline {3.25.2}Function Documentation}{106}{}%
+\contentsline {subsubsection}{\numberline {3.25.2.1}inicializar\_mi\_simulacion\_ascensor()}{106}{}%
+\contentsline {subsubsection}{\numberline {3.25.2.2}mi\_simulador\_recibe\_can\_gw()}{106}{}%
+\contentsline {subsubsection}{\numberline {3.25.2.3}simular\_eventos\_ascensor()}{107}{}%
+\contentsline {subsubsection}{\numberline {3.25.2.4}simular\_llamada\_de\_piso\_via\_can()}{107}{}%
+\contentsline {subsubsection}{\numberline {3.25.2.5}simular\_solicitud\_cabina\_via\_can()}{108}{}%
+\contentsline {subsection}{\numberline {3.25.3}Variable Documentation}{109}{}%
+\contentsline {subsubsection}{\numberline {3.25.3.1}datos\_simulacion\_global}{109}{}%
+\contentsline {subsubsection}{\numberline {3.25.3.2}g\_coap\_context}{109}{}%
+\contentsline {subsubsection}{\numberline {3.25.3.3}managed\_elevator\_group}{110}{}%
+\contentsline {section}{\numberline {3.26}src/psk\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}manager.c File Reference}{110}{}%
+\contentsline {subsection}{\numberline {3.26.1}Detailed Description}{111}{}%
+\contentsline {subsection}{\numberline {3.26.2}Function Documentation}{111}{}%
+\contentsline {subsubsection}{\numberline {3.26.2.1}psk\_manager\_cleanup()}{111}{}%
+\contentsline {subsubsection}{\numberline {3.26.2.2}psk\_manager\_get\_deterministic\_key()}{111}{}%
+\contentsline {subsubsection}{\numberline {3.26.2.3}psk\_manager\_get\_first\_key()}{112}{}%
+\contentsline {subsubsection}{\numberline {3.26.2.4}psk\_manager\_get\_random\_key()}{112}{}%
+\contentsline {subsubsection}{\numberline {3.26.2.5}psk\_manager\_init()}{112}{}%
+\contentsline {subsection}{\numberline {3.26.3}Variable Documentation}{113}{}%
+\contentsline {subsubsection}{\numberline {3.26.3.1}g\_psk\_keys}{113}{}%
+\contentsline {section}{\numberline {3.27}src/psk\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}manager.h File Reference}{113}{}%
+\contentsline {subsection}{\numberline {3.27.1}Detailed Description}{113}{}%
+\contentsline {subsection}{\numberline {3.27.2}Function Documentation}{114}{}%
+\contentsline {subsubsection}{\numberline {3.27.2.1}psk\_manager\_cleanup()}{114}{}%
+\contentsline {subsubsection}{\numberline {3.27.2.2}psk\_manager\_get\_deterministic\_key()}{114}{}%
+\contentsline {subsubsection}{\numberline {3.27.2.3}psk\_manager\_get\_first\_key()}{114}{}%
+\contentsline {subsubsection}{\numberline {3.27.2.4}psk\_manager\_get\_random\_key()}{114}{}%
+\contentsline {subsubsection}{\numberline {3.27.2.5}psk\_manager\_init()}{115}{}%
+\contentsline {section}{\numberline {3.28}psk\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}manager.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{115}{}%
+\contentsline {section}{\numberline {3.29}src/simulation\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}loader.c File Reference}{115}{}%
+\contentsline {subsection}{\numberline {3.29.1}Detailed Description}{116}{}%
+\contentsline {subsection}{\numberline {3.29.2}Variable Documentation}{116}{}%
+\contentsline {subsubsection}{\numberline {3.29.2.1}managed\_elevator\_group}{116}{}%

@@ -1,0 +1,63 @@
+\doxysection{simulated\+\_\+can\+\_\+frame\+\_\+t Struct Reference}
+\label{structsimulated__can__frame__t}\index{simulated\_can\_frame\_t@{simulated\_can\_frame\_t}}
+
+
+Estructura para un frame CAN simulado.  
+
+
+
+
+{\ttfamily \#include $<$can\+\_\+bridge.\+h$>$}
+
+\doxysubsubsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+uint32\+\_\+t \textbf{ id}
+\begin{DoxyCompactList}\small\item\em CAN ID (identificador del mensaje) \end{DoxyCompactList}\item 
+uint8\+\_\+t \textbf{ data} [8]
+\begin{DoxyCompactList}\small\item\em Datos CAN (hasta 8 bytes según estándar CAN) \end{DoxyCompactList}\item 
+uint8\+\_\+t \textbf{ dlc}
+\begin{DoxyCompactList}\small\item\em Data Length Code (0-\/8, número de bytes válidos) \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Estructura para un frame CAN simulado. 
+
+Representa un frame CAN estándar con ID, datos y longitud. Utilizada para la comunicación entre el simulador de ascensores y el API Gateway. 
+
+\doxysubsection{Field Documentation}
+\label{structsimulated__can__frame__t_ad318c7931af21d1fd14e7ef967cc3b84} 
+\index{simulated\_can\_frame\_t@{simulated\_can\_frame\_t}!data@{data}}
+\index{data@{data}!simulated\_can\_frame\_t@{simulated\_can\_frame\_t}}
+\doxysubsubsection{data}
+{\footnotesize\ttfamily uint8\+\_\+t simulated\+\_\+can\+\_\+frame\+\_\+t\+::data[8]}
+
+
+
+Datos CAN (hasta 8 bytes según estándar CAN) 
+
+\label{structsimulated__can__frame__t_a2d2ae417c42402074feba54b1e8eb941} 
+\index{simulated\_can\_frame\_t@{simulated\_can\_frame\_t}!dlc@{dlc}}
+\index{dlc@{dlc}!simulated\_can\_frame\_t@{simulated\_can\_frame\_t}}
+\doxysubsubsection{dlc}
+{\footnotesize\ttfamily uint8\+\_\+t simulated\+\_\+can\+\_\+frame\+\_\+t\+::dlc}
+
+
+
+Data Length Code (0-\/8, número de bytes válidos) 
+
+\label{structsimulated__can__frame__t_a7075c6fa359faa8aed111b64c5c52b42} 
+\index{simulated\_can\_frame\_t@{simulated\_can\_frame\_t}!id@{id}}
+\index{id@{id}!simulated\_can\_frame\_t@{simulated\_can\_frame\_t}}
+\doxysubsubsection{id}
+{\footnotesize\ttfamily uint32\+\_\+t simulated\+\_\+can\+\_\+frame\+\_\+t\+::id}
+
+
+
+CAN ID (identificador del mensaje) 
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/api\+\_\+gateway/\textbf{ can\+\_\+bridge.\+h}\end{DoxyCompactItemize}

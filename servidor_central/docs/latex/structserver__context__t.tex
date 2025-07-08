@@ -1,0 +1,75 @@
+\doxysection{server\+\_\+context\+\_\+t Struct Reference}
+\label{structserver__context__t}\index{server\_context\_t@{server\_context\_t}}
+
+
+Estructura para manejar el contexto del servidor.  
+
+
+
+
+{\ttfamily \#include $<$server\+\_\+functions.\+h$>$}
+
+\doxysubsubsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+coap\+\_\+context\+\_\+t $\ast$ \textbf{ ctx}
+\item 
+SSL\+\_\+\+CTX $\ast$ \textbf{ ssl\+\_\+ctx}
+\item 
+sqlite3 $\ast$ \textbf{ db}
+\item 
+int \textbf{ running}
+\item 
+char $\ast$ \textbf{ psk\+\_\+file}
+\item 
+int \textbf{ port}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Estructura para manejar el contexto del servidor. 
+
+Esta estructura contiene todos los elementos necesarios para el funcionamiento del servidor central, incluyendo el contexto Co\+AP, la configuración DTLS, la base de datos y el estado del servidor. 
+
+\doxysubsection{Field Documentation}
+\label{structserver__context__t_a762305863e3910ff08e3f2ce15c562f7} 
+\index{server\_context\_t@{server\_context\_t}!ctx@{ctx}}
+\index{ctx@{ctx}!server\_context\_t@{server\_context\_t}}
+\doxysubsubsection{ctx}
+{\footnotesize\ttfamily coap\+\_\+context\+\_\+t$\ast$ server\+\_\+context\+\_\+t\+::ctx}
+
+Contexto Co\+AP del servidor \label{structserver__context__t_a511295c9c579e5d9cdd2004fc5979b6a} 
+\index{server\_context\_t@{server\_context\_t}!db@{db}}
+\index{db@{db}!server\_context\_t@{server\_context\_t}}
+\doxysubsubsection{db}
+{\footnotesize\ttfamily sqlite3$\ast$ server\+\_\+context\+\_\+t\+::db}
+
+Conexión a la base de datos SQLite \label{structserver__context__t_ad1118dabd4e0062226259aa15cc7ea24} 
+\index{server\_context\_t@{server\_context\_t}!port@{port}}
+\index{port@{port}!server\_context\_t@{server\_context\_t}}
+\doxysubsubsection{port}
+{\footnotesize\ttfamily int server\+\_\+context\+\_\+t\+::port}
+
+Puerto de escucha del servidor \label{structserver__context__t_a91d60a7449095f4419f9403d6d3e8dc6} 
+\index{server\_context\_t@{server\_context\_t}!psk\_file@{psk\_file}}
+\index{psk\_file@{psk\_file}!server\_context\_t@{server\_context\_t}}
+\doxysubsubsection{psk\_file}
+{\footnotesize\ttfamily char$\ast$ server\+\_\+context\+\_\+t\+::psk\+\_\+file}
+
+Ruta al archivo de claves PSK \label{structserver__context__t_a1123102798a3f13ee59b4cf5b6927d26} 
+\index{server\_context\_t@{server\_context\_t}!running@{running}}
+\index{running@{running}!server\_context\_t@{server\_context\_t}}
+\doxysubsubsection{running}
+{\footnotesize\ttfamily int server\+\_\+context\+\_\+t\+::running}
+
+Flag de estado del servidor (1=activo, 0=detenido) \label{structserver__context__t_aae1ee217c09f0f5aeb2449f926b42c7e} 
+\index{server\_context\_t@{server\_context\_t}!ssl\_ctx@{ssl\_ctx}}
+\index{ssl\_ctx@{ssl\_ctx}!server\_context\_t@{server\_context\_t}}
+\doxysubsubsection{ssl\_ctx}
+{\footnotesize\ttfamily SSL\+\_\+\+CTX$\ast$ server\+\_\+context\+\_\+t\+::ssl\+\_\+ctx}
+
+Contexto SSL para DTLS 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/servidor\+\_\+central/\textbf{ server\+\_\+functions.\+h}\end{DoxyCompactItemize}

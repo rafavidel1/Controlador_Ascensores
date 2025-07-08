@@ -1,0 +1,51 @@
+\doxysection{Estructuras de Datos de Simulación}
+\label{group__simulation__data}\index{Estructuras de Datos de Simulación@{Estructuras de Datos de Simulación}}
+
+
+Estructuras para almacenar datos de simulación.  
+
+
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \textbf{ peticion\+\_\+simulacion\+\_\+t}
+\begin{DoxyCompactList}\small\item\em Estructura para una petición individual. \end{DoxyCompactList}\item 
+struct \textbf{ edificio\+\_\+simulacion\+\_\+t}
+\begin{DoxyCompactList}\small\item\em Estructura para un edificio de simulación. \end{DoxyCompactList}\item 
+struct \textbf{ datos\+\_\+simulacion\+\_\+t}
+\begin{DoxyCompactList}\small\item\em Estructura principal de datos de simulación. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \textbf{ tipo\+\_\+peticion\+\_\+t} \{ \textbf{ PETICION\+\_\+\+LLAMADA\+\_\+\+PISO}
+, \textbf{ PETICION\+\_\+\+SOLICITUD\+\_\+\+CABINA}
+ \}
+\begin{DoxyCompactList}\small\item\em Tipos de peticiones de simulación. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Estructuras para almacenar datos de simulación. 
+
+
+
+\doxysubsection{Enumeration Type Documentation}
+\label{group__simulation__data_ga3ca9553bd7d4fcac8ebbcf4a42cdd5fd} 
+\index{Estructuras de Datos de Simulación@{Estructuras de Datos de Simulación}!tipo\_peticion\_t@{tipo\_peticion\_t}}
+\index{tipo\_peticion\_t@{tipo\_peticion\_t}!Estructuras de Datos de Simulación@{Estructuras de Datos de Simulación}}
+\doxysubsubsection{tipo\_peticion\_t}
+{\footnotesize\ttfamily enum \textbf{ tipo\+\_\+peticion\+\_\+t}}
+
+
+
+Tipos de peticiones de simulación. 
+
+Enumeración que define los tipos de peticiones que pueden ser ejecutadas durante la simulación de ascensores. \begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PETICION\_LLAMADA\_PISO@{PETICION\_LLAMADA\_PISO}!Estructuras de Datos de Simulación@{Estructuras de Datos de Simulación}}\index{Estructuras de Datos de Simulación@{Estructuras de Datos de Simulación}!PETICION\_LLAMADA\_PISO@{PETICION\_LLAMADA\_PISO}}}\label{group__simulation__data_gga3ca9553bd7d4fcac8ebbcf4a42cdd5fdaa8a594f4a4eb65f5273deecca2aa912e} 
+PETICION\+\_\+\+LLAMADA\+\_\+\+PISO&Llamada de piso desde botón externo \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PETICION\_SOLICITUD\_CABINA@{PETICION\_SOLICITUD\_CABINA}!Estructuras de Datos de Simulación@{Estructuras de Datos de Simulación}}\index{Estructuras de Datos de Simulación@{Estructuras de Datos de Simulación}!PETICION\_SOLICITUD\_CABINA@{PETICION\_SOLICITUD\_CABINA}}}\label{group__simulation__data_gga3ca9553bd7d4fcac8ebbcf4a42cdd5fda7c8e25b202d66c0733090045d9fe093f} 
+PETICION\+\_\+\+SOLICITUD\+\_\+\+CABINA&Solicitud desde interior de cabina \\
+\hline
+
+\end{DoxyEnumFields}

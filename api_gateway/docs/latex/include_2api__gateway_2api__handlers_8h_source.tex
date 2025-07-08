@@ -1,0 +1,73 @@
+\doxysection{api\+\_\+handlers.\+h}
+\label{include_2api__gateway_2api__handlers_8h_source}\index{include/api\_gateway/api\_handlers.h@{include/api\_gateway/api\_handlers.h}}
+\textbf{ Go to the documentation of this file.}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ API\_HANDLERS\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ API\_HANDLERS\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <coap3/coap.h>}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ For\ coap\_session\_t,\ coap\_pdu\_t,\ etc.}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <signal.h>}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ For\ sig\_atomic\_t}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}api\_common\_defs.h"{}}\ \textcolor{comment}{//\ Ensuring\ this\ is\ just\ the\ filename}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}elevator\_state\_manager.h"{}}\ \textcolor{comment}{//\ For\ movement\_direction\_enum\_t,\ and\ gw\_request\_type\_t\ now\ moved\ here}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{comment}{//\ typedef\ enum\ gw\_request\_type\_t\ is\ MOVED\ to\ elevator\_state\_manager.h}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00018\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }api\_request\_tracker\_t\ \{}
+\DoxyCodeLine{00019\ \ \ \ \ coap\_session\_t\ *original\_elevator\_session;\ \ }
+\DoxyCodeLine{00020\ \ \ \ \ coap\_mid\_t\ original\_mid;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00021\ \ \ \ \ coap\_binary\_t\ original\_token;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keywordtype}{char}\ *log\_tag;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{comment}{//\ New\ fields\ for\ detailed\ request\ tracking}}
+\DoxyCodeLine{00025\ \ \ \ \ gw\_request\_type\_t\ request\_type;\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keywordtype}{int}\ origin\_floor;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keywordtype}{int}\ target\_floor\_for\_task;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keywordtype}{char}\ requesting\_elevator\_id\_cabin[ID\_STRING\_MAX\_LEN];\ }
+\DoxyCodeLine{00029\ \ \ \ \ movement\_direction\_enum\_t\ requested\_direction\_floor;\ }
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{comment}{//\ Potentially\ other\ fields\ like\ timestamp,\ retry\ count,\ etc.}}
+\DoxyCodeLine{00032\ \}\ api\_request\_tracker\_t;}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \textcolor{comment}{//\ Forward\ declaration\ de\ coap\_session\_t\ y\ coap\_context\_t\ para\ la\ función\ helper}}
+\DoxyCodeLine{00035\ \textcolor{comment}{//\ Esto\ evita\ tener\ que\ incluir\ coap\_session.h\ y\ coap\_net.h\ aquí\ si\ no\ son\ necesarios\ para\ otras\ declaraciones.}}
+\DoxyCodeLine{00036\ \textcolor{keyword}{struct\ }coap\_session\_t;}
+\DoxyCodeLine{00037\ \textcolor{keyword}{struct\ }coap\_context\_t;}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \textcolor{comment}{//\ Declaración\ de\ la\ función\ helper\ para\ la\ gestión\ de\ sesiones\ DTLS\ (definida\ en\ main.c)}}
+\DoxyCodeLine{00040\ coap\_session\_t*\ get\_or\_create\_central\_server\_dtls\_session(\textcolor{keyword}{struct}\ coap\_context\_t\ *ctx);}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \textcolor{comment}{//\ -\/-\/-\/\ Signal\ Handler\ -\/-\/-\/}}
+\DoxyCodeLine{00043\ \textcolor{keywordtype}{void}\ handle\_sigint\_gw(\textcolor{keywordtype}{int}\ signum);}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \textcolor{comment}{//\ -\/-\/-\/\ Response\ Handler\ (for\ responses\ FROM\ Central\ Server\ TO\ Gateway)\ -\/-\/-\/}}
+\DoxyCodeLine{00046\ coap\_response\_t\ hnd\_central\_server\_response\_gw(coap\_session\_t\ *session\_to\_central,}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ coap\_pdu\_t\ *sent\_to\_central,}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ coap\_pdu\_t\ *received\_from\_central,}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ coap\_mid\_t\ mid\_to\_central);}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \textcolor{comment}{//\ -\/-\/-\/\ Resource\ Handlers\ (for\ requests\ FROM\ Clients\ TO\ Gateway)\ -\/-\/-\/}}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00057\ \textcolor{keywordtype}{void}\ hnd\_elevator\_api\_request\_gw(coap\_resource\_t\ *resource,}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ coap\_session\_t\ *elevator\_session,}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ coap\_pdu\_t\ *elevator\_request\_pdu,}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ coap\_string\_t\ *query,}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ coap\_pdu\_t\ *response\_placeholder);}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00068\ \textcolor{keywordtype}{void}\ hnd\_cabin\_request\_from\_elevator\_gw(coap\_resource\_t\ *resource,}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ coap\_session\_t\ *elevator\_session,}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ coap\_pdu\_t\ *elevator\_request\_pdu,}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ coap\_string\_t\ *query,}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ coap\_pdu\_t\ *response\_placeholder);}
+\DoxyCodeLine{00073\ }
+\DoxyCodeLine{00079\ \textcolor{keywordtype}{void}\ hnd\_floor\_call\_from\_elevator\_gw(coap\_resource\_t\ *resource,}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ coap\_session\_t\ *elevator\_session,\ }
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ coap\_pdu\_t\ *elevator\_request\_pdu,\ }
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ coap\_string\_t\ *query,\ }
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ coap\_pdu\_t\ *response\_placeholder);}
+\DoxyCodeLine{00084\ }
+\DoxyCodeLine{00085\ \textcolor{comment}{//\ Note:\ hnd\_arrival\_notification\_from\_elevator\_gw\ has\ been\ removed\ as\ the\ gateway}}
+\DoxyCodeLine{00086\ \textcolor{comment}{//\ now\ simulates\ arrivals\ and\ sends\ its\ own\ notifications\ to\ the\ central\ server.}}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00088\ \textcolor{keyword}{extern}\ \textcolor{keyword}{volatile}\ sig\_atomic\_t\ quit\_main\_loop;\ \textcolor{comment}{//\ Defined\ in\ main.c}}
+\DoxyCodeLine{00089\ }
+\DoxyCodeLine{00090\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ API\_HANDLERS\_H\ }}
+
+\end{DoxyCode}

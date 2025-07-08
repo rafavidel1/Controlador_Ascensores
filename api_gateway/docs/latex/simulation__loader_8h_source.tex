@@ -1,0 +1,54 @@
+\doxysection{simulation\+\_\+loader.\+h}
+\label{simulation__loader_8h_source}\index{include/api\_gateway/simulation\_loader.h@{include/api\_gateway/simulation\_loader.h}}
+\textbf{ Go to the documentation of this file.}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#ifndef\ SIMULATION\_LOADER\_H}}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#define\ SIMULATION\_LOADER\_H}}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#include\ <coap3/coap.h>}}
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ <cjson/cJSON.h>}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#include\ <stdbool.h>}}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00044\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{00045\ \ \ \ \ PETICION\_LLAMADA\_PISO,\ \ \ \ }
+\DoxyCodeLine{00046\ \ \ \ \ PETICION\_SOLICITUD\_CABINA\ }
+\DoxyCodeLine{00047\ \}\ tipo\_peticion\_t;}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00055\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00056\ \ \ \ \ tipo\_peticion\_t\ tipo;\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{comment}{//\ Para\ llamadas\ de\ piso}}
+\DoxyCodeLine{00059\ \ \ \ \ \textcolor{keywordtype}{int}\ piso\_origen;\ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00060\ \ \ \ \ \textcolor{keywordtype}{char}\ direccion[8];\ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00062\ \ \ \ \ \textcolor{comment}{//\ Para\ solicitudes\ de\ cabina}}
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keywordtype}{int}\ indice\_ascensor;\ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keywordtype}{int}\ piso\_destino;\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00065\ \}\ peticion\_simulacion\_t;}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00073\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00074\ \ \ \ \ \textcolor{keywordtype}{char}\ id\_edificio[16];\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00075\ \ \ \ \ peticion\_simulacion\_t\ *peticiones;\ }
+\DoxyCodeLine{00076\ \ \ \ \ \textcolor{keywordtype}{int}\ num\_peticiones;\ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00077\ \}\ edificio\_simulacion\_t;}
+\DoxyCodeLine{00078\ }
+\DoxyCodeLine{00085\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00086\ \ \ \ \ edificio\_simulacion\_t\ *edificios;\ }
+\DoxyCodeLine{00087\ \ \ \ \ \textcolor{keywordtype}{int}\ num\_edificios;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00088\ \ \ \ \ \textcolor{keywordtype}{bool}\ datos\_cargados;\ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00089\ \}\ datos\_simulacion\_t;}
+\DoxyCodeLine{00090\ }
+ \textcolor{comment}{// end of simulation\_data group}\DoxyCodeLine{00092\ }
+\DoxyCodeLine{00127\ \textcolor{keywordtype}{bool}\ cargar\_datos\_simulacion(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *archivo\_json,\ datos\_simulacion\_t\ *datos);}
+\DoxyCodeLine{00128\ }
+\DoxyCodeLine{00139\ \textcolor{keywordtype}{void}\ liberar\_datos\_simulacion(datos\_simulacion\_t\ *datos);}
+\DoxyCodeLine{00140\ }
+\DoxyCodeLine{00154\ edificio\_simulacion\_t*\ seleccionar\_edificio\_aleatorio(datos\_simulacion\_t\ *datos);}
+\DoxyCodeLine{00155\ }
+\DoxyCodeLine{00176\ \textcolor{keywordtype}{int}\ ejecutar\_peticiones\_edificio(edificio\_simulacion\_t\ *edificio,\ coap\_context\_t\ *ctx);}
+\DoxyCodeLine{00177\ }
+\DoxyCodeLine{00188\ \textcolor{keywordtype}{int}\ convertir\_direccion\_string(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *direccion\_str);}
+\DoxyCodeLine{00189\ }
+ \textcolor{comment}{// end of simulation\_functions group}\DoxyCodeLine{00191\ }
+\DoxyCodeLine{00192\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ SIMULATION\_LOADER\_H\ }}
+
+\end{DoxyCode}

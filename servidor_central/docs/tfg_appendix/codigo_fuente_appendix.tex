@@ -1,0 +1,2540 @@
+% Apéndice: Código Fuente del Servidor Central
+% Sistema de Control de Ascensores - TFG
+
+\appendix
+\chapter{Código Fuente del Servidor Central}
+
+\section{Introducción}
+
+Este apéndice contiene la documentación completa del código fuente del servidor central del sistema de control de ascensores. El servidor implementa un sistema CoAP con DTLS-PSK para la gestión segura de solicitudes de ascensores.
+
+\section{Estructuras de Datos}
+
+\subsection{Configuración DTLS}
+\doxysection{dtls\+\_\+config\+\_\+t Struct Reference}
+\label{structdtls__config__t}\index{dtls\_config\_t@{dtls\_config\_t}}
+
+
+Configuración de seguridad DTLS-\/\+PSK.  
+
+
+
+
+{\ttfamily \#include $<$dtls\+\_\+common\+\_\+config.\+h$>$}
+
+\doxysubsubsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+char $\ast$ \textbf{ psk\+\_\+file}
+\item 
+int \textbf{ psk\+\_\+timeout}
+\item 
+int \textbf{ dtls\+\_\+mtu}
+\item 
+int \textbf{ retransmit\+\_\+timeout}
+\item 
+int \textbf{ max\+\_\+connections}
+\item 
+int \textbf{ session\+\_\+cache\+\_\+size}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Configuración de seguridad DTLS-\/\+PSK. 
+
+Esta estructura contiene todos los parámetros necesarios para configurar la seguridad DTLS-\/\+PSK del servidor central. 
+
+\doxysubsection{Field Documentation}
+\label{structdtls__config__t_aa82fdc71d9d2710baaca063da69908ca} 
+\index{dtls\_config\_t@{dtls\_config\_t}!dtls\_mtu@{dtls\_mtu}}
+\index{dtls\_mtu@{dtls\_mtu}!dtls\_config\_t@{dtls\_config\_t}}
+\doxysubsubsection{dtls\_mtu}
+{\footnotesize\ttfamily int dtls\+\_\+config\+\_\+t\+::dtls\+\_\+mtu}
+
+MTU para DTLS en bytes \label{structdtls__config__t_a0765633bba38ce8214d9f069f001cb75} 
+\index{dtls\_config\_t@{dtls\_config\_t}!max\_connections@{max\_connections}}
+\index{max\_connections@{max\_connections}!dtls\_config\_t@{dtls\_config\_t}}
+\doxysubsubsection{max\_connections}
+{\footnotesize\ttfamily int dtls\+\_\+config\+\_\+t\+::max\+\_\+connections}
+
+Número máximo de conexiones simultáneas \label{structdtls__config__t_a9cd4c93dee099bfe65087d92bc528f21} 
+\index{dtls\_config\_t@{dtls\_config\_t}!psk\_file@{psk\_file}}
+\index{psk\_file@{psk\_file}!dtls\_config\_t@{dtls\_config\_t}}
+\doxysubsubsection{psk\_file}
+{\footnotesize\ttfamily char$\ast$ dtls\+\_\+config\+\_\+t\+::psk\+\_\+file}
+
+Ruta al archivo de claves PSK \label{structdtls__config__t_a671527c770de5bb84e951259533f13a2} 
+\index{dtls\_config\_t@{dtls\_config\_t}!psk\_timeout@{psk\_timeout}}
+\index{psk\_timeout@{psk\_timeout}!dtls\_config\_t@{dtls\_config\_t}}
+\doxysubsubsection{psk\_timeout}
+{\footnotesize\ttfamily int dtls\+\_\+config\+\_\+t\+::psk\+\_\+timeout}
+
+Timeout de sesión PSK en segundos \label{structdtls__config__t_a4b5ceb3462d2f5eff52947bacc757324} 
+\index{dtls\_config\_t@{dtls\_config\_t}!retransmit\_timeout@{retransmit\_timeout}}
+\index{retransmit\_timeout@{retransmit\_timeout}!dtls\_config\_t@{dtls\_config\_t}}
+\doxysubsubsection{retransmit\_timeout}
+{\footnotesize\ttfamily int dtls\+\_\+config\+\_\+t\+::retransmit\+\_\+timeout}
+
+Timeout de retransmisión en segundos \label{structdtls__config__t_a4e99fa8c9fb9ab466279db12a84ccc07} 
+\index{dtls\_config\_t@{dtls\_config\_t}!session\_cache\_size@{session\_cache\_size}}
+\index{session\_cache\_size@{session\_cache\_size}!dtls\_config\_t@{dtls\_config\_t}}
+\doxysubsubsection{session\_cache\_size}
+{\footnotesize\ttfamily int dtls\+\_\+config\+\_\+t\+::session\+\_\+cache\+\_\+size}
+
+Tamaño del caché de sesiones 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/servidor\+\_\+central/\textbf{ dtls\+\_\+common\+\_\+config.\+h}\end{DoxyCompactItemize}
+
+\subsection{Configuración de Logging}
+\doxysection{logging\+\_\+config\+\_\+t Struct Reference}
+\label{structlogging__config__t}\index{logging\_config\_t@{logging\_config\_t}}
+
+
+Configuración del sistema de logging.  
+
+
+
+
+{\ttfamily \#include $<$logging.\+h$>$}
+
+\doxysubsubsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\textbf{ log\+\_\+level\+\_\+t} \textbf{ min\+\_\+level}
+\item 
+FILE $\ast$ \textbf{ log\+\_\+file}
+\item 
+int \textbf{ use\+\_\+timestamps}
+\item 
+int \textbf{ use\+\_\+colors}
+\item 
+int \textbf{ use\+\_\+thread\+\_\+id}
+\item 
+char $\ast$ \textbf{ log\+\_\+format}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Configuración del sistema de logging. 
+
+Esta estructura contiene la configuración del sistema de logging, incluyendo el nivel mínimo, el archivo de salida y las opciones de formato. 
+
+\doxysubsection{Field Documentation}
+\label{structlogging__config__t_af404f3613f578bbdd075728650f546f1} 
+\index{logging\_config\_t@{logging\_config\_t}!log\_file@{log\_file}}
+\index{log\_file@{log\_file}!logging\_config\_t@{logging\_config\_t}}
+\doxysubsubsection{log\_file}
+{\footnotesize\ttfamily FILE$\ast$ logging\+\_\+config\+\_\+t\+::log\+\_\+file}
+
+Archivo de salida para logs \label{structlogging__config__t_a13d049321739f19be87577c25fb270ab} 
+\index{logging\_config\_t@{logging\_config\_t}!log\_format@{log\_format}}
+\index{log\_format@{log\_format}!logging\_config\_t@{logging\_config\_t}}
+\doxysubsubsection{log\_format}
+{\footnotesize\ttfamily char$\ast$ logging\+\_\+config\+\_\+t\+::log\+\_\+format}
+
+Formato personalizado de log \label{structlogging__config__t_ae11ed4ae134b5d101e1efb996eec2537} 
+\index{logging\_config\_t@{logging\_config\_t}!min\_level@{min\_level}}
+\index{min\_level@{min\_level}!logging\_config\_t@{logging\_config\_t}}
+\doxysubsubsection{min\_level}
+{\footnotesize\ttfamily \textbf{ log\+\_\+level\+\_\+t} logging\+\_\+config\+\_\+t\+::min\+\_\+level}
+
+Nivel mínimo de logging \label{structlogging__config__t_a6417a6c2e26465c788473ff3958c28a5} 
+\index{logging\_config\_t@{logging\_config\_t}!use\_colors@{use\_colors}}
+\index{use\_colors@{use\_colors}!logging\_config\_t@{logging\_config\_t}}
+\doxysubsubsection{use\_colors}
+{\footnotesize\ttfamily int logging\+\_\+config\+\_\+t\+::use\+\_\+colors}
+
+1 para colores en terminal, 0 para no \label{structlogging__config__t_a41828efefdf2513ed20adfb8d15b97c2} 
+\index{logging\_config\_t@{logging\_config\_t}!use\_thread\_id@{use\_thread\_id}}
+\index{use\_thread\_id@{use\_thread\_id}!logging\_config\_t@{logging\_config\_t}}
+\doxysubsubsection{use\_thread\_id}
+{\footnotesize\ttfamily int logging\+\_\+config\+\_\+t\+::use\+\_\+thread\+\_\+id}
+
+1 para incluir ID de thread, 0 para no \label{structlogging__config__t_ac199d15e916a841edbaa4ee86d8c6b1e} 
+\index{logging\_config\_t@{logging\_config\_t}!use\_timestamps@{use\_timestamps}}
+\index{use\_timestamps@{use\_timestamps}!logging\_config\_t@{logging\_config\_t}}
+\doxysubsubsection{use\_timestamps}
+{\footnotesize\ttfamily int logging\+\_\+config\+\_\+t\+::use\+\_\+timestamps}
+
+1 para incluir timestamps, 0 para no 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/servidor\+\_\+central/\textbf{ logging.\+h}\end{DoxyCompactItemize}
+
+\subsection{Validación de Claves PSK}
+\doxysection{psk\+\_\+valid\+\_\+keys\+\_\+t Struct Reference}
+\label{structpsk__valid__keys__t}\index{psk\_valid\_keys\_t@{psk\_valid\_keys\_t}}
+
+
+Estructura para almacenar las claves PSK válidas.  
+
+
+\doxysubsubsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+char $\ast$$\ast$ \textbf{ keys}
+\item 
+int \textbf{ count}
+\item 
+int \textbf{ capacity}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Estructura para almacenar las claves PSK válidas. 
+
+Esta estructura mantiene en memoria todas las claves PSK válidas cargadas desde el archivo de claves. Utiliza un array dinámico para almacenar las claves como strings. 
+
+\doxysubsection{Field Documentation}
+\label{structpsk__valid__keys__t_afae5e5fc4be5ae66467919569a514b18} 
+\index{psk\_valid\_keys\_t@{psk\_valid\_keys\_t}!capacity@{capacity}}
+\index{capacity@{capacity}!psk\_valid\_keys\_t@{psk\_valid\_keys\_t}}
+\doxysubsubsection{capacity}
+{\footnotesize\ttfamily int psk\+\_\+valid\+\_\+keys\+\_\+t\+::capacity}
+
+Capacidad total del array \label{structpsk__valid__keys__t_a5c65cc61289efc618ed477cfac2b54ff} 
+\index{psk\_valid\_keys\_t@{psk\_valid\_keys\_t}!count@{count}}
+\index{count@{count}!psk\_valid\_keys\_t@{psk\_valid\_keys\_t}}
+\doxysubsubsection{count}
+{\footnotesize\ttfamily int psk\+\_\+valid\+\_\+keys\+\_\+t\+::count}
+
+Número actual de claves cargadas \label{structpsk__valid__keys__t_aa690f40a188892af08944d3188b851bd} 
+\index{psk\_valid\_keys\_t@{psk\_valid\_keys\_t}!keys@{keys}}
+\index{keys@{keys}!psk\_valid\_keys\_t@{psk\_valid\_keys\_t}}
+\doxysubsubsection{keys}
+{\footnotesize\ttfamily char$\ast$$\ast$ psk\+\_\+valid\+\_\+keys\+\_\+t\+::keys}
+
+Array de punteros a claves PSK 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/\textbf{ psk\+\_\+validator.\+c}\end{DoxyCompactItemize}
+
+\subsection{Contexto del Servidor}
+\doxysection{server\+\_\+context\+\_\+t Struct Reference}
+\label{structserver__context__t}\index{server\_context\_t@{server\_context\_t}}
+
+
+Estructura para manejar el contexto del servidor.  
+
+
+
+
+{\ttfamily \#include $<$server\+\_\+functions.\+h$>$}
+
+\doxysubsubsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+coap\+\_\+context\+\_\+t $\ast$ \textbf{ ctx}
+\item 
+SSL\+\_\+\+CTX $\ast$ \textbf{ ssl\+\_\+ctx}
+\item 
+sqlite3 $\ast$ \textbf{ db}
+\item 
+int \textbf{ running}
+\item 
+char $\ast$ \textbf{ psk\+\_\+file}
+\item 
+int \textbf{ port}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Estructura para manejar el contexto del servidor. 
+
+Esta estructura contiene todos los elementos necesarios para el funcionamiento del servidor central, incluyendo el contexto Co\+AP, la configuración DTLS, la base de datos y el estado del servidor. 
+
+\doxysubsection{Field Documentation}
+\label{structserver__context__t_a762305863e3910ff08e3f2ce15c562f7} 
+\index{server\_context\_t@{server\_context\_t}!ctx@{ctx}}
+\index{ctx@{ctx}!server\_context\_t@{server\_context\_t}}
+\doxysubsubsection{ctx}
+{\footnotesize\ttfamily coap\+\_\+context\+\_\+t$\ast$ server\+\_\+context\+\_\+t\+::ctx}
+
+Contexto Co\+AP del servidor \label{structserver__context__t_a511295c9c579e5d9cdd2004fc5979b6a} 
+\index{server\_context\_t@{server\_context\_t}!db@{db}}
+\index{db@{db}!server\_context\_t@{server\_context\_t}}
+\doxysubsubsection{db}
+{\footnotesize\ttfamily sqlite3$\ast$ server\+\_\+context\+\_\+t\+::db}
+
+Conexión a la base de datos SQLite \label{structserver__context__t_ad1118dabd4e0062226259aa15cc7ea24} 
+\index{server\_context\_t@{server\_context\_t}!port@{port}}
+\index{port@{port}!server\_context\_t@{server\_context\_t}}
+\doxysubsubsection{port}
+{\footnotesize\ttfamily int server\+\_\+context\+\_\+t\+::port}
+
+Puerto de escucha del servidor \label{structserver__context__t_a91d60a7449095f4419f9403d6d3e8dc6} 
+\index{server\_context\_t@{server\_context\_t}!psk\_file@{psk\_file}}
+\index{psk\_file@{psk\_file}!server\_context\_t@{server\_context\_t}}
+\doxysubsubsection{psk\_file}
+{\footnotesize\ttfamily char$\ast$ server\+\_\+context\+\_\+t\+::psk\+\_\+file}
+
+Ruta al archivo de claves PSK \label{structserver__context__t_a1123102798a3f13ee59b4cf5b6927d26} 
+\index{server\_context\_t@{server\_context\_t}!running@{running}}
+\index{running@{running}!server\_context\_t@{server\_context\_t}}
+\doxysubsubsection{running}
+{\footnotesize\ttfamily int server\+\_\+context\+\_\+t\+::running}
+
+Flag de estado del servidor (1=activo, 0=detenido) \label{structserver__context__t_aae1ee217c09f0f5aeb2449f926b42c7e} 
+\index{server\_context\_t@{server\_context\_t}!ssl\_ctx@{ssl\_ctx}}
+\index{ssl\_ctx@{ssl\_ctx}!server\_context\_t@{server\_context\_t}}
+\doxysubsubsection{ssl\_ctx}
+{\footnotesize\ttfamily SSL\+\_\+\+CTX$\ast$ server\+\_\+context\+\_\+t\+::ssl\+\_\+ctx}
+
+Contexto SSL para DTLS 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/servidor\+\_\+central/\textbf{ server\+\_\+functions.\+h}\end{DoxyCompactItemize}
+
+\section{Archivos de Headers}
+\subsection{Configuración DTLS (dtls\_common\_config.h)}
+\doxysection{include/servidor\+\_\+central/dtls\+\_\+common\+\_\+config.h File Reference}
+\label{dtls__common__config_8h}\index{include/servidor\_central/dtls\_common\_config.h@{include/servidor\_central/dtls\_common\_config.h}}
+
+
+Configuración común para DTLS-\/\+PSK en el servidor central.  
+
+
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \textbf{ dtls\+\_\+config\+\_\+t}
+\begin{DoxyCompactList}\small\item\em Configuración de seguridad DTLS-\/\+PSK. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \textbf{ init\+\_\+ssl\+\_\+context} (SSL\+\_\+\+CTX $\ast$$\ast$ssl\+\_\+ctx, const \textbf{ dtls\+\_\+config\+\_\+t} $\ast$config)
+\begin{DoxyCompactList}\small\item\em Inicializa la configuración SSL para DTLS-\/\+PSK. \end{DoxyCompactList}\item 
+void \textbf{ cleanup\+\_\+ssl\+\_\+context} (SSL\+\_\+\+CTX $\ast$ssl\+\_\+ctx)
+\begin{DoxyCompactList}\small\item\em Limpia y libera el contexto SSL. \end{DoxyCompactList}\item 
+int \textbf{ setup\+\_\+dtls\+\_\+session} (coap\+\_\+context\+\_\+t $\ast$ctx, SSL\+\_\+\+CTX $\ast$ssl\+\_\+ctx, int port)
+\begin{DoxyCompactList}\small\item\em Configura una sesión Co\+AP con DTLS-\/\+PSK. \end{DoxyCompactList}\item 
+int \textbf{ psk\+\_\+server\+\_\+callback} (SSL $\ast$ssl, const char $\ast$identity, unsigned char $\ast$psk, unsigned int max\+\_\+psk\+\_\+len)
+\begin{DoxyCompactList}\small\item\em Callback para autenticación PSK del servidor. \end{DoxyCompactList}\item 
+int \textbf{ validate\+\_\+psk\+\_\+key} (const char $\ast$identity, const char $\ast$psk, const char $\ast$psk\+\_\+file)
+\begin{DoxyCompactList}\small\item\em Valida una clave PSK contra el archivo de claves. \end{DoxyCompactList}\item 
+int \textbf{ get\+\_\+dtls\+\_\+config\+\_\+from\+\_\+env} (\textbf{ dtls\+\_\+config\+\_\+t} $\ast$config)
+\begin{DoxyCompactList}\small\item\em Obtiene la configuración DTLS desde variables de entorno. \end{DoxyCompactList}\item 
+int \textbf{ configure\+\_\+dtls\+\_\+session} (SSL $\ast$ssl, const \textbf{ dtls\+\_\+config\+\_\+t} $\ast$config)
+\begin{DoxyCompactList}\small\item\em Configura los parámetros de sesión DTLS. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Configuración común para DTLS-\/\+PSK en el servidor central. 
+
+\begin{DoxyAuthor}{Author}
+Sistema de Control de Ascensores 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+2.\+0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+2025
+\end{DoxyDate}
+Este archivo contiene las configuraciones y constantes necesarias para la implementación de DTLS-\/\+PSK (Pre-\/\+Shared Key) en el servidor central. Define los parámetros de seguridad, timeouts y configuraciones de sesión.
+
+\begin{DoxySeeAlso}{See also}
+\doxyref{server\+\_\+functions.\+h}{p.}{server__functions_8h} 
+
+\doxyref{psk\+\_\+validator.\+h}{p.}{psk__validator_8h} 
+\end{DoxySeeAlso}
+
+
+\doxysubsection{Function Documentation}
+\label{dtls__common__config_8h_ac56fdbed0e9cf4f0e445dc8fbbacce28} 
+\index{dtls\_common\_config.h@{dtls\_common\_config.h}!cleanup\_ssl\_context@{cleanup\_ssl\_context}}
+\index{cleanup\_ssl\_context@{cleanup\_ssl\_context}!dtls\_common\_config.h@{dtls\_common\_config.h}}
+\doxysubsubsection{cleanup\_ssl\_context()}
+{\footnotesize\ttfamily void cleanup\+\_\+ssl\+\_\+context (\begin{DoxyParamCaption}\item[{SSL\+\_\+\+CTX $\ast$}]{ssl\+\_\+ctx }\end{DoxyParamCaption})}
+
+
+
+Limpia y libera el contexto SSL. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in,out}}  & {\em ssl\+\_\+ctx} & Contexto SSL a liberar\\
+\hline
+\end{DoxyParams}
+Esta función libera todos los recursos asociados al contexto SSL\+:
+\begin{DoxyItemize}
+\item Libera el contexto SSL
+\item Limpia el caché de sesiones
+\item Libera memoria dinámica
+\end{DoxyItemize}
+
+\begin{DoxyNote}{Note}
+Debe ser llamada al finalizar para evitar memory leaks 
+\end{DoxyNote}
+\begin{DoxySeeAlso}{See also}
+\doxyref{init\+\_\+ssl\+\_\+context}{p.}{dtls__common__config_8h_a492bd3dd9796905085db586454ca2e5e} 
+\end{DoxySeeAlso}
+\label{dtls__common__config_8h_a6fba46de68b584c8e7987f3ffcf517c9} 
+\index{dtls\_common\_config.h@{dtls\_common\_config.h}!configure\_dtls\_session@{configure\_dtls\_session}}
+\index{configure\_dtls\_session@{configure\_dtls\_session}!dtls\_common\_config.h@{dtls\_common\_config.h}}
+\doxysubsubsection{configure\_dtls\_session()}
+{\footnotesize\ttfamily int configure\+\_\+dtls\+\_\+session (\begin{DoxyParamCaption}\item[{SSL $\ast$}]{ssl,  }\item[{const \textbf{ dtls\+\_\+config\+\_\+t} $\ast$}]{config }\end{DoxyParamCaption})}
+
+
+
+Configura los parámetros de sesión DTLS. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em ssl} & Conexión SSL a configurar \\
+\hline
+\mbox{\texttt{ in}}  & {\em config} & Configuración DTLS a aplicar\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 en caso de éxito, -\/1 en caso de error
+\end{DoxyReturn}
+Esta función configura los parámetros de una sesión DTLS\+:
+\begin{DoxyItemize}
+\item Establece el timeout de sesión
+\item Configura el MTU para DTLS
+\item Establece el timeout de retransmisión
+\item Configura los parámetros de seguridad
+\end{DoxyItemize}
+
+\begin{DoxyNote}{Note}
+Debe ser llamada después de crear la sesión SSL 
+\end{DoxyNote}
+\label{dtls__common__config_8h_a10c2ab9ed6817b77ae70ff8a518dee21} 
+\index{dtls\_common\_config.h@{dtls\_common\_config.h}!get\_dtls\_config\_from\_env@{get\_dtls\_config\_from\_env}}
+\index{get\_dtls\_config\_from\_env@{get\_dtls\_config\_from\_env}!dtls\_common\_config.h@{dtls\_common\_config.h}}
+\doxysubsubsection{get\_dtls\_config\_from\_env()}
+{\footnotesize\ttfamily int get\+\_\+dtls\+\_\+config\+\_\+from\+\_\+env (\begin{DoxyParamCaption}\item[{\textbf{ dtls\+\_\+config\+\_\+t} $\ast$}]{config }\end{DoxyParamCaption})}
+
+
+
+Obtiene la configuración DTLS desde variables de entorno. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ out}}  & {\em config} & Configuración DTLS a llenar\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 en caso de éxito, -\/1 en caso de error
+\end{DoxyReturn}
+Esta función lee la configuración DTLS desde variables de entorno\+:
+\begin{DoxyItemize}
+\item DTLS\+\_\+\+PSK\+\_\+\+FILE\+: Ruta al archivo de claves PSK
+\item DTLS\+\_\+\+TIMEOUT\+: Timeout de sesión en segundos
+\item DTLS\+\_\+\+MTU\+: MTU para DTLS en bytes
+\item DTLS\+\_\+\+RETRANSMIT\+\_\+\+TIMEOUT\+: Timeout de retransmisión
+\item DTLS\+\_\+\+MAX\+\_\+\+CONNECTIONS\+: Número máximo de conexiones
+\item DTLS\+\_\+\+SESSION\+\_\+\+CACHE\+\_\+\+SIZE\+: Tamaño del caché de sesiones
+\end{DoxyItemize}
+
+\begin{DoxyNote}{Note}
+Si una variable no está definida, usa el valor por defecto 
+\end{DoxyNote}
+\label{dtls__common__config_8h_a492bd3dd9796905085db586454ca2e5e} 
+\index{dtls\_common\_config.h@{dtls\_common\_config.h}!init\_ssl\_context@{init\_ssl\_context}}
+\index{init\_ssl\_context@{init\_ssl\_context}!dtls\_common\_config.h@{dtls\_common\_config.h}}
+\doxysubsubsection{init\_ssl\_context()}
+{\footnotesize\ttfamily int init\+\_\+ssl\+\_\+context (\begin{DoxyParamCaption}\item[{SSL\+\_\+\+CTX $\ast$$\ast$}]{ssl\+\_\+ctx,  }\item[{const \textbf{ dtls\+\_\+config\+\_\+t} $\ast$}]{config }\end{DoxyParamCaption})}
+
+
+
+Inicializa la configuración SSL para DTLS-\/\+PSK. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ out}}  & {\em ssl\+\_\+ctx} & Contexto SSL a inicializar \\
+\hline
+\mbox{\texttt{ in}}  & {\em config} & Configuración DTLS a aplicar\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 en caso de éxito, -\/1 en caso de error
+\end{DoxyReturn}
+Esta función configura el contexto SSL para DTLS-\/\+PSK\+:
+\begin{DoxyItemize}
+\item Inicializa la biblioteca Open\+SSL
+\item Crea el contexto SSL con método DTLS
+\item Configura los parámetros de seguridad PSK
+\item Establece los timeouts y límites de conexión
+\item Configura el caché de sesiones
+\end{DoxyItemize}
+
+\begin{DoxyNote}{Note}
+Debe ser llamada antes de crear sesiones SSL 
+\end{DoxyNote}
+\begin{DoxySeeAlso}{See also}
+\doxyref{cleanup\+\_\+ssl\+\_\+context}{p.}{dtls__common__config_8h_ac56fdbed0e9cf4f0e445dc8fbbacce28} 
+\end{DoxySeeAlso}
+\label{dtls__common__config_8h_a2dee2805093e4e864f1a257aef1413ec} 
+\index{dtls\_common\_config.h@{dtls\_common\_config.h}!psk\_server\_callback@{psk\_server\_callback}}
+\index{psk\_server\_callback@{psk\_server\_callback}!dtls\_common\_config.h@{dtls\_common\_config.h}}
+\doxysubsubsection{psk\_server\_callback()}
+{\footnotesize\ttfamily int psk\+\_\+server\+\_\+callback (\begin{DoxyParamCaption}\item[{SSL $\ast$}]{ssl,  }\item[{const char $\ast$}]{identity,  }\item[{unsigned char $\ast$}]{psk,  }\item[{unsigned int}]{max\+\_\+psk\+\_\+len }\end{DoxyParamCaption})}
+
+
+
+Callback para autenticación PSK del servidor. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em ssl} & Conexión SSL \\
+\hline
+\mbox{\texttt{ in}}  & {\em identity} & Identidad del cliente \\
+\hline
+\mbox{\texttt{ in}}  & {\em psk} & Clave PSK del cliente \\
+\hline
+\mbox{\texttt{ in}}  & {\em max\+\_\+psk\+\_\+len} & Longitud máxima de clave PSK\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+1 si la autenticación es exitosa, 0 en caso contrario
+\end{DoxyReturn}
+Este callback es llamado durante el handshake DTLS\+:
+\begin{DoxyItemize}
+\item Recibe la identidad y clave PSK del cliente
+\item Valida la clave contra el archivo de claves
+\item Retorna el resultado de la validación
+\item Configura la clave PSK en la sesión SSL
+\end{DoxyItemize}
+
+\begin{DoxyNote}{Note}
+Esta función es llamada automáticamente por Open\+SSL 
+\end{DoxyNote}
+\begin{DoxySeeAlso}{See also}
+\doxyref{validate\+\_\+psk}{p.}{server__functions_8h_a1990dde3c205e63d4c093448a4b3ef34} 
+\end{DoxySeeAlso}
+\label{dtls__common__config_8h_a4442f69b54c0825b99574894d170f6d3} 
+\index{dtls\_common\_config.h@{dtls\_common\_config.h}!setup\_dtls\_session@{setup\_dtls\_session}}
+\index{setup\_dtls\_session@{setup\_dtls\_session}!dtls\_common\_config.h@{dtls\_common\_config.h}}
+\doxysubsubsection{setup\_dtls\_session()}
+{\footnotesize\ttfamily int setup\+\_\+dtls\+\_\+session (\begin{DoxyParamCaption}\item[{coap\+\_\+context\+\_\+t $\ast$}]{ctx,  }\item[{SSL\+\_\+\+CTX $\ast$}]{ssl\+\_\+ctx,  }\item[{int}]{port }\end{DoxyParamCaption})}
+
+
+
+Configura una sesión Co\+AP con DTLS-\/\+PSK. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em ctx} & Contexto Co\+AP del servidor \\
+\hline
+\mbox{\texttt{ in}}  & {\em ssl\+\_\+ctx} & Contexto SSL configurado \\
+\hline
+\mbox{\texttt{ in}}  & {\em port} & Puerto de escucha\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 en caso de éxito, -\/1 en caso de error
+\end{DoxyReturn}
+Esta función configura la sesión Co\+AP para DTLS-\/\+PSK\+:
+\begin{DoxyItemize}
+\item Crea el endpoint de escucha DTLS
+\item Configura los parámetros de sesión
+\item Establece los callbacks de autenticación PSK
+\item Configura los timeouts de sesión
+\end{DoxyItemize}
+
+\begin{DoxyNote}{Note}
+Debe ser llamada después de inicializar el contexto SSL 
+\end{DoxyNote}
+\label{dtls__common__config_8h_af0f41d84e65a09b4ad35c65530879c6f} 
+\index{dtls\_common\_config.h@{dtls\_common\_config.h}!validate\_psk\_key@{validate\_psk\_key}}
+\index{validate\_psk\_key@{validate\_psk\_key}!dtls\_common\_config.h@{dtls\_common\_config.h}}
+\doxysubsubsection{validate\_psk\_key()}
+{\footnotesize\ttfamily int validate\+\_\+psk\+\_\+key (\begin{DoxyParamCaption}\item[{const char $\ast$}]{identity,  }\item[{const char $\ast$}]{psk,  }\item[{const char $\ast$}]{psk\+\_\+file }\end{DoxyParamCaption})}
+
+
+
+Valida una clave PSK contra el archivo de claves. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em identity} & Identidad del cliente \\
+\hline
+\mbox{\texttt{ in}}  & {\em psk} & Clave PSK a validar \\
+\hline
+\mbox{\texttt{ in}}  & {\em psk\+\_\+file} & Ruta al archivo de claves PSK\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+1 si la clave es válida, 0 en caso contrario
+\end{DoxyReturn}
+Esta función valida la autenticación PSK\+:
+\begin{DoxyItemize}
+\item Lee el archivo de claves PSK
+\item Busca la identidad del cliente
+\item Compara la clave proporcionada con la almacenada
+\item Retorna el resultado de la validación
+\end{DoxyItemize}
+
+\begin{DoxyNote}{Note}
+El archivo de claves debe contener pares identity\+:key 
+\end{DoxyNote}
+\begin{DoxySeeAlso}{See also}
+\doxyref{psk\+\_\+server\+\_\+callback}{p.}{dtls__common__config_8h_a2dee2805093e4e864f1a257aef1413ec} 
+\end{DoxySeeAlso}
+
+\subsection{Sistema de Logging (logging.h)}
+\doxysection{include/servidor\+\_\+central/logging.h File Reference}
+\label{logging_8h}\index{include/servidor\_central/logging.h@{include/servidor\_central/logging.h}}
+
+
+Sistema de logging estructurado para el servidor central.  
+
+
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \textbf{ logging\+\_\+config\+\_\+t}
+\begin{DoxyCompactList}\small\item\em Configuración del sistema de logging. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \textbf{ log\+\_\+level\+\_\+t} \{ \newline
+\textbf{ LOG\+\_\+\+LEVEL\+\_\+\+DEBUG} = 0
+, \textbf{ LOG\+\_\+\+LEVEL\+\_\+\+INFO} = 1
+, \textbf{ LOG\+\_\+\+LEVEL\+\_\+\+WARN} = 2
+, \textbf{ LOG\+\_\+\+LEVEL\+\_\+\+ERROR} = 3
+, \newline
+\textbf{ LOG\+\_\+\+LEVEL\+\_\+\+CRIT} = 4
+ \}
+\begin{DoxyCompactList}\small\item\em Niveles de logging disponibles. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \textbf{ init\+\_\+logging} (const \textbf{ logging\+\_\+config\+\_\+t} $\ast$config, const char $\ast$log\+\_\+file\+\_\+path)
+\begin{DoxyCompactList}\small\item\em Inicializa el sistema de logging. \end{DoxyCompactList}\item 
+void \textbf{ cleanup\+\_\+logging} (void)
+\begin{DoxyCompactList}\small\item\em Limpia y cierra el sistema de logging. \end{DoxyCompactList}\item 
+void \textbf{ set\+\_\+log\+\_\+level} (\textbf{ log\+\_\+level\+\_\+t} level)
+\begin{DoxyCompactList}\small\item\em Establece el nivel mínimo de logging. \end{DoxyCompactList}\item 
+\textbf{ log\+\_\+level\+\_\+t} \textbf{ get\+\_\+log\+\_\+level} (void)
+\begin{DoxyCompactList}\small\item\em Obtiene el nivel actual de logging. \end{DoxyCompactList}\item 
+void \textbf{ \+\_\+log\+\_\+message} (\textbf{ log\+\_\+level\+\_\+t} level, const char $\ast$file, int line, const char $\ast$func, const char $\ast$format,...)
+\begin{DoxyCompactList}\small\item\em Función interna para escribir logs. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Sistema de logging estructurado para el servidor central. 
+
+\begin{DoxyAuthor}{Author}
+Sistema de Control de Ascensores 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+2.\+0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+2025
+\end{DoxyDate}
+Este archivo define el sistema de logging completo del servidor central, incluyendo macros para diferentes niveles de log, funciones de inicialización y configuración del sistema de logging.
+
+\begin{DoxySeeAlso}{See also}
+\doxyref{server\+\_\+functions.\+h}{p.}{server__functions_8h} 
+
+\doxyref{main.\+c}{p.}{main_8c} 
+\end{DoxySeeAlso}
+
+
+\doxysubsection{Enumeration Type Documentation}
+\label{logging_8h_a98121d38a8cf3daf5246a349f912ca1d} 
+\index{logging.h@{logging.h}!log\_level\_t@{log\_level\_t}}
+\index{log\_level\_t@{log\_level\_t}!logging.h@{logging.h}}
+\doxysubsubsection{log\_level\_t}
+{\footnotesize\ttfamily enum \textbf{ log\+\_\+level\+\_\+t}}
+
+
+
+Niveles de logging disponibles. 
+
+Define los diferentes niveles de logging del sistema, ordenados de menor a mayor prioridad. \begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LOG\_LEVEL\_DEBUG@{LOG\_LEVEL\_DEBUG}!logging.h@{logging.h}}\index{logging.h@{logging.h}!LOG\_LEVEL\_DEBUG@{LOG\_LEVEL\_DEBUG}}}\label{logging_8h_a98121d38a8cf3daf5246a349f912ca1da538b2b6e011479d408ecd2be0f6d6177} 
+LOG\+\_\+\+LEVEL\+\_\+\+DEBUG&Información detallada para debugging \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LOG\_LEVEL\_INFO@{LOG\_LEVEL\_INFO}!logging.h@{logging.h}}\index{logging.h@{logging.h}!LOG\_LEVEL\_INFO@{LOG\_LEVEL\_INFO}}}\label{logging_8h_a98121d38a8cf3daf5246a349f912ca1daedee1e3159bfe7d918b6e29873c5aee4} 
+LOG\+\_\+\+LEVEL\+\_\+\+INFO&Información general del sistema \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LOG\_LEVEL\_WARN@{LOG\_LEVEL\_WARN}!logging.h@{logging.h}}\index{logging.h@{logging.h}!LOG\_LEVEL\_WARN@{LOG\_LEVEL\_WARN}}}\label{logging_8h_a98121d38a8cf3daf5246a349f912ca1da99c1e5c8e6d557f3993b9ab54a0107f4} 
+LOG\+\_\+\+LEVEL\+\_\+\+WARN&Advertencias que no impiden funcionamiento \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LOG\_LEVEL\_ERROR@{LOG\_LEVEL\_ERROR}!logging.h@{logging.h}}\index{logging.h@{logging.h}!LOG\_LEVEL\_ERROR@{LOG\_LEVEL\_ERROR}}}\label{logging_8h_a98121d38a8cf3daf5246a349f912ca1da5b40f003febbc3b535649d63f4b8a44f} 
+LOG\+\_\+\+LEVEL\+\_\+\+ERROR&Errores que afectan funcionalidad \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LOG\_LEVEL\_CRIT@{LOG\_LEVEL\_CRIT}!logging.h@{logging.h}}\index{logging.h@{logging.h}!LOG\_LEVEL\_CRIT@{LOG\_LEVEL\_CRIT}}}\label{logging_8h_a98121d38a8cf3daf5246a349f912ca1da993094394bb919145bc46868c5c46997} 
+LOG\+\_\+\+LEVEL\+\_\+\+CRIT&Errores críticos que pueden causar fallos \\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\label{logging_8h_a968bb8066cd03ef52ed9eb314d6abae7} 
+\index{logging.h@{logging.h}!\_log\_message@{\_log\_message}}
+\index{\_log\_message@{\_log\_message}!logging.h@{logging.h}}
+\doxysubsubsection{\_log\_message()}
+{\footnotesize\ttfamily void \+\_\+log\+\_\+message (\begin{DoxyParamCaption}\item[{\textbf{ log\+\_\+level\+\_\+t}}]{level,  }\item[{const char $\ast$}]{file,  }\item[{int}]{line,  }\item[{const char $\ast$}]{func,  }\item[{const char $\ast$}]{format,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+
+
+Función interna para escribir logs. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em level} & Nivel del log \\
+\hline
+\mbox{\texttt{ in}}  & {\em file} & Archivo donde se originó el log \\
+\hline
+\mbox{\texttt{ in}}  & {\em line} & Línea donde se originó el log \\
+\hline
+\mbox{\texttt{ in}}  & {\em func} & Función donde se originó el log \\
+\hline
+\mbox{\texttt{ in}}  & {\em format} & Formato del mensaje \\
+\hline
+\mbox{\texttt{ in}}  & {\em ...} & Argumentos variables del mensaje\\
+\hline
+\end{DoxyParams}
+Esta función es llamada internamente por las macros de logging. No debe ser llamada directamente desde el código. \label{logging_8h_ac42027cad4076d432c44b52142dd10dd} 
+\index{logging.h@{logging.h}!cleanup\_logging@{cleanup\_logging}}
+\index{cleanup\_logging@{cleanup\_logging}!logging.h@{logging.h}}
+\doxysubsubsection{cleanup\_logging()}
+{\footnotesize\ttfamily void cleanup\+\_\+logging (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Limpia y cierra el sistema de logging. 
+
+Esta función limpia los recursos del sistema de logging\+:
+\begin{DoxyItemize}
+\item Cierra el archivo de log si está abierto
+\item Libera memoria dinámica
+\item Resetea la configuración
+\end{DoxyItemize}
+
+\begin{DoxyNote}{Note}
+Debe ser llamada al finalizar el programa 
+\end{DoxyNote}
+\begin{DoxySeeAlso}{See also}
+\doxyref{init\+\_\+logging}{p.}{logging_8h_aef84f1c7d25b676ceb0d8071cf7e6680} 
+\end{DoxySeeAlso}
+\label{logging_8h_a8223bce835d2d8e99911fae08671ef40} 
+\index{logging.h@{logging.h}!get\_log\_level@{get\_log\_level}}
+\index{get\_log\_level@{get\_log\_level}!logging.h@{logging.h}}
+\doxysubsubsection{get\_log\_level()}
+{\footnotesize\ttfamily \textbf{ log\+\_\+level\+\_\+t} get\+\_\+log\+\_\+level (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Obtiene el nivel actual de logging. 
+
+\begin{DoxyReturn}{Returns}
+Nivel actual de logging
+\end{DoxyReturn}
+Esta función retorna el nivel mínimo de logging actualmente configurado. \label{logging_8h_aef84f1c7d25b676ceb0d8071cf7e6680} 
+\index{logging.h@{logging.h}!init\_logging@{init\_logging}}
+\index{init\_logging@{init\_logging}!logging.h@{logging.h}}
+\doxysubsubsection{init\_logging()}
+{\footnotesize\ttfamily int init\+\_\+logging (\begin{DoxyParamCaption}\item[{const \textbf{ logging\+\_\+config\+\_\+t} $\ast$}]{config,  }\item[{const char $\ast$}]{log\+\_\+file\+\_\+path }\end{DoxyParamCaption})}
+
+
+
+Inicializa el sistema de logging. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em config} & Configuración del sistema de logging \\
+\hline
+\mbox{\texttt{ in}}  & {\em log\+\_\+file\+\_\+path} & Ruta al archivo de log (NULL para stdout)\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 en caso de éxito, -\/1 en caso de error
+\end{DoxyReturn}
+Esta función inicializa el sistema de logging\+:
+\begin{DoxyItemize}
+\item Configura el nivel mínimo de logging
+\item Abre el archivo de log si se especifica
+\item Configura el formato de salida
+\item Inicializa las opciones de timestamp y colores
+\end{DoxyItemize}
+
+\begin{DoxyNote}{Note}
+Debe ser llamada antes de usar cualquier macro de logging 
+\end{DoxyNote}
+\begin{DoxySeeAlso}{See also}
+\doxyref{cleanup\+\_\+logging}{p.}{logging_8h_ac42027cad4076d432c44b52142dd10dd} 
+\end{DoxySeeAlso}
+\label{logging_8h_a4061480cf3a51689b1a2b1a1a2fab90d} 
+\index{logging.h@{logging.h}!set\_log\_level@{set\_log\_level}}
+\index{set\_log\_level@{set\_log\_level}!logging.h@{logging.h}}
+\doxysubsubsection{set\_log\_level()}
+{\footnotesize\ttfamily void set\+\_\+log\+\_\+level (\begin{DoxyParamCaption}\item[{\textbf{ log\+\_\+level\+\_\+t}}]{level }\end{DoxyParamCaption})}
+
+
+
+Establece el nivel mínimo de logging. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em level} & Nuevo nivel mínimo de logging\\
+\hline
+\end{DoxyParams}
+Esta función permite cambiar dinámicamente el nivel mínimo de logging durante la ejecución del programa.
+
+\begin{DoxyNote}{Note}
+Solo los logs con nivel $>$= al mínimo serán mostrados 
+\end{DoxyNote}
+
+\subsection{Validador PSK (psk\_validator.h)}
+\doxysection{include/servidor\+\_\+central/psk\+\_\+validator.h File Reference}
+\label{psk__validator_8h}\index{include/servidor\_central/psk\_validator.h@{include/servidor\_central/psk\_validator.h}}
+
+
+Validador de claves PSK para autenticación DTLS.  
+
+
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \textbf{ psk\+\_\+validator\+\_\+init} (const char $\ast$keys\+\_\+file\+\_\+path)
+\begin{DoxyCompactList}\small\item\em Inicializa el validador de claves PSK. \end{DoxyCompactList}\item 
+int \textbf{ psk\+\_\+validator\+\_\+check\+\_\+key} (const char $\ast$key, size\+\_\+t key\+\_\+len)
+\begin{DoxyCompactList}\small\item\em Valida si una clave PSK está en la lista de claves válidas. \end{DoxyCompactList}\item 
+int \textbf{ psk\+\_\+validator\+\_\+get\+\_\+key\+\_\+for\+\_\+identity} (const char $\ast$identity, uint8\+\_\+t $\ast$key\+\_\+buffer, size\+\_\+t buffer\+\_\+size)
+\begin{DoxyCompactList}\small\item\em Obtiene una clave PSK válida para una identidad específica. \end{DoxyCompactList}\item 
+int \textbf{ psk\+\_\+validator\+\_\+get\+\_\+key\+\_\+by\+\_\+index} (int index, uint8\+\_\+t $\ast$key\+\_\+buffer, size\+\_\+t buffer\+\_\+size)
+\begin{DoxyCompactList}\small\item\em Obtiene una clave PSK por índice específico. \end{DoxyCompactList}\item 
+void \textbf{ psk\+\_\+validator\+\_\+cleanup} (void)
+\begin{DoxyCompactList}\small\item\em Libera los recursos del validador de claves PSK. \end{DoxyCompactList}\item 
+int \textbf{ psk\+\_\+validator\+\_\+get\+\_\+key\+\_\+count} (void)
+\begin{DoxyCompactList}\small\item\em Obtiene el número total de claves PSK disponibles. \end{DoxyCompactList}\item 
+int \textbf{ psk\+\_\+validator\+\_\+is\+\_\+initialized} (void)
+\begin{DoxyCompactList}\small\item\em Verifica si el validador está inicializado. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Validador de claves PSK para autenticación DTLS. 
+
+\begin{DoxyAuthor}{Author}
+Sistema de Control de Ascensores 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+2.\+0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+2025
+\end{DoxyDate}
+Este archivo define las funciones para validar y gestionar claves PSK (Pre-\/\+Shared Keys) utilizadas en la autenticación DTLS-\/\+PSK del servidor central. El sistema utiliza un archivo de 15,000 claves únicas pre-\/generadas para garantizar la seguridad de las comunicaciones.
+
+\begin{DoxySeeAlso}{See also}
+\doxyref{dtls\+\_\+common\+\_\+config.\+h}{p.}{dtls__common__config_8h} 
+
+\doxyref{server\+\_\+functions.\+h}{p.}{server__functions_8h} 
+\end{DoxySeeAlso}
+
+
+\doxysubsection{Function Documentation}
+\label{psk__validator_8h_a27dde0ae78aff86e6e10e2fa34c04380} 
+\index{psk\_validator.h@{psk\_validator.h}!psk\_validator\_check\_key@{psk\_validator\_check\_key}}
+\index{psk\_validator\_check\_key@{psk\_validator\_check\_key}!psk\_validator.h@{psk\_validator.h}}
+\doxysubsubsection{psk\_validator\_check\_key()}
+{\footnotesize\ttfamily int psk\+\_\+validator\+\_\+check\+\_\+key (\begin{DoxyParamCaption}\item[{const char $\ast$}]{key,  }\item[{size\+\_\+t}]{key\+\_\+len }\end{DoxyParamCaption})}
+
+
+
+Valida si una clave PSK está en la lista de claves válidas. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em key} & Clave PSK a validar \\
+\hline
+\mbox{\texttt{ in}}  & {\em key\+\_\+len} & Longitud de la clave en bytes\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+1 si la clave es válida, 0 si no lo es
+\end{DoxyReturn}
+Esta función valida una clave PSK contra la lista de claves válidas\+:
+\begin{DoxyItemize}
+\item Busca la clave en la tabla hash de claves cargadas
+\item Compara la clave proporcionada con las almacenadas
+\item Retorna el resultado de la validación
+\end{DoxyItemize}
+
+\begin{DoxyNote}{Note}
+La búsqueda es O(1) gracias al uso de tabla hash 
+\end{DoxyNote}
+\begin{DoxySeeAlso}{See also}
+\doxyref{psk\+\_\+validator\+\_\+get\+\_\+key\+\_\+for\+\_\+identity}{p.}{psk__validator_8c_a9cf6c3d9a1ca4ecafc27b4b5cf059d9c}
+\end{DoxySeeAlso}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em key} & Clave PSK a validar \\
+\hline
+\mbox{\texttt{ in}}  & {\em key\+\_\+len} & Longitud de la clave en bytes\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+1 si la clave es válida, 0 si no lo es
+\end{DoxyReturn}
+Esta función valida una clave PSK contra la lista de claves válidas\+:
+\begin{DoxyItemize}
+\item Verifica que haya claves cargadas en memoria
+\item Compara la clave proporcionada con cada clave almacenada
+\item Utiliza comparación exacta de longitud y contenido
+\item Retorna el resultado de la validación
+\end{DoxyItemize}
+
+\begin{DoxyNote}{Note}
+La búsqueda es lineal O(n) donde n es el número de claves 
+
+La función es thread-\/safe para lecturas concurrentes 
+\end{DoxyNote}
+\begin{DoxySeeAlso}{See also}
+\doxyref{psk\+\_\+validator\+\_\+get\+\_\+key\+\_\+for\+\_\+identity}{p.}{psk__validator_8c_a9cf6c3d9a1ca4ecafc27b4b5cf059d9c} 
+\end{DoxySeeAlso}
+\label{psk__validator_8h_aec3fccc28ea8546380cd0c4efaacf603} 
+\index{psk\_validator.h@{psk\_validator.h}!psk\_validator\_cleanup@{psk\_validator\_cleanup}}
+\index{psk\_validator\_cleanup@{psk\_validator\_cleanup}!psk\_validator.h@{psk\_validator.h}}
+\doxysubsubsection{psk\_validator\_cleanup()}
+{\footnotesize\ttfamily void psk\+\_\+validator\+\_\+cleanup (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Libera los recursos del validador de claves PSK. 
+
+Esta función limpia todos los recursos asociados al validador\+:
+\begin{DoxyItemize}
+\item Cierra el archivo de claves si está abierto
+\item Libera la memoria de la tabla hash de claves
+\item Resetea el estado del validador
+\item Libera cualquier buffer interno
+\end{DoxyItemize}
+
+\begin{DoxyNote}{Note}
+Debe ser llamada al finalizar para evitar memory leaks 
+\end{DoxyNote}
+\begin{DoxySeeAlso}{See also}
+\doxyref{psk\+\_\+validator\+\_\+init}{p.}{psk__validator_8c_af84bfa633858d22629eeb419e53a30c1}
+\end{DoxySeeAlso}
+Esta función limpia todos los recursos asociados al validador\+:
+\begin{DoxyItemize}
+\item Libera cada clave individual del array
+\item Libera el array de punteros a claves
+\item Resetea los contadores y punteros
+\item Prepara el validador para una nueva inicialización
+\end{DoxyItemize}
+
+\begin{DoxyNote}{Note}
+Debe ser llamada al finalizar para evitar memory leaks 
+
+Es seguro llamar esta función múltiples veces 
+\end{DoxyNote}
+\begin{DoxySeeAlso}{See also}
+\doxyref{psk\+\_\+validator\+\_\+init}{p.}{psk__validator_8c_af84bfa633858d22629eeb419e53a30c1} 
+\end{DoxySeeAlso}
+\label{psk__validator_8h_a51ef499b334e697efea613cdece4e89d} 
+\index{psk\_validator.h@{psk\_validator.h}!psk\_validator\_get\_key\_by\_index@{psk\_validator\_get\_key\_by\_index}}
+\index{psk\_validator\_get\_key\_by\_index@{psk\_validator\_get\_key\_by\_index}!psk\_validator.h@{psk\_validator.h}}
+\doxysubsubsection{psk\_validator\_get\_key\_by\_index()}
+{\footnotesize\ttfamily int psk\+\_\+validator\+\_\+get\+\_\+key\+\_\+by\+\_\+index (\begin{DoxyParamCaption}\item[{int}]{index,  }\item[{uint8\+\_\+t $\ast$}]{key\+\_\+buffer,  }\item[{size\+\_\+t}]{buffer\+\_\+size }\end{DoxyParamCaption})}
+
+
+
+Obtiene una clave PSK por índice específico. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em index} & Índice de la clave en el archivo (0-\/based) \\
+\hline
+\mbox{\texttt{ out}}  & {\em key\+\_\+buffer} & Buffer donde se almacenará la clave \\
+\hline
+\mbox{\texttt{ in}}  & {\em buffer\+\_\+size} & Tamaño del buffer en bytes\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 si se obtuvo correctamente, -\/1 en caso de error
+\end{DoxyReturn}
+Esta función obtiene una clave PSK por su posición en el archivo\+:
+\begin{DoxyItemize}
+\item Lee la línea correspondiente al índice
+\item Parsea la clave del formato identity\+:key
+\item Copia la clave al buffer proporcionado
+\item Valida que el índice esté dentro del rango válido
+\end{DoxyItemize}
+
+\begin{DoxyNote}{Note}
+El índice debe estar entre 0 y NUM\+\_\+\+PSK\+\_\+\+KEYS-\/1 
+\end{DoxyNote}
+\begin{DoxySeeAlso}{See also}
+\doxyref{psk\+\_\+validator\+\_\+get\+\_\+key\+\_\+for\+\_\+identity}{p.}{psk__validator_8c_a9cf6c3d9a1ca4ecafc27b4b5cf059d9c}
+\end{DoxySeeAlso}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em index} & Índice de la clave en el archivo (0-\/based) \\
+\hline
+\mbox{\texttt{ out}}  & {\em key\+\_\+buffer} & Buffer donde se almacenará la clave \\
+\hline
+\mbox{\texttt{ in}}  & {\em buffer\+\_\+size} & Tamaño del buffer en bytes\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 si se obtuvo correctamente, -\/1 en caso de error
+\end{DoxyReturn}
+Esta función obtiene una clave PSK por su posición en el array\+:
+\begin{DoxyItemize}
+\item Valida que el índice esté dentro del rango válido
+\item Obtiene la clave del array de claves cargadas
+\item Copia la clave al buffer proporcionado
+\item Verifica que el buffer tenga espacio suficiente
+\end{DoxyItemize}
+
+\begin{DoxyNote}{Note}
+El índice debe estar entre 0 y count-\/1 
+\end{DoxyNote}
+\begin{DoxySeeAlso}{See also}
+\doxyref{psk\+\_\+validator\+\_\+get\+\_\+key\+\_\+for\+\_\+identity}{p.}{psk__validator_8c_a9cf6c3d9a1ca4ecafc27b4b5cf059d9c} 
+\end{DoxySeeAlso}
+\label{psk__validator_8h_a97f71f7909e6e6b3f737e7ca9d88734d} 
+\index{psk\_validator.h@{psk\_validator.h}!psk\_validator\_get\_key\_count@{psk\_validator\_get\_key\_count}}
+\index{psk\_validator\_get\_key\_count@{psk\_validator\_get\_key\_count}!psk\_validator.h@{psk\_validator.h}}
+\doxysubsubsection{psk\_validator\_get\_key\_count()}
+{\footnotesize\ttfamily int psk\+\_\+validator\+\_\+get\+\_\+key\+\_\+count (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Obtiene el número total de claves PSK disponibles. 
+
+\begin{DoxyReturn}{Returns}
+Número de claves PSK en el archivo
+\end{DoxyReturn}
+Esta función retorna el número total de claves PSK que han sido cargadas desde el archivo de claves.
+
+\begin{DoxyNote}{Note}
+Solo es válida después de llamar a psk\+\_\+validator\+\_\+init 
+\end{DoxyNote}
+\label{psk__validator_8h_a9cf6c3d9a1ca4ecafc27b4b5cf059d9c} 
+\index{psk\_validator.h@{psk\_validator.h}!psk\_validator\_get\_key\_for\_identity@{psk\_validator\_get\_key\_for\_identity}}
+\index{psk\_validator\_get\_key\_for\_identity@{psk\_validator\_get\_key\_for\_identity}!psk\_validator.h@{psk\_validator.h}}
+\doxysubsubsection{psk\_validator\_get\_key\_for\_identity()}
+{\footnotesize\ttfamily int psk\+\_\+validator\+\_\+get\+\_\+key\+\_\+for\+\_\+identity (\begin{DoxyParamCaption}\item[{const char $\ast$}]{identity,  }\item[{uint8\+\_\+t $\ast$}]{key\+\_\+buffer,  }\item[{size\+\_\+t}]{buffer\+\_\+size }\end{DoxyParamCaption})}
+
+
+
+Obtiene una clave PSK válida para una identidad específica. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em identity} & Identidad del cliente \\
+\hline
+\mbox{\texttt{ out}}  & {\em key\+\_\+buffer} & Buffer donde se almacenará la clave \\
+\hline
+\mbox{\texttt{ in}}  & {\em buffer\+\_\+size} & Tamaño del buffer en bytes\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 si se obtuvo correctamente, -\/1 en caso de error
+\end{DoxyReturn}
+Esta función obtiene la clave PSK correspondiente a una identidad\+:
+\begin{DoxyItemize}
+\item Busca la identidad en el archivo de claves
+\item Copia la clave al buffer proporcionado
+\item Verifica que el buffer tenga espacio suficiente
+\item Retorna el resultado de la operación
+\end{DoxyItemize}
+
+\begin{DoxyNote}{Note}
+El buffer debe tener al menos MAX\+\_\+\+PSK\+\_\+\+LENGTH bytes 
+\end{DoxyNote}
+\begin{DoxySeeAlso}{See also}
+\doxyref{psk\+\_\+validator\+\_\+check\+\_\+key}{p.}{psk__validator_8c_a27dde0ae78aff86e6e10e2fa34c04380}
+\end{DoxySeeAlso}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em identity} & Identidad del cliente \\
+\hline
+\mbox{\texttt{ out}}  & {\em key\+\_\+buffer} & Buffer donde se almacenará la clave \\
+\hline
+\mbox{\texttt{ in}}  & {\em buffer\+\_\+size} & Tamaño del buffer en bytes\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 si se obtuvo correctamente, -\/1 en caso de error
+\end{DoxyReturn}
+Esta función obtiene la clave PSK correspondiente a una identidad\+:
+\begin{DoxyItemize}
+\item Calcula un hash determinístico de la identidad
+\item Usa el hash como índice para seleccionar una clave
+\item Copia la clave seleccionada al buffer proporcionado
+\item Verifica que el buffer tenga espacio suficiente
+\end{DoxyItemize}
+
+\begin{DoxyNote}{Note}
+La selección es determinística\+: misma identidad = misma clave 
+
+El algoritmo usa hash simple para distribución uniforme 
+\end{DoxyNote}
+\begin{DoxySeeAlso}{See also}
+\doxyref{psk\+\_\+validator\+\_\+check\+\_\+key}{p.}{psk__validator_8c_a27dde0ae78aff86e6e10e2fa34c04380} 
+\end{DoxySeeAlso}
+\label{psk__validator_8h_af84bfa633858d22629eeb419e53a30c1} 
+\index{psk\_validator.h@{psk\_validator.h}!psk\_validator\_init@{psk\_validator\_init}}
+\index{psk\_validator\_init@{psk\_validator\_init}!psk\_validator.h@{psk\_validator.h}}
+\doxysubsubsection{psk\_validator\_init()}
+{\footnotesize\ttfamily int psk\+\_\+validator\+\_\+init (\begin{DoxyParamCaption}\item[{const char $\ast$}]{keys\+\_\+file\+\_\+path }\end{DoxyParamCaption})}
+
+
+
+Inicializa el validador de claves PSK. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em keys\+\_\+file\+\_\+path} & Ruta al archivo de claves PSK\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 si se inicializó correctamente, -\/1 en caso de error
+\end{DoxyReturn}
+Esta función inicializa el sistema de validación de claves PSK\+:
+\begin{DoxyItemize}
+\item Abre y lee el archivo de claves PSK
+\item Carga las claves en memoria para acceso rápido
+\item Valida el formato del archivo de claves
+\item Configura el sistema de búsqueda de claves
+\end{DoxyItemize}
+
+\begin{DoxyNote}{Note}
+El archivo de claves debe contener pares identity\+:key 
+
+Debe ser llamada antes de usar cualquier función de validación 
+\end{DoxyNote}
+\begin{DoxySeeAlso}{See also}
+\doxyref{psk\+\_\+validator\+\_\+cleanup}{p.}{psk__validator_8c_aec3fccc28ea8546380cd0c4efaacf603}
+\end{DoxySeeAlso}
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em keys\+\_\+file\+\_\+path} & Ruta al archivo de claves PSK\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 si se inicializó correctamente, -\/1 en caso de error
+\end{DoxyReturn}
+Esta función inicializa el sistema de validación de claves PSK\+:
+\begin{DoxyItemize}
+\item Abre el archivo de claves PSK especificado
+\item Cuenta el número de líneas en el archivo
+\item Asigna memoria dinámica para almacenar las claves
+\item Lee todas las claves del archivo y las almacena en memoria
+\item Cierra el archivo después de la carga
+\end{DoxyItemize}
+
+\begin{DoxyNote}{Note}
+El archivo de claves debe contener una clave por línea 
+
+La función maneja automáticamente la memoria dinámica 
+\end{DoxyNote}
+\begin{DoxySeeAlso}{See also}
+\doxyref{psk\+\_\+validator\+\_\+cleanup}{p.}{psk__validator_8c_aec3fccc28ea8546380cd0c4efaacf603} 
+\end{DoxySeeAlso}
+\label{psk__validator_8h_a500c8cc88b4792e167d32feb4a0404ef} 
+\index{psk\_validator.h@{psk\_validator.h}!psk\_validator\_is\_initialized@{psk\_validator\_is\_initialized}}
+\index{psk\_validator\_is\_initialized@{psk\_validator\_is\_initialized}!psk\_validator.h@{psk\_validator.h}}
+\doxysubsubsection{psk\_validator\_is\_initialized()}
+{\footnotesize\ttfamily int psk\+\_\+validator\+\_\+is\+\_\+initialized (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Verifica si el validador está inicializado. 
+
+\begin{DoxyReturn}{Returns}
+1 si está inicializado, 0 en caso contrario
+\end{DoxyReturn}
+Esta función verifica si el validador de claves PSK ha sido inicializado correctamente y está listo para su uso.
+
+\begin{DoxyNote}{Note}
+Útil para verificar el estado antes de usar otras funciones 
+\end{DoxyNote}
+
+\subsection{Funciones del Servidor (server\_functions.h)}
+\doxysection{include/servidor\+\_\+central/server\+\_\+functions.h File Reference}
+\label{server__functions_8h}\index{include/servidor\_central/server\_functions.h@{include/servidor\_central/server\_functions.h}}
+
+
+Funciones principales del servidor central de control de ascensores.  
+
+
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \textbf{ server\+\_\+context\+\_\+t}
+\begin{DoxyCompactList}\small\item\em Estructura para manejar el contexto del servidor. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \textbf{ init\+\_\+server\+\_\+context} (\textbf{ server\+\_\+context\+\_\+t} $\ast$server\+\_\+ctx, int port, const char $\ast$psk\+\_\+file)
+\begin{DoxyCompactList}\small\item\em Inicializa el contexto del servidor. \end{DoxyCompactList}\item 
+void \textbf{ cleanup\+\_\+server\+\_\+context} (\textbf{ server\+\_\+context\+\_\+t} $\ast$server\+\_\+ctx)
+\begin{DoxyCompactList}\small\item\em Limpia y libera los recursos del contexto del servidor. \end{DoxyCompactList}\item 
+int \textbf{ run\+\_\+server} (\textbf{ server\+\_\+context\+\_\+t} $\ast$server\+\_\+ctx)
+\begin{DoxyCompactList}\small\item\em Inicia el bucle principal del servidor. \end{DoxyCompactList}\item 
+int \textbf{ setup\+\_\+coap\+\_\+resources} (coap\+\_\+context\+\_\+t $\ast$ctx)
+\begin{DoxyCompactList}\small\item\em Configura los recursos Co\+AP del servidor. \end{DoxyCompactList}\item 
+int \textbf{ validate\+\_\+psk} (const char $\ast$identity, const char $\ast$psk, const char $\ast$psk\+\_\+file)
+\begin{DoxyCompactList}\small\item\em Valida una clave PSK contra el archivo de claves. \end{DoxyCompactList}\item 
+int \textbf{ handle\+\_\+floor\+\_\+request} (coap\+\_\+session\+\_\+t $\ast$session, coap\+\_\+pdu\+\_\+t $\ast$request, coap\+\_\+pdu\+\_\+t $\ast$response, sqlite3 $\ast$db)
+\begin{DoxyCompactList}\small\item\em Procesa una solicitud de asignación de ascensor. \end{DoxyCompactList}\item 
+int \textbf{ handle\+\_\+cabin\+\_\+request} (coap\+\_\+session\+\_\+t $\ast$session, coap\+\_\+pdu\+\_\+t $\ast$request, coap\+\_\+pdu\+\_\+t $\ast$response, sqlite3 $\ast$db)
+\begin{DoxyCompactList}\small\item\em Procesa una solicitud específica de cabina. \end{DoxyCompactList}\item 
+int \textbf{ assign\+\_\+elevator} (const char $\ast$edificio\+\_\+id, int piso\+\_\+origen, int piso\+\_\+destino, sqlite3 $\ast$db, char $\ast$$\ast$ascensor\+\_\+asignado, int $\ast$tiempo\+\_\+estimado)
+\begin{DoxyCompactList}\small\item\em Ejecuta el algoritmo de asignación óptima de ascensores. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Funciones principales del servidor central de control de ascensores. 
+
+\begin{DoxyAuthor}{Author}
+Sistema de Control de Ascensores 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+2.\+0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+2025
+\end{DoxyDate}
+Este archivo contiene las declaraciones de las funciones principales del servidor central que maneja la comunicación Co\+AP/\+DTLS-\/\+PSK y la gestión de asignación de ascensores.
+
+\begin{DoxySeeAlso}{See also}
+\doxyref{main.\+c}{p.}{main_8c} 
+
+\doxyref{dtls\+\_\+common\+\_\+config.\+h}{p.}{dtls__common__config_8h} 
+
+\doxyref{logging.\+h}{p.}{logging_8h} 
+\end{DoxySeeAlso}
+
+
+\doxysubsection{Function Documentation}
+\label{server__functions_8h_ae8dd2b1b14c29c984ea1a56fd2f12d3f} 
+\index{server\_functions.h@{server\_functions.h}!assign\_elevator@{assign\_elevator}}
+\index{assign\_elevator@{assign\_elevator}!server\_functions.h@{server\_functions.h}}
+\doxysubsubsection{assign\_elevator()}
+{\footnotesize\ttfamily int assign\+\_\+elevator (\begin{DoxyParamCaption}\item[{const char $\ast$}]{edificio\+\_\+id,  }\item[{int}]{piso\+\_\+origen,  }\item[{int}]{piso\+\_\+destino,  }\item[{sqlite3 $\ast$}]{db,  }\item[{char $\ast$$\ast$}]{ascensor\+\_\+asignado,  }\item[{int $\ast$}]{tiempo\+\_\+estimado }\end{DoxyParamCaption})}
+
+
+
+Ejecuta el algoritmo de asignación óptima de ascensores. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em edificio\+\_\+id} & ID del edificio \\
+\hline
+\mbox{\texttt{ in}}  & {\em piso\+\_\+origen} & Piso de origen de la solicitud \\
+\hline
+\mbox{\texttt{ in}}  & {\em piso\+\_\+destino} & Piso de destino de la solicitud \\
+\hline
+\mbox{\texttt{ in}}  & {\em db} & Conexión a la base de datos \\
+\hline
+\mbox{\texttt{ out}}  & {\em ascensor\+\_\+asignado} & ID del ascensor asignado \\
+\hline
+\mbox{\texttt{ out}}  & {\em tiempo\+\_\+estimado} & Tiempo estimado de llegada en segundos\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 en caso de éxito, -\/1 en caso de error
+\end{DoxyReturn}
+Este algoritmo implementa la lógica de asignación\+:
+\begin{DoxyItemize}
+\item Consulta todos los ascensores disponibles del edificio
+\item Calcula la distancia de cada ascensor al piso de origen
+\item Considera la dirección de movimiento y carga actual
+\item Selecciona el ascensor que minimice el tiempo de espera
+\item Retorna la asignación óptima
+\end{DoxyItemize}
+
+\begin{DoxyNote}{Note}
+El algoritmo prioriza ascensores libres sobre ocupados 
+\end{DoxyNote}
+\label{server__functions_8h_aa60a9510f2df860643e310eb01484487} 
+\index{server\_functions.h@{server\_functions.h}!cleanup\_server\_context@{cleanup\_server\_context}}
+\index{cleanup\_server\_context@{cleanup\_server\_context}!server\_functions.h@{server\_functions.h}}
+\doxysubsubsection{cleanup\_server\_context()}
+{\footnotesize\ttfamily void cleanup\+\_\+server\+\_\+context (\begin{DoxyParamCaption}\item[{\textbf{ server\+\_\+context\+\_\+t} $\ast$}]{server\+\_\+ctx }\end{DoxyParamCaption})}
+
+
+
+Limpia y libera los recursos del contexto del servidor. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in,out}}  & {\em server\+\_\+ctx} & Puntero a la estructura de contexto del servidor\\
+\hline
+\end{DoxyParams}
+Esta función libera todos los recursos asociados al servidor\+:
+\begin{DoxyItemize}
+\item Cierra el contexto Co\+AP
+\item Libera la configuración SSL
+\item Cierra la conexión a la base de datos
+\item Libera memoria dinámica
+\end{DoxyItemize}
+
+\begin{DoxyNote}{Note}
+Debe ser llamada al finalizar el servidor para evitar memory leaks 
+\end{DoxyNote}
+\begin{DoxySeeAlso}{See also}
+\doxyref{init\+\_\+server\+\_\+context}{p.}{server__functions_8h_a4f61b5d1b962aae94872249c599e6634} 
+\end{DoxySeeAlso}
+\label{server__functions_8h_af7cc5ea773947ba92c506d609946774b} 
+\index{server\_functions.h@{server\_functions.h}!handle\_cabin\_request@{handle\_cabin\_request}}
+\index{handle\_cabin\_request@{handle\_cabin\_request}!server\_functions.h@{server\_functions.h}}
+\doxysubsubsection{handle\_cabin\_request()}
+{\footnotesize\ttfamily int handle\+\_\+cabin\+\_\+request (\begin{DoxyParamCaption}\item[{coap\+\_\+session\+\_\+t $\ast$}]{session,  }\item[{coap\+\_\+pdu\+\_\+t $\ast$}]{request,  }\item[{coap\+\_\+pdu\+\_\+t $\ast$}]{response,  }\item[{sqlite3 $\ast$}]{db }\end{DoxyParamCaption})}
+
+
+
+Procesa una solicitud específica de cabina. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em session} & Sesión Co\+AP del cliente \\
+\hline
+\mbox{\texttt{ in}}  & {\em request} & Petición Co\+AP recibida \\
+\hline
+\mbox{\texttt{ in}}  & {\em response} & Respuesta Co\+AP a enviar \\
+\hline
+\mbox{\texttt{ in}}  & {\em db} & Conexión a la base de datos\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 en caso de éxito, -\/1 en caso de error
+\end{DoxyReturn}
+Esta función procesa las solicitudes de cabina específica\+:
+\begin{DoxyItemize}
+\item Valida que el ascensor solicitado esté disponible
+\item Verifica que el ascensor pueda atender la solicitud
+\item Asigna la tarea al ascensor específico
+\item Actualiza la base de datos
+\item Genera la respuesta de confirmación
+\end{DoxyItemize}
+
+\begin{DoxyNote}{Note}
+Esta función es llamada automáticamente por el handler Co\+AP 
+\end{DoxyNote}
+\label{server__functions_8h_ae5aed47a7c0c6fde5608f7d5ac8487fc} 
+\index{server\_functions.h@{server\_functions.h}!handle\_floor\_request@{handle\_floor\_request}}
+\index{handle\_floor\_request@{handle\_floor\_request}!server\_functions.h@{server\_functions.h}}
+\doxysubsubsection{handle\_floor\_request()}
+{\footnotesize\ttfamily int handle\+\_\+floor\+\_\+request (\begin{DoxyParamCaption}\item[{coap\+\_\+session\+\_\+t $\ast$}]{session,  }\item[{coap\+\_\+pdu\+\_\+t $\ast$}]{request,  }\item[{coap\+\_\+pdu\+\_\+t $\ast$}]{response,  }\item[{sqlite3 $\ast$}]{db }\end{DoxyParamCaption})}
+
+
+
+Procesa una solicitud de asignación de ascensor. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em session} & Sesión Co\+AP del cliente \\
+\hline
+\mbox{\texttt{ in}}  & {\em request} & Petición Co\+AP recibida \\
+\hline
+\mbox{\texttt{ in}}  & {\em response} & Respuesta Co\+AP a enviar \\
+\hline
+\mbox{\texttt{ in}}  & {\em db} & Conexión a la base de datos\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 en caso de éxito, -\/1 en caso de error
+\end{DoxyReturn}
+Esta función procesa las solicitudes de asignación\+:
+\begin{DoxyItemize}
+\item Valida el formato JSON de la petición
+\item Consulta el estado actual de los ascensores
+\item Ejecuta el algoritmo de asignación óptima
+\item Actualiza la base de datos con la nueva tarea
+\item Genera la respuesta JSON con la asignación
+\end{DoxyItemize}
+
+\begin{DoxyNote}{Note}
+Esta función es llamada automáticamente por el handler Co\+AP 
+\end{DoxyNote}
+\label{server__functions_8h_a4f61b5d1b962aae94872249c599e6634} 
+\index{server\_functions.h@{server\_functions.h}!init\_server\_context@{init\_server\_context}}
+\index{init\_server\_context@{init\_server\_context}!server\_functions.h@{server\_functions.h}}
+\doxysubsubsection{init\_server\_context()}
+{\footnotesize\ttfamily int init\+\_\+server\+\_\+context (\begin{DoxyParamCaption}\item[{\textbf{ server\+\_\+context\+\_\+t} $\ast$}]{server\+\_\+ctx,  }\item[{int}]{port,  }\item[{const char $\ast$}]{psk\+\_\+file }\end{DoxyParamCaption})}
+
+
+
+Inicializa el contexto del servidor. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ out}}  & {\em server\+\_\+ctx} & Puntero a la estructura de contexto del servidor \\
+\hline
+\mbox{\texttt{ in}}  & {\em port} & Puerto en el que escuchará el servidor \\
+\hline
+\mbox{\texttt{ in}}  & {\em psk\+\_\+file} & Ruta al archivo de claves PSK\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 en caso de éxito, -\/1 en caso de error
+\end{DoxyReturn}
+Esta función inicializa todos los componentes necesarios para el funcionamiento del servidor\+:
+\begin{DoxyItemize}
+\item Configura el contexto Co\+AP
+\item Inicializa la configuración DTLS-\/\+PSK
+\item Abre la conexión a la base de datos
+\item Configura los recursos Co\+AP
+\end{DoxyItemize}
+
+\begin{DoxyNote}{Note}
+La función debe ser llamada antes de iniciar el servidor 
+\end{DoxyNote}
+\begin{DoxySeeAlso}{See also}
+\doxyref{cleanup\+\_\+server\+\_\+context}{p.}{server__functions_8h_aa60a9510f2df860643e310eb01484487} 
+\end{DoxySeeAlso}
+\label{server__functions_8h_ad564134db02b7a1914df699d680cfab6} 
+\index{server\_functions.h@{server\_functions.h}!run\_server@{run\_server}}
+\index{run\_server@{run\_server}!server\_functions.h@{server\_functions.h}}
+\doxysubsubsection{run\_server()}
+{\footnotesize\ttfamily int run\+\_\+server (\begin{DoxyParamCaption}\item[{\textbf{ server\+\_\+context\+\_\+t} $\ast$}]{server\+\_\+ctx }\end{DoxyParamCaption})}
+
+
+
+Inicia el bucle principal del servidor. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em server\+\_\+ctx} & Puntero a la estructura de contexto del servidor\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 en caso de éxito, -\/1 en caso de error
+\end{DoxyReturn}
+Esta función inicia el bucle principal del servidor que\+:
+\begin{DoxyItemize}
+\item Escucha conexiones entrantes
+\item Procesa solicitudes Co\+AP
+\item Maneja la autenticación DTLS-\/\+PSK
+\item Ejecuta los algoritmos de asignación de ascensores
+\item Responde a los clientes
+\end{DoxyItemize}
+
+\begin{DoxyNote}{Note}
+Esta función es bloqueante y solo retorna cuando el servidor se detiene 
+\end{DoxyNote}
+\begin{DoxySeeAlso}{See also}
+\doxyref{init\+\_\+server\+\_\+context}{p.}{server__functions_8h_a4f61b5d1b962aae94872249c599e6634} 
+\end{DoxySeeAlso}
+\label{server__functions_8h_a7448045771096cb8102db2ac8373eaa8} 
+\index{server\_functions.h@{server\_functions.h}!setup\_coap\_resources@{setup\_coap\_resources}}
+\index{setup\_coap\_resources@{setup\_coap\_resources}!server\_functions.h@{server\_functions.h}}
+\doxysubsubsection{setup\_coap\_resources()}
+{\footnotesize\ttfamily int setup\+\_\+coap\+\_\+resources (\begin{DoxyParamCaption}\item[{coap\+\_\+context\+\_\+t $\ast$}]{ctx }\end{DoxyParamCaption})}
+
+
+
+Configura los recursos Co\+AP del servidor. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em ctx} & Contexto Co\+AP del servidor\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 en caso de éxito, -\/1 en caso de error
+\end{DoxyReturn}
+Esta función registra los endpoints Co\+AP disponibles\+:
+\begin{DoxyItemize}
+\item /peticion\+\_\+piso\+: Para solicitudes de asignación de ascensor
+\item /peticion\+\_\+cab\+: Para solicitudes específicas de cabina
+\item /.well-\/known/core\+: Para descubrimiento de recursos
+\end{DoxyItemize}
+
+\begin{DoxyNote}{Note}
+Debe ser llamada después de inicializar el contexto Co\+AP 
+\end{DoxyNote}
+\label{server__functions_8h_a1990dde3c205e63d4c093448a4b3ef34} 
+\index{server\_functions.h@{server\_functions.h}!validate\_psk@{validate\_psk}}
+\index{validate\_psk@{validate\_psk}!server\_functions.h@{server\_functions.h}}
+\doxysubsubsection{validate\_psk()}
+{\footnotesize\ttfamily int validate\+\_\+psk (\begin{DoxyParamCaption}\item[{const char $\ast$}]{identity,  }\item[{const char $\ast$}]{psk,  }\item[{const char $\ast$}]{psk\+\_\+file }\end{DoxyParamCaption})}
+
+
+
+Valida una clave PSK contra el archivo de claves. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em identity} & Identidad del cliente \\
+\hline
+\mbox{\texttt{ in}}  & {\em psk} & Clave PSK proporcionada por el cliente \\
+\hline
+\mbox{\texttt{ in}}  & {\em psk\+\_\+file} & Ruta al archivo de claves PSK\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+1 si la clave es válida, 0 en caso contrario
+\end{DoxyReturn}
+Esta función valida la autenticación DTLS-\/\+PSK\+:
+\begin{DoxyItemize}
+\item Lee el archivo de claves PSK
+\item Busca la identidad del cliente
+\item Compara la clave proporcionada con la almacenada
+\item Retorna el resultado de la validación
+\end{DoxyItemize}
+
+\begin{DoxyNote}{Note}
+El archivo de claves debe contener pares identity\+:key 
+\end{DoxyNote}
+\begin{DoxySeeAlso}{See also}
+\doxyref{psk\+\_\+validator.\+h}{p.}{psk__validator_8h} 
+\end{DoxySeeAlso}
+
+\section{Archivos de Implementación}
+\subsection{Servidor Principal (main.c)}
+\doxysection{src/main.c File Reference}
+\label{main_8c}\index{src/main.c@{src/main.c}}
+
+
+Servidor Central del Sistema de Control de Ascensores con DTLS-\/\+PSK.  
+
+
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+static int \textbf{ session\+\_\+event\+\_\+handler} (coap\+\_\+session\+\_\+t $\ast$session, const coap\+\_\+event\+\_\+t event)
+\begin{DoxyCompactList}\small\item\em Callback para configurar sesiones DTLS con timeouts optimizados. \end{DoxyCompactList}\item 
+static const coap\+\_\+bin\+\_\+const\+\_\+t $\ast$ \textbf{ get\+\_\+psk\+\_\+info} (coap\+\_\+bin\+\_\+const\+\_\+t $\ast$identity, coap\+\_\+session\+\_\+t $\ast$session, void $\ast$arg)
+\begin{DoxyCompactList}\small\item\em Callback PSK personalizado para autenticación DTLS-\/\+PSK. \end{DoxyCompactList}\item 
+void \textbf{ handle\+\_\+sigint} (int signum)
+\begin{DoxyCompactList}\small\item\em Manejador de señal para SIGINT (Ctrl+C) \end{DoxyCompactList}\item 
+void \textbf{ generate\+\_\+unique\+\_\+task\+\_\+id} (char $\ast$task\+\_\+id\+\_\+out, size\+\_\+t len)
+\begin{DoxyCompactList}\small\item\em Genera un ID único para una tarea de ascensor. \end{DoxyCompactList}\item 
+static char $\ast$ \textbf{ select\+\_\+optimal\+\_\+elevator} (c\+JSON $\ast$elevadores\+\_\+estado, int piso\+\_\+origen, const char $\ast$direccion\+\_\+llamada)
+\begin{DoxyCompactList}\small\item\em Encuentra el ascensor más cercano para una llamada de piso. \end{DoxyCompactList}\item 
+static void \textbf{ hnd\+\_\+floor\+\_\+call} (coap\+\_\+resource\+\_\+t $\ast$resource, coap\+\_\+session\+\_\+t $\ast$session, const coap\+\_\+pdu\+\_\+t $\ast$request, const coap\+\_\+string\+\_\+t $\ast$query, coap\+\_\+pdu\+\_\+t $\ast$response)
+\begin{DoxyCompactList}\small\item\em Manejador Co\+AP para solicitudes de llamada de piso. \end{DoxyCompactList}\item 
+static void \textbf{ hnd\+\_\+cabin\+\_\+request} (coap\+\_\+resource\+\_\+t $\ast$resource, coap\+\_\+session\+\_\+t $\ast$session, const coap\+\_\+pdu\+\_\+t $\ast$request, const coap\+\_\+string\+\_\+t $\ast$query, coap\+\_\+pdu\+\_\+t $\ast$response)
+\begin{DoxyCompactList}\small\item\em Manejador Co\+AP para solicitudes de cabina. \end{DoxyCompactList}\item 
+int \textbf{ main} (int argc, char $\ast$$\ast$argv)
+\begin{DoxyCompactList}\small\item\em Función principal del Servidor Central de Ascensores. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+static int \textbf{ running} = 1
+\begin{DoxyCompactList}\small\item\em Bandera global para controlar el bucle principal del servidor. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Servidor Central del Sistema de Control de Ascensores con DTLS-\/\+PSK. 
+
+\begin{DoxyAuthor}{Author}
+Sistema de Control de Ascensores 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+2.\+1 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+2025
+\end{DoxyDate}
+Este archivo implementa el servidor central que gestiona la asignación de tareas a ascensores en el sistema distribuido de control de ascensores. El servidor utiliza Co\+AP sobre DTLS-\/\+PSK para comunicaciones seguras con los API Gateways y proporciona endpoints RESTful para gestionar solicitudes de ascensores.
+
+{\bfseries{Funcionalidades principales\+:}}
+\begin{DoxyItemize}
+\item {\bfseries{Servidor Co\+AP DTLS}}\+: Configuración de servidor Co\+AP con seguridad DTLS-\/\+PSK
+\item {\bfseries{Gestión de solicitudes}}\+: Procesamiento de peticiones de piso y cabina
+\item {\bfseries{Algoritmos de asignación}}\+: Lógica inteligente para asignar ascensores a tareas
+\item {\bfseries{Generación de IDs únicos}}\+: Creación de identificadores únicos para tareas
+\item {\bfseries{Respuestas JSON}}\+: Envío de respuestas estructuradas a los gateways
+\item {\bfseries{Logging detallado}}\+: Sistema de registro para monitoreo y debugging
+\item {\bfseries{Gestión de sesiones}}\+: Optimización de timeouts y reconexiones DTLS
+\end{DoxyItemize}
+
+{\bfseries{Endpoints Co\+AP soportados\+:}}
+\begin{DoxyItemize}
+\item {\ttfamily POST /peticion\+\_\+piso}\+: Solicitudes de llamada de piso desde botones externos
+\item {\ttfamily POST /peticion\+\_\+cabina}\+: Solicitudes de cabina desde interior de ascensores
+\end{DoxyItemize}
+
+{\bfseries{Algoritmo de asignación de ascensores\+:}} Utiliza el algoritmo de proximidad inteligente implementado en \doxyref{select\+\_\+optimal\+\_\+elevator()}{p.}{main_8c_accc4b71950f29e6ddc4293d30f7e5ea0}\+:
+\begin{DoxyItemize}
+\item Filtra ascensores disponibles (disponible=true)
+\item Calcula distancia absoluta desde piso\+\_\+origen a cada ascensor
+\item Selecciona todos los ascensores con distancia mínima
+\item En caso de empate, selecciona aleatoriamente para distribuir carga
+\item Garantiza asignación óptima basada en proximidad geográfica
+\end{DoxyItemize}
+
+{\bfseries{Seguridad DTLS-\/\+PSK\+:}}
+\begin{DoxyItemize}
+\item Autenticación mutua usando claves precompartidas
+\item Cifrado de todas las comunicaciones
+\item Validación de identidades de clientes
+\item Gestión de sesiones con timeouts optimizados
+\item Prevención de ataques de repetición
+\end{DoxyItemize}
+
+{\bfseries{Configuración de red\+:}}
+\begin{DoxyItemize}
+\item Puerto\+: 5684 (estándar Co\+AP-\/\+DTLS)
+\item Interfaz\+: 0.\+0.\+0.\+0 (todas las interfaces)
+\item Protocolo\+: UDP con DTLS
+\end{DoxyItemize}
+
+{\bfseries{Gestión de memoria\+:}}
+\begin{DoxyItemize}
+\item Liberación automática de recursos al terminar
+\item Manejo seguro de strings y buffers
+\item Prevención de memory leaks
+\end{DoxyItemize}
+
+\begin{DoxySeeAlso}{See also}
+\doxyref{servidor\+\_\+central/logging.\+h}{p.}{logging_8h} 
+
+\doxyref{servidor\+\_\+central/dtls\+\_\+common\+\_\+config.\+h}{p.}{dtls__common__config_8h} 
+
+\doxyref{psk\+\_\+validator.\+h}{p.}{psk__validator_8h} 
+
+coap3/coap.\+h 
+
+c\+JSON.\+h 
+\end{DoxySeeAlso}
+
+
+\doxysubsection{Function Documentation}
+\label{main_8c_aa7115e126eb6986fa2e1f6fb95ea839c} 
+\index{main.c@{main.c}!generate\_unique\_task\_id@{generate\_unique\_task\_id}}
+\index{generate\_unique\_task\_id@{generate\_unique\_task\_id}!main.c@{main.c}}
+\doxysubsubsection{generate\_unique\_task\_id()}
+{\footnotesize\ttfamily void generate\+\_\+unique\+\_\+task\+\_\+id (\begin{DoxyParamCaption}\item[{char $\ast$}]{task\+\_\+id\+\_\+out,  }\item[{size\+\_\+t}]{len }\end{DoxyParamCaption})}
+
+
+
+Genera un ID único para una tarea de ascensor. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ out}}  & {\em task\+\_\+id\+\_\+out} & Buffer donde se almacenará el ID generado \\
+\hline
+\mbox{\texttt{ in}}  & {\em len} & Tamaño del buffer de salida en bytes\\
+\hline
+\end{DoxyParams}
+Esta función genera un identificador único para tareas de ascensor basado en el timestamp actual del sistema con precisión de milisegundos.
+
+{\bfseries{Formato del ID generado\+:}} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{stringliteral}{"{}T\_\{segundos\_unix\}\{milisegundos\}"{}}}
+
+\end{DoxyCode}
+
+
+{\bfseries{Ejemplo de ID\+:}}
+\begin{DoxyItemize}
+\item "{}\+T\+\_\+1640995200123"{} donde\+:
+\begin{DoxyItemize}
+\item T\+\_\+\+: Prefijo identificador de tarea
+\item 1640995200\+: Segundos desde epoch Unix
+\item 123\+: Milisegundos (3 dígitos)
+\end{DoxyItemize}
+\end{DoxyItemize}
+
+{\bfseries{Características\+:}}
+\begin{DoxyItemize}
+\item Unicidad temporal garantizada
+\item Formato legible y ordenable
+\item Precisión de milisegundos
+\item Compatible con sistemas distribuidos
+\end{DoxyItemize}
+
+{\bfseries{Limitaciones\+:}}
+\begin{DoxyItemize}
+\item No es thread-\/safe (para entornos multihilo usar sincronización)
+\item Dependiente del reloj del sistema
+\item Máximo 1,000 IDs por segundo (limitación de milisegundos)
+\end{DoxyItemize}
+
+{\bfseries{Uso típico\+:}} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keywordtype}{char}\ task\_id[32];}
+\DoxyCodeLine{generate\_unique\_task\_id(task\_id,\ \textcolor{keyword}{sizeof}(task\_id));}
+\DoxyCodeLine{\textcolor{comment}{//\ task\_id\ contiene\ "{}T\_1640995200123"{}}}
+
+\end{DoxyCode}
+
+
+\begin{DoxyNote}{Note}
+El buffer de salida debe tener al menos 32 caracteres 
+
+Para entornos multihilo considerar usar mutex o contadores atómicos 
+\end{DoxyNote}
+\begin{DoxySeeAlso}{See also}
+gettimeofday() 
+
+snprintf() 
+\end{DoxySeeAlso}
+\label{main_8c_a621fbdb414850866e6bcb447ff161ee8} 
+\index{main.c@{main.c}!get\_psk\_info@{get\_psk\_info}}
+\index{get\_psk\_info@{get\_psk\_info}!main.c@{main.c}}
+\doxysubsubsection{get\_psk\_info()}
+{\footnotesize\ttfamily static const coap\+\_\+bin\+\_\+const\+\_\+t $\ast$ get\+\_\+psk\+\_\+info (\begin{DoxyParamCaption}\item[{coap\+\_\+bin\+\_\+const\+\_\+t $\ast$}]{identity,  }\item[{coap\+\_\+session\+\_\+t $\ast$}]{session,  }\item[{void $\ast$}]{arg }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Callback PSK personalizado para autenticación DTLS-\/\+PSK. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em identity} & Identidad del cliente DTLS \\
+\hline
+\mbox{\texttt{ in}}  & {\em session} & Sesión Co\+AP asociada \\
+\hline
+\mbox{\texttt{ in}}  & {\em arg} & Argumento de usuario (no usado)\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Puntero a la clave PSK correspondiente o NULL si no se encuentra
+\end{DoxyReturn}
+Esta función implementa el callback de autenticación PSK para DTLS\+:
+
+{\bfseries{Proceso de autenticación\+:}}
+\begin{DoxyEnumerate}
+\item Recibe la identidad del cliente desde el handshake DTLS
+\item Valida que la identidad siga el patrón "{}\+Gateway\+\_\+\+Client\+\_\+$\ast$"{}
+\item Obtiene la clave PSK determinística basada en la identidad
+\item Retorna la clave para completar el handshake DTLS
+\end{DoxyEnumerate}
+
+{\bfseries{Patrones de identidad aceptados\+:}}
+\begin{DoxyItemize}
+\item "{}\+Gateway\+\_\+\+Client\+\_\+$\ast$"{}\+: Cualquier identidad que empiece con este prefijo
+\item Se rechazan identidades que no sigan el patrón
+\end{DoxyItemize}
+
+{\bfseries{Algoritmo de clave determinística\+:}}
+\begin{DoxyItemize}
+\item Usa \doxyref{psk\+\_\+validator\+\_\+get\+\_\+key\+\_\+for\+\_\+identity()}{p.}{psk__validator_8c_a9cf6c3d9a1ca4ecafc27b4b5cf059d9c} para obtener clave
+\item La misma identidad siempre produce la misma clave
+\item Garantiza consistencia entre servidor y cliente
+\end{DoxyItemize}
+
+{\bfseries{Seguridad\+:}}
+\begin{DoxyItemize}
+\item Validación estricta de patrones de identidad
+\item Logging detallado de intentos de conexión
+\item Prevención de ataques de identidad falsa
+\end{DoxyItemize}
+
+\begin{DoxyNote}{Note}
+Esta función es llamada automáticamente por libcoap durante handshake DTLS 
+\end{DoxyNote}
+\begin{DoxySeeAlso}{See also}
+\doxyref{psk\+\_\+validator\+\_\+get\+\_\+key\+\_\+for\+\_\+identity()}{p.}{psk__validator_8c_a9cf6c3d9a1ca4ecafc27b4b5cf059d9c} 
+
+coap\+\_\+bin\+\_\+const\+\_\+t 
+\end{DoxySeeAlso}
+\label{main_8c_a83a44dda389e573327d70022c12d354b} 
+\index{main.c@{main.c}!handle\_sigint@{handle\_sigint}}
+\index{handle\_sigint@{handle\_sigint}!main.c@{main.c}}
+\doxysubsubsection{handle\_sigint()}
+{\footnotesize\ttfamily void handle\+\_\+sigint (\begin{DoxyParamCaption}\item[{int}]{signum }\end{DoxyParamCaption})}
+
+
+
+Manejador de señal para SIGINT (Ctrl+C) 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em signum} & Número de señal recibida (se espera SIGINT = 2)\\
+\hline
+\end{DoxyParams}
+Esta función implementa el manejo elegante de la señal SIGINT\+:
+
+{\bfseries{Funcionalidad\+:}}
+\begin{DoxyItemize}
+\item Establece la bandera global \textquotesingle{}running\textquotesingle{} a 0
+\item Permite que el bucle principal termine de forma controlada
+\item Registra el evento en el log del sistema
+\item Evita terminación abrupta del servidor
+\end{DoxyItemize}
+
+{\bfseries{Flujo de terminación\+:}}
+\begin{DoxyEnumerate}
+\item Usuario presiona Ctrl+C
+\item Sistema envía SIGINT al proceso
+\item Esta función establece running = 0
+\item Bucle principal detecta el cambio y termina
+\item Se ejecutan rutinas de limpieza en \doxyref{main()}{p.}{main_8c_a3c04138a5bfe5d72780bb7e82a18e627}
+\end{DoxyEnumerate}
+
+{\bfseries{Seguridad\+:}}
+\begin{DoxyItemize}
+\item No realiza operaciones complejas en el handler
+\item Solo modifica la bandera de control
+\item Es thread-\/safe para el contexto de señales
+\end{DoxyItemize}
+
+\begin{DoxyNote}{Note}
+Esta función debe ser registrada con signal() o sigaction() 
+
+Solo modifica variables globales para evitar problemas de reentrancia 
+\end{DoxyNote}
+\begin{DoxySeeAlso}{See also}
+\doxyref{running}{p.}{main_8c_a2f45113638a0b749a8a205d2cd7fb42b} 
+
+\doxyref{main()}{p.}{main_8c_a3c04138a5bfe5d72780bb7e82a18e627} 
+\end{DoxySeeAlso}
+\label{main_8c_ad9f6850cb60aa823fb4577f8754aec89} 
+\index{main.c@{main.c}!hnd\_cabin\_request@{hnd\_cabin\_request}}
+\index{hnd\_cabin\_request@{hnd\_cabin\_request}!main.c@{main.c}}
+\doxysubsubsection{hnd\_cabin\_request()}
+{\footnotesize\ttfamily static void hnd\+\_\+cabin\+\_\+request (\begin{DoxyParamCaption}\item[{coap\+\_\+resource\+\_\+t $\ast$}]{resource,  }\item[{coap\+\_\+session\+\_\+t $\ast$}]{session,  }\item[{const coap\+\_\+pdu\+\_\+t $\ast$}]{request,  }\item[{const coap\+\_\+string\+\_\+t $\ast$}]{query,  }\item[{coap\+\_\+pdu\+\_\+t $\ast$}]{response }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Manejador Co\+AP para solicitudes de cabina. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em resource} & Recurso Co\+AP que recibió la solicitud \\
+\hline
+\mbox{\texttt{ in}}  & {\em session} & Sesión Co\+AP del cliente que envió la solicitud \\
+\hline
+\mbox{\texttt{ in}}  & {\em request} & PDU de la solicitud Co\+AP recibida \\
+\hline
+\mbox{\texttt{ in}}  & {\em query} & Parámetros de consulta de la URI (no utilizado) \\
+\hline
+\mbox{\texttt{ out}}  & {\em response} & PDU de respuesta Co\+AP a enviar al cliente\\
+\hline
+\end{DoxyParams}
+Esta función procesa las solicitudes de cabina (cabin requests) recibidas desde los API Gateways. Las solicitudes de cabina provienen del interior de los ascensores cuando los usuarios presionan botones de destino.
+
+{\bfseries{Endpoint\+:}} {\ttfamily POST /peticion\+\_\+cabina}
+
+{\bfseries{Formato JSON esperado\+:}} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ "{}id\_edificio"{}:\ "{}E1"{},}
+\DoxyCodeLine{\ \ "{}solicitando\_ascensor\_id"{}:\ "{}E1A1"{},}
+\DoxyCodeLine{\ \ "{}piso\_destino\_solicitud"{}:\ 8,}
+\DoxyCodeLine{\ \ "{}elevadores\_estado"{}:\ [}
+\DoxyCodeLine{\ \ \ \ \{}
+\DoxyCodeLine{\ \ \ \ \ \ "{}id\_ascensor"{}:\ "{}E1A1"{},}
+\DoxyCodeLine{\ \ \ \ \ \ "{}piso\_actual"{}:\ 3,}
+\DoxyCodeLine{\ \ \ \ \ \ "{}estado\_puerta"{}:\ "{}CERRADA"{},}
+\DoxyCodeLine{\ \ \ \ \ \ "{}disponible"{}:\ true,}
+\DoxyCodeLine{\ \ \ \ \ \ "{}tarea\_actual\_id"{}:\ null,}
+\DoxyCodeLine{\ \ \ \ \ \ "{}destino\_actual"{}:\ null}
+\DoxyCodeLine{\ \ \ \ \}}
+\DoxyCodeLine{\ \ ]}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+{\bfseries{Respuesta JSON de éxito\+:}} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ "{}tarea\_id"{}:\ "{}T\_1640995200456"{},}
+\DoxyCodeLine{\ \ "{}ascensor\_asignado\_id"{}:\ "{}E1A1"{}}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+{\bfseries{Códigos de respuesta HTTP\+:}}
+\begin{DoxyItemize}
+\item {\ttfamily 200 OK}\+: Asignación exitosa
+\item {\ttfamily 400 Bad Request}\+: JSON inválido o campos faltantes
+\end{DoxyItemize}
+
+{\bfseries{Algoritmo de asignación\+:}} Para solicitudes de cabina, el ascensor asignado es siempre el mismo que realizó la solicitud (auto-\/asignación). Esto es lógico ya que la solicitud proviene del interior del ascensor.
+
+{\bfseries{Validaciones realizadas\+:}}
+\begin{DoxyItemize}
+\item Verificación de formato JSON válido
+\item Validación de campos obligatorios
+\item Comprobación de tipos de datos correctos
+\item Verificación de array de estado de ascensores válido
+\end{DoxyItemize}
+
+{\bfseries{Diferencias con llamadas de piso\+:}}
+\begin{DoxyItemize}
+\item No requiere algoritmo de selección de ascensor
+\item El ascensor solicitante se auto-\/asigna
+\item No necesita verificar disponibilidad de otros ascensores
+\item Proceso más directo y eficiente
+\end{DoxyItemize}
+
+{\bfseries{Gestión de errores\+:}}
+\begin{DoxyItemize}
+\item Logging detallado de errores y warnings
+\item Respuestas JSON con información de error
+\item Liberación automática de memoria en caso de error
+\end{DoxyItemize}
+
+\begin{DoxyNote}{Note}
+Esta función es llamada automáticamente por libcoap 
+
+No requiere algoritmo de selección de ascensor como las llamadas de piso 
+\end{DoxyNote}
+\begin{DoxySeeAlso}{See also}
+\doxyref{generate\+\_\+unique\+\_\+task\+\_\+id()}{p.}{main_8c_aa7115e126eb6986fa2e1f6fb95ea839c} 
+
+RESOURCE\+\_\+\+CABIN\+\_\+\+REQUEST 
+
+c\+JSON\+\_\+\+Parse\+With\+Length() 
+\end{DoxySeeAlso}
+\label{main_8c_a8a4a57e67a69aa2cffe4be09356a41a1} 
+\index{main.c@{main.c}!hnd\_floor\_call@{hnd\_floor\_call}}
+\index{hnd\_floor\_call@{hnd\_floor\_call}!main.c@{main.c}}
+\doxysubsubsection{hnd\_floor\_call()}
+{\footnotesize\ttfamily static void hnd\+\_\+floor\+\_\+call (\begin{DoxyParamCaption}\item[{coap\+\_\+resource\+\_\+t $\ast$}]{resource,  }\item[{coap\+\_\+session\+\_\+t $\ast$}]{session,  }\item[{const coap\+\_\+pdu\+\_\+t $\ast$}]{request,  }\item[{const coap\+\_\+string\+\_\+t $\ast$}]{query,  }\item[{coap\+\_\+pdu\+\_\+t $\ast$}]{response }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Manejador Co\+AP para solicitudes de llamada de piso. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em resource} & Recurso Co\+AP que recibió la solicitud \\
+\hline
+\mbox{\texttt{ in}}  & {\em session} & Sesión Co\+AP del cliente que envió la solicitud \\
+\hline
+\mbox{\texttt{ in}}  & {\em request} & PDU de la solicitud Co\+AP recibida \\
+\hline
+\mbox{\texttt{ in}}  & {\em query} & Parámetros de consulta de la URI (no utilizado) \\
+\hline
+\mbox{\texttt{ out}}  & {\em response} & PDU de respuesta Co\+AP a enviar al cliente\\
+\hline
+\end{DoxyParams}
+Esta función procesa las solicitudes de llamada de piso (floor calls) recibidas desde los API Gateways. Implementa el algoritmo de asignación de ascensores para atender llamadas desde botones externos de los edificios.
+
+{\bfseries{Endpoint\+:}} {\ttfamily POST /peticion\+\_\+piso}
+
+{\bfseries{Formato JSON esperado\+:}} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ "{}id\_edificio"{}:\ "{}E1"{},}
+\DoxyCodeLine{\ \ "{}piso\_origen\_llamada"{}:\ 5,}
+\DoxyCodeLine{\ \ "{}direccion\_llamada"{}:\ "{}SUBIENDO"{},}
+\DoxyCodeLine{\ \ "{}elevadores\_estado"{}:\ [}
+\DoxyCodeLine{\ \ \ \ \{}
+\DoxyCodeLine{\ \ \ \ \ \ "{}id\_ascensor"{}:\ "{}E1A1"{},}
+\DoxyCodeLine{\ \ \ \ \ \ "{}piso\_actual"{}:\ 3,}
+\DoxyCodeLine{\ \ \ \ \ \ "{}estado\_puerta"{}:\ "{}CERRADA"{},}
+\DoxyCodeLine{\ \ \ \ \ \ "{}disponible"{}:\ true,}
+\DoxyCodeLine{\ \ \ \ \ \ "{}tarea\_actual\_id"{}:\ null,}
+\DoxyCodeLine{\ \ \ \ \ \ "{}destino\_actual"{}:\ null}
+\DoxyCodeLine{\ \ \ \ \}}
+\DoxyCodeLine{\ \ ]}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+{\bfseries{Respuesta JSON de éxito\+:}} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ "{}tarea\_id"{}:\ "{}T\_1640995200123"{},}
+\DoxyCodeLine{\ \ "{}ascensor\_asignado\_id"{}:\ "{}E1A1"{}}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+{\bfseries{Códigos de respuesta HTTP\+:}}
+\begin{DoxyItemize}
+\item {\ttfamily 200 OK}\+: Asignación exitosa
+\item {\ttfamily 400 Bad Request}\+: JSON inválido o campos faltantes
+\item {\ttfamily 503 Service Unavailable}\+: No hay ascensores disponibles
+\end{DoxyItemize}
+
+{\bfseries{Algoritmo de asignación\+:}} Utiliza el algoritmo de proximidad inteligente implementado en \doxyref{select\+\_\+optimal\+\_\+elevator()}{p.}{main_8c_accc4b71950f29e6ddc4293d30f7e5ea0}\+:
+\begin{DoxyItemize}
+\item Filtra ascensores disponibles (disponible=true)
+\item Calcula distancia absoluta desde piso\+\_\+origen a cada ascensor
+\item Selecciona todos los ascensores con distancia mínima
+\item En caso de empate, selecciona aleatoriamente para distribuir carga
+\item Garantiza asignación óptima basada en proximidad
+\end{DoxyItemize}
+
+{\bfseries{Validaciones realizadas\+:}}
+\begin{DoxyItemize}
+\item Verificación de formato JSON válido
+\item Validación de campos obligatorios
+\item Comprobación de tipos de datos correctos
+\item Verificación de disponibilidad de ascensores
+\end{DoxyItemize}
+
+{\bfseries{Gestión de errores\+:}}
+\begin{DoxyItemize}
+\item Logging detallado de errores y warnings
+\item Respuestas JSON con información de error
+\item Liberación automática de memoria en caso de error
+\end{DoxyItemize}
+
+\begin{DoxyNote}{Note}
+Esta función es llamada automáticamente por libcoap 
+
+La memoria del ID del ascensor asignado debe ser liberada por el llamador 
+\end{DoxyNote}
+\begin{DoxySeeAlso}{See also}
+\doxyref{select\+\_\+optimal\+\_\+elevator()}{p.}{main_8c_accc4b71950f29e6ddc4293d30f7e5ea0} 
+
+\doxyref{generate\+\_\+unique\+\_\+task\+\_\+id()}{p.}{main_8c_aa7115e126eb6986fa2e1f6fb95ea839c} 
+
+RESOURCE\+\_\+\+FLOOR\+\_\+\+CALL 
+
+c\+JSON\+\_\+\+Parse\+With\+Length() 
+\end{DoxySeeAlso}
+\label{main_8c_a3c04138a5bfe5d72780bb7e82a18e627} 
+\index{main.c@{main.c}!main@{main}}
+\index{main@{main}!main.c@{main.c}}
+\doxysubsubsection{main()}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$$\ast$}]{argv }\end{DoxyParamCaption})}
+
+
+
+Función principal del Servidor Central de Ascensores. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em argc} & Número de argumentos de línea de comandos \\
+\hline
+\mbox{\texttt{ in}}  & {\em argv} & Array de argumentos de línea de comandos\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+EXIT\+\_\+\+SUCCESS (0) si el servidor termina correctamente, EXIT\+\_\+\+FAILURE (1) en caso de error
+\end{DoxyReturn}
+Esta función implementa el punto de entrada principal del servidor central de control de ascensores. Configura y ejecuta un servidor Co\+AP con DTLS-\/\+PSK que gestiona solicitudes de ascensores desde API Gateways.
+
+{\bfseries{Flujo de inicialización\+:}}
+\begin{DoxyEnumerate}
+\item {\bfseries{Configuración de señales}}\+: Registra manejador para SIGINT (Ctrl+C)
+\item {\bfseries{Inicialización de lib\+Co\+AP}}\+: Configura logging y contexto Co\+AP
+\item {\bfseries{Configuración de red}}\+: Establece dirección y puerto de escucha
+\item {\bfseries{Configuración DTLS-\/\+PSK}}\+: Configura autenticación y cifrado
+\item {\bfseries{Inicialización PSK}}\+: Carga validador de claves precompartidas
+\item {\bfseries{Registro de recursos}}\+: Configura endpoints Co\+AP
+\item {\bfseries{Bucle principal}}\+: Procesa solicitudes hasta terminación
+\end{DoxyEnumerate}
+
+{\bfseries{Configuración de seguridad\+:}}
+\begin{DoxyItemize}
+\item Autenticación DTLS-\/\+PSK con claves precompartidas
+\item Validación de identidades de clientes
+\item Cifrado de todas las comunicaciones
+\item Timeouts optimizados para estabilidad
+\end{DoxyItemize}
+
+{\bfseries{Recursos Co\+AP registrados\+:}}
+\begin{DoxyItemize}
+\item {\ttfamily POST /peticion\+\_\+piso}\+: Solicitudes de llamada de piso
+\item {\ttfamily POST /peticion\+\_\+cabina}\+: Solicitudes de cabina
+\end{DoxyItemize}
+
+{\bfseries{Gestión de errores\+:}}
+\begin{DoxyItemize}
+\item Validación de configuración de red
+\item Verificación de inicialización de componentes
+\item Logging detallado de errores críticos
+\item Terminación elegante en caso de fallo
+\end{DoxyItemize}
+
+{\bfseries{Terminación elegante\+:}}
+\begin{DoxyItemize}
+\item Respuesta a señal SIGINT (Ctrl+C)
+\item Liberación de recursos de memoria
+\item Cierre de conexiones DTLS
+\item Limpieza de contexto Co\+AP
+\end{DoxyItemize}
+
+{\bfseries{Configuración de red\+:}}
+\begin{DoxyItemize}
+\item Puerto\+: 5684 (estándar Co\+AP-\/\+DTLS)
+\item Interfaz\+: 0.\+0.\+0.\+0 (todas las interfaces)
+\item Protocolo\+: UDP con DTLS
+\end{DoxyItemize}
+
+\begin{DoxyNote}{Note}
+El servidor se ejecuta indefinidamente hasta recibir SIGINT 
+
+Requiere archivo de claves PSK para funcionamiento completo 
+\end{DoxyNote}
+\begin{DoxySeeAlso}{See also}
+\doxyref{handle\+\_\+sigint()}{p.}{main_8c_a83a44dda389e573327d70022c12d354b} 
+
+\doxyref{session\+\_\+event\+\_\+handler()}{p.}{main_8c_acab7a6032b51f15d6a5757d72869f63d} 
+
+\doxyref{get\+\_\+psk\+\_\+info()}{p.}{main_8c_a621fbdb414850866e6bcb447ff161ee8} 
+
+\doxyref{psk\+\_\+validator\+\_\+init()}{p.}{psk__validator_8c_af84bfa633858d22629eeb419e53a30c1} 
+
+\doxyref{hnd\+\_\+floor\+\_\+call()}{p.}{main_8c_a8a4a57e67a69aa2cffe4be09356a41a1} 
+
+\doxyref{hnd\+\_\+cabin\+\_\+request()}{p.}{main_8c_ad9f6850cb60aa823fb4577f8754aec89} 
+\end{DoxySeeAlso}
+\label{main_8c_accc4b71950f29e6ddc4293d30f7e5ea0} 
+\index{main.c@{main.c}!select\_optimal\_elevator@{select\_optimal\_elevator}}
+\index{select\_optimal\_elevator@{select\_optimal\_elevator}!main.c@{main.c}}
+\doxysubsubsection{select\_optimal\_elevator()}
+{\footnotesize\ttfamily static char $\ast$ select\+\_\+optimal\+\_\+elevator (\begin{DoxyParamCaption}\item[{c\+JSON $\ast$}]{elevadores\+\_\+estado,  }\item[{int}]{piso\+\_\+origen,  }\item[{const char $\ast$}]{direccion\+\_\+llamada }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Encuentra el ascensor más cercano para una llamada de piso. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em elevadores\+\_\+estado} & Array JSON con el estado de todos los ascensores \\
+\hline
+\mbox{\texttt{ in}}  & {\em piso\+\_\+origen} & Piso desde donde se realiza la llamada \\
+\hline
+\mbox{\texttt{ in}}  & {\em direccion\+\_\+llamada} & Dirección solicitada ("{}up"{} o "{}down"{})\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+ID del ascensor asignado (debe liberarse con free()) o NULL si no hay ascensores disponibles
+\end{DoxyReturn}
+Esta función implementa un algoritmo de asignación inteligente que selecciona el ascensor más cercano al piso de origen de la llamada. Utiliza un algoritmo de proximidad optimizado para minimizar el tiempo de espera.
+
+{\bfseries{Algoritmo de selección\+:}}
+\begin{DoxyEnumerate}
+\item {\bfseries{Filtrado inicial}}\+: Solo considera ascensores disponibles (disponible == true)
+\item {\bfseries{Cálculo de distancia}}\+: Distancia absoluta entre piso\+\_\+actual y piso\+\_\+origen
+\item {\bfseries{Búsqueda de mínimos}}\+: Encuentra la distancia mínima entre todos los candidatos
+\item {\bfseries{Resolución de empates}}\+: Si hay múltiples ascensores con distancia mínima, selecciona aleatoriamente
+\end{DoxyEnumerate}
+
+{\bfseries{Criterios de disponibilidad\+:}}
+\begin{DoxyItemize}
+\item Campo "{}disponible"{} debe ser true
+\item Campo "{}id\+\_\+ascensor"{} debe ser string válido
+\item Campo "{}piso\+\_\+actual"{} debe ser número válido
+\end{DoxyItemize}
+
+{\bfseries{Ejemplo de funcionamiento\+:}} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{Ascensores\ en\ pisos:\ [3,\ 6,\ 8,\ 10]}
+\DoxyCodeLine{Llamada\ desde\ piso:\ 0}
+\DoxyCodeLine{Distancias\ calculadas:\ [3,\ 6,\ 8,\ 10]}
+\DoxyCodeLine{Resultado:\ Selecciona\ ascensor\ en\ piso\ 3\ (distancia\ mínima\ =\ 3)}
+
+\end{DoxyCode}
+
+
+{\bfseries{Gestión de memoria\+:}}
+\begin{DoxyItemize}
+\item Asigna memoria dinámicamente para el ID del ascensor seleccionado
+\item El llamador debe liberar la memoria con free()
+\item En caso de error, retorna NULL sin asignar memoria
+\end{DoxyItemize}
+
+{\bfseries{Optimizaciones\+:}}
+\begin{DoxyItemize}
+\item Búsqueda en dos pasadas para eficiencia
+\item Uso de arrays temporales para candidatos
+\item Liberación automática de memoria no utilizada
+\end{DoxyItemize}
+
+\begin{DoxyNote}{Note}
+La función es thread-\/safe para lecturas concurrentes 
+
+El parámetro direccion\+\_\+llamada no se usa actualmente pero se mantiene para futuras mejoras 
+\end{DoxyNote}
+\begin{DoxySeeAlso}{See also}
+\doxyref{hnd\+\_\+floor\+\_\+call()}{p.}{main_8c_a8a4a57e67a69aa2cffe4be09356a41a1} 
+
+c\+JSON\+\_\+\+Is\+Array() 
+
+c\+JSON\+\_\+\+Get\+Array\+Size() 
+\end{DoxySeeAlso}
+\label{main_8c_acab7a6032b51f15d6a5757d72869f63d} 
+\index{main.c@{main.c}!session\_event\_handler@{session\_event\_handler}}
+\index{session\_event\_handler@{session\_event\_handler}!main.c@{main.c}}
+\doxysubsubsection{session\_event\_handler()}
+{\footnotesize\ttfamily static int session\+\_\+event\+\_\+handler (\begin{DoxyParamCaption}\item[{coap\+\_\+session\+\_\+t $\ast$}]{session,  }\item[{const coap\+\_\+event\+\_\+t}]{event }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Callback para configurar sesiones DTLS con timeouts optimizados. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em session} & Sesión Co\+AP que se está configurando \\
+\hline
+\mbox{\texttt{ in}}  & {\em event} & Tipo de evento DTLS/\+Co\+AP\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 en todos los casos (éxito)
+\end{DoxyReturn}
+Esta función maneja eventos de sesión DTLS y configura parámetros optimizados para mejorar la estabilidad de las conexiones\+:
+
+{\bfseries{Eventos manejados\+:}}
+\begin{DoxyItemize}
+\item COAP\+\_\+\+EVENT\+\_\+\+SERVER\+\_\+\+SESSION\+\_\+\+NEW\+: Configura timeouts para nueva sesión
+\item COAP\+\_\+\+EVENT\+\_\+\+DTLS\+\_\+\+CLOSED\+: Registra cierre de sesión DTLS
+\item COAP\+\_\+\+EVENT\+\_\+\+DTLS\+\_\+\+ERROR\+: Registra errores DTLS
+\item COAP\+\_\+\+EVENT\+\_\+\+SERVER\+\_\+\+SESSION\+\_\+\+DEL\+: Registra eliminación de sesión
+\end{DoxyItemize}
+
+{\bfseries{Configuración de timeouts\+:}}
+\begin{DoxyItemize}
+\item ACK timeout\+: 5 segundos
+\item Random factor\+: 1.\+5 (para evitar colisiones)
+\item Max retransmit\+: 4 intentos
+\end{DoxyItemize}
+
+\begin{DoxyNote}{Note}
+Esta función es llamada automáticamente por libcoap 
+\end{DoxyNote}
+\begin{DoxySeeAlso}{See also}
+coap\+\_\+session\+\_\+set\+\_\+ack\+\_\+timeout() 
+
+coap\+\_\+session\+\_\+set\+\_\+ack\+\_\+random\+\_\+factor() 
+
+coap\+\_\+session\+\_\+set\+\_\+max\+\_\+retransmit() 
+\end{DoxySeeAlso}
+
+
+\doxysubsection{Variable Documentation}
+\label{main_8c_a2f45113638a0b749a8a205d2cd7fb42b} 
+\index{main.c@{main.c}!running@{running}}
+\index{running@{running}!main.c@{main.c}}
+\doxysubsubsection{running}
+{\footnotesize\ttfamily int running = 1\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Bandera global para controlar el bucle principal del servidor. 
+
+Esta variable se establece a 0 por el manejador de señal SIGINT para indicar que el servidor debe terminar de manera elegante.
+
+\begin{DoxySeeAlso}{See also}
+\doxyref{handle\+\_\+sigint()}{p.}{main_8c_a83a44dda389e573327d70022c12d354b} 
+\end{DoxySeeAlso}
+
+\subsection{Implementación PSK (psk\_validator.c)}
+\doxysection{src/psk\+\_\+validator.c File Reference}
+\label{psk__validator_8c}\index{src/psk\_validator.c@{src/psk\_validator.c}}
+
+
+Implementación del validador de claves PSK para autenticación DTLS.  
+
+
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \textbf{ psk\+\_\+valid\+\_\+keys\+\_\+t}
+\begin{DoxyCompactList}\small\item\em Estructura para almacenar las claves PSK válidas. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \textbf{ psk\+\_\+validator\+\_\+init} (const char $\ast$keys\+\_\+file\+\_\+path)
+\begin{DoxyCompactList}\small\item\em Inicializa el validador de claves PSK. \end{DoxyCompactList}\item 
+int \textbf{ psk\+\_\+validator\+\_\+check\+\_\+key} (const char $\ast$key, size\+\_\+t key\+\_\+len)
+\begin{DoxyCompactList}\small\item\em Valida si una clave PSK está en la lista de claves válidas. \end{DoxyCompactList}\item 
+int \textbf{ psk\+\_\+validator\+\_\+get\+\_\+key\+\_\+for\+\_\+identity} (const char $\ast$identity, uint8\+\_\+t $\ast$key\+\_\+buffer, size\+\_\+t buffer\+\_\+size)
+\begin{DoxyCompactList}\small\item\em Obtiene una clave PSK válida para una identidad específica. \end{DoxyCompactList}\item 
+int \textbf{ psk\+\_\+validator\+\_\+get\+\_\+key\+\_\+by\+\_\+index} (int index, uint8\+\_\+t $\ast$key\+\_\+buffer, size\+\_\+t buffer\+\_\+size)
+\begin{DoxyCompactList}\small\item\em Obtiene una clave PSK por índice específico. \end{DoxyCompactList}\item 
+void \textbf{ psk\+\_\+validator\+\_\+cleanup} (void)
+\begin{DoxyCompactList}\small\item\em Libera los recursos del validador de claves PSK. \end{DoxyCompactList}\item 
+int \textbf{ psk\+\_\+validator\+\_\+get\+\_\+key\+\_\+count} (void)
+\begin{DoxyCompactList}\small\item\em Obtiene el número total de claves PSK disponibles. \end{DoxyCompactList}\item 
+int \textbf{ psk\+\_\+validator\+\_\+is\+\_\+initialized} (void)
+\begin{DoxyCompactList}\small\item\em Verifica si el validador está inicializado. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+static \textbf{ psk\+\_\+valid\+\_\+keys\+\_\+t} \textbf{ g\+\_\+valid\+\_\+keys} = \{NULL, 0, 0\}
+\begin{DoxyCompactList}\small\item\em Variable global que almacena las claves PSK válidas. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Implementación del validador de claves PSK para autenticación DTLS. 
+
+\begin{DoxyAuthor}{Author}
+Sistema de Control de Ascensores 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+2.\+0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+2025
+\end{DoxyDate}
+Este archivo implementa el sistema de validación de claves PSK utilizado en la autenticación DTLS-\/\+PSK del servidor central. El sistema carga claves desde un archivo pre-\/generado y proporciona funciones para validar y obtener claves de forma determinística basada en la identidad del cliente.
+
+\begin{DoxySeeAlso}{See also}
+\doxyref{psk\+\_\+validator.\+h}{p.}{psk__validator_8h} 
+
+\doxyref{dtls\+\_\+common\+\_\+config.\+h}{p.}{dtls__common__config_8h} 
+\end{DoxySeeAlso}
+
+
+\doxysubsection{Function Documentation}
+\label{psk__validator_8c_a27dde0ae78aff86e6e10e2fa34c04380} 
+\index{psk\_validator.c@{psk\_validator.c}!psk\_validator\_check\_key@{psk\_validator\_check\_key}}
+\index{psk\_validator\_check\_key@{psk\_validator\_check\_key}!psk\_validator.c@{psk\_validator.c}}
+\doxysubsubsection{psk\_validator\_check\_key()}
+{\footnotesize\ttfamily int psk\+\_\+validator\+\_\+check\+\_\+key (\begin{DoxyParamCaption}\item[{const char $\ast$}]{key,  }\item[{size\+\_\+t}]{key\+\_\+len }\end{DoxyParamCaption})}
+
+
+
+Valida si una clave PSK está en la lista de claves válidas. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em key} & Clave PSK a validar \\
+\hline
+\mbox{\texttt{ in}}  & {\em key\+\_\+len} & Longitud de la clave en bytes\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+1 si la clave es válida, 0 si no lo es
+\end{DoxyReturn}
+Esta función valida una clave PSK contra la lista de claves válidas\+:
+\begin{DoxyItemize}
+\item Verifica que haya claves cargadas en memoria
+\item Compara la clave proporcionada con cada clave almacenada
+\item Utiliza comparación exacta de longitud y contenido
+\item Retorna el resultado de la validación
+\end{DoxyItemize}
+
+\begin{DoxyNote}{Note}
+La búsqueda es lineal O(n) donde n es el número de claves 
+
+La función es thread-\/safe para lecturas concurrentes 
+\end{DoxyNote}
+\begin{DoxySeeAlso}{See also}
+\doxyref{psk\+\_\+validator\+\_\+get\+\_\+key\+\_\+for\+\_\+identity}{p.}{psk__validator_8c_a9cf6c3d9a1ca4ecafc27b4b5cf059d9c} 
+\end{DoxySeeAlso}
+\label{psk__validator_8c_aec3fccc28ea8546380cd0c4efaacf603} 
+\index{psk\_validator.c@{psk\_validator.c}!psk\_validator\_cleanup@{psk\_validator\_cleanup}}
+\index{psk\_validator\_cleanup@{psk\_validator\_cleanup}!psk\_validator.c@{psk\_validator.c}}
+\doxysubsubsection{psk\_validator\_cleanup()}
+{\footnotesize\ttfamily void psk\+\_\+validator\+\_\+cleanup (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Libera los recursos del validador de claves PSK. 
+
+Esta función limpia todos los recursos asociados al validador\+:
+\begin{DoxyItemize}
+\item Libera cada clave individual del array
+\item Libera el array de punteros a claves
+\item Resetea los contadores y punteros
+\item Prepara el validador para una nueva inicialización
+\end{DoxyItemize}
+
+\begin{DoxyNote}{Note}
+Debe ser llamada al finalizar para evitar memory leaks 
+
+Es seguro llamar esta función múltiples veces 
+\end{DoxyNote}
+\begin{DoxySeeAlso}{See also}
+\doxyref{psk\+\_\+validator\+\_\+init}{p.}{psk__validator_8c_af84bfa633858d22629eeb419e53a30c1} 
+\end{DoxySeeAlso}
+\label{psk__validator_8c_a51ef499b334e697efea613cdece4e89d} 
+\index{psk\_validator.c@{psk\_validator.c}!psk\_validator\_get\_key\_by\_index@{psk\_validator\_get\_key\_by\_index}}
+\index{psk\_validator\_get\_key\_by\_index@{psk\_validator\_get\_key\_by\_index}!psk\_validator.c@{psk\_validator.c}}
+\doxysubsubsection{psk\_validator\_get\_key\_by\_index()}
+{\footnotesize\ttfamily int psk\+\_\+validator\+\_\+get\+\_\+key\+\_\+by\+\_\+index (\begin{DoxyParamCaption}\item[{int}]{index,  }\item[{uint8\+\_\+t $\ast$}]{key\+\_\+buffer,  }\item[{size\+\_\+t}]{buffer\+\_\+size }\end{DoxyParamCaption})}
+
+
+
+Obtiene una clave PSK por índice específico. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em index} & Índice de la clave en el archivo (0-\/based) \\
+\hline
+\mbox{\texttt{ out}}  & {\em key\+\_\+buffer} & Buffer donde se almacenará la clave \\
+\hline
+\mbox{\texttt{ in}}  & {\em buffer\+\_\+size} & Tamaño del buffer en bytes\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 si se obtuvo correctamente, -\/1 en caso de error
+\end{DoxyReturn}
+Esta función obtiene una clave PSK por su posición en el array\+:
+\begin{DoxyItemize}
+\item Valida que el índice esté dentro del rango válido
+\item Obtiene la clave del array de claves cargadas
+\item Copia la clave al buffer proporcionado
+\item Verifica que el buffer tenga espacio suficiente
+\end{DoxyItemize}
+
+\begin{DoxyNote}{Note}
+El índice debe estar entre 0 y count-\/1 
+\end{DoxyNote}
+\begin{DoxySeeAlso}{See also}
+\doxyref{psk\+\_\+validator\+\_\+get\+\_\+key\+\_\+for\+\_\+identity}{p.}{psk__validator_8c_a9cf6c3d9a1ca4ecafc27b4b5cf059d9c} 
+\end{DoxySeeAlso}
+\label{psk__validator_8c_a97f71f7909e6e6b3f737e7ca9d88734d} 
+\index{psk\_validator.c@{psk\_validator.c}!psk\_validator\_get\_key\_count@{psk\_validator\_get\_key\_count}}
+\index{psk\_validator\_get\_key\_count@{psk\_validator\_get\_key\_count}!psk\_validator.c@{psk\_validator.c}}
+\doxysubsubsection{psk\_validator\_get\_key\_count()}
+{\footnotesize\ttfamily int psk\+\_\+validator\+\_\+get\+\_\+key\+\_\+count (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Obtiene el número total de claves PSK disponibles. 
+
+\begin{DoxyReturn}{Returns}
+Número de claves PSK en el archivo
+\end{DoxyReturn}
+Esta función retorna el número total de claves PSK que han sido cargadas desde el archivo de claves.
+
+\begin{DoxyNote}{Note}
+Solo es válida después de llamar a psk\+\_\+validator\+\_\+init 
+\end{DoxyNote}
+\label{psk__validator_8c_a9cf6c3d9a1ca4ecafc27b4b5cf059d9c} 
+\index{psk\_validator.c@{psk\_validator.c}!psk\_validator\_get\_key\_for\_identity@{psk\_validator\_get\_key\_for\_identity}}
+\index{psk\_validator\_get\_key\_for\_identity@{psk\_validator\_get\_key\_for\_identity}!psk\_validator.c@{psk\_validator.c}}
+\doxysubsubsection{psk\_validator\_get\_key\_for\_identity()}
+{\footnotesize\ttfamily int psk\+\_\+validator\+\_\+get\+\_\+key\+\_\+for\+\_\+identity (\begin{DoxyParamCaption}\item[{const char $\ast$}]{identity,  }\item[{uint8\+\_\+t $\ast$}]{key\+\_\+buffer,  }\item[{size\+\_\+t}]{buffer\+\_\+size }\end{DoxyParamCaption})}
+
+
+
+Obtiene una clave PSK válida para una identidad específica. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em identity} & Identidad del cliente \\
+\hline
+\mbox{\texttt{ out}}  & {\em key\+\_\+buffer} & Buffer donde se almacenará la clave \\
+\hline
+\mbox{\texttt{ in}}  & {\em buffer\+\_\+size} & Tamaño del buffer en bytes\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 si se obtuvo correctamente, -\/1 en caso de error
+\end{DoxyReturn}
+Esta función obtiene la clave PSK correspondiente a una identidad\+:
+\begin{DoxyItemize}
+\item Calcula un hash determinístico de la identidad
+\item Usa el hash como índice para seleccionar una clave
+\item Copia la clave seleccionada al buffer proporcionado
+\item Verifica que el buffer tenga espacio suficiente
+\end{DoxyItemize}
+
+\begin{DoxyNote}{Note}
+La selección es determinística\+: misma identidad = misma clave 
+
+El algoritmo usa hash simple para distribución uniforme 
+\end{DoxyNote}
+\begin{DoxySeeAlso}{See also}
+\doxyref{psk\+\_\+validator\+\_\+check\+\_\+key}{p.}{psk__validator_8c_a27dde0ae78aff86e6e10e2fa34c04380} 
+\end{DoxySeeAlso}
+\label{psk__validator_8c_af84bfa633858d22629eeb419e53a30c1} 
+\index{psk\_validator.c@{psk\_validator.c}!psk\_validator\_init@{psk\_validator\_init}}
+\index{psk\_validator\_init@{psk\_validator\_init}!psk\_validator.c@{psk\_validator.c}}
+\doxysubsubsection{psk\_validator\_init()}
+{\footnotesize\ttfamily int psk\+\_\+validator\+\_\+init (\begin{DoxyParamCaption}\item[{const char $\ast$}]{keys\+\_\+file\+\_\+path }\end{DoxyParamCaption})}
+
+
+
+Inicializa el validador de claves PSK. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em keys\+\_\+file\+\_\+path} & Ruta al archivo de claves PSK\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 si se inicializó correctamente, -\/1 en caso de error
+\end{DoxyReturn}
+Esta función inicializa el sistema de validación de claves PSK\+:
+\begin{DoxyItemize}
+\item Abre el archivo de claves PSK especificado
+\item Cuenta el número de líneas en el archivo
+\item Asigna memoria dinámica para almacenar las claves
+\item Lee todas las claves del archivo y las almacena en memoria
+\item Cierra el archivo después de la carga
+\end{DoxyItemize}
+
+\begin{DoxyNote}{Note}
+El archivo de claves debe contener una clave por línea 
+
+La función maneja automáticamente la memoria dinámica 
+\end{DoxyNote}
+\begin{DoxySeeAlso}{See also}
+\doxyref{psk\+\_\+validator\+\_\+cleanup}{p.}{psk__validator_8c_aec3fccc28ea8546380cd0c4efaacf603} 
+\end{DoxySeeAlso}
+\label{psk__validator_8c_a500c8cc88b4792e167d32feb4a0404ef} 
+\index{psk\_validator.c@{psk\_validator.c}!psk\_validator\_is\_initialized@{psk\_validator\_is\_initialized}}
+\index{psk\_validator\_is\_initialized@{psk\_validator\_is\_initialized}!psk\_validator.c@{psk\_validator.c}}
+\doxysubsubsection{psk\_validator\_is\_initialized()}
+{\footnotesize\ttfamily int psk\+\_\+validator\+\_\+is\+\_\+initialized (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Verifica si el validador está inicializado. 
+
+\begin{DoxyReturn}{Returns}
+1 si está inicializado, 0 en caso contrario
+\end{DoxyReturn}
+Esta función verifica si el validador de claves PSK ha sido inicializado correctamente y está listo para su uso.
+
+\begin{DoxyNote}{Note}
+Útil para verificar el estado antes de usar otras funciones 
+\end{DoxyNote}
+
+
+\doxysubsection{Variable Documentation}
+\label{psk__validator_8c_ad66bf50eb2b5694992e46ac70a398a36} 
+\index{psk\_validator.c@{psk\_validator.c}!g\_valid\_keys@{g\_valid\_keys}}
+\index{g\_valid\_keys@{g\_valid\_keys}!psk\_validator.c@{psk\_validator.c}}
+\doxysubsubsection{g\_valid\_keys}
+{\footnotesize\ttfamily \textbf{ psk\+\_\+valid\+\_\+keys\+\_\+t} g\+\_\+valid\+\_\+keys = \{NULL, 0, 0\}\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Variable global que almacena las claves PSK válidas. 
+
+Esta variable global mantiene el estado del validador de claves PSK. Contiene todas las claves cargadas desde el archivo de configuración. 
+
+\section{Descripción del Sistema}
+
+\subsection{Arquitectura}
+El servidor central implementa un sistema CoAP con DTLS-PSK que:
+
+\begin{itemize}
+    \item Escucha en puerto 5684 (estándar CoAP-DTLS)
+    \item Utiliza autenticación PSK con claves precompartidas
+    \item Procesa solicitudes de ascensores desde API Gateways
+    \item Implementa algoritmos de asignación inteligente
+    \item Genera respuestas JSON estructuradas
+\end{itemize}
+
+\subsection{Endpoints}
+\begin{itemize}
+    \item \texttt{POST /peticion\_piso}: Solicitudes de llamada de piso
+    \item \texttt{POST /peticion\_cabina}: Solicitudes de cabina
+\end{itemize}
+
+\subsection{Seguridad}
+\begin{itemize}
+    \item Autenticación DTLS-PSK
+    \item Validación de identidades de clientes
+    \item Cifrado de todas las comunicaciones
+    \item Gestión de sesiones con timeouts optimizados
+\end{itemize}
+
+\subsection{Algoritmo de Asignación}
+El sistema utiliza un algoritmo de proximidad inteligente que:
+\begin{itemize}
+    \item Filtra ascensores disponibles
+    \item Calcula distancia absoluta desde piso de origen
+    \item Selecciona ascensores con distancia mínima
+    \item Resuelve empates aleatoriamente para distribuir carga
+\end{itemize}
+
+\end{document}

@@ -1,0 +1,80 @@
+\doxysection{api\+\_\+handlers.\+h}
+\label{src_2api__handlers_8h_source}\index{src/api\_handlers.h@{src/api\_handlers.h}}
+\textbf{ Go to the documentation of this file.}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#ifndef\ API\_GATEWAY\_API\_HANDLERS\_H}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#define\ API\_GATEWAY\_API\_HANDLERS\_H}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <coap3/coap.h>}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}api\_gateway/coap\_config.h"{}}\ \textcolor{comment}{//\ Asegurar\ que\ coap\_config.h\ esté\ incluido}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}api\_gateway/elevator\_state\_manager.h"{}}\ \textcolor{comment}{//\ Para\ enums\ y\ ID\_STRING\_MAX\_LEN}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{comment}{//\ Resource\ paths\ the\ API\ Gateway\ would\ listen\ on\ -\/\ REMOVED\ FOR\ SIMPLIFICATION}}
+\DoxyCodeLine{00015\ \textcolor{comment}{//\ \#define\ GW\_ELEVATOR\_LEGACY\_PATH\ "{}peticion\_ascensor"{}}}
+\DoxyCodeLine{00016\ \textcolor{comment}{//\ \#define\ GW\_CABIN\_REQUEST\_PATH\ "{}cabin\_request\_gw"{}}}
+\DoxyCodeLine{00017\ \textcolor{comment}{//\ \#define\ GW\_FLOOR\_CALL\_PATH\ "{}floor\_call\_gw"{}}}
+\DoxyCodeLine{00018\ \textcolor{comment}{//\ \#define\ GW\_ARRIVAL\_NOTIFICATION\_PATH\ "{}arrival\_notification\_gw"{}\ //\ Not\ used}}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \textcolor{comment}{//\ Tipo\ de\ solicitud\ originada/procesada\ por\ el\ Gateway}}
+\DoxyCodeLine{00021\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{00022\ \ \ \ \ GW\_REQUEST\_TYPE\_UNKNOWN,}
+\DoxyCodeLine{00023\ \ \ \ \ GW\_REQUEST\_TYPE\_FLOOR\_CALL,}
+\DoxyCodeLine{00024\ \ \ \ \ GW\_REQUEST\_TYPE\_CABIN\_REQUEST}
+\DoxyCodeLine{00025\ \}\ gw\_request\_type\_t;}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00036\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00037\ \ \ \ \ coap\_session\_t\ *original\_elevator\_session;\ }
+\DoxyCodeLine{00038\ \ \ \ \ coap\_binary\_t\ original\_token;\ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00039\ \ \ \ \ coap\_mid\_t\ original\_mid;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keywordtype}{char}\ *log\_tag;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{comment}{//\ Nuevos\ campos\ para\ la\ lógica\ de\ gestión\ de\ estado\ del\ Gateway}}
+\DoxyCodeLine{00043\ \ \ \ \ gw\_request\_type\_t\ request\_type;\ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keywordtype}{int}\ origin\_floor;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keywordtype}{int}\ target\_floor\_for\_task;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keywordtype}{char}\ requesting\_elevator\_id\_cabin[ID\_STRING\_MAX\_LEN];\ }
+\DoxyCodeLine{00047\ \ \ \ \ movement\_direction\_enum\_t\ requested\_direction\_floor;\ }
+\DoxyCodeLine{00049\ \}\ api\_request\_tracker\_t;}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00056\ \textcolor{keywordtype}{void}\ handle\_sigint\_gw(\textcolor{keywordtype}{int}\ signum);}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00071\ coap\_response\_t}
+\DoxyCodeLine{00072\ hnd\_central\_server\_response\_gw(coap\_session\_t\ *session\_to\_central,}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ coap\_pdu\_t\ *sent\_to\_central,}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ coap\_pdu\_t\ *received\_from\_central,}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ coap\_mid\_t\ mid\_to\_central);}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00077\ \textcolor{comment}{//\ HANDLERS\ FOR\ GATEWAY'S\ OWN\ RESOURCES\ -\/\ REMOVED\ FOR\ SIMPLIFICATION}}
+\DoxyCodeLine{00078\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00079\ \textcolor{comment}{void}}
+\DoxyCodeLine{00080\ \textcolor{comment}{hnd\_elevator\_api\_request\_gw(coap\_resource\_t\ *resource,}}
+\DoxyCodeLine{00081\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ coap\_session\_t\ *elevator\_session,}}
+\DoxyCodeLine{00082\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ coap\_pdu\_t\ *elevator\_request\_pdu,}}
+\DoxyCodeLine{00083\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ coap\_string\_t\ *query,}}
+\DoxyCodeLine{00084\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ coap\_pdu\_t\ *response\_placeholder);}}
+\DoxyCodeLine{00085\ \textcolor{comment}{}}
+\DoxyCodeLine{00086\ \textcolor{comment}{void}}
+\DoxyCodeLine{00087\ \textcolor{comment}{hnd\_cabin\_request\_from\_elevator\_gw(coap\_resource\_t\ *resource,}}
+\DoxyCodeLine{00088\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ coap\_session\_t\ *elevator\_session,}}
+\DoxyCodeLine{00089\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ coap\_pdu\_t\ *elevator\_request\_pdu,}}
+\DoxyCodeLine{00090\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ coap\_string\_t\ *query,}}
+\DoxyCodeLine{00091\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ coap\_pdu\_t\ *response\_placeholder);}}
+\DoxyCodeLine{00092\ \textcolor{comment}{}}
+\DoxyCodeLine{00093\ \textcolor{comment}{void}}
+\DoxyCodeLine{00094\ \textcolor{comment}{hnd\_floor\_call\_from\_elevator\_gw(coap\_resource\_t\ *resource,}}
+\DoxyCodeLine{00095\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ coap\_session\_t\ *elevator\_session,}}
+\DoxyCodeLine{00096\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ coap\_pdu\_t\ *elevator\_request\_pdu,}}
+\DoxyCodeLine{00097\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ coap\_string\_t\ *query,}}
+\DoxyCodeLine{00098\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ coap\_pdu\_t\ *response\_placeholder);}}
+\DoxyCodeLine{00099\ \textcolor{comment}{}}
+\DoxyCodeLine{00100\ \textcolor{comment}{void}}
+\DoxyCodeLine{00101\ \textcolor{comment}{hnd\_arrival\_notification\_from\_elevator\_gw(coap\_resource\_t\ *resource,}}
+\DoxyCodeLine{00102\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ coap\_session\_t\ *elevator\_session,}}
+\DoxyCodeLine{00103\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ coap\_pdu\_t\ *elevator\_request\_pdu,}}
+\DoxyCodeLine{00104\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ const\ coap\_string\_t\ *query,}}
+\DoxyCodeLine{00105\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ coap\_pdu\_t\ *response\_placeholder);}}
+\DoxyCodeLine{00106\ \textcolor{comment}{*/}}
+\DoxyCodeLine{00107\ }
+\DoxyCodeLine{00108\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ API\_GATEWAY\_API\_HANDLERS\_H\ }}
+
+\end{DoxyCode}

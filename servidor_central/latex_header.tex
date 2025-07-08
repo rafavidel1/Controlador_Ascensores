@@ -1,0 +1,158 @@
+% Header simple para documentación Doxygen
+% Sistema de Control de Ascensores - TFG
+
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{xcolor}
+
+% Configuración de geometría
+\geometry{
+    a4paper,
+    left=2.5cm,
+    right=2.5cm,
+    top=2.5cm,
+    bottom=2.5cm
+}
+
+% Configuración de hipervínculos
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    filecolor=black,
+    urlcolor=black,
+    citecolor=black
+}
+
+% Configuración de listados de código
+\lstset{
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    frame=single,
+    numbers=left,
+    numberstyle=\tiny,
+    stepnumber=1,
+    numbersep=5pt,
+    backgroundcolor=\color{white},
+    commentstyle=\color{green},
+    keywordstyle=\color{blue},
+    stringstyle=\color{red},
+    showstringspaces=false,
+    tabsize=4
+}
+
+% Configuración de colores
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+% Configuración de títulos
+\renewcommand{\familydefault}{\sfdefault}
+\renewcommand{\baselinestretch}{1.2}
+
+% Configuración de encabezados y pies de página
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\leftmark}
+\fancyhead[R]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+% Configuración de índices
+\usepackage{makeidx}
+\makeindex
+
+% Configuración de referencias
+\usepackage{url}
+\urlstyle{same}
+
+% Configuración de tablas
+\usepackage{array}
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+
+% Configuración de código fuente
+\usepackage{verbatim}
+\usepackage{moreverb}
+
+% Configuración de listas
+\usepackage{enumitem}
+\setlist[itemize]{leftmargin=*}
+\setlist[enumerate]{leftmargin=*}
+
+% Configuración de citas
+\usepackage{cite}
+
+% Configuración de notas al pie
+\usepackage{footnote}
+\makesavenoteenv{table}
+\makesavenoteenv{figure}
+
+% Configuración de referencias cruzadas
+\usepackage{nameref}
+
+% Configuración de espacios
+\usepackage{setspace}
+
+% Configuración de símbolos
+\usepackage{textcomp}
+
+% Configuración de código fuente
+\usepackage{fancyvrb}
+\RecustomVerbatimEnvironment{Verbatim}{Verbatim}{fontsize=\small}
+
+% Configuración de márgenes para tablas largas
+\setlength{\LTleft}{0pt}
+\setlength{\LTright}{0pt}
+
+% Configuración de espaciado
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+
+% Configuración de headheight
+\setlength{\headheight}{14pt}
+
+% Definiciones simples para Doxygen
+\newcommand{\doxysection}[1]{\section{#1}}
+\newcommand{\doxysubsection}[1]{\subsection{#1}}
+\newcommand{\doxysubsubsection}[1]{\subsubsection{#1}}
+
+% Entornos simples para documentación
+\newenvironment{DoxyParams}{\begin{description}}{\end{description}}
+\newenvironment{DoxyReturn}{\begin{description}}{\end{description}}
+\newenvironment{DoxyNote}{\begin{description}}{\end{description}}
+\newenvironment{DoxySeeAlso}{\begin{description}}{\end{description}}
+\newenvironment{DoxyItemize}{\begin{itemize}}{\end{itemize}}
+\newenvironment{DoxyParamCaption}{\begin{description}}{\end{description}}
+
+% Comandos para enlaces
+\newcommand{\doxylink}[2]{\hyperlink{#1}{#2}}
+\newcommand{\Hypertarget}[2]{\hypertarget{#1}{#2}}
+
+% Comandos para caracteres especiales
+\newcommand{\_}{\textunderscore}
+\newcommand{\+}{\textplus}
+
+% Configuración de colores para enlaces
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    filecolor=black,
+    urlcolor=black,
+    citecolor=black
+} 

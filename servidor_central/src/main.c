@@ -1,39 +1,59 @@
 /**
  * @file main.c
- * @brief Servidor Central del Sistema de Control de Ascensores
+ * @brief Servidor Central del Sistema de Control de Ascensores con DTLS-PSK
  * @author Sistema de Control de Ascensores
+ * @version 2.1
  * @date 2025
- * @version 2.0
  * 
- * Este archivo implementa el servidor central que gestiona la asignación
- * de tareas a ascensores en el sistema distribuido de control. Sus funciones principales:
+ * @details Este archivo implementa el servidor central que gestiona la asignación
+ * de tareas a ascensores en el sistema distribuido de control de ascensores.
+ * El servidor utiliza CoAP sobre DTLS-PSK para comunicaciones seguras con
+ * los API Gateways y proporciona endpoints RESTful para gestionar solicitudes
+ * de ascensores.
  * 
+ * **Funcionalidades principales:**
  * - **Servidor CoAP DTLS**: Configuración de servidor CoAP con seguridad DTLS-PSK
  * - **Gestión de solicitudes**: Procesamiento de peticiones de piso y cabina
- * - **Algoritmos de asignación**: Lógica para asignar ascensores a tareas
+ * - **Algoritmos de asignación**: Lógica inteligente para asignar ascensores a tareas
  * - **Generación de IDs únicos**: Creación de identificadores únicos para tareas
  * - **Respuestas JSON**: Envío de respuestas estructuradas a los gateways
- * - **Logging**: Sistema de registro detallado para monitoreo y debugging
+ * - **Logging detallado**: Sistema de registro para monitoreo y debugging
+ * - **Gestión de sesiones**: Optimización de timeouts y reconexiones DTLS
  * 
  * **Endpoints CoAP soportados:**
- * - `/peticion_piso`: Solicitudes de llamada de piso desde botones externos
- * - `/peticion_cabina`: Solicitudes de cabina desde interior de ascensores
+ * - `POST /peticion_piso`: Solicitudes de llamada de piso desde botones externos
+ * - `POST /peticion_cabina`: Solicitudes de cabina desde interior de ascensores
  * 
- * **Algoritmo de asignación:**
+ * **Algoritmo de asignación de ascensores:**
  * Utiliza el algoritmo de proximidad inteligente implementado en select_optimal_elevator():
  * - Filtra ascensores disponibles (disponible=true)
  * - Calcula distancia absoluta desde piso_origen a cada ascensor
  * - Selecciona todos los ascensores con distancia mínima
  * - En caso de empate, selecciona aleatoriamente para distribuir carga
- * - Garantiza asignación óptima basada en proximidad
+ * - Garantiza asignación óptima basada en proximidad geográfica
  * 
- * **Seguridad:**
- * Utiliza DTLS-PSK (Pre-Shared Key) para autenticación y cifrado de
- * comunicaciones con los API Gateways.
+ * **Seguridad DTLS-PSK:**
+ * - Autenticación mutua usando claves precompartidas
+ * - Cifrado de todas las comunicaciones
+ * - Validación de identidades de clientes
+ * - Gestión de sesiones con timeouts optimizados
+ * - Prevención de ataques de repetición
+ * 
+ * **Configuración de red:**
+ * - Puerto: 5684 (estándar CoAP-DTLS)
+ * - Interfaz: 0.0.0.0 (todas las interfaces)
+ * - Protocolo: UDP con DTLS
+ * 
+ * **Gestión de memoria:**
+ * - Liberación automática de recursos al terminar
+ * - Manejo seguro de strings y buffers
+ * - Prevención de memory leaks
  * 
  * @see servidor_central/logging.h
  * @see servidor_central/dtls_common_config.h
+ * @see psk_validator.h
  * @see coap3/coap.h
+ * @see cJSON.h
  */
 
 #include <stdio.h>
@@ -57,15 +77,36 @@
 // #include "servidor_central/config.h" // REMOVED as it may not exist or be needed
 #include "servidor_central/logging.h" 
 #include "servidor_central/dtls_common_config.h" // <--- AÑADIDO para PSK_SERVER_HINT, PSK_CLIENT_IDENTITY, PSK_KEY
-#include "psk_validator.h" // Validador de claves PSK
+#include "servidor_central/psk_validator.h" // Validador de claves PSK
 
 
 
 /**
  * @brief Callback para configurar sesiones DTLS con timeouts optimizados
- * @param session Sesión CoAP que se está configurando
- * @param event Tipo de evento (COAP_EVENT_SERVER_SESSION_NEW)
- * @param data Datos del evento (no usado)
+ * 
+ * @param[in] session Sesión CoAP que se está configurando
+ * @param[in] event Tipo de evento DTLS/CoAP
+ * 
+ * @return 0 en todos los casos (éxito)
+ * 
+ * @details Esta función maneja eventos de sesión DTLS y configura parámetros
+ * optimizados para mejorar la estabilidad de las conexiones:
+ * 
+ * **Eventos manejados:**
+ * - COAP_EVENT_SERVER_SESSION_NEW: Configura timeouts para nueva sesión
+ * - COAP_EVENT_DTLS_CLOSED: Registra cierre de sesión DTLS
+ * - COAP_EVENT_DTLS_ERROR: Registra errores DTLS
+ * - COAP_EVENT_SERVER_SESSION_DEL: Registra eliminación de sesión
+ * 
+ * **Configuración de timeouts:**
+ * - ACK timeout: 5 segundos
+ * - Random factor: 1.5 (para evitar colisiones)
+ * - Max retransmit: 4 intentos
+ * 
+ * @note Esta función es llamada automáticamente por libcoap
+ * @see coap_session_set_ack_timeout()
+ * @see coap_session_set_ack_random_factor()
+ * @see coap_session_set_max_retransmit()
  */
 static int session_event_handler(coap_session_t *session,
                                const coap_event_t event) {
@@ -95,15 +136,39 @@ static int session_event_handler(coap_session_t *session,
 }
 
 /**
- * @brief Callback PSK personalizado para aceptar patrones de identidad y clave
- * @param identity Identidad del cliente
- * @param coap_session Sesión CoAP
- * @param arg Argumento de usuario (no usado)
- * @return Puntero a la clave PSK o NULL si no se encuentra
+ * @brief Callback PSK personalizado para autenticación DTLS-PSK
  * 
- * Este callback permite al servidor aceptar cualquier identidad que
- * empiece con "Gateway_Client_" y usar la clave PSK configurada.
- * También acepta claves PSK que empiecen con "SecretGateway_".
+ * @param[in] identity Identidad del cliente DTLS
+ * @param[in] session Sesión CoAP asociada
+ * @param[in] arg Argumento de usuario (no usado)
+ * 
+ * @return Puntero a la clave PSK correspondiente o NULL si no se encuentra
+ * 
+ * @details Esta función implementa el callback de autenticación PSK para DTLS:
+ * 
+ * **Proceso de autenticación:**
+ * 1. Recibe la identidad del cliente desde el handshake DTLS
+ * 2. Valida que la identidad siga el patrón "Gateway_Client_*"
+ * 3. Obtiene la clave PSK determinística basada en la identidad
+ * 4. Retorna la clave para completar el handshake DTLS
+ * 
+ * **Patrones de identidad aceptados:**
+ * - "Gateway_Client_*": Cualquier identidad que empiece con este prefijo
+ * - Se rechazan identidades que no sigan el patrón
+ * 
+ * **Algoritmo de clave determinística:**
+ * - Usa psk_validator_get_key_for_identity() para obtener clave
+ * - La misma identidad siempre produce la misma clave
+ * - Garantiza consistencia entre servidor y cliente
+ * 
+ * **Seguridad:**
+ * - Validación estricta de patrones de identidad
+ * - Logging detallado de intentos de conexión
+ * - Prevención de ataques de identidad falsa
+ * 
+ * @note Esta función es llamada automáticamente por libcoap durante handshake DTLS
+ * @see psk_validator_get_key_for_identity()
+ * @see coap_bin_const_t
  */
 static const coap_bin_const_t *get_psk_info(coap_bin_const_t *identity,
                                            coap_session_t *session,
@@ -196,13 +261,33 @@ static int running = 1;
 
 /**
  * @brief Manejador de señal para SIGINT (Ctrl+C)
- * @param signum Número de señal recibida (se espera SIGINT)
  * 
- * Establece la bandera running a 0 para señalar al bucle principal
- * del servidor que debe terminar, permitiendo una terminación elegante.
+ * @param[in] signum Número de señal recibida (se espera SIGINT = 2)
  * 
- * Esta función es registrada como manejador de SIGINT en main() y
- * proporciona una forma limpia de cerrar el servidor.
+ * @details Esta función implementa el manejo elegante de la señal SIGINT:
+ * 
+ * **Funcionalidad:**
+ * - Establece la bandera global 'running' a 0
+ * - Permite que el bucle principal termine de forma controlada
+ * - Registra el evento en el log del sistema
+ * - Evita terminación abrupta del servidor
+ * 
+ * **Flujo de terminación:**
+ * 1. Usuario presiona Ctrl+C
+ * 2. Sistema envía SIGINT al proceso
+ * 3. Esta función establece running = 0
+ * 4. Bucle principal detecta el cambio y termina
+ * 5. Se ejecutan rutinas de limpieza en main()
+ * 
+ * **Seguridad:**
+ * - No realiza operaciones complejas en el handler
+ * - Solo modifica la bandera de control
+ * - Es thread-safe para el contexto de señales
+ * 
+ * @note Esta función debe ser registrada con signal() o sigaction()
+ * @note Solo modifica variables globales para evitar problemas de reentrancia
+ * @see running
+ * @see main()
  */
 void handle_sigint(int signum) {
     SRV_LOG_WARN("Received SIGINT, shutting down...");
@@ -211,24 +296,46 @@ void handle_sigint(int signum) {
 
 /**
  * @brief Genera un ID único para una tarea de ascensor
- * @param task_id_out Buffer donde se almacenará el ID generado
- * @param len Tamaño del buffer de salida
  * 
- * Esta función genera un identificador único para tareas de ascensor
- * basado en el timestamp actual del sistema. El formato del ID es:
+ * @param[out] task_id_out Buffer donde se almacenará el ID generado
+ * @param[in] len Tamaño del buffer de salida en bytes
+ * 
+ * @details Esta función genera un identificador único para tareas de ascensor
+ * basado en el timestamp actual del sistema con precisión de milisegundos.
+ * 
+ * **Formato del ID generado:**
+ * ```
  * "T_{segundos_unix}{milisegundos}"
+ * ```
  * 
- * Ejemplo: "T_1640995200123" donde:
- * - T_: Prefijo identificador de tarea
- * - 1640995200: Segundos desde epoch Unix
- * - 123: Milisegundos (3 dígitos)
+ * **Ejemplo de ID:**
+ * - "T_1640995200123" donde:
+ *   - T_: Prefijo identificador de tarea
+ *   - 1640995200: Segundos desde epoch Unix
+ *   - 123: Milisegundos (3 dígitos)
  * 
- * Esta implementación garantiza unicidad temporal pero no es
- * thread-safe. Para entornos multihilo se recomienda añadir
- * sincronización o usar contadores atómicos adicionales.
+ * **Características:**
+ * - Unicidad temporal garantizada
+ * - Formato legible y ordenable
+ * - Precisión de milisegundos
+ * - Compatible con sistemas distribuidos
+ * 
+ * **Limitaciones:**
+ * - No es thread-safe (para entornos multihilo usar sincronización)
+ * - Dependiente del reloj del sistema
+ * - Máximo 1,000 IDs por segundo (limitación de milisegundos)
+ * 
+ * **Uso típico:**
+ * ```c
+ * char task_id[32];
+ * generate_unique_task_id(task_id, sizeof(task_id));
+ * // task_id contiene "T_1640995200123"
+ * ```
  * 
  * @note El buffer de salida debe tener al menos 32 caracteres
+ * @note Para entornos multihilo considerar usar mutex o contadores atómicos
  * @see gettimeofday()
+ * @see snprintf()
  */
 void generate_unique_task_id(char *task_id_out, size_t len) {
     struct timeval tv;
@@ -238,34 +345,51 @@ void generate_unique_task_id(char *task_id_out, size_t len) {
 
 /**
  * @brief Encuentra el ascensor más cercano para una llamada de piso
- * @param elevadores_estado Array JSON con el estado de todos los ascensores
- * @param piso_origen Piso desde donde se realiza la llamada
- * @param direccion_llamada Dirección solicitada ("up" o "down")
+ * 
+ * @param[in] elevadores_estado Array JSON con el estado de todos los ascensores
+ * @param[in] piso_origen Piso desde donde se realiza la llamada
+ * @param[in] direccion_llamada Dirección solicitada ("up" o "down")
+ * 
  * @return ID del ascensor asignado (debe liberarse con free()) o NULL si no hay ascensores disponibles
  * 
- * Esta función implementa un algoritmo de asignación inteligente que selecciona
- * el ascensor más cercano al piso de origen de la llamada. En caso de empate
- * en distancia, selecciona aleatoriamente entre los candidatos empatados.
+ * @details Esta función implementa un algoritmo de asignación inteligente que selecciona
+ * el ascensor más cercano al piso de origen de la llamada. Utiliza un algoritmo
+ * de proximidad optimizado para minimizar el tiempo de espera.
  * 
  * **Algoritmo de selección:**
- * 1. Filtra ascensores disponibles (disponible == true)
- * 2. Calcula distancia absoluta entre piso_actual y piso_origen
- * 3. Encuentra la distancia mínima
- * 4. Si hay múltiples ascensores con distancia mínima, selecciona aleatoriamente
+ * 1. **Filtrado inicial**: Solo considera ascensores disponibles (disponible == true)
+ * 2. **Cálculo de distancia**: Distancia absoluta entre piso_actual y piso_origen
+ * 3. **Búsqueda de mínimos**: Encuentra la distancia mínima entre todos los candidatos
+ * 4. **Resolución de empates**: Si hay múltiples ascensores con distancia mínima, selecciona aleatoriamente
  * 
  * **Criterios de disponibilidad:**
  * - Campo "disponible" debe ser true
  * - Campo "id_ascensor" debe ser string válido
  * - Campo "piso_actual" debe ser número válido
  * 
- * **Ejemplo:**
- * - Ascensores en pisos: [3, 6, 8, 10]
- * - Llamada desde piso 0
- * - Distancias: [3, 6, 8, 10]
- * - Selecciona ascensor en piso 3 (distancia mínima = 3)
+ * **Ejemplo de funcionamiento:**
+ * ```
+ * Ascensores en pisos: [3, 6, 8, 10]
+ * Llamada desde piso: 0
+ * Distancias calculadas: [3, 6, 8, 10]
+ * Resultado: Selecciona ascensor en piso 3 (distancia mínima = 3)
+ * ```
  * 
+ * **Gestión de memoria:**
+ * - Asigna memoria dinámicamente para el ID del ascensor seleccionado
+ * - El llamador debe liberar la memoria con free()
+ * - En caso de error, retorna NULL sin asignar memoria
+ * 
+ * **Optimizaciones:**
+ * - Búsqueda en dos pasadas para eficiencia
+ * - Uso de arrays temporales para candidatos
+ * - Liberación automática de memoria no utilizada
+ * 
+ * @note La función es thread-safe para lecturas concurrentes
+ * @note El parámetro direccion_llamada no se usa actualmente pero se mantiene para futuras mejoras
  * @see hnd_floor_call()
  * @see cJSON_IsArray()
+ * @see cJSON_GetArraySize()
  */
 static char* select_optimal_elevator(cJSON *elevadores_estado, int piso_origen, const char *direccion_llamada) {
     if (!cJSON_IsArray(elevadores_estado)) {
@@ -390,15 +514,18 @@ static char* select_optimal_elevator(cJSON *elevadores_estado, int piso_origen, 
 
 /**
  * @brief Manejador CoAP para solicitudes de llamada de piso
- * @param resource Recurso CoAP que recibió la solicitud
- * @param session Sesión CoAP del cliente que envió la solicitud
- * @param request PDU de la solicitud CoAP recibida
- * @param query Parámetros de consulta de la URI (no utilizado)
- * @param response PDU de respuesta CoAP a enviar al cliente
  * 
- * Esta función procesa las solicitudes de llamada de piso (floor calls)
+ * @param[in] resource Recurso CoAP que recibió la solicitud
+ * @param[in] session Sesión CoAP del cliente que envió la solicitud
+ * @param[in] request PDU de la solicitud CoAP recibida
+ * @param[in] query Parámetros de consulta de la URI (no utilizado)
+ * @param[out] response PDU de respuesta CoAP a enviar al cliente
+ * 
+ * @details Esta función procesa las solicitudes de llamada de piso (floor calls)
  * recibidas desde los API Gateways. Implementa el algoritmo de asignación
- * de ascensores para atender llamadas desde botones externos.
+ * de ascensores para atender llamadas desde botones externos de los edificios.
+ * 
+ * **Endpoint:** `POST /peticion_piso`
  * 
  * **Formato JSON esperado:**
  * ```json
@@ -419,13 +546,18 @@ static char* select_optimal_elevator(cJSON *elevadores_estado, int piso_origen, 
  * }
  * ```
  * 
- * **Respuesta JSON:**
+ * **Respuesta JSON de éxito:**
  * ```json
  * {
  *   "tarea_id": "T_1640995200123",
  *   "ascensor_asignado_id": "E1A1"
  * }
  * ```
+ * 
+ * **Códigos de respuesta HTTP:**
+ * - `200 OK`: Asignación exitosa
+ * - `400 Bad Request`: JSON inválido o campos faltantes
+ * - `503 Service Unavailable`: No hay ascensores disponibles
  * 
  * **Algoritmo de asignación:**
  * Utiliza el algoritmo de proximidad inteligente implementado en select_optimal_elevator():
@@ -435,9 +567,23 @@ static char* select_optimal_elevator(cJSON *elevadores_estado, int piso_origen, 
  * - En caso de empate, selecciona aleatoriamente para distribuir carga
  * - Garantiza asignación óptima basada en proximidad
  * 
+ * **Validaciones realizadas:**
+ * - Verificación de formato JSON válido
+ * - Validación de campos obligatorios
+ * - Comprobación de tipos de datos correctos
+ * - Verificación de disponibilidad de ascensores
+ * 
+ * **Gestión de errores:**
+ * - Logging detallado de errores y warnings
+ * - Respuestas JSON con información de error
+ * - Liberación automática de memoria en caso de error
+ * 
+ * @note Esta función es llamada automáticamente por libcoap
+ * @note La memoria del ID del ascensor asignado debe ser liberada por el llamador
  * @see select_optimal_elevator()
  * @see generate_unique_task_id()
  * @see RESOURCE_FLOOR_CALL
+ * @see cJSON_ParseWithLength()
  */
 static void hnd_floor_call(coap_resource_t *resource, coap_session_t *session,
                            const coap_pdu_t *request, const coap_string_t *query,
@@ -550,15 +696,19 @@ static void hnd_floor_call(coap_resource_t *resource, coap_session_t *session,
 
 /**
  * @brief Manejador CoAP para solicitudes de cabina
- * @param resource Recurso CoAP que recibió la solicitud
- * @param session Sesión CoAP del cliente que envió la solicitud
- * @param request PDU de la solicitud CoAP recibida
- * @param query Parámetros de consulta de la URI (no utilizado)
- * @param response PDU de respuesta CoAP a enviar al cliente
  * 
- * Esta función procesa las solicitudes de cabina (cabin requests)
- * recibidas desde los API Gateways. Maneja solicitudes de destino
- * realizadas desde el interior de los ascensores.
+ * @param[in] resource Recurso CoAP que recibió la solicitud
+ * @param[in] session Sesión CoAP del cliente que envió la solicitud
+ * @param[in] request PDU de la solicitud CoAP recibida
+ * @param[in] query Parámetros de consulta de la URI (no utilizado)
+ * @param[out] response PDU de respuesta CoAP a enviar al cliente
+ * 
+ * @details Esta función procesa las solicitudes de cabina (cabin requests)
+ * recibidas desde los API Gateways. Las solicitudes de cabina provienen
+ * del interior de los ascensores cuando los usuarios presionan botones
+ * de destino.
+ * 
+ * **Endpoint:** `POST /peticion_cabina`
  * 
  * **Formato JSON esperado:**
  * ```json
@@ -579,7 +729,7 @@ static void hnd_floor_call(coap_resource_t *resource, coap_session_t *session,
  * }
  * ```
  * 
- * **Respuesta JSON:**
+ * **Respuesta JSON de éxito:**
  * ```json
  * {
  *   "tarea_id": "T_1640995200456",
@@ -587,19 +737,37 @@ static void hnd_floor_call(coap_resource_t *resource, coap_session_t *session,
  * }
  * ```
  * 
+ * **Códigos de respuesta HTTP:**
+ * - `200 OK`: Asignación exitosa
+ * - `400 Bad Request`: JSON inválido o campos faltantes
+ * 
  * **Algoritmo de asignación:**
  * Para solicitudes de cabina, el ascensor asignado es siempre
  * el mismo que realizó la solicitud (auto-asignación). Esto
  * es lógico ya que la solicitud proviene del interior del ascensor.
  * 
  * **Validaciones realizadas:**
- * - Formato JSON válido
- * - Presencia de campos obligatorios
- * - Tipos de datos correctos
- * - Array de estado de ascensores válido
+ * - Verificación de formato JSON válido
+ * - Validación de campos obligatorios
+ * - Comprobación de tipos de datos correctos
+ * - Verificación de array de estado de ascensores válido
  * 
+ * **Diferencias con llamadas de piso:**
+ * - No requiere algoritmo de selección de ascensor
+ * - El ascensor solicitante se auto-asigna
+ * - No necesita verificar disponibilidad de otros ascensores
+ * - Proceso más directo y eficiente
+ * 
+ * **Gestión de errores:**
+ * - Logging detallado de errores y warnings
+ * - Respuestas JSON con información de error
+ * - Liberación automática de memoria en caso de error
+ * 
+ * @note Esta función es llamada automáticamente por libcoap
+ * @note No requiere algoritmo de selección de ascensor como las llamadas de piso
  * @see generate_unique_task_id()
  * @see RESOURCE_CABIN_REQUEST
+ * @see cJSON_ParseWithLength()
  */
 static void hnd_cabin_request(coap_resource_t *resource, coap_session_t *session,
                               const coap_pdu_t *request, const coap_string_t *query,
@@ -696,6 +864,63 @@ static void hnd_cabin_request(coap_resource_t *resource, coap_session_t *session
 // REMOVED: preguntar_reestablecer_db()
 // REMOVED: hnd_process_elevator_request()
 
+/**
+ * @brief Función principal del Servidor Central de Ascensores
+ * 
+ * @param[in] argc Número de argumentos de línea de comandos
+ * @param[in] argv Array de argumentos de línea de comandos
+ * 
+ * @return EXIT_SUCCESS (0) si el servidor termina correctamente, EXIT_FAILURE (1) en caso de error
+ * 
+ * @details Esta función implementa el punto de entrada principal del servidor central
+ * de control de ascensores. Configura y ejecuta un servidor CoAP con DTLS-PSK
+ * que gestiona solicitudes de ascensores desde API Gateways.
+ * 
+ * **Flujo de inicialización:**
+ * 1. **Configuración de señales**: Registra manejador para SIGINT (Ctrl+C)
+ * 2. **Inicialización de libCoAP**: Configura logging y contexto CoAP
+ * 3. **Configuración de red**: Establece dirección y puerto de escucha
+ * 4. **Configuración DTLS-PSK**: Configura autenticación y cifrado
+ * 5. **Inicialización PSK**: Carga validador de claves precompartidas
+ * 6. **Registro de recursos**: Configura endpoints CoAP
+ * 7. **Bucle principal**: Procesa solicitudes hasta terminación
+ * 
+ * **Configuración de seguridad:**
+ * - Autenticación DTLS-PSK con claves precompartidas
+ * - Validación de identidades de clientes
+ * - Cifrado de todas las comunicaciones
+ * - Timeouts optimizados para estabilidad
+ * 
+ * **Recursos CoAP registrados:**
+ * - `POST /peticion_piso`: Solicitudes de llamada de piso
+ * - `POST /peticion_cabina`: Solicitudes de cabina
+ * 
+ * **Gestión de errores:**
+ * - Validación de configuración de red
+ * - Verificación de inicialización de componentes
+ * - Logging detallado de errores críticos
+ * - Terminación elegante en caso de fallo
+ * 
+ * **Terminación elegante:**
+ * - Respuesta a señal SIGINT (Ctrl+C)
+ * - Liberación de recursos de memoria
+ * - Cierre de conexiones DTLS
+ * - Limpieza de contexto CoAP
+ * 
+ * **Configuración de red:**
+ * - Puerto: 5684 (estándar CoAP-DTLS)
+ * - Interfaz: 0.0.0.0 (todas las interfaces)
+ * - Protocolo: UDP con DTLS
+ * 
+ * @note El servidor se ejecuta indefinidamente hasta recibir SIGINT
+ * @note Requiere archivo de claves PSK para funcionamiento completo
+ * @see handle_sigint()
+ * @see session_event_handler()
+ * @see get_psk_info()
+ * @see psk_validator_init()
+ * @see hnd_floor_call()
+ * @see hnd_cabin_request()
+ */
 int main(int argc, char **argv) {
     // REMOVED: preguntar_reestablecer_db();
 

@@ -1,0 +1,106 @@
+\@ifundefined {etoctocstyle}{\let \etoc@startlocaltoc \@gobble \let \etoc@settocdepth \@gobble \let \etoc@depthtag \@gobble \let \etoc@setlocaltop \@gobble }{}
+\contentsline {chapter}{\numberline {1}Data Structure Documentation}{1}{}%
+\contentsline {section}{\numberline {1.1}dtls\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}config\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}t Struct Reference}{1}{}%
+\contentsline {subsection}{\numberline {1.1.1}Detailed Description}{1}{}%
+\contentsline {subsection}{\numberline {1.1.2}Field Documentation}{1}{}%
+\contentsline {subsubsection}{\numberline {1.1.2.1}dtls\_mtu}{1}{}%
+\contentsline {subsubsection}{\numberline {1.1.2.2}max\_connections}{2}{}%
+\contentsline {subsubsection}{\numberline {1.1.2.3}psk\_file}{2}{}%
+\contentsline {subsubsection}{\numberline {1.1.2.4}psk\_timeout}{2}{}%
+\contentsline {subsubsection}{\numberline {1.1.2.5}retransmit\_timeout}{2}{}%
+\contentsline {subsubsection}{\numberline {1.1.2.6}session\_cache\_size}{2}{}%
+\contentsline {section}{\numberline {1.2}logging\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}config\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}t Struct Reference}{2}{}%
+\contentsline {subsection}{\numberline {1.2.1}Detailed Description}{3}{}%
+\contentsline {subsection}{\numberline {1.2.2}Field Documentation}{3}{}%
+\contentsline {subsubsection}{\numberline {1.2.2.1}log\_file}{3}{}%
+\contentsline {subsubsection}{\numberline {1.2.2.2}log\_format}{3}{}%
+\contentsline {subsubsection}{\numberline {1.2.2.3}min\_level}{3}{}%
+\contentsline {subsubsection}{\numberline {1.2.2.4}use\_colors}{3}{}%
+\contentsline {subsubsection}{\numberline {1.2.2.5}use\_thread\_id}{3}{}%
+\contentsline {subsubsection}{\numberline {1.2.2.6}use\_timestamps}{3}{}%
+\contentsline {section}{\numberline {1.3}psk\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}valid\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}keys\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}t Struct Reference}{4}{}%
+\contentsline {subsection}{\numberline {1.3.1}Detailed Description}{4}{}%
+\contentsline {subsection}{\numberline {1.3.2}Field Documentation}{4}{}%
+\contentsline {subsubsection}{\numberline {1.3.2.1}capacity}{4}{}%
+\contentsline {subsubsection}{\numberline {1.3.2.2}count}{4}{}%
+\contentsline {subsubsection}{\numberline {1.3.2.3}keys}{4}{}%
+\contentsline {section}{\numberline {1.4}server\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}context\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}t Struct Reference}{4}{}%
+\contentsline {subsection}{\numberline {1.4.1}Detailed Description}{5}{}%
+\contentsline {subsection}{\numberline {1.4.2}Field Documentation}{5}{}%
+\contentsline {subsubsection}{\numberline {1.4.2.1}ctx}{5}{}%
+\contentsline {subsubsection}{\numberline {1.4.2.2}db}{5}{}%
+\contentsline {subsubsection}{\numberline {1.4.2.3}port}{5}{}%
+\contentsline {subsubsection}{\numberline {1.4.2.4}psk\_file}{5}{}%
+\contentsline {subsubsection}{\numberline {1.4.2.5}running}{5}{}%
+\contentsline {subsubsection}{\numberline {1.4.2.6}ssl\_ctx}{5}{}%
+\contentsline {chapter}{\numberline {2}File Documentation}{7}{}%
+\contentsline {section}{\numberline {2.1}include/servidor\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}central/dtls\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}common\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}config.h File Reference}{7}{}%
+\contentsline {subsection}{\numberline {2.1.1}Detailed Description}{8}{}%
+\contentsline {subsection}{\numberline {2.1.2}Function Documentation}{8}{}%
+\contentsline {subsubsection}{\numberline {2.1.2.1}cleanup\_ssl\_context()}{8}{}%
+\contentsline {subsubsection}{\numberline {2.1.2.2}configure\_dtls\_session()}{9}{}%
+\contentsline {subsubsection}{\numberline {2.1.2.3}get\_dtls\_config\_from\_env()}{9}{}%
+\contentsline {subsubsection}{\numberline {2.1.2.4}init\_ssl\_context()}{10}{}%
+\contentsline {subsubsection}{\numberline {2.1.2.5}psk\_server\_callback()}{11}{}%
+\contentsline {subsubsection}{\numberline {2.1.2.6}setup\_dtls\_session()}{11}{}%
+\contentsline {subsubsection}{\numberline {2.1.2.7}validate\_psk\_key()}{12}{}%
+\contentsline {section}{\numberline {2.2}dtls\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}common\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}config.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{13}{}%
+\contentsline {section}{\numberline {2.3}include/servidor\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}central/logging.h File Reference}{13}{}%
+\contentsline {subsection}{\numberline {2.3.1}Detailed Description}{14}{}%
+\contentsline {subsection}{\numberline {2.3.2}Enumeration Type Documentation}{14}{}%
+\contentsline {subsubsection}{\numberline {2.3.2.1}log\_level\_t}{14}{}%
+\contentsline {subsection}{\numberline {2.3.3}Function Documentation}{15}{}%
+\contentsline {subsubsection}{\numberline {2.3.3.1}\_log\_message()}{15}{}%
+\contentsline {subsubsection}{\numberline {2.3.3.2}cleanup\_logging()}{15}{}%
+\contentsline {subsubsection}{\numberline {2.3.3.3}get\_log\_level()}{16}{}%
+\contentsline {subsubsection}{\numberline {2.3.3.4}init\_logging()}{16}{}%
+\contentsline {subsubsection}{\numberline {2.3.3.5}set\_log\_level()}{17}{}%
+\contentsline {section}{\numberline {2.4}logging.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{17}{}%
+\contentsline {section}{\numberline {2.5}include/servidor\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}central/psk\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}validator.h File Reference}{18}{}%
+\contentsline {subsection}{\numberline {2.5.1}Detailed Description}{19}{}%
+\contentsline {subsection}{\numberline {2.5.2}Function Documentation}{19}{}%
+\contentsline {subsubsection}{\numberline {2.5.2.1}psk\_validator\_check\_key()}{19}{}%
+\contentsline {subsubsection}{\numberline {2.5.2.2}psk\_validator\_cleanup()}{20}{}%
+\contentsline {subsubsection}{\numberline {2.5.2.3}psk\_validator\_get\_key\_by\_index()}{21}{}%
+\contentsline {subsubsection}{\numberline {2.5.2.4}psk\_validator\_get\_key\_count()}{22}{}%
+\contentsline {subsubsection}{\numberline {2.5.2.5}psk\_validator\_get\_key\_for\_identity()}{23}{}%
+\contentsline {subsubsection}{\numberline {2.5.2.6}psk\_validator\_init()}{24}{}%
+\contentsline {subsubsection}{\numberline {2.5.2.7}psk\_validator\_is\_initialized()}{25}{}%
+\contentsline {section}{\numberline {2.6}psk\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}validator.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{26}{}%
+\contentsline {section}{\numberline {2.7}include/servidor\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}central/server\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}functions.h File Reference}{26}{}%
+\contentsline {subsection}{\numberline {2.7.1}Detailed Description}{27}{}%
+\contentsline {subsection}{\numberline {2.7.2}Function Documentation}{27}{}%
+\contentsline {subsubsection}{\numberline {2.7.2.1}assign\_elevator()}{27}{}%
+\contentsline {subsubsection}{\numberline {2.7.2.2}cleanup\_server\_context()}{28}{}%
+\contentsline {subsubsection}{\numberline {2.7.2.3}handle\_cabin\_request()}{29}{}%
+\contentsline {subsubsection}{\numberline {2.7.2.4}handle\_floor\_request()}{29}{}%
+\contentsline {subsubsection}{\numberline {2.7.2.5}init\_server\_context()}{30}{}%
+\contentsline {subsubsection}{\numberline {2.7.2.6}run\_server()}{31}{}%
+\contentsline {subsubsection}{\numberline {2.7.2.7}setup\_coap\_resources()}{31}{}%
+\contentsline {subsubsection}{\numberline {2.7.2.8}validate\_psk()}{32}{}%
+\contentsline {section}{\numberline {2.8}server\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}functions.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}h}{33}{}%
+\contentsline {section}{\numberline {2.9}src/main.c File Reference}{33}{}%
+\contentsline {subsection}{\numberline {2.9.1}Detailed Description}{34}{}%
+\contentsline {subsection}{\numberline {2.9.2}Function Documentation}{35}{}%
+\contentsline {subsubsection}{\numberline {2.9.2.1}generate\_unique\_task\_id()}{35}{}%
+\contentsline {subsubsection}{\numberline {2.9.2.2}get\_psk\_info()}{36}{}%
+\contentsline {subsubsection}{\numberline {2.9.2.3}handle\_sigint()}{37}{}%
+\contentsline {subsubsection}{\numberline {2.9.2.4}hnd\_cabin\_request()}{38}{}%
+\contentsline {subsubsection}{\numberline {2.9.2.5}hnd\_floor\_call()}{40}{}%
+\contentsline {subsubsection}{\numberline {2.9.2.6}main()}{42}{}%
+\contentsline {subsubsection}{\numberline {2.9.2.7}select\_optimal\_elevator()}{43}{}%
+\contentsline {subsubsection}{\numberline {2.9.2.8}session\_event\_handler()}{44}{}%
+\contentsline {subsection}{\numberline {2.9.3}Variable Documentation}{45}{}%
+\contentsline {subsubsection}{\numberline {2.9.3.1}running}{45}{}%
+\contentsline {section}{\numberline {2.10}src/psk\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}validator.c File Reference}{46}{}%
+\contentsline {subsection}{\numberline {2.10.1}Detailed Description}{46}{}%
+\contentsline {subsection}{\numberline {2.10.2}Function Documentation}{47}{}%
+\contentsline {subsubsection}{\numberline {2.10.2.1}psk\_validator\_check\_key()}{47}{}%
+\contentsline {subsubsection}{\numberline {2.10.2.2}psk\_validator\_cleanup()}{47}{}%
+\contentsline {subsubsection}{\numberline {2.10.2.3}psk\_validator\_get\_key\_by\_index()}{48}{}%
+\contentsline {subsubsection}{\numberline {2.10.2.4}psk\_validator\_get\_key\_count()}{49}{}%
+\contentsline {subsubsection}{\numberline {2.10.2.5}psk\_validator\_get\_key\_for\_identity()}{49}{}%
+\contentsline {subsubsection}{\numberline {2.10.2.6}psk\_validator\_init()}{50}{}%
+\contentsline {subsubsection}{\numberline {2.10.2.7}psk\_validator\_is\_initialized()}{50}{}%
+\contentsline {subsection}{\numberline {2.10.3}Variable Documentation}{50}{}%
+\contentsline {subsubsection}{\numberline {2.10.3.1}g\_valid\_keys}{50}{}%

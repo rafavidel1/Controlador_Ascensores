@@ -1,0 +1,228 @@
+\doxysection{src/elevator\+\_\+state\+\_\+manager.c File Reference}
+\label{elevator__state__manager_8c}\index{src/elevator\_state\_manager.c@{src/elevator\_state\_manager.c}}
+
+
+Implementación del Gestor de Estado de Ascensores del API Gateway.  
+
+
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+const char $\ast$ \textbf{ door\+\_\+state\+\_\+to\+\_\+string} (\textbf{ door\+\_\+state\+\_\+enum\+\_\+t} state)
+\begin{DoxyCompactList}\small\item\em Convierte un estado de puerta a su representación en string. \end{DoxyCompactList}\item 
+const char $\ast$ \textbf{ movement\+\_\+direction\+\_\+to\+\_\+string} (\textbf{ movement\+\_\+direction\+\_\+enum\+\_\+t} direction)
+\begin{DoxyCompactList}\small\item\em Convierte una dirección de movimiento a su representación en string. \end{DoxyCompactList}\item 
+void \textbf{ init\+\_\+elevator\+\_\+group} (\textbf{ elevator\+\_\+group\+\_\+state\+\_\+t} $\ast$group, const char $\ast$edificio\+\_\+id\+\_\+str, int num\+\_\+elevadores, int num\+\_\+pisos)
+\begin{DoxyCompactList}\small\item\em Inicializa un grupo de ascensores con configuración específica. \end{DoxyCompactList}\item 
+c\+JSON $\ast$ \textbf{ elevator\+\_\+group\+\_\+to\+\_\+json\+\_\+for\+\_\+server} (const \textbf{ elevator\+\_\+group\+\_\+state\+\_\+t} $\ast$group, \textbf{ gw\+\_\+request\+\_\+type\+\_\+t} request\+\_\+type, const \textbf{ api\+\_\+request\+\_\+details\+\_\+for\+\_\+json\+\_\+t} $\ast$details)
+\begin{DoxyCompactList}\small\item\em Serializa el estado del grupo de ascensores a JSON para el servidor central. \end{DoxyCompactList}\item 
+void \textbf{ assign\+\_\+task\+\_\+to\+\_\+elevator} (\textbf{ elevator\+\_\+group\+\_\+state\+\_\+t} $\ast$group, const char $\ast$elevator\+\_\+id\+\_\+to\+\_\+update, const char $\ast$task\+\_\+id, int target\+\_\+floor, int current\+\_\+request\+\_\+floor)
+\begin{DoxyCompactList}\small\item\em Actualiza el estado de un ascensor tras recibir asignación de tarea. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Implementación del Gestor de Estado de Ascensores del API Gateway. 
+
+\begin{DoxyAuthor}{Author}
+Sistema de Control de Ascensores 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2025 
+\end{DoxyDate}
+\begin{DoxyVersion}{Version}
+2.\+0
+\end{DoxyVersion}
+Este archivo implementa la gestión completa del estado de ascensores en el API Gateway, proporcionando funcionalidades para\+:
+
+
+\begin{DoxyItemize}
+\item {\bfseries{Inicialización de grupos}}\+: Configuración inicial de grupos de ascensores
+\item {\bfseries{Gestión de estado}}\+: Mantenimiento del estado actual de cada ascensor
+\item {\bfseries{Asignación de tareas}}\+: Asignación de tareas a ascensores específicos
+\item {\bfseries{Notificaciones de llegada}}\+: Procesamiento de llegadas a destinos
+\item {\bfseries{Serialización JSON}}\+: Conversión del estado a formato JSON para servidor central
+\item {\bfseries{Utilidades de conversión}}\+: Funciones helper para strings de estado
+\end{DoxyItemize}
+
+El gestor mantiene información completa de cada ascensor incluyendo\+:
+\begin{DoxyItemize}
+\item Posición actual (piso)
+\item Estado de puertas (abierta/cerrada/abriendo/cerrando)
+\item Dirección de movimiento (subiendo/bajando/parado)
+\item Tarea actual asignada
+\item Destino actual
+\item Estado de ocupación
+\end{DoxyItemize}
+
+\begin{DoxySeeAlso}{See also}
+\doxyref{elevator\+\_\+state\+\_\+manager.\+h}{p.}{elevator__state__manager_8h} 
+
+\doxyref{api\+\_\+common\+\_\+defs.\+h}{p.}{api__common__defs_8h} 
+
+api\+\_\+handlers.\+h 
+\end{DoxySeeAlso}
+
+
+\doxysubsection{Function Documentation}
+\label{elevator__state__manager_8c_a7a4e6bf1bb74d59a17c1d77689d93ccc} 
+\index{elevator\_state\_manager.c@{elevator\_state\_manager.c}!assign\_task\_to\_elevator@{assign\_task\_to\_elevator}}
+\index{assign\_task\_to\_elevator@{assign\_task\_to\_elevator}!elevator\_state\_manager.c@{elevator\_state\_manager.c}}
+\doxysubsubsection{assign\_task\_to\_elevator()}
+{\footnotesize\ttfamily void assign\+\_\+task\+\_\+to\+\_\+elevator (\begin{DoxyParamCaption}\item[{\textbf{ elevator\+\_\+group\+\_\+state\+\_\+t} $\ast$}]{group,  }\item[{const char $\ast$}]{elevator\+\_\+id\+\_\+to\+\_\+update,  }\item[{const char $\ast$}]{task\+\_\+id,  }\item[{int}]{target\+\_\+floor,  }\item[{int}]{current\+\_\+request\+\_\+floor }\end{DoxyParamCaption})}
+
+
+
+Actualiza el estado de un ascensor tras recibir asignación de tarea. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em group} & Puntero al grupo de ascensores \\
+\hline
+{\em elevator\+\_\+id\+\_\+to\+\_\+update} & ID del ascensor a actualizar \\
+\hline
+{\em task\+\_\+id} & El nuevo ID de tarea asignado \\
+\hline
+{\em target\+\_\+floor} & El piso destino para esta tarea \\
+\hline
+{\em current\+\_\+request\+\_\+floor} & El piso donde se originó la solicitud\\
+\hline
+\end{DoxyParams}
+Esta función actualiza el estado de un ascensor específico después de recibir una asignación de tarea del servidor central. Establece la tarea, destino, dirección de movimiento y marca el ascensor como ocupado.
+
+\begin{DoxySeeAlso}{See also}
+\doxyref{elevator\+\_\+status\+\_\+t}{p.}{structelevator__status__t} 
+\end{DoxySeeAlso}
+\label{elevator__state__manager_8c_aa035ebf813e4df0e747c251865f217db} 
+\index{elevator\_state\_manager.c@{elevator\_state\_manager.c}!door\_state\_to\_string@{door\_state\_to\_string}}
+\index{door\_state\_to\_string@{door\_state\_to\_string}!elevator\_state\_manager.c@{elevator\_state\_manager.c}}
+\doxysubsubsection{door\_state\_to\_string()}
+{\footnotesize\ttfamily const char $\ast$ door\+\_\+state\+\_\+to\+\_\+string (\begin{DoxyParamCaption}\item[{\textbf{ door\+\_\+state\+\_\+enum\+\_\+t}}]{state }\end{DoxyParamCaption})}
+
+
+
+Convierte un estado de puerta a su representación en string. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em state} & Estado de puerta a convertir \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+String representando el estado de la puerta
+\end{DoxyReturn}
+Esta función proporciona una representación legible del estado de las puertas del ascensor para logging y serialización JSON.
+
+Estados soportados\+:
+\begin{DoxyItemize}
+\item DOOR\+\_\+\+CLOSED\+: "{}\+CERRADA"{}
+\item DOOR\+\_\+\+OPEN\+: "{}\+ABIERTA"{} ~\newline
+
+\item DOOR\+\_\+\+OPENING\+: "{}\+ABRIENDO"{}
+\item DOOR\+\_\+\+CLOSING\+: "{}\+CERRANDO"{}
+\item Otros\+: "{}\+DESCONOCIDO"{} 
+\end{DoxyItemize}\label{elevator__state__manager_8c_ab9cb3524ec8747ce92dc01657dbb7a5a} 
+\index{elevator\_state\_manager.c@{elevator\_state\_manager.c}!elevator\_group\_to\_json\_for\_server@{elevator\_group\_to\_json\_for\_server}}
+\index{elevator\_group\_to\_json\_for\_server@{elevator\_group\_to\_json\_for\_server}!elevator\_state\_manager.c@{elevator\_state\_manager.c}}
+\doxysubsubsection{elevator\_group\_to\_json\_for\_server()}
+{\footnotesize\ttfamily c\+JSON $\ast$ elevator\+\_\+group\+\_\+to\+\_\+json\+\_\+for\+\_\+server (\begin{DoxyParamCaption}\item[{const \textbf{ elevator\+\_\+group\+\_\+state\+\_\+t} $\ast$}]{group,  }\item[{\textbf{ gw\+\_\+request\+\_\+type\+\_\+t}}]{request\+\_\+type,  }\item[{const \textbf{ api\+\_\+request\+\_\+details\+\_\+for\+\_\+json\+\_\+t} $\ast$}]{details }\end{DoxyParamCaption})}
+
+
+
+Serializa el estado del grupo de ascensores a JSON para el servidor central. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em group} & Puntero al estado del grupo de ascensores \\
+\hline
+{\em request\+\_\+type} & El tipo de la solicitud original que motiva este payload \\
+\hline
+{\em details} & Puntero a estructura con detalles específicos de la solicitud (puede ser NULL) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Puntero a objeto c\+JSON que representa el payload, o NULL en caso de error
+\end{DoxyReturn}
+Esta función convierte el estado completo del grupo de ascensores y los detalles de la solicitud específica a un objeto JSON formateado como espera el servidor central para procesamiento de asignaciones.
+
+El llamador es responsable de liberar el objeto c\+JSON con c\+JSON\+\_\+\+Delete().
+
+\begin{DoxySeeAlso}{See also}
+\doxyref{gw\+\_\+request\+\_\+type\+\_\+t}{p.}{elevator__state__manager_8h_a17e4539046553af2ffabda67ff75cbb0} 
+
+\doxyref{api\+\_\+request\+\_\+details\+\_\+for\+\_\+json\+\_\+t}{p.}{structapi__request__details__for__json__t} 
+\end{DoxySeeAlso}
+\label{elevator__state__manager_8c_ad1f96394c1b8256e78409c71a912eea1} 
+\index{elevator\_state\_manager.c@{elevator\_state\_manager.c}!init\_elevator\_group@{init\_elevator\_group}}
+\index{init\_elevator\_group@{init\_elevator\_group}!elevator\_state\_manager.c@{elevator\_state\_manager.c}}
+\doxysubsubsection{init\_elevator\_group()}
+{\footnotesize\ttfamily void init\+\_\+elevator\+\_\+group (\begin{DoxyParamCaption}\item[{\textbf{ elevator\+\_\+group\+\_\+state\+\_\+t} $\ast$}]{group,  }\item[{const char $\ast$}]{edificio\+\_\+id\+\_\+str,  }\item[{int}]{num\+\_\+elevadores,  }\item[{int}]{num\+\_\+pisos }\end{DoxyParamCaption})}
+
+
+
+Inicializa un grupo de ascensores con configuración específica. 
+
+Inicializa el estado de un grupo de ascensores.
+
+
+\begin{DoxyParams}{Parameters}
+{\em group} & Puntero al grupo de ascensores a inicializar \\
+\hline
+{\em edificio\+\_\+id\+\_\+str} & ID del edificio al que pertenece el grupo \\
+\hline
+{\em num\+\_\+elevadores} & Número de ascensores en el grupo \\
+\hline
+{\em num\+\_\+pisos} & Número de pisos del edificio\\
+\hline
+\end{DoxyParams}
+Esta función inicializa completamente un grupo de ascensores con la configuración especificada. Realiza las siguientes operaciones\+:
+
+
+\begin{DoxyEnumerate}
+\item {\bfseries{Validación}}\+: Verifica parámetros de entrada válidos
+\item {\bfseries{Limpieza}}\+: Inicializa la estructura a cero
+\item {\bfseries{Configuración del grupo}}\+: Establece ID del edificio y número de ascensores
+\item {\bfseries{Inicialización individual}}\+: Configura cada ascensor con\+:
+\begin{DoxyItemize}
+\item ID único (formato\+: \{edificio\+\_\+id\}A\{numero\})
+\item Piso inicial\+: 0 (planta baja)
+\item Puertas cerradas
+\item Sin tarea asignada
+\item Estado parado y disponible
+\end{DoxyItemize}
+\end{DoxyEnumerate}
+
+\begin{DoxyNote}{Note}
+El número de ascensores debe estar entre 1 y MAX\+\_\+\+ELEVATORS\+\_\+\+PER\+\_\+\+GATEWAY 
+\end{DoxyNote}
+\begin{DoxySeeAlso}{See also}
+\doxyref{elevator\+\_\+group\+\_\+state\+\_\+t}{p.}{structelevator__group__state__t} 
+
+\doxyref{elevator\+\_\+status\+\_\+t}{p.}{structelevator__status__t} 
+\end{DoxySeeAlso}
+\label{elevator__state__manager_8c_a9f8c127c735277e87e71a52ba68d2e56} 
+\index{elevator\_state\_manager.c@{elevator\_state\_manager.c}!movement\_direction\_to\_string@{movement\_direction\_to\_string}}
+\index{movement\_direction\_to\_string@{movement\_direction\_to\_string}!elevator\_state\_manager.c@{elevator\_state\_manager.c}}
+\doxysubsubsection{movement\_direction\_to\_string()}
+{\footnotesize\ttfamily const char $\ast$ movement\+\_\+direction\+\_\+to\+\_\+string (\begin{DoxyParamCaption}\item[{\textbf{ movement\+\_\+direction\+\_\+enum\+\_\+t}}]{direction }\end{DoxyParamCaption})}
+
+
+
+Convierte una dirección de movimiento a su representación en string. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em direction} & Dirección de movimiento a convertir \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+String representando la dirección de movimiento
+\end{DoxyReturn}
+Esta función proporciona una representación legible de la dirección de movimiento del ascensor para logging y serialización JSON.
+
+Direcciones soportadas\+:
+\begin{DoxyItemize}
+\item MOVING\+\_\+\+UP\+: "{}\+SUBIENDO"{}
+\item MOVING\+\_\+\+DOWN\+: "{}\+BAJANDO"{}
+\item STOPPED\+: "{}\+PARADO"{}
+\item Otros\+: "{}\+DESCONOCIDO"{} 
+\end{DoxyItemize}

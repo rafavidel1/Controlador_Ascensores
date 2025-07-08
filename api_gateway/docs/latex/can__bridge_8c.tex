@@ -1,0 +1,427 @@
+\doxysection{src/can\+\_\+bridge.c File Reference}
+\label{can__bridge_8c}\index{src/can\_bridge.c@{src/can\_bridge.c}}
+
+
+Implementación del Puente CAN-\/\+Co\+AP para el API Gateway.  
+
+
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \textbf{ log\+\_\+coap\+\_\+token} (const char $\ast$prefix, coap\+\_\+bin\+\_\+const\+\_\+t token)
+\begin{DoxyCompactList}\small\item\em Función helper para logging de tokens Co\+AP. \end{DoxyCompactList}\item 
+static void \textbf{ store\+\_\+can\+\_\+tracker} (coap\+\_\+bin\+\_\+const\+\_\+t token, uint32\+\_\+t can\+\_\+id, \textbf{ gw\+\_\+request\+\_\+type\+\_\+t} req\+\_\+type, int target\+\_\+floor, int ref\+\_\+floor, const char $\ast$elevator\+\_\+id\+\_\+if\+\_\+cabin)
+\begin{DoxyCompactList}\small\item\em Almacena un tracker CAN para correlación de respuestas. \end{DoxyCompactList}\item 
+\textbf{ can\+\_\+origin\+\_\+tracker\+\_\+t} $\ast$ \textbf{ find\+\_\+can\+\_\+tracker} (coap\+\_\+bin\+\_\+const\+\_\+t token)
+\begin{DoxyCompactList}\small\item\em Busca un tracker CAN por token Co\+AP. \end{DoxyCompactList}\item 
+void \textbf{ ag\+\_\+can\+\_\+bridge\+\_\+init} (void)
+\begin{DoxyCompactList}\small\item\em Inicializa el puente CAN-\/\+Co\+AP. \end{DoxyCompactList}\item 
+void \textbf{ ag\+\_\+can\+\_\+bridge\+\_\+register\+\_\+send\+\_\+callback} (\textbf{ can\+\_\+send\+\_\+callback\+\_\+t} callback)
+\begin{DoxyCompactList}\small\item\em Registra el callback para envío de frames CAN al simulador. \end{DoxyCompactList}\item 
+static void \textbf{ forward\+\_\+can\+\_\+originated\+\_\+request\+\_\+to\+\_\+central\+\_\+server} (coap\+\_\+context\+\_\+t $\ast$ctx, uint32\+\_\+t original\+\_\+can\+\_\+id, const char $\ast$central\+\_\+server\+\_\+path, const char $\ast$log\+\_\+tag\+\_\+param, \textbf{ gw\+\_\+request\+\_\+type\+\_\+t} request\+\_\+type\+\_\+param, int origin\+\_\+floor\+\_\+param, int target\+\_\+floor\+\_\+for\+\_\+task\+\_\+param, const char $\ast$requesting\+\_\+elevator\+\_\+id\+\_\+cabin\+\_\+param, \textbf{ movement\+\_\+direction\+\_\+enum\+\_\+t} requested\+\_\+direction\+\_\+floor\+\_\+param)
+\item 
+void \textbf{ ag\+\_\+can\+\_\+bridge\+\_\+process\+\_\+incoming\+\_\+frame} (\textbf{ simulated\+\_\+can\+\_\+frame\+\_\+t} $\ast$frame, coap\+\_\+context\+\_\+t $\ast$coap\+\_\+ctx)
+\begin{DoxyCompactList}\small\item\em Procesa un frame CAN entrante y lo convierte a solicitud Co\+AP. \end{DoxyCompactList}\item 
+void \textbf{ ag\+\_\+can\+\_\+bridge\+\_\+send\+\_\+response\+\_\+frame} (uint32\+\_\+t original\+\_\+can\+\_\+id, coap\+\_\+pdu\+\_\+code\+\_\+t response\+\_\+code, c\+JSON $\ast$server\+\_\+response\+\_\+json)
+\begin{DoxyCompactList}\small\item\em Envía una respuesta (traducida de Co\+AP) como un frame CAN simulado a la simulación. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+static \textbf{ can\+\_\+send\+\_\+callback\+\_\+t} \textbf{ send\+\_\+to\+\_\+simulation\+\_\+callback} = NULL
+\begin{DoxyCompactList}\small\item\em Callback registrado para enviar frames CAN a la simulación. \end{DoxyCompactList}\item 
+static \textbf{ can\+\_\+origin\+\_\+tracker\+\_\+t} \textbf{ can\+\_\+trackers} [MAX\+\_\+\+CAN\+\_\+\+ORIGIN\+\_\+\+TRACKERS]
+\begin{DoxyCompactList}\small\item\em Buffer circular de trackers para solicitudes CAN. \end{DoxyCompactList}\item 
+static int \textbf{ next\+\_\+can\+\_\+tracker\+\_\+idx} = 0
+\begin{DoxyCompactList}\small\item\em Índice del siguiente tracker CAN disponible. \end{DoxyCompactList}\item 
+\textbf{ elevator\+\_\+group\+\_\+state\+\_\+t} \textbf{ managed\+\_\+elevator\+\_\+group}
+\begin{DoxyCompactList}\small\item\em Estado del grupo de ascensores gestionado. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Implementación del Puente CAN-\/\+Co\+AP para el API Gateway. 
+
+\begin{DoxyAuthor}{Author}
+Sistema de Control de Ascensores 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2025 
+\end{DoxyDate}
+\begin{DoxyVersion}{Version}
+2.\+0
+\end{DoxyVersion}
+Este archivo implementa el puente de comunicación entre el protocolo CAN (Controller Area Network) y Co\+AP (Constrained Application Protocol) para el sistema de control de ascensores. Sus funciones principales\+:
+
+
+\begin{DoxyItemize}
+\item {\bfseries{Procesamiento de frames CAN}}\+: Interpretación de mensajes CAN entrantes
+\item {\bfseries{Conversión CAN-\/\+Co\+AP}}\+: Transformación de solicitudes CAN a Co\+AP
+\item {\bfseries{Gestión de trackers}}\+: Seguimiento de solicitudes originadas por CAN
+\item {\bfseries{Respuestas CAN}}\+: Envío de respuestas del servidor central vía CAN
+\item {\bfseries{Simulación}}\+: Interfaz con simulador de red CAN para testing
+\item {\bfseries{Logging}}\+: Registro detallado de operaciones para debugging
+\end{DoxyItemize}
+
+Tipos de mensajes CAN soportados\+:
+\begin{DoxyItemize}
+\item {\bfseries{0x100}}\+: Llamadas de piso (floor calls) con dirección
+\item {\bfseries{0x200}}\+: Solicitudes de cabina (cabin requests) con destino
+\item {\bfseries{0x300}}\+: Notificaciones de llegada de ascensores
+\end{DoxyItemize}
+
+El puente mantiene un buffer circular de trackers para correlacionar respuestas del servidor central con las solicitudes CAN originales.
+
+\begin{DoxySeeAlso}{See also}
+\doxyref{can\+\_\+bridge.\+h}{p.}{can__bridge_8h} 
+
+api\+\_\+handlers.\+h 
+
+\doxyref{elevator\+\_\+state\+\_\+manager.\+h}{p.}{elevator__state__manager_8h} 
+
+\doxyref{coap\+\_\+config.\+h}{p.}{coap__config_8h} 
+\end{DoxySeeAlso}
+
+
+\doxysubsection{Function Documentation}
+\label{can__bridge_8c_a331e50c4b7681888fa7b0c1eb89e7f32} 
+\index{can\_bridge.c@{can\_bridge.c}!ag\_can\_bridge\_init@{ag\_can\_bridge\_init}}
+\index{ag\_can\_bridge\_init@{ag\_can\_bridge\_init}!can\_bridge.c@{can\_bridge.c}}
+\doxysubsubsection{ag\_can\_bridge\_init()}
+{\footnotesize\ttfamily void ag\+\_\+can\+\_\+bridge\+\_\+init (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Inicializa el puente CAN-\/\+Co\+AP. 
+
+Inicializa el puente CAN simulado.
+
+Esta función inicializa el sistema de puente CAN-\/\+Co\+AP, preparando todas las estructuras de datos necesarias para el funcionamiento.
+
+Operaciones realizadas\+:
+\begin{DoxyItemize}
+\item Limpia el callback de envío CAN
+\item Libera memoria de tokens almacenados en trackers
+\item Inicializa a cero el buffer de trackers CAN
+\item Resetea el índice del buffer circular
+\end{DoxyItemize}
+
+Debe llamarse una vez al inicio del programa antes de procesar cualquier frame CAN o registrar callbacks.
+
+\begin{DoxySeeAlso}{See also}
+\doxyref{ag\+\_\+can\+\_\+bridge\+\_\+register\+\_\+send\+\_\+callback()}{p.}{can__bridge_8h_a82b3383904e65573e79b59f4b7c5ef15} 
+
+\doxyref{ag\+\_\+can\+\_\+bridge\+\_\+process\+\_\+incoming\+\_\+frame()}{p.}{can__bridge_8h_a1859dd08bf918dd5bc9ebc92071ae9ca} 
+\end{DoxySeeAlso}
+\label{can__bridge_8c_aacea58e11d63ec4a2601d1b225af2af7} 
+\index{can\_bridge.c@{can\_bridge.c}!ag\_can\_bridge\_process\_incoming\_frame@{ag\_can\_bridge\_process\_incoming\_frame}}
+\index{ag\_can\_bridge\_process\_incoming\_frame@{ag\_can\_bridge\_process\_incoming\_frame}!can\_bridge.c@{can\_bridge.c}}
+\doxysubsubsection{ag\_can\_bridge\_process\_incoming\_frame()}
+{\footnotesize\ttfamily void ag\+\_\+can\+\_\+bridge\+\_\+process\+\_\+incoming\+\_\+frame (\begin{DoxyParamCaption}\item[{\textbf{ simulated\+\_\+can\+\_\+frame\+\_\+t} $\ast$}]{frame,  }\item[{coap\+\_\+context\+\_\+t $\ast$}]{coap\+\_\+ctx }\end{DoxyParamCaption})}
+
+
+
+Procesa un frame CAN entrante y lo convierte a solicitud Co\+AP. 
+
+Procesa un frame CAN simulado entrante desde la simulación de ascensores.
+
+
+\begin{DoxyParams}{Parameters}
+{\em frame} & Puntero al frame CAN simulado a procesar \\
+\hline
+{\em coap\+\_\+ctx} & Contexto Co\+AP para enviar solicitudes al servidor central\\
+\hline
+\end{DoxyParams}
+Esta función es el punto de entrada principal para el procesamiento de frames CAN entrantes. Interpreta el contenido del frame según el esquema de mensajes CAN definido y genera las solicitudes Co\+AP correspondientes al servidor central.
+
+{\bfseries{Tipos de frames CAN soportados\+:}}
+\begin{DoxyItemize}
+\item {\bfseries{0x100 -\/ Llamada de piso}}\+:
+\begin{DoxyItemize}
+\item data[0]\+: Piso origen (0-\/255)
+\item data[1]\+: Dirección (0=UP, 1=DOWN)
+\end{DoxyItemize}
+\item {\bfseries{0x200 -\/ Solicitud de cabina}}\+:
+\begin{DoxyItemize}
+\item data[0]\+: Índice del ascensor (0-\/based)
+\item data[1]\+: Piso destino (0-\/255)
+\end{DoxyItemize}
+\item {\bfseries{0x300 -\/ Notificación de llegada}}\+:
+\begin{DoxyItemize}
+\item data[0]\+: Índice del ascensor (0-\/based)
+\item data[1]\+: Piso actual (0-\/255)
+\end{DoxyItemize}
+\end{DoxyItemize}
+
+Para cada frame válido, la función\+:
+\begin{DoxyEnumerate}
+\item Valida el formato y longitud de datos
+\item Extrae los parámetros específicos del tipo de mensaje
+\item Genera una solicitud Co\+AP al servidor central
+\item Almacena un tracker para correlacionar la respuesta
+\end{DoxyEnumerate}
+
+\begin{DoxyNote}{Note}
+Los IDs CAN y formato de datos deben adaptarse según el esquema específico del sistema de ascensores
+\end{DoxyNote}
+\begin{DoxySeeAlso}{See also}
+\doxyref{forward\+\_\+can\+\_\+originated\+\_\+request\+\_\+to\+\_\+central\+\_\+server()}{p.}{can__bridge_8c_ad9eccdae992eb522b098df7cf4ff050d} 
+
+\doxyref{store\+\_\+can\+\_\+tracker()}{p.}{can__bridge_8c_a26febc28ea92320546cd8ec40d003b87} 
+
+\doxyref{simulated\+\_\+can\+\_\+frame\+\_\+t}{p.}{structsimulated__can__frame__t} 
+\end{DoxySeeAlso}
+\label{can__bridge_8c_a82b3383904e65573e79b59f4b7c5ef15} 
+\index{can\_bridge.c@{can\_bridge.c}!ag\_can\_bridge\_register\_send\_callback@{ag\_can\_bridge\_register\_send\_callback}}
+\index{ag\_can\_bridge\_register\_send\_callback@{ag\_can\_bridge\_register\_send\_callback}!can\_bridge.c@{can\_bridge.c}}
+\doxysubsubsection{ag\_can\_bridge\_register\_send\_callback()}
+{\footnotesize\ttfamily void ag\+\_\+can\+\_\+bridge\+\_\+register\+\_\+send\+\_\+callback (\begin{DoxyParamCaption}\item[{\textbf{ can\+\_\+send\+\_\+callback\+\_\+t}}]{callback }\end{DoxyParamCaption})}
+
+
+
+Registra el callback para envío de frames CAN al simulador. 
+
+Registra la función de callback que la API Gateway usará para enviar frames CAN.
+
+
+\begin{DoxyParams}{Parameters}
+{\em callback} & Función callback que será llamada para enviar frames CAN\\
+\hline
+\end{DoxyParams}
+Esta función registra una función callback que será utilizada por el puente CAN-\/\+Co\+AP para enviar frames CAN de respuesta al simulador.
+
+El callback debe implementar la interfaz can\+\_\+send\+\_\+callback\+\_\+t y será invocado cuando el puente necesite enviar respuestas del servidor central de vuelta al sistema CAN simulado.
+
+\begin{DoxyNote}{Note}
+Solo se puede registrar un callback a la vez. Llamadas posteriores sobrescriben el callback anterior.
+\end{DoxyNote}
+\begin{DoxySeeAlso}{See also}
+\doxyref{can\+\_\+send\+\_\+callback\+\_\+t}{p.}{can__bridge_8h_a1c10dfd5c89b2417f2eacc2d71c91c9a} 
+
+\doxyref{ag\+\_\+can\+\_\+bridge\+\_\+send\+\_\+response\+\_\+frame()}{p.}{can__bridge_8h_a5add34ce57a2d36aa902cf08b921a665} 
+\end{DoxySeeAlso}
+\label{can__bridge_8c_a5add34ce57a2d36aa902cf08b921a665} 
+\index{can\_bridge.c@{can\_bridge.c}!ag\_can\_bridge\_send\_response\_frame@{ag\_can\_bridge\_send\_response\_frame}}
+\index{ag\_can\_bridge\_send\_response\_frame@{ag\_can\_bridge\_send\_response\_frame}!can\_bridge.c@{can\_bridge.c}}
+\doxysubsubsection{ag\_can\_bridge\_send\_response\_frame()}
+{\footnotesize\ttfamily void ag\+\_\+can\+\_\+bridge\+\_\+send\+\_\+response\+\_\+frame (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{original\+\_\+can\+\_\+id,  }\item[{coap\+\_\+pdu\+\_\+code\+\_\+t}]{response\+\_\+code,  }\item[{c\+JSON $\ast$}]{server\+\_\+response\+\_\+json }\end{DoxyParamCaption})}
+
+
+
+Envía una respuesta (traducida de Co\+AP) como un frame CAN simulado a la simulación. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em original\+\_\+can\+\_\+id} & El ID del frame CAN original que originó esta respuesta \\
+\hline
+{\em response\+\_\+code} & El código de respuesta Co\+AP recibido del servidor central \\
+\hline
+{\em server\+\_\+response\+\_\+json} & El objeto c\+JSON que contiene la respuesta del servidor central (puede ser NULL)\\
+\hline
+\end{DoxyParams}
+Esta función convierte una respuesta Co\+AP del servidor central en un frame CAN simulado que se envía de vuelta al simulador de ascensores. Maneja tanto respuestas exitosas como códigos de error.
+
+{\bfseries{Procesamiento de respuestas exitosas\+:}}
+\begin{DoxyItemize}
+\item Extrae ascensor\+\_\+asignado\+\_\+id y tarea\+\_\+id del JSON
+\item Convierte ID de ascensor a índice numérico
+\item Construye frame CAN con información de asignación
+\item ID de respuesta\+: original\+\_\+can\+\_\+id + 1
+\end{DoxyItemize}
+
+{\bfseries{Procesamiento de errores\+:}}
+\begin{DoxyItemize}
+\item Detecta códigos de error Co\+AP o campo "{}error"{} en JSON
+\item Genera frame CAN de error con ID 0x\+FE
+\item Incluye código de error específico en data[1]
+\end{DoxyItemize}
+
+{\bfseries{Códigos de error definidos\+:}}
+\begin{DoxyItemize}
+\item 0x01\+: JSON faltante o nulo del servidor
+\item 0x02\+: Servidor reportó error o código Co\+AP de error
+\item 0x03\+: Fallo al parsear JSON de éxito
+\end{DoxyItemize}
+
+La función utiliza el callback registrado para enviar el frame al simulador de ascensores.
+
+\begin{DoxySeeAlso}{See also}
+\doxyref{ag\+\_\+can\+\_\+bridge\+\_\+register\+\_\+send\+\_\+callback()}{p.}{can__bridge_8h_a82b3383904e65573e79b59f4b7c5ef15} 
+
+\doxyref{can\+\_\+send\+\_\+callback\+\_\+t}{p.}{can__bridge_8h_a1c10dfd5c89b2417f2eacc2d71c91c9a} 
+
+\doxyref{simulated\+\_\+can\+\_\+frame\+\_\+t}{p.}{structsimulated__can__frame__t} 
+\end{DoxySeeAlso}
+\label{can__bridge_8c_a7027a900f632b8023cfd9f3b0e4a5a99} 
+\index{can\_bridge.c@{can\_bridge.c}!find\_can\_tracker@{find\_can\_tracker}}
+\index{find\_can\_tracker@{find\_can\_tracker}!can\_bridge.c@{can\_bridge.c}}
+\doxysubsubsection{find\_can\_tracker()}
+{\footnotesize\ttfamily \textbf{ can\+\_\+origin\+\_\+tracker\+\_\+t} $\ast$ find\+\_\+can\+\_\+tracker (\begin{DoxyParamCaption}\item[{coap\+\_\+bin\+\_\+const\+\_\+t}]{token }\end{DoxyParamCaption})}
+
+
+
+Busca un tracker CAN por token Co\+AP. 
+
+Busca un tracker de origen CAN basado en un token Co\+AP.
+
+
+\begin{DoxyParams}{Parameters}
+{\em token} & Token Co\+AP a buscar en los trackers almacenados \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Puntero al tracker encontrado, o NULL si no se encuentra
+\end{DoxyReturn}
+Esta función busca en el buffer circular de trackers CAN un tracker que corresponda al token Co\+AP especificado. Se utiliza para correlacionar respuestas del servidor central con solicitudes CAN originales.
+
+La búsqueda se realiza comparando tanto la longitud como el contenido binario del token. No remueve el tracker de la lista (a diferencia de find\+\_\+and\+\_\+remove\+\_\+central\+\_\+request\+\_\+tracker).
+
+\begin{DoxySeeAlso}{See also}
+\doxyref{store\+\_\+can\+\_\+tracker()}{p.}{can__bridge_8c_a26febc28ea92320546cd8ec40d003b87} 
+
+\doxyref{can\+\_\+origin\+\_\+tracker\+\_\+t}{p.}{structcan__origin__tracker__t} 
+\end{DoxySeeAlso}
+\label{can__bridge_8c_ad9eccdae992eb522b098df7cf4ff050d} 
+\index{can\_bridge.c@{can\_bridge.c}!forward\_can\_originated\_request\_to\_central\_server@{forward\_can\_originated\_request\_to\_central\_server}}
+\index{forward\_can\_originated\_request\_to\_central\_server@{forward\_can\_originated\_request\_to\_central\_server}!can\_bridge.c@{can\_bridge.c}}
+\doxysubsubsection{forward\_can\_originated\_request\_to\_central\_server()}
+{\footnotesize\ttfamily static void forward\+\_\+can\+\_\+originated\+\_\+request\+\_\+to\+\_\+central\+\_\+server (\begin{DoxyParamCaption}\item[{coap\+\_\+context\+\_\+t $\ast$}]{ctx,  }\item[{uint32\+\_\+t}]{original\+\_\+can\+\_\+id,  }\item[{const char $\ast$}]{central\+\_\+server\+\_\+path,  }\item[{const char $\ast$}]{log\+\_\+tag\+\_\+param,  }\item[{\textbf{ gw\+\_\+request\+\_\+type\+\_\+t}}]{request\+\_\+type\+\_\+param,  }\item[{int}]{origin\+\_\+floor\+\_\+param,  }\item[{int}]{target\+\_\+floor\+\_\+for\+\_\+task\+\_\+param,  }\item[{const char $\ast$}]{requesting\+\_\+elevator\+\_\+id\+\_\+cabin\+\_\+param,  }\item[{\textbf{ movement\+\_\+direction\+\_\+enum\+\_\+t}}]{requested\+\_\+direction\+\_\+floor\+\_\+param }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\label{can__bridge_8c_a52bc66ea0c5984ec76e0fc49a5fec28d} 
+\index{can\_bridge.c@{can\_bridge.c}!log\_coap\_token@{log\_coap\_token}}
+\index{log\_coap\_token@{log\_coap\_token}!can\_bridge.c@{can\_bridge.c}}
+\doxysubsubsection{log\_coap\_token()}
+{\footnotesize\ttfamily static void log\+\_\+coap\+\_\+token (\begin{DoxyParamCaption}\item[{const char $\ast$}]{prefix,  }\item[{coap\+\_\+bin\+\_\+const\+\_\+t}]{token }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Función helper para logging de tokens Co\+AP. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em prefix} & Prefijo para el mensaje de log \\
+\hline
+{\em token} & Token Co\+AP a imprimir en formato hexadecimal\\
+\hline
+\end{DoxyParams}
+Esta función convierte un token Co\+AP binario a su representación hexadecimal para facilitar el debugging y seguimiento de solicitudes. Limita la impresión a 8 bytes máximo para evitar logs excesivamente largos. \label{can__bridge_8c_a26febc28ea92320546cd8ec40d003b87} 
+\index{can\_bridge.c@{can\_bridge.c}!store\_can\_tracker@{store\_can\_tracker}}
+\index{store\_can\_tracker@{store\_can\_tracker}!can\_bridge.c@{can\_bridge.c}}
+\doxysubsubsection{store\_can\_tracker()}
+{\footnotesize\ttfamily static void store\+\_\+can\+\_\+tracker (\begin{DoxyParamCaption}\item[{coap\+\_\+bin\+\_\+const\+\_\+t}]{token,  }\item[{uint32\+\_\+t}]{can\+\_\+id,  }\item[{\textbf{ gw\+\_\+request\+\_\+type\+\_\+t}}]{req\+\_\+type,  }\item[{int}]{target\+\_\+floor,  }\item[{int}]{ref\+\_\+floor,  }\item[{const char $\ast$}]{elevator\+\_\+id\+\_\+if\+\_\+cabin }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Almacena un tracker CAN para correlación de respuestas. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em token} & Token Co\+AP de la solicitud enviada al servidor central \\
+\hline
+{\em can\+\_\+id} & ID del frame CAN original \\
+\hline
+{\em req\+\_\+type} & Tipo de solicitud (floor call, cabin request, etc.) \\
+\hline
+{\em target\+\_\+floor} & Piso destino de la tarea \\
+\hline
+{\em ref\+\_\+floor} & Piso de referencia (origen para floor calls) \\
+\hline
+{\em elevator\+\_\+id\+\_\+if\+\_\+cabin} & ID del ascensor (solo para cabin requests)\\
+\hline
+\end{DoxyParams}
+Esta función almacena información de correlación en el buffer circular de trackers CAN. Crea una copia del token Co\+AP para evitar problemas de memoria y libera automáticamente tokens anteriores si es necesario.
+
+\begin{DoxySeeAlso}{See also}
+\doxyref{find\+\_\+can\+\_\+tracker()}{p.}{can__bridge_8c_a7027a900f632b8023cfd9f3b0e4a5a99} 
+
+\doxyref{can\+\_\+origin\+\_\+tracker\+\_\+t}{p.}{structcan__origin__tracker__t} 
+\end{DoxySeeAlso}
+
+
+\doxysubsection{Variable Documentation}
+\label{can__bridge_8c_a940e868438ddbec6d259d01f6351fb7f} 
+\index{can\_bridge.c@{can\_bridge.c}!can\_trackers@{can\_trackers}}
+\index{can\_trackers@{can\_trackers}!can\_bridge.c@{can\_bridge.c}}
+\doxysubsubsection{can\_trackers}
+{\footnotesize\ttfamily \textbf{ can\+\_\+origin\+\_\+tracker\+\_\+t} can\+\_\+trackers[MAX\+\_\+\+CAN\+\_\+\+ORIGIN\+\_\+\+TRACKERS]\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Buffer circular de trackers para solicitudes CAN. 
+
+Array que almacena información de correlación entre solicitudes CAN enviadas al servidor central y sus respuestas esperadas. Se gestiona como un buffer circular para reutilizar entradas.
+
+\begin{DoxySeeAlso}{See also}
+\doxyref{can\+\_\+origin\+\_\+tracker\+\_\+t}{p.}{structcan__origin__tracker__t} 
+\end{DoxySeeAlso}
+\label{can__bridge_8c_a2e69b946477ed035db425886fe261a13} 
+\index{can\_bridge.c@{can\_bridge.c}!managed\_elevator\_group@{managed\_elevator\_group}}
+\index{managed\_elevator\_group@{managed\_elevator\_group}!can\_bridge.c@{can\_bridge.c}}
+\doxysubsubsection{managed\_elevator\_group}
+{\footnotesize\ttfamily \textbf{ elevator\+\_\+group\+\_\+state\+\_\+t} managed\+\_\+elevator\+\_\+group\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+Estado del grupo de ascensores gestionado. 
+
+Referencia externa al estado global del grupo de ascensores definido en \doxyref{main.\+c}{p.}{main_8c}. Se utiliza para acceder a información del edificio y ascensores al procesar mensajes CAN.
+
+\begin{DoxySeeAlso}{See also}
+\doxyref{main.\+c}{p.}{main_8c} 
+
+\doxyref{elevator\+\_\+group\+\_\+state\+\_\+t}{p.}{structelevator__group__state__t}
+\end{DoxySeeAlso}
+Estado del grupo de ascensores gestionado.
+
+Estado del grupo de ascensores gestionado por este gateway.
+
+Contiene el estado completo de todos los ascensores del edificio gestionado por este API Gateway, incluyendo posiciones actuales, tareas asignadas, estados de puertas y disponibilidad.
+
+\begin{DoxySeeAlso}{See also}
+\doxyref{elevator\+\_\+group\+\_\+state\+\_\+t}{p.}{structelevator__group__state__t} 
+
+\doxyref{elevator\+\_\+state\+\_\+manager.\+h}{p.}{elevator__state__manager_8h}
+\end{DoxySeeAlso}
+Estado del grupo de ascensores gestionado.
+
+Declaración externa para acceder al estado del grupo de ascensores gestionado en \doxyref{main.\+c}{p.}{main_8c}. Contiene información completa de todos los ascensores del edificio.
+
+\begin{DoxySeeAlso}{See also}
+\doxyref{elevator\+\_\+group\+\_\+state\+\_\+t}{p.}{structelevator__group__state__t} 
+
+\doxyref{main.\+c}{p.}{main_8c}
+\end{DoxySeeAlso}
+Estado del grupo de ascensores gestionado por este gateway.
+
+Contiene el estado completo de todos los ascensores del edificio gestionado por este API Gateway, incluyendo posiciones actuales, tareas asignadas, estados de puertas y disponibilidad.
+
+\begin{DoxySeeAlso}{See also}
+\doxyref{elevator\+\_\+group\+\_\+state\+\_\+t}{p.}{structelevator__group__state__t} 
+
+\doxyref{elevator\+\_\+state\+\_\+manager.\+h}{p.}{elevator__state__manager_8h} 
+\end{DoxySeeAlso}
+\label{can__bridge_8c_a5d5288a89f4b4b8aea5ab40e134b0167} 
+\index{can\_bridge.c@{can\_bridge.c}!next\_can\_tracker\_idx@{next\_can\_tracker\_idx}}
+\index{next\_can\_tracker\_idx@{next\_can\_tracker\_idx}!can\_bridge.c@{can\_bridge.c}}
+\doxysubsubsection{next\_can\_tracker\_idx}
+{\footnotesize\ttfamily int next\+\_\+can\+\_\+tracker\+\_\+idx = 0\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Índice del siguiente tracker CAN disponible. 
+
+Índice que apunta a la siguiente posición disponible en el buffer circular can\+\_\+trackers. Se incrementa módulo MAX\+\_\+\+CAN\+\_\+\+ORIGIN\+\_\+\+TRACKERS. \label{can__bridge_8c_a765d7d019374cc308d733c7dc216c555} 
+\index{can\_bridge.c@{can\_bridge.c}!send\_to\_simulation\_callback@{send\_to\_simulation\_callback}}
+\index{send\_to\_simulation\_callback@{send\_to\_simulation\_callback}!can\_bridge.c@{can\_bridge.c}}
+\doxysubsubsection{send\_to\_simulation\_callback}
+{\footnotesize\ttfamily \textbf{ can\+\_\+send\+\_\+callback\+\_\+t} send\+\_\+to\+\_\+simulation\+\_\+callback = NULL\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Callback registrado para enviar frames CAN a la simulación. 
+
+Puntero a función que se utiliza para enviar frames CAN de respuesta al simulador. Se registra mediante \doxyref{ag\+\_\+can\+\_\+bridge\+\_\+register\+\_\+send\+\_\+callback()}{p.}{can__bridge_8c_a82b3383904e65573e79b59f4b7c5ef15}.
+
+\begin{DoxySeeAlso}{See also}
+\doxyref{ag\+\_\+can\+\_\+bridge\+\_\+register\+\_\+send\+\_\+callback()}{p.}{can__bridge_8c_a82b3383904e65573e79b59f4b7c5ef15} 
+
+\doxyref{can\+\_\+send\+\_\+callback\+\_\+t}{p.}{can__bridge_8h_a1c10dfd5c89b2417f2eacc2d71c91c9a} 
+\end{DoxySeeAlso}

@@ -1,0 +1,285 @@
+\doxysection{include/servidor\+\_\+central/dtls\+\_\+common\+\_\+config.h File Reference}
+\label{dtls__common__config_8h}\index{include/servidor\_central/dtls\_common\_config.h@{include/servidor\_central/dtls\_common\_config.h}}
+
+
+Configuración común para DTLS-\/\+PSK en el servidor central.  
+
+
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \textbf{ dtls\+\_\+config\+\_\+t}
+\begin{DoxyCompactList}\small\item\em Configuración de seguridad DTLS-\/\+PSK. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \textbf{ init\+\_\+ssl\+\_\+context} (SSL\+\_\+\+CTX $\ast$$\ast$ssl\+\_\+ctx, const \textbf{ dtls\+\_\+config\+\_\+t} $\ast$config)
+\begin{DoxyCompactList}\small\item\em Inicializa la configuración SSL para DTLS-\/\+PSK. \end{DoxyCompactList}\item 
+void \textbf{ cleanup\+\_\+ssl\+\_\+context} (SSL\+\_\+\+CTX $\ast$ssl\+\_\+ctx)
+\begin{DoxyCompactList}\small\item\em Limpia y libera el contexto SSL. \end{DoxyCompactList}\item 
+int \textbf{ setup\+\_\+dtls\+\_\+session} (coap\+\_\+context\+\_\+t $\ast$ctx, SSL\+\_\+\+CTX $\ast$ssl\+\_\+ctx, int port)
+\begin{DoxyCompactList}\small\item\em Configura una sesión Co\+AP con DTLS-\/\+PSK. \end{DoxyCompactList}\item 
+int \textbf{ psk\+\_\+server\+\_\+callback} (SSL $\ast$ssl, const char $\ast$identity, unsigned char $\ast$psk, unsigned int max\+\_\+psk\+\_\+len)
+\begin{DoxyCompactList}\small\item\em Callback para autenticación PSK del servidor. \end{DoxyCompactList}\item 
+int \textbf{ validate\+\_\+psk\+\_\+key} (const char $\ast$identity, const char $\ast$psk, const char $\ast$psk\+\_\+file)
+\begin{DoxyCompactList}\small\item\em Valida una clave PSK contra el archivo de claves. \end{DoxyCompactList}\item 
+int \textbf{ get\+\_\+dtls\+\_\+config\+\_\+from\+\_\+env} (\textbf{ dtls\+\_\+config\+\_\+t} $\ast$config)
+\begin{DoxyCompactList}\small\item\em Obtiene la configuración DTLS desde variables de entorno. \end{DoxyCompactList}\item 
+int \textbf{ configure\+\_\+dtls\+\_\+session} (SSL $\ast$ssl, const \textbf{ dtls\+\_\+config\+\_\+t} $\ast$config)
+\begin{DoxyCompactList}\small\item\em Configura los parámetros de sesión DTLS. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Configuración común para DTLS-\/\+PSK en el servidor central. 
+
+\begin{DoxyAuthor}{Author}
+Sistema de Control de Ascensores 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+2.\+0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+2025
+\end{DoxyDate}
+Este archivo contiene las configuraciones y constantes necesarias para la implementación de DTLS-\/\+PSK (Pre-\/\+Shared Key) en el servidor central. Define los parámetros de seguridad, timeouts y configuraciones de sesión.
+
+\begin{DoxySeeAlso}{See also}
+\doxyref{server\+\_\+functions.\+h}{p.}{server__functions_8h} 
+
+\doxyref{psk\+\_\+validator.\+h}{p.}{psk__validator_8h} 
+\end{DoxySeeAlso}
+
+
+\doxysubsection{Function Documentation}
+\label{dtls__common__config_8h_ac56fdbed0e9cf4f0e445dc8fbbacce28} 
+\index{dtls\_common\_config.h@{dtls\_common\_config.h}!cleanup\_ssl\_context@{cleanup\_ssl\_context}}
+\index{cleanup\_ssl\_context@{cleanup\_ssl\_context}!dtls\_common\_config.h@{dtls\_common\_config.h}}
+\doxysubsubsection{cleanup\_ssl\_context()}
+{\footnotesize\ttfamily void cleanup\+\_\+ssl\+\_\+context (\begin{DoxyParamCaption}\item[{SSL\+\_\+\+CTX $\ast$}]{ssl\+\_\+ctx }\end{DoxyParamCaption})}
+
+
+
+Limpia y libera el contexto SSL. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in,out}}  & {\em ssl\+\_\+ctx} & Contexto SSL a liberar\\
+\hline
+\end{DoxyParams}
+Esta función libera todos los recursos asociados al contexto SSL\+:
+\begin{DoxyItemize}
+\item Libera el contexto SSL
+\item Limpia el caché de sesiones
+\item Libera memoria dinámica
+\end{DoxyItemize}
+
+\begin{DoxyNote}{Note}
+Debe ser llamada al finalizar para evitar memory leaks 
+\end{DoxyNote}
+\begin{DoxySeeAlso}{See also}
+\doxyref{init\+\_\+ssl\+\_\+context}{p.}{dtls__common__config_8h_a492bd3dd9796905085db586454ca2e5e} 
+\end{DoxySeeAlso}
+\label{dtls__common__config_8h_a6fba46de68b584c8e7987f3ffcf517c9} 
+\index{dtls\_common\_config.h@{dtls\_common\_config.h}!configure\_dtls\_session@{configure\_dtls\_session}}
+\index{configure\_dtls\_session@{configure\_dtls\_session}!dtls\_common\_config.h@{dtls\_common\_config.h}}
+\doxysubsubsection{configure\_dtls\_session()}
+{\footnotesize\ttfamily int configure\+\_\+dtls\+\_\+session (\begin{DoxyParamCaption}\item[{SSL $\ast$}]{ssl,  }\item[{const \textbf{ dtls\+\_\+config\+\_\+t} $\ast$}]{config }\end{DoxyParamCaption})}
+
+
+
+Configura los parámetros de sesión DTLS. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em ssl} & Conexión SSL a configurar \\
+\hline
+\mbox{\texttt{ in}}  & {\em config} & Configuración DTLS a aplicar\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 en caso de éxito, -\/1 en caso de error
+\end{DoxyReturn}
+Esta función configura los parámetros de una sesión DTLS\+:
+\begin{DoxyItemize}
+\item Establece el timeout de sesión
+\item Configura el MTU para DTLS
+\item Establece el timeout de retransmisión
+\item Configura los parámetros de seguridad
+\end{DoxyItemize}
+
+\begin{DoxyNote}{Note}
+Debe ser llamada después de crear la sesión SSL 
+\end{DoxyNote}
+\label{dtls__common__config_8h_a10c2ab9ed6817b77ae70ff8a518dee21} 
+\index{dtls\_common\_config.h@{dtls\_common\_config.h}!get\_dtls\_config\_from\_env@{get\_dtls\_config\_from\_env}}
+\index{get\_dtls\_config\_from\_env@{get\_dtls\_config\_from\_env}!dtls\_common\_config.h@{dtls\_common\_config.h}}
+\doxysubsubsection{get\_dtls\_config\_from\_env()}
+{\footnotesize\ttfamily int get\+\_\+dtls\+\_\+config\+\_\+from\+\_\+env (\begin{DoxyParamCaption}\item[{\textbf{ dtls\+\_\+config\+\_\+t} $\ast$}]{config }\end{DoxyParamCaption})}
+
+
+
+Obtiene la configuración DTLS desde variables de entorno. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ out}}  & {\em config} & Configuración DTLS a llenar\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 en caso de éxito, -\/1 en caso de error
+\end{DoxyReturn}
+Esta función lee la configuración DTLS desde variables de entorno\+:
+\begin{DoxyItemize}
+\item DTLS\+\_\+\+PSK\+\_\+\+FILE\+: Ruta al archivo de claves PSK
+\item DTLS\+\_\+\+TIMEOUT\+: Timeout de sesión en segundos
+\item DTLS\+\_\+\+MTU\+: MTU para DTLS en bytes
+\item DTLS\+\_\+\+RETRANSMIT\+\_\+\+TIMEOUT\+: Timeout de retransmisión
+\item DTLS\+\_\+\+MAX\+\_\+\+CONNECTIONS\+: Número máximo de conexiones
+\item DTLS\+\_\+\+SESSION\+\_\+\+CACHE\+\_\+\+SIZE\+: Tamaño del caché de sesiones
+\end{DoxyItemize}
+
+\begin{DoxyNote}{Note}
+Si una variable no está definida, usa el valor por defecto 
+\end{DoxyNote}
+\label{dtls__common__config_8h_a492bd3dd9796905085db586454ca2e5e} 
+\index{dtls\_common\_config.h@{dtls\_common\_config.h}!init\_ssl\_context@{init\_ssl\_context}}
+\index{init\_ssl\_context@{init\_ssl\_context}!dtls\_common\_config.h@{dtls\_common\_config.h}}
+\doxysubsubsection{init\_ssl\_context()}
+{\footnotesize\ttfamily int init\+\_\+ssl\+\_\+context (\begin{DoxyParamCaption}\item[{SSL\+\_\+\+CTX $\ast$$\ast$}]{ssl\+\_\+ctx,  }\item[{const \textbf{ dtls\+\_\+config\+\_\+t} $\ast$}]{config }\end{DoxyParamCaption})}
+
+
+
+Inicializa la configuración SSL para DTLS-\/\+PSK. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ out}}  & {\em ssl\+\_\+ctx} & Contexto SSL a inicializar \\
+\hline
+\mbox{\texttt{ in}}  & {\em config} & Configuración DTLS a aplicar\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 en caso de éxito, -\/1 en caso de error
+\end{DoxyReturn}
+Esta función configura el contexto SSL para DTLS-\/\+PSK\+:
+\begin{DoxyItemize}
+\item Inicializa la biblioteca Open\+SSL
+\item Crea el contexto SSL con método DTLS
+\item Configura los parámetros de seguridad PSK
+\item Establece los timeouts y límites de conexión
+\item Configura el caché de sesiones
+\end{DoxyItemize}
+
+\begin{DoxyNote}{Note}
+Debe ser llamada antes de crear sesiones SSL 
+\end{DoxyNote}
+\begin{DoxySeeAlso}{See also}
+\doxyref{cleanup\+\_\+ssl\+\_\+context}{p.}{dtls__common__config_8h_ac56fdbed0e9cf4f0e445dc8fbbacce28} 
+\end{DoxySeeAlso}
+\label{dtls__common__config_8h_a2dee2805093e4e864f1a257aef1413ec} 
+\index{dtls\_common\_config.h@{dtls\_common\_config.h}!psk\_server\_callback@{psk\_server\_callback}}
+\index{psk\_server\_callback@{psk\_server\_callback}!dtls\_common\_config.h@{dtls\_common\_config.h}}
+\doxysubsubsection{psk\_server\_callback()}
+{\footnotesize\ttfamily int psk\+\_\+server\+\_\+callback (\begin{DoxyParamCaption}\item[{SSL $\ast$}]{ssl,  }\item[{const char $\ast$}]{identity,  }\item[{unsigned char $\ast$}]{psk,  }\item[{unsigned int}]{max\+\_\+psk\+\_\+len }\end{DoxyParamCaption})}
+
+
+
+Callback para autenticación PSK del servidor. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em ssl} & Conexión SSL \\
+\hline
+\mbox{\texttt{ in}}  & {\em identity} & Identidad del cliente \\
+\hline
+\mbox{\texttt{ in}}  & {\em psk} & Clave PSK del cliente \\
+\hline
+\mbox{\texttt{ in}}  & {\em max\+\_\+psk\+\_\+len} & Longitud máxima de clave PSK\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+1 si la autenticación es exitosa, 0 en caso contrario
+\end{DoxyReturn}
+Este callback es llamado durante el handshake DTLS\+:
+\begin{DoxyItemize}
+\item Recibe la identidad y clave PSK del cliente
+\item Valida la clave contra el archivo de claves
+\item Retorna el resultado de la validación
+\item Configura la clave PSK en la sesión SSL
+\end{DoxyItemize}
+
+\begin{DoxyNote}{Note}
+Esta función es llamada automáticamente por Open\+SSL 
+\end{DoxyNote}
+\begin{DoxySeeAlso}{See also}
+\doxyref{validate\+\_\+psk}{p.}{server__functions_8h_a1990dde3c205e63d4c093448a4b3ef34} 
+\end{DoxySeeAlso}
+\label{dtls__common__config_8h_a4442f69b54c0825b99574894d170f6d3} 
+\index{dtls\_common\_config.h@{dtls\_common\_config.h}!setup\_dtls\_session@{setup\_dtls\_session}}
+\index{setup\_dtls\_session@{setup\_dtls\_session}!dtls\_common\_config.h@{dtls\_common\_config.h}}
+\doxysubsubsection{setup\_dtls\_session()}
+{\footnotesize\ttfamily int setup\+\_\+dtls\+\_\+session (\begin{DoxyParamCaption}\item[{coap\+\_\+context\+\_\+t $\ast$}]{ctx,  }\item[{SSL\+\_\+\+CTX $\ast$}]{ssl\+\_\+ctx,  }\item[{int}]{port }\end{DoxyParamCaption})}
+
+
+
+Configura una sesión Co\+AP con DTLS-\/\+PSK. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em ctx} & Contexto Co\+AP del servidor \\
+\hline
+\mbox{\texttt{ in}}  & {\em ssl\+\_\+ctx} & Contexto SSL configurado \\
+\hline
+\mbox{\texttt{ in}}  & {\em port} & Puerto de escucha\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 en caso de éxito, -\/1 en caso de error
+\end{DoxyReturn}
+Esta función configura la sesión Co\+AP para DTLS-\/\+PSK\+:
+\begin{DoxyItemize}
+\item Crea el endpoint de escucha DTLS
+\item Configura los parámetros de sesión
+\item Establece los callbacks de autenticación PSK
+\item Configura los timeouts de sesión
+\end{DoxyItemize}
+
+\begin{DoxyNote}{Note}
+Debe ser llamada después de inicializar el contexto SSL 
+\end{DoxyNote}
+\label{dtls__common__config_8h_af0f41d84e65a09b4ad35c65530879c6f} 
+\index{dtls\_common\_config.h@{dtls\_common\_config.h}!validate\_psk\_key@{validate\_psk\_key}}
+\index{validate\_psk\_key@{validate\_psk\_key}!dtls\_common\_config.h@{dtls\_common\_config.h}}
+\doxysubsubsection{validate\_psk\_key()}
+{\footnotesize\ttfamily int validate\+\_\+psk\+\_\+key (\begin{DoxyParamCaption}\item[{const char $\ast$}]{identity,  }\item[{const char $\ast$}]{psk,  }\item[{const char $\ast$}]{psk\+\_\+file }\end{DoxyParamCaption})}
+
+
+
+Valida una clave PSK contra el archivo de claves. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em identity} & Identidad del cliente \\
+\hline
+\mbox{\texttt{ in}}  & {\em psk} & Clave PSK a validar \\
+\hline
+\mbox{\texttt{ in}}  & {\em psk\+\_\+file} & Ruta al archivo de claves PSK\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+1 si la clave es válida, 0 en caso contrario
+\end{DoxyReturn}
+Esta función valida la autenticación PSK\+:
+\begin{DoxyItemize}
+\item Lee el archivo de claves PSK
+\item Busca la identidad del cliente
+\item Compara la clave proporcionada con la almacenada
+\item Retorna el resultado de la validación
+\end{DoxyItemize}
+
+\begin{DoxyNote}{Note}
+El archivo de claves debe contener pares identity\+:key 
+\end{DoxyNote}
+\begin{DoxySeeAlso}{See also}
+\doxyref{psk\+\_\+server\+\_\+callback}{p.}{dtls__common__config_8h_a2dee2805093e4e864f1a257aef1413ec} 
+\end{DoxySeeAlso}

@@ -1,0 +1,126 @@
+\doxysection{api\+\_\+request\+\_\+tracker\+\_\+t Struct Reference}
+\label{structapi__request__tracker__t}\index{api\_request\_tracker\_t@{api\_request\_tracker\_t}}
+
+
+Tracks information from an original client (elevator) request OR a gateway-\/originated request.  
+
+
+
+
+{\ttfamily \#include $<$api\+\_\+handlers.\+h$>$}
+
+\doxysubsubsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+coap\+\_\+session\+\_\+t $\ast$ \textbf{ original\+\_\+elevator\+\_\+session}
+\item 
+coap\+\_\+binary\+\_\+t \textbf{ original\+\_\+token}
+\item 
+coap\+\_\+mid\+\_\+t \textbf{ original\+\_\+mid}
+\item 
+char $\ast$ \textbf{ log\+\_\+tag}
+\item 
+\textbf{ gw\+\_\+request\+\_\+type\+\_\+t} \textbf{ request\+\_\+type}
+\item 
+int \textbf{ origin\+\_\+floor}
+\item 
+int \textbf{ target\+\_\+floor\+\_\+for\+\_\+task}
+\item 
+char \textbf{ requesting\+\_\+elevator\+\_\+id\+\_\+cabin} [ID\+\_\+\+STRING\+\_\+\+MAX\+\_\+\+LEN]
+\item 
+\textbf{ movement\+\_\+direction\+\_\+enum\+\_\+t} \textbf{ requested\+\_\+direction\+\_\+floor}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Tracks information from an original client (elevator) request OR a gateway-\/originated request. 
+
+Structure to track client requests forwarded to the central server.
+
+This structure is used to maintain state across the two-\/stage request process\+:
+\begin{DoxyEnumerate}
+\item Event (simulated client or internal) -\/$>$ Gateway
+\item Gateway -\/$>$ Central Server It allows the Gateway to correctly respond to the original client (if any) or update its internal state after receiving a response from the Central Server.
+\end{DoxyEnumerate}
+
+This structure holds information about an original client request that the API Gateway has forwarded to the central server. It is used to correlate the server\textquotesingle{}s response back to the original client session and to manage state or context related to the request. 
+
+\doxysubsection{Field Documentation}
+\label{structapi__request__tracker__t_a7dedbf9877ab11f2146a8e0c6c473338} 
+\index{api\_request\_tracker\_t@{api\_request\_tracker\_t}!log\_tag@{log\_tag}}
+\index{log\_tag@{log\_tag}!api\_request\_tracker\_t@{api\_request\_tracker\_t}}
+\doxysubsubsection{log\_tag}
+{\footnotesize\ttfamily char $\ast$ api\+\_\+request\+\_\+tracker\+\_\+t\+::log\+\_\+tag}
+
+Tag for logging (e.\+g., "{}\+Floor\+Call"{}, duplicated).
+
+Tag for logging purposes (dynamically allocated). \label{structapi__request__tracker__t_a9d4a410aec38df7b2d83047536dfb752} 
+\index{api\_request\_tracker\_t@{api\_request\_tracker\_t}!origin\_floor@{origin\_floor}}
+\index{origin\_floor@{origin\_floor}!api\_request\_tracker\_t@{api\_request\_tracker\_t}}
+\doxysubsubsection{origin\_floor}
+{\footnotesize\ttfamily int api\+\_\+request\+\_\+tracker\+\_\+t\+::origin\+\_\+floor}
+
+Piso origen (para GW\+\_\+\+REQUEST\+\_\+\+TYPE\+\_\+\+FLOOR\+\_\+\+CALL).
+
+For floor calls\+: the floor where the call originated. \label{structapi__request__tracker__t_a9885efb27daf04678758e409ef77019c} 
+\index{api\_request\_tracker\_t@{api\_request\_tracker\_t}!original\_elevator\_session@{original\_elevator\_session}}
+\index{original\_elevator\_session@{original\_elevator\_session}!api\_request\_tracker\_t@{api\_request\_tracker\_t}}
+\doxysubsubsection{original\_elevator\_session}
+{\footnotesize\ttfamily coap\+\_\+session\+\_\+t $\ast$ api\+\_\+request\+\_\+tracker\+\_\+t\+::original\+\_\+elevator\+\_\+session}
+
+The Co\+AP session with the original elevator client (NULL if gateway-\/originated internal event).
+
+Session of the original elevator client. \label{structapi__request__tracker__t_abe0bf810ed9964f982d1f5e3a4b497e8} 
+\index{api\_request\_tracker\_t@{api\_request\_tracker\_t}!original\_mid@{original\_mid}}
+\index{original\_mid@{original\_mid}!api\_request\_tracker\_t@{api\_request\_tracker\_t}}
+\doxysubsubsection{original\_mid}
+{\footnotesize\ttfamily coap\+\_\+mid\+\_\+t api\+\_\+request\+\_\+tracker\+\_\+t\+::original\+\_\+mid}
+
+The Co\+AP Message ID from the original client\textquotesingle{}s request.
+
+Co\+AP Message ID of the original request. \label{structapi__request__tracker__t_a7e5317a8b95d407c149ccdd60cd372fc} 
+\index{api\_request\_tracker\_t@{api\_request\_tracker\_t}!original\_token@{original\_token}}
+\index{original\_token@{original\_token}!api\_request\_tracker\_t@{api\_request\_tracker\_t}}
+\doxysubsubsection{original\_token}
+{\footnotesize\ttfamily coap\+\_\+binary\+\_\+t api\+\_\+request\+\_\+tracker\+\_\+t\+::original\+\_\+token}
+
+The Co\+AP token from the original client\textquotesingle{}s request (duplicated).
+
+Co\+AP token of the original request (dynamically allocated). \label{structapi__request__tracker__t_aa0ae033ab8b943e54859a6893ca8219b} 
+\index{api\_request\_tracker\_t@{api\_request\_tracker\_t}!request\_type@{request\_type}}
+\index{request\_type@{request\_type}!api\_request\_tracker\_t@{api\_request\_tracker\_t}}
+\doxysubsubsection{request\_type}
+{\footnotesize\ttfamily \textbf{ gw\+\_\+request\+\_\+type\+\_\+t} api\+\_\+request\+\_\+tracker\+\_\+t\+::request\+\_\+type}
+
+Tipo de solicitud gestionada por el gateway.
+
+Type of the original request. \label{structapi__request__tracker__t_ad3eec01d02700d0e57b8b8d3b3ad4056} 
+\index{api\_request\_tracker\_t@{api\_request\_tracker\_t}!requested\_direction\_floor@{requested\_direction\_floor}}
+\index{requested\_direction\_floor@{requested\_direction\_floor}!api\_request\_tracker\_t@{api\_request\_tracker\_t}}
+\doxysubsubsection{requested\_direction\_floor}
+{\footnotesize\ttfamily \textbf{ movement\+\_\+direction\+\_\+enum\+\_\+t} api\+\_\+request\+\_\+tracker\+\_\+t\+::requested\+\_\+direction\+\_\+floor}
+
+Dirección solicitada (para GW\+\_\+\+REQUEST\+\_\+\+TYPE\+\_\+\+FLOOR\+\_\+\+CALL).
+
+For floor calls\+: UP/\+DOWN. \label{structapi__request__tracker__t_a5a5ed9757a5cd16ffca9beed256e9d02} 
+\index{api\_request\_tracker\_t@{api\_request\_tracker\_t}!requesting\_elevator\_id\_cabin@{requesting\_elevator\_id\_cabin}}
+\index{requesting\_elevator\_id\_cabin@{requesting\_elevator\_id\_cabin}!api\_request\_tracker\_t@{api\_request\_tracker\_t}}
+\doxysubsubsection{requesting\_elevator\_id\_cabin}
+{\footnotesize\ttfamily char api\+\_\+request\+\_\+tracker\+\_\+t\+::requesting\+\_\+elevator\+\_\+id\+\_\+cabin}
+
+ID del ascensor (para GW\+\_\+\+REQUEST\+\_\+\+TYPE\+\_\+\+CABIN\+\_\+\+REQUEST).
+
+For cabin requests\+: ID of the elevator. \label{structapi__request__tracker__t_a1bd9169adbdf0519f73f673f00c90ef0} 
+\index{api\_request\_tracker\_t@{api\_request\_tracker\_t}!target\_floor\_for\_task@{target\_floor\_for\_task}}
+\index{target\_floor\_for\_task@{target\_floor\_for\_task}!api\_request\_tracker\_t@{api\_request\_tracker\_t}}
+\doxysubsubsection{target\_floor\_for\_task}
+{\footnotesize\ttfamily int api\+\_\+request\+\_\+tracker\+\_\+t\+::target\+\_\+floor\+\_\+for\+\_\+task}
+
+Piso destino para la tarea a asignar (puede ser piso\+\_\+origen para floor\+\_\+call o destino\+\_\+cabina para cabin\+\_\+request).
+
+The floor the assigned elevator should go to. 
+
+The documentation for this struct was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/\textbf{ api\+\_\+handlers.\+h}\item 
+include/api\+\_\+gateway/\textbf{ api\+\_\+handlers.\+h}\end{DoxyCompactItemize}

@@ -1,0 +1,180 @@
+\doxysection{Funciones de Simulación}
+\label{group__simulation__functions}\index{Funciones de Simulación@{Funciones de Simulación}}
+
+
+Funciones para cargar y ejecutar simulaciones.  
+
+
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \textbf{ cargar\+\_\+datos\+\_\+simulacion} (const char $\ast$archivo\+\_\+json, \textbf{ datos\+\_\+simulacion\+\_\+t} $\ast$datos)
+\begin{DoxyCompactList}\small\item\em Carga los datos de simulación desde un archivo JSON. \end{DoxyCompactList}\item 
+void \textbf{ liberar\+\_\+datos\+\_\+simulacion} (\textbf{ datos\+\_\+simulacion\+\_\+t} $\ast$datos)
+\begin{DoxyCompactList}\small\item\em Libera la memoria utilizada por los datos de simulación. \end{DoxyCompactList}\item 
+\textbf{ edificio\+\_\+simulacion\+\_\+t} $\ast$ \textbf{ seleccionar\+\_\+edificio\+\_\+aleatorio} (\textbf{ datos\+\_\+simulacion\+\_\+t} $\ast$datos)
+\begin{DoxyCompactList}\small\item\em Selecciona un edificio aleatorio de los datos cargados. \end{DoxyCompactList}\item 
+int \textbf{ ejecutar\+\_\+peticiones\+\_\+edificio} (\textbf{ edificio\+\_\+simulacion\+\_\+t} $\ast$edificio, coap\+\_\+context\+\_\+t $\ast$ctx)
+\begin{DoxyCompactList}\small\item\em Ejecuta todas las peticiones de un edificio. \end{DoxyCompactList}\item 
+int \textbf{ convertir\+\_\+direccion\+\_\+string} (const char $\ast$direccion\+\_\+str)
+\begin{DoxyCompactList}\small\item\em Convierte una cadena de dirección a enum. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Funciones para cargar y ejecutar simulaciones. 
+
+
+
+\doxysubsection{Function Documentation}
+\label{group__simulation__functions_ga189a79642cdf0001b3a29062e4180af3} 
+\index{Funciones de Simulación@{Funciones de Simulación}!cargar\_datos\_simulacion@{cargar\_datos\_simulacion}}
+\index{cargar\_datos\_simulacion@{cargar\_datos\_simulacion}!Funciones de Simulación@{Funciones de Simulación}}
+\doxysubsubsection{cargar\_datos\_simulacion()}
+{\footnotesize\ttfamily bool cargar\+\_\+datos\+\_\+simulacion (\begin{DoxyParamCaption}\item[{const char $\ast$}]{archivo\+\_\+json,  }\item[{\textbf{ datos\+\_\+simulacion\+\_\+t} $\ast$}]{datos }\end{DoxyParamCaption})}
+
+
+
+Carga los datos de simulación desde un archivo JSON. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em archivo\+\_\+json} & Ruta al archivo JSON con los datos de simulación \\
+\hline
+{\em datos} & Puntero a la estructura donde almacenar los datos cargados \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true si la carga fue exitosa, false en caso de error
+\end{DoxyReturn}
+Esta función lee un archivo JSON que contiene edificios y sus peticiones asociadas, parseando la información y almacenándola en estructuras C para su posterior ejecución.
+
+{\bfseries{Formato JSON esperado\+:}} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ "{}edificios"{}:\ [}
+\DoxyCodeLine{\ \ \ \ \{}
+\DoxyCodeLine{\ \ \ \ \ \ "{}id\_edificio"{}:\ "{}E001"{},}
+\DoxyCodeLine{\ \ \ \ \ \ "{}peticiones"{}:\ [}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \{"{}tipo"{}:\ "{}llamada\_piso"{},\ "{}piso\_origen"{}:\ 0,\ "{}direccion"{}:\ "{}up"{}\},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \{"{}tipo"{}:\ "{}solicitud\_cabina"{},\ "{}indice\_ascensor"{}:\ 0,\ "{}piso\_destino"{}:\ 5\}}
+\DoxyCodeLine{\ \ \ \ \ \ ]}
+\DoxyCodeLine{\ \ \ \ \}}
+\DoxyCodeLine{\ \ ]}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+\begin{DoxySeeAlso}{See also}
+\doxyref{liberar\+\_\+datos\+\_\+simulacion()}{p.}{group__simulation__functions_gac117e5c59e59401d320840125a9d6e1a} 
+
+c\+JSON\+\_\+\+Parse() 
+\end{DoxySeeAlso}
+\label{group__simulation__functions_ga044d62cee9ad0a09b369ba217a3f04cc} 
+\index{Funciones de Simulación@{Funciones de Simulación}!convertir\_direccion\_string@{convertir\_direccion\_string}}
+\index{convertir\_direccion\_string@{convertir\_direccion\_string}!Funciones de Simulación@{Funciones de Simulación}}
+\doxysubsubsection{convertir\_direccion\_string()}
+{\footnotesize\ttfamily int convertir\+\_\+direccion\+\_\+string (\begin{DoxyParamCaption}\item[{const char $\ast$}]{direccion\+\_\+str }\end{DoxyParamCaption})}
+
+
+
+Convierte una cadena de dirección a enum. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em direccion\+\_\+str} & Cadena con la dirección ("{}up"{} o "{}down"{}) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Valor del enum correspondiente
+\end{DoxyReturn}
+Función auxiliar para convertir las direcciones en formato texto del JSON a los valores enum utilizados por el simulador.
+
+\begin{DoxySeeAlso}{See also}
+\doxyref{movement\+\_\+direction\+\_\+enum\+\_\+t}{p.}{elevator__state__manager_8h_a1a5ec99e71d6b5e93656ae922276bf01} 
+\end{DoxySeeAlso}
+\label{group__simulation__functions_ga5d1879571222c772ec4e7346f2f930df} 
+\index{Funciones de Simulación@{Funciones de Simulación}!ejecutar\_peticiones\_edificio@{ejecutar\_peticiones\_edificio}}
+\index{ejecutar\_peticiones\_edificio@{ejecutar\_peticiones\_edificio}!Funciones de Simulación@{Funciones de Simulación}}
+\doxysubsubsection{ejecutar\_peticiones\_edificio()}
+{\footnotesize\ttfamily int ejecutar\+\_\+peticiones\+\_\+edificio (\begin{DoxyParamCaption}\item[{\textbf{ edificio\+\_\+simulacion\+\_\+t} $\ast$}]{edificio,  }\item[{coap\+\_\+context\+\_\+t $\ast$}]{ctx }\end{DoxyParamCaption})}
+
+
+
+Ejecuta todas las peticiones de un edificio. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em edificio} & Puntero al edificio cuyas peticiones ejecutar \\
+\hline
+{\em ctx} & Contexto Co\+AP para el procesamiento de peticiones \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Número de peticiones ejecutadas exitosamente
+\end{DoxyReturn}
+Esta función ejecuta secuencialmente todas las peticiones de un edificio específico, con pausas entre peticiones para permitir el procesamiento de respuestas Co\+AP.
+
+{\bfseries{Proceso de ejecución\+:}}
+\begin{DoxyEnumerate}
+\item Configura el ID del edificio en el sistema
+\item Ejecuta cada petición según su tipo
+\item Procesa I/O Co\+AP entre peticiones
+\item Proporciona logging detallado del progreso
+\end{DoxyEnumerate}
+
+\begin{DoxySeeAlso}{See also}
+\doxyref{simular\+\_\+llamada\+\_\+de\+\_\+piso\+\_\+via\+\_\+can()}{p.}{mi__simulador__ascensor_8c_ad2f8184c447385d5155da6a8d87e6c16} 
+
+\doxyref{simular\+\_\+solicitud\+\_\+cabina\+\_\+via\+\_\+can()}{p.}{mi__simulador__ascensor_8c_a75bd27a88662d9e2ac061e5285fc7ecb} 
+
+coap\+\_\+io\+\_\+process() 
+\end{DoxySeeAlso}
+\label{group__simulation__functions_gac117e5c59e59401d320840125a9d6e1a} 
+\index{Funciones de Simulación@{Funciones de Simulación}!liberar\_datos\_simulacion@{liberar\_datos\_simulacion}}
+\index{liberar\_datos\_simulacion@{liberar\_datos\_simulacion}!Funciones de Simulación@{Funciones de Simulación}}
+\doxysubsubsection{liberar\_datos\_simulacion()}
+{\footnotesize\ttfamily void liberar\+\_\+datos\+\_\+simulacion (\begin{DoxyParamCaption}\item[{\textbf{ datos\+\_\+simulacion\+\_\+t} $\ast$}]{datos }\end{DoxyParamCaption})}
+
+
+
+Libera la memoria utilizada por los datos de simulación. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em datos} & Puntero a la estructura de datos a liberar\\
+\hline
+\end{DoxyParams}
+Esta función libera toda la memoria dinámica asignada durante la carga de datos de simulación, incluyendo arrays de edificios y peticiones.
+
+\begin{DoxySeeAlso}{See also}
+\doxyref{cargar\+\_\+datos\+\_\+simulacion()}{p.}{group__simulation__functions_ga189a79642cdf0001b3a29062e4180af3} 
+\end{DoxySeeAlso}
+\label{group__simulation__functions_ga87620ad51d06f241a3106a36c40ac787} 
+\index{Funciones de Simulación@{Funciones de Simulación}!seleccionar\_edificio\_aleatorio@{seleccionar\_edificio\_aleatorio}}
+\index{seleccionar\_edificio\_aleatorio@{seleccionar\_edificio\_aleatorio}!Funciones de Simulación@{Funciones de Simulación}}
+\doxysubsubsection{seleccionar\_edificio\_aleatorio()}
+{\footnotesize\ttfamily \textbf{ edificio\+\_\+simulacion\+\_\+t} $\ast$ seleccionar\+\_\+edificio\+\_\+aleatorio (\begin{DoxyParamCaption}\item[{\textbf{ datos\+\_\+simulacion\+\_\+t} $\ast$}]{datos }\end{DoxyParamCaption})}
+
+
+
+Selecciona un edificio aleatorio de los datos cargados. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em datos} & Puntero a los datos de simulación cargados \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Puntero al edificio seleccionado, NULL si no hay datos
+\end{DoxyReturn}
+Esta función utiliza un generador de números aleatorios para seleccionar un edificio de la lista cargada. La selección es uniforme entre todos los edificios disponibles.
+
+\begin{DoxyNote}{Note}
+Inicializa el generador aleatorio con el tiempo actual 
+\end{DoxyNote}
+\begin{DoxySeeAlso}{See also}
+srand() 
+
+rand() 
+\end{DoxySeeAlso}

@@ -1,0 +1,45 @@
+\doxysection{can\+\_\+bridge.\+h}
+\label{can__bridge_8h_source}\index{include/api\_gateway/can\_bridge.h@{include/api\_gateway/can\_bridge.h}}
+\textbf{ Go to the documentation of this file.}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#ifndef\ CAN\_BRIDGE\_H}}
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#define\ CAN\_BRIDGE\_H}}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00035\ \textcolor{preprocessor}{\#include\ <stdbool.h>}}
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\#include\ <coap3/coap.h>}\ \textcolor{comment}{//\ Para\ coap\_bin\_const\_t\ y\ otros\ tipos\ CoAP}}
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\#include\ <cjson/cJSON.h>}\ \ \textcolor{comment}{//\ Para\ cJSON\ tipo}}
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\#include\ "{}api\_gateway/elevator\_state\_manager.h"{}}\ \textcolor{comment}{//\ Para\ gw\_request\_type\_t}}
+\DoxyCodeLine{00039\ \textcolor{preprocessor}{\#include\ "{}api\_gateway/api\_common\_defs.h"{}}\ \ \ \ \textcolor{comment}{//\ Para\ ID\_STRING\_MAX\_LEN}}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00048\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00049\ \ \ \ \ uint32\_t\ id;\ \ \ \ \ \ }
+\DoxyCodeLine{00050\ \ \ \ \ uint8\_t\ data[8];\ }
+\DoxyCodeLine{00051\ \ \ \ \ uint8\_t\ dlc;\ \ \ \ \ }
+\DoxyCodeLine{00052\ \}\ simulated\_can\_frame\_t;}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00062\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00063\ \ \ \ \ coap\_binary\_t\ coap\_token;\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00064\ \ \ \ \ uint32\_t\ original\_can\_id;\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00065\ \ \ \ \ gw\_request\_type\_t\ request\_type;\ \ }
+\DoxyCodeLine{00066\ \ \ \ \ \textcolor{keywordtype}{int}\ target\_floor\_for\_task;\ \ \ \ \ \ \ }
+\DoxyCodeLine{00067\ \ \ \ \ \textcolor{keywordtype}{int}\ call\_reference\_floor;\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00068\ \ \ \ \ \textcolor{keywordtype}{char}\ requesting\_elevator\_id\_if\_cabin[ID\_STRING\_MAX\_LEN];\ }
+\DoxyCodeLine{00069\ \}\ can\_origin\_tracker\_t;}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00088\ \textcolor{keyword}{typedef}\ void\ (*can\_send\_callback\_t)(simulated\_can\_frame\_t*\ frame);}
+\DoxyCodeLine{00089\ }
+\DoxyCodeLine{00108\ \textcolor{keywordtype}{void}\ ag\_can\_bridge\_init(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00109\ }
+\DoxyCodeLine{00131\ \textcolor{keywordtype}{void}\ ag\_can\_bridge\_register\_send\_callback(can\_send\_callback\_t\ callback);}
+\DoxyCodeLine{00132\ }
+\DoxyCodeLine{00167\ \textcolor{keywordtype}{void}\ ag\_can\_bridge\_process\_incoming\_frame(simulated\_can\_frame\_t*\ frame,\ \textcolor{keyword}{struct}\ coap\_context\_t\ *coap\_context);}
+\DoxyCodeLine{00168\ }
+\DoxyCodeLine{00194\ can\_origin\_tracker\_t*\ find\_can\_tracker(coap\_bin\_const\_t\ token);}
+\DoxyCodeLine{00195\ }
+\DoxyCodeLine{00229\ \textcolor{keywordtype}{void}\ ag\_can\_bridge\_send\_response\_frame(uint32\_t\ original\_can\_id,\ coap\_pdu\_code\_t\ response\_code,\ cJSON*\ server\_response\_json);}
+\DoxyCodeLine{00230\ }
+\DoxyCodeLine{00231\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ CAN\_BRIDGE\_H\ }}
+
+\end{DoxyCode}

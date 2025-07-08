@@ -1,0 +1,437 @@
+\doxysection{include/api\+\_\+gateway/execution\+\_\+logger.h File Reference}
+\label{execution__logger_8h}\index{include/api\_gateway/execution\_logger.h@{include/api\_gateway/execution\_logger.h}}
+
+
+Sistema de Logging de Ejecuciones para Resultados de TFG.  
+
+
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \textbf{ log\+\_\+event\+\_\+t}
+\begin{DoxyCompactList}\small\item\em Estructura de un evento de log. \end{DoxyCompactList}\item 
+struct \textbf{ execution\+\_\+stats\+\_\+t}
+\begin{DoxyCompactList}\small\item\em Estadísticas de ejecución. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \textbf{ log\+\_\+event\+\_\+type\+\_\+t} \{ \newline
+\textbf{ LOG\+\_\+\+EVENT\+\_\+\+SYSTEM\+\_\+\+START}
+, \textbf{ LOG\+\_\+\+EVENT\+\_\+\+SYSTEM\+\_\+\+END}
+, \textbf{ LOG\+\_\+\+EVENT\+\_\+\+SIMULATION\+\_\+\+START}
+, \textbf{ LOG\+\_\+\+EVENT\+\_\+\+SIMULATION\+\_\+\+END}
+, \newline
+\textbf{ LOG\+\_\+\+EVENT\+\_\+\+BUILDING\+\_\+\+SELECTED}
+, \textbf{ LOG\+\_\+\+EVENT\+\_\+\+CAN\+\_\+\+SENT}
+, \textbf{ LOG\+\_\+\+EVENT\+\_\+\+CAN\+\_\+\+RECEIVED}
+, \textbf{ LOG\+\_\+\+EVENT\+\_\+\+COAP\+\_\+\+SENT}
+, \newline
+\textbf{ LOG\+\_\+\+EVENT\+\_\+\+COAP\+\_\+\+RECEIVED}
+, \textbf{ LOG\+\_\+\+EVENT\+\_\+\+TASK\+\_\+\+ASSIGNED}
+, \textbf{ LOG\+\_\+\+EVENT\+\_\+\+ELEVATOR\+\_\+\+MOVED}
+, \textbf{ LOG\+\_\+\+EVENT\+\_\+\+TASK\+\_\+\+COMPLETED}
+, \newline
+\textbf{ LOG\+\_\+\+EVENT\+\_\+\+ERROR}
+ \}
+\begin{DoxyCompactList}\small\item\em Tipos de eventos que se pueden registrar. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \textbf{ exec\+\_\+logger\+\_\+init} (void)
+\begin{DoxyCompactList}\small\item\em Inicializa el sistema de logging de ejecuciones. \end{DoxyCompactList}\item 
+void \textbf{ exec\+\_\+logger\+\_\+finish} (void)
+\begin{DoxyCompactList}\small\item\em Finaliza el sistema de logging y cierra el archivo. \end{DoxyCompactList}\item 
+void \textbf{ exec\+\_\+logger\+\_\+log\+\_\+event} (\textbf{ log\+\_\+event\+\_\+type\+\_\+t} type, const char $\ast$description, const char $\ast$details)
+\begin{DoxyCompactList}\small\item\em Registra un evento en el log. \end{DoxyCompactList}\item 
+void \textbf{ exec\+\_\+logger\+\_\+log\+\_\+simulation\+\_\+start} (const char $\ast$building\+\_\+id, int num\+\_\+requests)
+\begin{DoxyCompactList}\small\item\em Registra el inicio de la simulación. \end{DoxyCompactList}\item 
+void \textbf{ exec\+\_\+logger\+\_\+log\+\_\+simulation\+\_\+end} (int successful\+\_\+requests, int total\+\_\+requests)
+\begin{DoxyCompactList}\small\item\em Registra el fin de la simulación. \end{DoxyCompactList}\item 
+void \textbf{ exec\+\_\+logger\+\_\+log\+\_\+can\+\_\+sent} (unsigned int can\+\_\+id, int dlc, const unsigned char $\ast$data, const char $\ast$description)
+\begin{DoxyCompactList}\small\item\em Registra un frame CAN enviado. \end{DoxyCompactList}\item 
+void \textbf{ exec\+\_\+logger\+\_\+log\+\_\+can\+\_\+received} (unsigned int can\+\_\+id, int dlc, const unsigned char $\ast$data, const char $\ast$description)
+\begin{DoxyCompactList}\small\item\em Registra un frame CAN recibido. \end{DoxyCompactList}\item 
+void \textbf{ exec\+\_\+logger\+\_\+log\+\_\+coap\+\_\+sent} (const char $\ast$method, const char $\ast$uri, const char $\ast$payload)
+\begin{DoxyCompactList}\small\item\em Registra una petición Co\+AP enviada. \end{DoxyCompactList}\item 
+void \textbf{ exec\+\_\+logger\+\_\+log\+\_\+coap\+\_\+received} (const char $\ast$code, const char $\ast$payload)
+\begin{DoxyCompactList}\small\item\em Registra una respuesta Co\+AP recibida. \end{DoxyCompactList}\item 
+void \textbf{ exec\+\_\+logger\+\_\+log\+\_\+task\+\_\+assigned} (const char $\ast$task\+\_\+id, const char $\ast$elevator\+\_\+id, int target\+\_\+floor)
+\begin{DoxyCompactList}\small\item\em Registra la asignación de una tarea. \end{DoxyCompactList}\item 
+void \textbf{ exec\+\_\+logger\+\_\+log\+\_\+elevator\+\_\+moved} (const char $\ast$elevator\+\_\+id, int from\+\_\+floor, int to\+\_\+floor, const char $\ast$direction)
+\begin{DoxyCompactList}\small\item\em Registra el movimiento de un ascensor. \end{DoxyCompactList}\item 
+void \textbf{ exec\+\_\+logger\+\_\+log\+\_\+task\+\_\+completed} (const char $\ast$task\+\_\+id, const char $\ast$elevator\+\_\+id, int final\+\_\+floor)
+\begin{DoxyCompactList}\small\item\em Registra la completación de una tarea. \end{DoxyCompactList}\item 
+void \textbf{ exec\+\_\+logger\+\_\+log\+\_\+error} (const char $\ast$error\+\_\+code, const char $\ast$error\+\_\+message)
+\begin{DoxyCompactList}\small\item\em Registra un error del sistema. \end{DoxyCompactList}\item 
+const \textbf{ execution\+\_\+stats\+\_\+t} $\ast$ \textbf{ exec\+\_\+logger\+\_\+get\+\_\+stats} (void)
+\begin{DoxyCompactList}\small\item\em Obtiene las estadísticas actuales de ejecución. \end{DoxyCompactList}\item 
+bool \textbf{ exec\+\_\+logger\+\_\+is\+\_\+active} (void)
+\begin{DoxyCompactList}\small\item\em Verifica si el logger está activo. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Sistema de Logging de Ejecuciones para Resultados de TFG. 
+
+\begin{DoxyAuthor}{Author}
+Sistema de Control de Ascensores 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2025 
+\end{DoxyDate}
+\begin{DoxyVersion}{Version}
+1.\+0
+\end{DoxyVersion}
+Este módulo implementa un sistema de logging avanzado que genera archivos Markdown con el flujo completo de comunicación del API Gateway.
+
+{\bfseries{Características\+:}}
+\begin{DoxyItemize}
+\item Archivos organizados por fecha (carpetas por día)
+\item Formato Markdown para visualización bonita
+\item Captura de eventos Co\+AP, CAN y simulación
+\item Estadísticas automáticas de rendimiento
+\item Timestamps precisos para cada evento
+\end{DoxyItemize}
+
+{\bfseries{Estructura de archivos\+:}} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{api\_gateway/logs/YYYY-\/MM-\/DD/ejecucion\_HH-\/MM-\/SS.md}
+
+\end{DoxyCode}
+ 
+
+\doxysubsection{Enumeration Type Documentation}
+\label{execution__logger_8h_a550af63f434a6964e161bc1f5bfe4476} 
+\index{execution\_logger.h@{execution\_logger.h}!log\_event\_type\_t@{log\_event\_type\_t}}
+\index{log\_event\_type\_t@{log\_event\_type\_t}!execution\_logger.h@{execution\_logger.h}}
+\doxysubsubsection{log\_event\_type\_t}
+{\footnotesize\ttfamily enum \textbf{ log\+\_\+event\+\_\+type\+\_\+t}}
+
+
+
+Tipos de eventos que se pueden registrar. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LOG\_EVENT\_SYSTEM\_START@{LOG\_EVENT\_SYSTEM\_START}!execution\_logger.h@{execution\_logger.h}}\index{execution\_logger.h@{execution\_logger.h}!LOG\_EVENT\_SYSTEM\_START@{LOG\_EVENT\_SYSTEM\_START}}}\label{execution__logger_8h_a550af63f434a6964e161bc1f5bfe4476a35100a84f631a83c88779e15de4dd5a5} 
+LOG\+\_\+\+EVENT\+\_\+\+SYSTEM\+\_\+\+START&Inicio del sistema. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LOG\_EVENT\_SYSTEM\_END@{LOG\_EVENT\_SYSTEM\_END}!execution\_logger.h@{execution\_logger.h}}\index{execution\_logger.h@{execution\_logger.h}!LOG\_EVENT\_SYSTEM\_END@{LOG\_EVENT\_SYSTEM\_END}}}\label{execution__logger_8h_a550af63f434a6964e161bc1f5bfe4476adbaf6c292d00660b1ea66b2dc01fd7e8} 
+LOG\+\_\+\+EVENT\+\_\+\+SYSTEM\+\_\+\+END&Fin del sistema. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LOG\_EVENT\_SIMULATION\_START@{LOG\_EVENT\_SIMULATION\_START}!execution\_logger.h@{execution\_logger.h}}\index{execution\_logger.h@{execution\_logger.h}!LOG\_EVENT\_SIMULATION\_START@{LOG\_EVENT\_SIMULATION\_START}}}\label{execution__logger_8h_a550af63f434a6964e161bc1f5bfe4476af12e383c8319384656377a3686907d83} 
+LOG\+\_\+\+EVENT\+\_\+\+SIMULATION\+\_\+\+START&Inicio de simulación. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LOG\_EVENT\_SIMULATION\_END@{LOG\_EVENT\_SIMULATION\_END}!execution\_logger.h@{execution\_logger.h}}\index{execution\_logger.h@{execution\_logger.h}!LOG\_EVENT\_SIMULATION\_END@{LOG\_EVENT\_SIMULATION\_END}}}\label{execution__logger_8h_a550af63f434a6964e161bc1f5bfe4476a7480cc8f26553373c14b83d37d558a43} 
+LOG\+\_\+\+EVENT\+\_\+\+SIMULATION\+\_\+\+END&Fin de simulación. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LOG\_EVENT\_BUILDING\_SELECTED@{LOG\_EVENT\_BUILDING\_SELECTED}!execution\_logger.h@{execution\_logger.h}}\index{execution\_logger.h@{execution\_logger.h}!LOG\_EVENT\_BUILDING\_SELECTED@{LOG\_EVENT\_BUILDING\_SELECTED}}}\label{execution__logger_8h_a550af63f434a6964e161bc1f5bfe4476a6ab85735087bfe114cdee395bb6e9752} 
+LOG\+\_\+\+EVENT\+\_\+\+BUILDING\+\_\+\+SELECTED&Edificio seleccionado para simulación. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LOG\_EVENT\_CAN\_SENT@{LOG\_EVENT\_CAN\_SENT}!execution\_logger.h@{execution\_logger.h}}\index{execution\_logger.h@{execution\_logger.h}!LOG\_EVENT\_CAN\_SENT@{LOG\_EVENT\_CAN\_SENT}}}\label{execution__logger_8h_a550af63f434a6964e161bc1f5bfe4476a2b3a6f95a056f0eebc7abdd1a618a28c} 
+LOG\+\_\+\+EVENT\+\_\+\+CAN\+\_\+\+SENT&Frame CAN enviado. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LOG\_EVENT\_CAN\_RECEIVED@{LOG\_EVENT\_CAN\_RECEIVED}!execution\_logger.h@{execution\_logger.h}}\index{execution\_logger.h@{execution\_logger.h}!LOG\_EVENT\_CAN\_RECEIVED@{LOG\_EVENT\_CAN\_RECEIVED}}}\label{execution__logger_8h_a550af63f434a6964e161bc1f5bfe4476a150e0c669e230ce2ca5d4b995d88a23c} 
+LOG\+\_\+\+EVENT\+\_\+\+CAN\+\_\+\+RECEIVED&Frame CAN recibido. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LOG\_EVENT\_COAP\_SENT@{LOG\_EVENT\_COAP\_SENT}!execution\_logger.h@{execution\_logger.h}}\index{execution\_logger.h@{execution\_logger.h}!LOG\_EVENT\_COAP\_SENT@{LOG\_EVENT\_COAP\_SENT}}}\label{execution__logger_8h_a550af63f434a6964e161bc1f5bfe4476a2fcb5d5ee3be450f0dc865819195baef} 
+LOG\+\_\+\+EVENT\+\_\+\+COAP\+\_\+\+SENT&Mensaje Co\+AP enviado. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LOG\_EVENT\_COAP\_RECEIVED@{LOG\_EVENT\_COAP\_RECEIVED}!execution\_logger.h@{execution\_logger.h}}\index{execution\_logger.h@{execution\_logger.h}!LOG\_EVENT\_COAP\_RECEIVED@{LOG\_EVENT\_COAP\_RECEIVED}}}\label{execution__logger_8h_a550af63f434a6964e161bc1f5bfe4476aa271050c34a516b9afebabeff234627a} 
+LOG\+\_\+\+EVENT\+\_\+\+COAP\+\_\+\+RECEIVED&Mensaje Co\+AP recibido. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LOG\_EVENT\_TASK\_ASSIGNED@{LOG\_EVENT\_TASK\_ASSIGNED}!execution\_logger.h@{execution\_logger.h}}\index{execution\_logger.h@{execution\_logger.h}!LOG\_EVENT\_TASK\_ASSIGNED@{LOG\_EVENT\_TASK\_ASSIGNED}}}\label{execution__logger_8h_a550af63f434a6964e161bc1f5bfe4476a31d29d1f11673e326183f9ff663fdd7f} 
+LOG\+\_\+\+EVENT\+\_\+\+TASK\+\_\+\+ASSIGNED&Tarea asignada a ascensor. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LOG\_EVENT\_ELEVATOR\_MOVED@{LOG\_EVENT\_ELEVATOR\_MOVED}!execution\_logger.h@{execution\_logger.h}}\index{execution\_logger.h@{execution\_logger.h}!LOG\_EVENT\_ELEVATOR\_MOVED@{LOG\_EVENT\_ELEVATOR\_MOVED}}}\label{execution__logger_8h_a550af63f434a6964e161bc1f5bfe4476a6972700cc9230e5a515978a000fd4239} 
+LOG\+\_\+\+EVENT\+\_\+\+ELEVATOR\+\_\+\+MOVED&Ascensor se movió \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LOG\_EVENT\_TASK\_COMPLETED@{LOG\_EVENT\_TASK\_COMPLETED}!execution\_logger.h@{execution\_logger.h}}\index{execution\_logger.h@{execution\_logger.h}!LOG\_EVENT\_TASK\_COMPLETED@{LOG\_EVENT\_TASK\_COMPLETED}}}\label{execution__logger_8h_a550af63f434a6964e161bc1f5bfe4476acfe1883cd1b1e89b8e3c139bb505c5ff} 
+LOG\+\_\+\+EVENT\+\_\+\+TASK\+\_\+\+COMPLETED&Tarea completada. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LOG\_EVENT\_ERROR@{LOG\_EVENT\_ERROR}!execution\_logger.h@{execution\_logger.h}}\index{execution\_logger.h@{execution\_logger.h}!LOG\_EVENT\_ERROR@{LOG\_EVENT\_ERROR}}}\label{execution__logger_8h_a550af63f434a6964e161bc1f5bfe4476ab208c51d3dfb4a2f2b8381a1c6898784} 
+LOG\+\_\+\+EVENT\+\_\+\+ERROR&Error del sistema. \\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\label{execution__logger_8h_ae0868cf99c3976e5054e296a99a865a8} 
+\index{execution\_logger.h@{execution\_logger.h}!exec\_logger\_finish@{exec\_logger\_finish}}
+\index{exec\_logger\_finish@{exec\_logger\_finish}!execution\_logger.h@{execution\_logger.h}}
+\doxysubsubsection{exec\_logger\_finish()}
+{\footnotesize\ttfamily void exec\+\_\+logger\+\_\+finish (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Finaliza el sistema de logging y cierra el archivo. 
+
+Esta función\+:
+\begin{DoxyItemize}
+\item Calcula estadísticas finales
+\item Escribe el resumen de ejecución
+\item Cierra el archivo de log
+\item Limpia recursos 
+\end{DoxyItemize}\label{execution__logger_8h_a5fdd5443b630dc1afbbc2c528b6eae89} 
+\index{execution\_logger.h@{execution\_logger.h}!exec\_logger\_get\_stats@{exec\_logger\_get\_stats}}
+\index{exec\_logger\_get\_stats@{exec\_logger\_get\_stats}!execution\_logger.h@{execution\_logger.h}}
+\doxysubsubsection{exec\_logger\_get\_stats()}
+{\footnotesize\ttfamily const \textbf{ execution\+\_\+stats\+\_\+t} $\ast$ exec\+\_\+logger\+\_\+get\+\_\+stats (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Obtiene las estadísticas actuales de ejecución. 
+
+\begin{DoxyReturn}{Returns}
+Puntero a las estadísticas (solo lectura) 
+\end{DoxyReturn}
+\label{execution__logger_8h_a8f17ab3d08e18defbc6bc3894b87ad57} 
+\index{execution\_logger.h@{execution\_logger.h}!exec\_logger\_init@{exec\_logger\_init}}
+\index{exec\_logger\_init@{exec\_logger\_init}!execution\_logger.h@{execution\_logger.h}}
+\doxysubsubsection{exec\_logger\_init()}
+{\footnotesize\ttfamily bool exec\+\_\+logger\+\_\+init (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Inicializa el sistema de logging de ejecuciones. 
+
+\begin{DoxyReturn}{Returns}
+true si se inicializó correctamente, false en caso de error
+\end{DoxyReturn}
+Esta función\+:
+\begin{DoxyItemize}
+\item Crea las carpetas necesarias por fecha
+\item Genera el nombre del archivo de log
+\item Inicializa las estructuras de estadísticas
+\item Escribe el header del archivo Markdown 
+\end{DoxyItemize}\label{execution__logger_8h_a5ce893b0367275087161fc41ee3ea01b} 
+\index{execution\_logger.h@{execution\_logger.h}!exec\_logger\_is\_active@{exec\_logger\_is\_active}}
+\index{exec\_logger\_is\_active@{exec\_logger\_is\_active}!execution\_logger.h@{execution\_logger.h}}
+\doxysubsubsection{exec\_logger\_is\_active()}
+{\footnotesize\ttfamily bool exec\+\_\+logger\+\_\+is\+\_\+active (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Verifica si el logger está activo. 
+
+\begin{DoxyReturn}{Returns}
+true si está activo, false si no 
+\end{DoxyReturn}
+\label{execution__logger_8h_ae52f012f4fc98b850c48a36881f5ef4b} 
+\index{execution\_logger.h@{execution\_logger.h}!exec\_logger\_log\_can\_received@{exec\_logger\_log\_can\_received}}
+\index{exec\_logger\_log\_can\_received@{exec\_logger\_log\_can\_received}!execution\_logger.h@{execution\_logger.h}}
+\doxysubsubsection{exec\_logger\_log\_can\_received()}
+{\footnotesize\ttfamily void exec\+\_\+logger\+\_\+log\+\_\+can\+\_\+received (\begin{DoxyParamCaption}\item[{unsigned int}]{can\+\_\+id,  }\item[{int}]{dlc,  }\item[{const unsigned char $\ast$}]{data,  }\item[{const char $\ast$}]{description }\end{DoxyParamCaption})}
+
+
+
+Registra un frame CAN recibido. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em can\+\_\+id} & ID del frame CAN \\
+\hline
+{\em dlc} & Longitud de datos \\
+\hline
+{\em data} & Datos del frame \\
+\hline
+{\em description} & Descripción del evento \\
+\hline
+\end{DoxyParams}
+\label{execution__logger_8h_aa27056e265d9a0470c136c31fbb3e9d0} 
+\index{execution\_logger.h@{execution\_logger.h}!exec\_logger\_log\_can\_sent@{exec\_logger\_log\_can\_sent}}
+\index{exec\_logger\_log\_can\_sent@{exec\_logger\_log\_can\_sent}!execution\_logger.h@{execution\_logger.h}}
+\doxysubsubsection{exec\_logger\_log\_can\_sent()}
+{\footnotesize\ttfamily void exec\+\_\+logger\+\_\+log\+\_\+can\+\_\+sent (\begin{DoxyParamCaption}\item[{unsigned int}]{can\+\_\+id,  }\item[{int}]{dlc,  }\item[{const unsigned char $\ast$}]{data,  }\item[{const char $\ast$}]{description }\end{DoxyParamCaption})}
+
+
+
+Registra un frame CAN enviado. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em can\+\_\+id} & ID del frame CAN \\
+\hline
+{\em dlc} & Longitud de datos \\
+\hline
+{\em data} & Datos del frame \\
+\hline
+{\em description} & Descripción del evento \\
+\hline
+\end{DoxyParams}
+\label{execution__logger_8h_ad0470fcf53f9a93e9c78e3f663b6606a} 
+\index{execution\_logger.h@{execution\_logger.h}!exec\_logger\_log\_coap\_received@{exec\_logger\_log\_coap\_received}}
+\index{exec\_logger\_log\_coap\_received@{exec\_logger\_log\_coap\_received}!execution\_logger.h@{execution\_logger.h}}
+\doxysubsubsection{exec\_logger\_log\_coap\_received()}
+{\footnotesize\ttfamily void exec\+\_\+logger\+\_\+log\+\_\+coap\+\_\+received (\begin{DoxyParamCaption}\item[{const char $\ast$}]{code,  }\item[{const char $\ast$}]{payload }\end{DoxyParamCaption})}
+
+
+
+Registra una respuesta Co\+AP recibida. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em code} & Código de respuesta Co\+AP \\
+\hline
+{\em payload} & Payload de la respuesta (puede ser NULL) \\
+\hline
+\end{DoxyParams}
+\label{execution__logger_8h_a529e2cea53c04d196f94d5165ce2f2da} 
+\index{execution\_logger.h@{execution\_logger.h}!exec\_logger\_log\_coap\_sent@{exec\_logger\_log\_coap\_sent}}
+\index{exec\_logger\_log\_coap\_sent@{exec\_logger\_log\_coap\_sent}!execution\_logger.h@{execution\_logger.h}}
+\doxysubsubsection{exec\_logger\_log\_coap\_sent()}
+{\footnotesize\ttfamily void exec\+\_\+logger\+\_\+log\+\_\+coap\+\_\+sent (\begin{DoxyParamCaption}\item[{const char $\ast$}]{method,  }\item[{const char $\ast$}]{uri,  }\item[{const char $\ast$}]{payload }\end{DoxyParamCaption})}
+
+
+
+Registra una petición Co\+AP enviada. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em method} & Método Co\+AP (GET, POST, etc.) \\
+\hline
+{\em uri} & URI del recurso \\
+\hline
+{\em payload} & Payload de la petición (puede ser NULL) \\
+\hline
+\end{DoxyParams}
+\label{execution__logger_8h_ac0d70f4be37b4af70a10aba97fd4f448} 
+\index{execution\_logger.h@{execution\_logger.h}!exec\_logger\_log\_elevator\_moved@{exec\_logger\_log\_elevator\_moved}}
+\index{exec\_logger\_log\_elevator\_moved@{exec\_logger\_log\_elevator\_moved}!execution\_logger.h@{execution\_logger.h}}
+\doxysubsubsection{exec\_logger\_log\_elevator\_moved()}
+{\footnotesize\ttfamily void exec\+\_\+logger\+\_\+log\+\_\+elevator\+\_\+moved (\begin{DoxyParamCaption}\item[{const char $\ast$}]{elevator\+\_\+id,  }\item[{int}]{from\+\_\+floor,  }\item[{int}]{to\+\_\+floor,  }\item[{const char $\ast$}]{direction }\end{DoxyParamCaption})}
+
+
+
+Registra el movimiento de un ascensor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em elevator\+\_\+id} & ID del ascensor \\
+\hline
+{\em from\+\_\+floor} & Piso origen \\
+\hline
+{\em to\+\_\+floor} & Piso destino \\
+\hline
+{\em direction} & Dirección del movimiento \\
+\hline
+\end{DoxyParams}
+\label{execution__logger_8h_af6629562e75625c3758a34ef00d93f34} 
+\index{execution\_logger.h@{execution\_logger.h}!exec\_logger\_log\_error@{exec\_logger\_log\_error}}
+\index{exec\_logger\_log\_error@{exec\_logger\_log\_error}!execution\_logger.h@{execution\_logger.h}}
+\doxysubsubsection{exec\_logger\_log\_error()}
+{\footnotesize\ttfamily void exec\+\_\+logger\+\_\+log\+\_\+error (\begin{DoxyParamCaption}\item[{const char $\ast$}]{error\+\_\+code,  }\item[{const char $\ast$}]{error\+\_\+message }\end{DoxyParamCaption})}
+
+
+
+Registra un error del sistema. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em error\+\_\+code} & Código de error \\
+\hline
+{\em error\+\_\+message} & Mensaje de error \\
+\hline
+\end{DoxyParams}
+\label{execution__logger_8h_a0d26263b498931ad084d10c45b1e2280} 
+\index{execution\_logger.h@{execution\_logger.h}!exec\_logger\_log\_event@{exec\_logger\_log\_event}}
+\index{exec\_logger\_log\_event@{exec\_logger\_log\_event}!execution\_logger.h@{execution\_logger.h}}
+\doxysubsubsection{exec\_logger\_log\_event()}
+{\footnotesize\ttfamily void exec\+\_\+logger\+\_\+log\+\_\+event (\begin{DoxyParamCaption}\item[{\textbf{ log\+\_\+event\+\_\+type\+\_\+t}}]{type,  }\item[{const char $\ast$}]{description,  }\item[{const char $\ast$}]{details }\end{DoxyParamCaption})}
+
+
+
+Registra un evento en el log. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em type} & Tipo de evento \\
+\hline
+{\em description} & Descripción breve del evento \\
+\hline
+{\em details} & Detalles adicionales (puede ser NULL) \\
+\hline
+\end{DoxyParams}
+\label{execution__logger_8h_a502b75cee9921726287da66a1973d0c0} 
+\index{execution\_logger.h@{execution\_logger.h}!exec\_logger\_log\_simulation\_end@{exec\_logger\_log\_simulation\_end}}
+\index{exec\_logger\_log\_simulation\_end@{exec\_logger\_log\_simulation\_end}!execution\_logger.h@{execution\_logger.h}}
+\doxysubsubsection{exec\_logger\_log\_simulation\_end()}
+{\footnotesize\ttfamily void exec\+\_\+logger\+\_\+log\+\_\+simulation\+\_\+end (\begin{DoxyParamCaption}\item[{int}]{successful\+\_\+requests,  }\item[{int}]{total\+\_\+requests }\end{DoxyParamCaption})}
+
+
+
+Registra el fin de la simulación. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em successful\+\_\+requests} & Número de peticiones exitosas \\
+\hline
+{\em total\+\_\+requests} & Número total de peticiones \\
+\hline
+\end{DoxyParams}
+\label{execution__logger_8h_afe36ef96b0a0346e8f389ddd550d1d62} 
+\index{execution\_logger.h@{execution\_logger.h}!exec\_logger\_log\_simulation\_start@{exec\_logger\_log\_simulation\_start}}
+\index{exec\_logger\_log\_simulation\_start@{exec\_logger\_log\_simulation\_start}!execution\_logger.h@{execution\_logger.h}}
+\doxysubsubsection{exec\_logger\_log\_simulation\_start()}
+{\footnotesize\ttfamily void exec\+\_\+logger\+\_\+log\+\_\+simulation\+\_\+start (\begin{DoxyParamCaption}\item[{const char $\ast$}]{building\+\_\+id,  }\item[{int}]{num\+\_\+requests }\end{DoxyParamCaption})}
+
+
+
+Registra el inicio de la simulación. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em building\+\_\+id} & ID del edificio seleccionado \\
+\hline
+{\em num\+\_\+requests} & Número de peticiones a ejecutar \\
+\hline
+\end{DoxyParams}
+\label{execution__logger_8h_ac545eb869f25dc8a259c8cc8d79012be} 
+\index{execution\_logger.h@{execution\_logger.h}!exec\_logger\_log\_task\_assigned@{exec\_logger\_log\_task\_assigned}}
+\index{exec\_logger\_log\_task\_assigned@{exec\_logger\_log\_task\_assigned}!execution\_logger.h@{execution\_logger.h}}
+\doxysubsubsection{exec\_logger\_log\_task\_assigned()}
+{\footnotesize\ttfamily void exec\+\_\+logger\+\_\+log\+\_\+task\+\_\+assigned (\begin{DoxyParamCaption}\item[{const char $\ast$}]{task\+\_\+id,  }\item[{const char $\ast$}]{elevator\+\_\+id,  }\item[{int}]{target\+\_\+floor }\end{DoxyParamCaption})}
+
+
+
+Registra la asignación de una tarea. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em task\+\_\+id} & ID de la tarea \\
+\hline
+{\em elevator\+\_\+id} & ID del ascensor asignado \\
+\hline
+{\em target\+\_\+floor} & Piso destino \\
+\hline
+\end{DoxyParams}
+\label{execution__logger_8h_a22e3151602bf4070c2c7ffa9fe505487} 
+\index{execution\_logger.h@{execution\_logger.h}!exec\_logger\_log\_task\_completed@{exec\_logger\_log\_task\_completed}}
+\index{exec\_logger\_log\_task\_completed@{exec\_logger\_log\_task\_completed}!execution\_logger.h@{execution\_logger.h}}
+\doxysubsubsection{exec\_logger\_log\_task\_completed()}
+{\footnotesize\ttfamily void exec\+\_\+logger\+\_\+log\+\_\+task\+\_\+completed (\begin{DoxyParamCaption}\item[{const char $\ast$}]{task\+\_\+id,  }\item[{const char $\ast$}]{elevator\+\_\+id,  }\item[{int}]{final\+\_\+floor }\end{DoxyParamCaption})}
+
+
+
+Registra la completación de una tarea. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em task\+\_\+id} & ID de la tarea completada \\
+\hline
+{\em elevator\+\_\+id} & ID del ascensor que completó la tarea \\
+\hline
+{\em final\+\_\+floor} & Piso final donde se completó \\
+\hline
+\end{DoxyParams}

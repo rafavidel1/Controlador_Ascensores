@@ -1,0 +1,106 @@
+\doxysection{execution\+\_\+logger.\+h}
+\label{execution__logger_8h_source}\index{include/api\_gateway/execution\_logger.h@{include/api\_gateway/execution\_logger.h}}
+\textbf{ Go to the documentation of this file.}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#ifndef\ EXECUTION\_LOGGER\_H}}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#define\ EXECUTION\_LOGGER\_H}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#include\ <stdio.h>}}
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#include\ <stdbool.h>}}
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ <time.h>}}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00032\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \textcolor{comment}{//\ ============================================================================}}
+\DoxyCodeLine{00036\ \textcolor{comment}{//\ CONSTANTES\ Y\ CONFIGURACIÓN}}
+\DoxyCodeLine{00037\ \textcolor{comment}{//\ ============================================================================}}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \textcolor{preprocessor}{\#define\ MAX\_LOG\_PATH\ 512\ \ \ \ \ \ \ \ }}
+\DoxyCodeLine{00040\ \textcolor{preprocessor}{\#define\ MAX\_LOG\_MESSAGE\ 1024\ \ \ \ }}
+\DoxyCodeLine{00041\ \textcolor{preprocessor}{\#define\ MAX\_EVENT\_DESCRIPTION\ 256\ }}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \textcolor{comment}{//\ ============================================================================}}
+\DoxyCodeLine{00044\ \textcolor{comment}{//\ TIPOS\ DE\ EVENTOS}}
+\DoxyCodeLine{00045\ \textcolor{comment}{//\ ============================================================================}}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00050\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{00051\ \ \ \ \ LOG\_EVENT\_SYSTEM\_START,\ \ \ \ \ }
+\DoxyCodeLine{00052\ \ \ \ \ LOG\_EVENT\_SYSTEM\_END,\ \ \ \ \ \ \ }
+\DoxyCodeLine{00053\ \ \ \ \ LOG\_EVENT\_SIMULATION\_START,\ }
+\DoxyCodeLine{00054\ \ \ \ \ LOG\_EVENT\_SIMULATION\_END,\ \ \ }
+\DoxyCodeLine{00055\ \ \ \ \ LOG\_EVENT\_BUILDING\_SELECTED,}
+\DoxyCodeLine{00056\ \ \ \ \ LOG\_EVENT\_CAN\_SENT,\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00057\ \ \ \ \ LOG\_EVENT\_CAN\_RECEIVED,\ \ \ \ \ }
+\DoxyCodeLine{00058\ \ \ \ \ LOG\_EVENT\_COAP\_SENT,\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00059\ \ \ \ \ LOG\_EVENT\_COAP\_RECEIVED,\ \ \ \ }
+\DoxyCodeLine{00060\ \ \ \ \ LOG\_EVENT\_TASK\_ASSIGNED,\ \ \ \ }
+\DoxyCodeLine{00061\ \ \ \ \ LOG\_EVENT\_ELEVATOR\_MOVED,\ \ \ }
+\DoxyCodeLine{00062\ \ \ \ \ LOG\_EVENT\_TASK\_COMPLETED,\ \ \ }
+\DoxyCodeLine{00063\ \ \ \ \ LOG\_EVENT\_ERROR\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00064\ \}\ log\_event\_type\_t;}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00069\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00070\ \ \ \ \ log\_event\_type\_t\ type;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00071\ \ \ \ \ time\_t\ timestamp;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00072\ \ \ \ \ \textcolor{keywordtype}{char}\ description[MAX\_EVENT\_DESCRIPTION];\ \ \ \ \ \ \ }
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keywordtype}{char}\ details[MAX\_LOG\_MESSAGE];\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00074\ \}\ log\_event\_t;}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00079\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00080\ \ \ \ \ \textcolor{keywordtype}{int}\ total\_can\_frames\_sent;\ \ \ \ \ \ }
+\DoxyCodeLine{00081\ \ \ \ \ \textcolor{keywordtype}{int}\ total\_can\_frames\_received;\ \ }
+\DoxyCodeLine{00082\ \ \ \ \ \textcolor{keywordtype}{int}\ total\_coap\_requests;\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00083\ \ \ \ \ \textcolor{keywordtype}{int}\ total\_coap\_responses;\ \ \ \ \ \ \ }
+\DoxyCodeLine{00084\ \ \ \ \ \textcolor{keywordtype}{int}\ total\_tasks\_assigned;\ \ \ \ \ \ \ }
+\DoxyCodeLine{00085\ \ \ \ \ \textcolor{keywordtype}{int}\ total\_tasks\_completed;\ \ \ \ \ \ }
+\DoxyCodeLine{00086\ \ \ \ \ \textcolor{keywordtype}{int}\ total\_elevator\_movements;\ \ \ }
+\DoxyCodeLine{00087\ \ \ \ \ \textcolor{keywordtype}{int}\ total\_errors;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00088\ \ \ \ \ \textcolor{keywordtype}{double}\ execution\_duration\_sec;\ \ }
+\DoxyCodeLine{00089\ \ \ \ \ \textcolor{keywordtype}{char}\ building\_id[32];\ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00090\ \ \ \ \ \textcolor{keywordtype}{int}\ building\_requests;\ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00091\ \}\ execution\_stats\_t;}
+\DoxyCodeLine{00092\ }
+\DoxyCodeLine{00093\ \textcolor{comment}{//\ ============================================================================}}
+\DoxyCodeLine{00094\ \textcolor{comment}{//\ FUNCIONES\ PÚBLICAS}}
+\DoxyCodeLine{00095\ \textcolor{comment}{//\ ============================================================================}}
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00107\ \textcolor{keywordtype}{bool}\ exec\_logger\_init(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00108\ }
+\DoxyCodeLine{00118\ \textcolor{keywordtype}{void}\ exec\_logger\_finish(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00119\ }
+\DoxyCodeLine{00126\ \textcolor{keywordtype}{void}\ exec\_logger\_log\_event(log\_event\_type\_t\ type,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ description,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ details);}
+\DoxyCodeLine{00127\ }
+\DoxyCodeLine{00133\ \textcolor{keywordtype}{void}\ exec\_logger\_log\_simulation\_start(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ building\_id,\ \textcolor{keywordtype}{int}\ num\_requests);}
+\DoxyCodeLine{00134\ }
+\DoxyCodeLine{00140\ \textcolor{keywordtype}{void}\ exec\_logger\_log\_simulation\_end(\textcolor{keywordtype}{int}\ successful\_requests,\ \textcolor{keywordtype}{int}\ total\_requests);}
+\DoxyCodeLine{00141\ }
+\DoxyCodeLine{00149\ \textcolor{keywordtype}{void}\ exec\_logger\_log\_can\_sent(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ can\_id,\ \textcolor{keywordtype}{int}\ dlc,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}*\ data,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ description);}
+\DoxyCodeLine{00150\ }
+\DoxyCodeLine{00158\ \textcolor{keywordtype}{void}\ exec\_logger\_log\_can\_received(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ can\_id,\ \textcolor{keywordtype}{int}\ dlc,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}*\ data,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ description);}
+\DoxyCodeLine{00159\ }
+\DoxyCodeLine{00166\ \textcolor{keywordtype}{void}\ exec\_logger\_log\_coap\_sent(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ method,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ uri,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ payload);}
+\DoxyCodeLine{00167\ }
+\DoxyCodeLine{00173\ \textcolor{keywordtype}{void}\ exec\_logger\_log\_coap\_received(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ code,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ payload);}
+\DoxyCodeLine{00174\ }
+\DoxyCodeLine{00181\ \textcolor{keywordtype}{void}\ exec\_logger\_log\_task\_assigned(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ task\_id,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ elevator\_id,\ \textcolor{keywordtype}{int}\ target\_floor);}
+\DoxyCodeLine{00182\ }
+\DoxyCodeLine{00190\ \textcolor{keywordtype}{void}\ exec\_logger\_log\_elevator\_moved(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ elevator\_id,\ \textcolor{keywordtype}{int}\ from\_floor,\ \textcolor{keywordtype}{int}\ to\_floor,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ direction);}
+\DoxyCodeLine{00191\ }
+\DoxyCodeLine{00198\ \textcolor{keywordtype}{void}\ exec\_logger\_log\_task\_completed(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ task\_id,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ elevator\_id,\ \textcolor{keywordtype}{int}\ final\_floor);}
+\DoxyCodeLine{00199\ }
+\DoxyCodeLine{00205\ \textcolor{keywordtype}{void}\ exec\_logger\_log\_error(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ error\_code,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ error\_message);}
+\DoxyCodeLine{00206\ }
+\DoxyCodeLine{00211\ \textcolor{keyword}{const}\ execution\_stats\_t*\ exec\_logger\_get\_stats(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00212\ }
+\DoxyCodeLine{00217\ \textcolor{keywordtype}{bool}\ exec\_logger\_is\_active(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00218\ }
+\DoxyCodeLine{00219\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00220\ \}}
+\DoxyCodeLine{00221\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00222\ }
+\DoxyCodeLine{00223\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ EXECUTION\_LOGGER\_H\ }}
+
+\end{DoxyCode}

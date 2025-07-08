@@ -1,0 +1,341 @@
+\doxysection{src/mi\+\_\+simulador\+\_\+ascensor.c File Reference}
+\label{mi__simulador__ascensor_8c}\index{src/mi\_simulador\_ascensor.c@{src/mi\_simulador\_ascensor.c}}
+
+
+Simulador de Ascensores para Testing del API Gateway.  
+
+
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \textbf{ mi\+\_\+simulador\+\_\+recibe\+\_\+can\+\_\+gw} (\textbf{ simulated\+\_\+can\+\_\+frame\+\_\+t} $\ast$frame)
+\begin{DoxyCompactList}\small\item\em Callback para recibir frames CAN de respuesta del gateway. \end{DoxyCompactList}\item 
+void \textbf{ inicializar\+\_\+mi\+\_\+simulacion\+\_\+ascensor} (void)
+\begin{DoxyCompactList}\small\item\em Inicializa el simulador de ascensores. \end{DoxyCompactList}\item 
+void \textbf{ simular\+\_\+llamada\+\_\+de\+\_\+piso\+\_\+via\+\_\+can} (int piso\+\_\+origen, \textbf{ movement\+\_\+direction\+\_\+enum\+\_\+t} direccion)
+\begin{DoxyCompactList}\small\item\em Simula una llamada de piso vía CAN. \end{DoxyCompactList}\item 
+void \textbf{ simular\+\_\+solicitud\+\_\+cabina\+\_\+via\+\_\+can} (int indice\+\_\+ascensor, int piso\+\_\+destino)
+\begin{DoxyCompactList}\small\item\em Simula una solicitud de cabina vía CAN. \end{DoxyCompactList}\item 
+void \textbf{ simular\+\_\+eventos\+\_\+ascensor} (void)
+\begin{DoxyCompactList}\small\item\em Ejecuta una secuencia de eventos simulados de ascensor desde JSON. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+coap\+\_\+context\+\_\+t $\ast$ \textbf{ g\+\_\+coap\+\_\+context}
+\begin{DoxyCompactList}\small\item\em Contexto Co\+AP global del API Gateway. \end{DoxyCompactList}\item 
+\textbf{ elevator\+\_\+group\+\_\+state\+\_\+t} \textbf{ managed\+\_\+elevator\+\_\+group}
+\begin{DoxyCompactList}\small\item\em Grupo de ascensores gestionado. \end{DoxyCompactList}\item 
+static \textbf{ datos\+\_\+simulacion\+\_\+t} \textbf{ datos\+\_\+simulacion\+\_\+global}
+\begin{DoxyCompactList}\small\item\em Datos de simulación cargados desde JSON. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Simulador de Ascensores para Testing del API Gateway. 
+
+\begin{DoxyAuthor}{Author}
+Sistema de Control de Ascensores 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2025 
+\end{DoxyDate}
+\begin{DoxyVersion}{Version}
+2.\+0
+\end{DoxyVersion}
+Este archivo implementa un simulador de ascensores que genera eventos CAN simulados para probar la funcionalidad del API Gateway. Sus funciones principales\+:
+
+
+\begin{DoxyItemize}
+\item {\bfseries{Simulación de eventos CAN}}\+: Generación de frames CAN simulados
+\item {\bfseries{Callback de respuesta}}\+: Procesamiento de respuestas del gateway
+\item {\bfseries{Integración con puente CAN}}\+: Interfaz con el sistema CAN-\/\+Co\+AP
+\item {\bfseries{Testing automatizado}}\+: Secuencias de prueba predefinidas
+\item {\bfseries{Carga desde JSON}}\+: Sistema de simulación basado en archivos de datos
+\end{DoxyItemize}
+
+{\bfseries{Tipos de eventos simulados\+:}}
+\begin{DoxyItemize}
+\item Llamadas de piso (floor calls) desde botones externos
+\item Solicitudes de cabina (cabin requests) desde interior del ascensor
+\item Notificaciones de llegada a destinos
+\end{DoxyItemize}
+
+El simulador utiliza el contexto Co\+AP global del API Gateway para procesar eventos y recibir respuestas del servidor central.
+
+{\bfseries{Sistema de simulación JSON\+:}} Cada ejecución del API Gateway carga un archivo JSON con 100 edificios, selecciona uno aleatoriamente y ejecuta sus 10 peticiones secuencialmente.
+
+\begin{DoxySeeAlso}{See also}
+\doxyref{can\+\_\+bridge.\+h}{p.}{can__bridge_8h} 
+
+\doxyref{elevator\+\_\+state\+\_\+manager.\+h}{p.}{elevator__state__manager_8h} 
+
+\doxyref{simulation\+\_\+loader.\+h}{p.}{simulation__loader_8h} 
+
+\doxyref{api\+\_\+common\+\_\+defs.\+h}{p.}{api__common__defs_8h} 
+\end{DoxySeeAlso}
+
+
+\doxysubsection{Function Documentation}
+\label{mi__simulador__ascensor_8c_acfc4758bf8842f413c4d9e1c5ce6053d} 
+\index{mi\_simulador\_ascensor.c@{mi\_simulador\_ascensor.c}!inicializar\_mi\_simulacion\_ascensor@{inicializar\_mi\_simulacion\_ascensor}}
+\index{inicializar\_mi\_simulacion\_ascensor@{inicializar\_mi\_simulacion\_ascensor}!mi\_simulador\_ascensor.c@{mi\_simulador\_ascensor.c}}
+\doxysubsubsection{inicializar\_mi\_simulacion\_ascensor()}
+{\footnotesize\ttfamily void inicializar\+\_\+mi\+\_\+simulacion\+\_\+ascensor (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Inicializa el simulador de ascensores. 
+
+Esta función configura el simulador registrando el callback de respuesta CAN en el puente CAN-\/\+Co\+AP del API Gateway y cargando los datos de simulación desde el archivo JSON.
+
+{\bfseries{Operaciones realizadas\+:}}
+\begin{DoxyItemize}
+\item Registro del callback de respuesta CAN
+\item Carga de datos de simulación desde JSON
+\item Inicialización de estructuras internas
+\item Configuración de logging del simulador
+\end{DoxyItemize}
+
+\begin{DoxySeeAlso}{See also}
+\doxyref{ag\+\_\+can\+\_\+bridge\+\_\+register\+\_\+send\+\_\+callback()}{p.}{can__bridge_8c_a82b3383904e65573e79b59f4b7c5ef15} 
+
+\doxyref{cargar\+\_\+datos\+\_\+simulacion()}{p.}{group__simulation__functions_ga189a79642cdf0001b3a29062e4180af3} 
+
+\doxyref{mi\+\_\+simulador\+\_\+recibe\+\_\+can\+\_\+gw()}{p.}{mi__simulador__ascensor_8c_adfcf33ff0806b77c246bbd870b029566} 
+\end{DoxySeeAlso}
+\label{mi__simulador__ascensor_8c_adfcf33ff0806b77c246bbd870b029566} 
+\index{mi\_simulador\_ascensor.c@{mi\_simulador\_ascensor.c}!mi\_simulador\_recibe\_can\_gw@{mi\_simulador\_recibe\_can\_gw}}
+\index{mi\_simulador\_recibe\_can\_gw@{mi\_simulador\_recibe\_can\_gw}!mi\_simulador\_ascensor.c@{mi\_simulador\_ascensor.c}}
+\doxysubsubsection{mi\_simulador\_recibe\_can\_gw()}
+{\footnotesize\ttfamily void mi\+\_\+simulador\+\_\+recibe\+\_\+can\+\_\+gw (\begin{DoxyParamCaption}\item[{\textbf{ simulated\+\_\+can\+\_\+frame\+\_\+t} $\ast$}]{frame }\end{DoxyParamCaption})}
+
+
+
+Callback para recibir frames CAN de respuesta del gateway. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em frame} & Puntero al frame CAN simulado recibido del gateway\\
+\hline
+\end{DoxyParams}
+Esta función actúa como callback registrado en el puente CAN para recibir y procesar las respuestas del API Gateway. Interpreta diferentes tipos de frames CAN de respuesta\+:
+
+{\bfseries{Tipos de frames procesados\+:}}
+\begin{DoxyItemize}
+\item 0x101\+: Respuesta a llamada de piso (0x100)
+\item 0x201\+: Respuesta a solicitud de cabina (0x200)
+\item 0x\+FE\+: Error genérico del gateway
+\end{DoxyItemize}
+
+{\bfseries{Información extraída\+:}}
+\begin{DoxyItemize}
+\item Índice del ascensor asignado
+\item ID de tarea (parcial, limitado por tamaño CAN)
+\item Códigos de error y diagnóstico
+\end{DoxyItemize}
+
+La función proporciona logging detallado para debugging y verificación del comportamiento del sistema.
+
+\begin{DoxySeeAlso}{See also}
+\doxyref{ag\+\_\+can\+\_\+bridge\+\_\+register\+\_\+send\+\_\+callback()}{p.}{can__bridge_8c_a82b3383904e65573e79b59f4b7c5ef15} 
+
+\doxyref{simulated\+\_\+can\+\_\+frame\+\_\+t}{p.}{structsimulated__can__frame__t} 
+\end{DoxySeeAlso}
+\label{mi__simulador__ascensor_8c_a5c86f739de835826e9fa6dd607c52ec9} 
+\index{mi\_simulador\_ascensor.c@{mi\_simulador\_ascensor.c}!simular\_eventos\_ascensor@{simular\_eventos\_ascensor}}
+\index{simular\_eventos\_ascensor@{simular\_eventos\_ascensor}!mi\_simulador\_ascensor.c@{mi\_simulador\_ascensor.c}}
+\doxysubsubsection{simular\_eventos\_ascensor()}
+{\footnotesize\ttfamily void simular\+\_\+eventos\+\_\+ascensor (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Ejecuta una secuencia de eventos simulados de ascensor desde JSON. 
+
+Esta función reemplaza la simulación hardcodeada anterior. Ahora carga datos de simulación desde un archivo JSON, selecciona un edificio aleatorio y ejecuta todas sus peticiones secuencialmente.
+
+{\bfseries{Proceso de simulación\+:}}
+\begin{DoxyEnumerate}
+\item Verifica si hay datos de simulación cargados
+\item Selecciona un edificio aleatorio de los 100 disponibles
+\item Configura el ID del edificio en el sistema
+\item Ejecuta las 10 peticiones del edificio secuencialmente
+\item Procesa I/O Co\+AP entre cada petición
+\end{DoxyEnumerate}
+
+{\bfseries{Fallback\+:}} Si no se pueden cargar los datos JSON, ejecuta la simulación básica de 2 peticiones hardcodeadas como antes.
+
+{\bfseries{Características\+:}}
+\begin{DoxyItemize}
+\item Procesamiento de I/O Co\+AP entre eventos
+\item Logging detallado de cada paso
+\item Sincronización para evitar condiciones de carrera
+\item Configuración automática del ID de edificio
+\end{DoxyItemize}
+
+\begin{DoxySeeAlso}{See also}
+\doxyref{cargar\+\_\+datos\+\_\+simulacion()}{p.}{group__simulation__functions_ga189a79642cdf0001b3a29062e4180af3} 
+
+\doxyref{seleccionar\+\_\+edificio\+\_\+aleatorio()}{p.}{group__simulation__functions_ga87620ad51d06f241a3106a36c40ac787} 
+
+\doxyref{simular\+\_\+llamada\+\_\+de\+\_\+piso\+\_\+via\+\_\+can()}{p.}{mi__simulador__ascensor_8c_ad2f8184c447385d5155da6a8d87e6c16} 
+
+\doxyref{simular\+\_\+solicitud\+\_\+cabina\+\_\+via\+\_\+can()}{p.}{mi__simulador__ascensor_8c_a75bd27a88662d9e2ac061e5285fc7ecb} 
+
+coap\+\_\+io\+\_\+process() 
+\end{DoxySeeAlso}
+\label{mi__simulador__ascensor_8c_ad2f8184c447385d5155da6a8d87e6c16} 
+\index{mi\_simulador\_ascensor.c@{mi\_simulador\_ascensor.c}!simular\_llamada\_de\_piso\_via\_can@{simular\_llamada\_de\_piso\_via\_can}}
+\index{simular\_llamada\_de\_piso\_via\_can@{simular\_llamada\_de\_piso\_via\_can}!mi\_simulador\_ascensor.c@{mi\_simulador\_ascensor.c}}
+\doxysubsubsection{simular\_llamada\_de\_piso\_via\_can()}
+{\footnotesize\ttfamily void simular\+\_\+llamada\+\_\+de\+\_\+piso\+\_\+via\+\_\+can (\begin{DoxyParamCaption}\item[{int}]{piso\+\_\+origen,  }\item[{\textbf{ movement\+\_\+direction\+\_\+enum\+\_\+t}}]{direccion }\end{DoxyParamCaption})}
+
+
+
+Simula una llamada de piso vía CAN. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em piso\+\_\+origen} & Piso desde el cual se realiza la llamada \\
+\hline
+{\em direccion} & Dirección solicitada (MOVING\+\_\+\+UP o MOVING\+\_\+\+DOWN)\\
+\hline
+\end{DoxyParams}
+Esta función genera un frame CAN simulado que representa una llamada de piso desde un botón externo. El frame se envía al puente CAN-\/\+Co\+AP del API Gateway para su procesamiento.
+
+{\bfseries{Formato del frame CAN\+:}}
+\begin{DoxyItemize}
+\item ID\+: 0x100 (identificador para llamadas de piso)
+\item data[0]\+: Piso origen (0-\/255)
+\item data[1]\+: Dirección (0=UP, 1=DOWN)
+\item DLC\+: 2 bytes
+\end{DoxyItemize}
+
+{\bfseries{Validaciones\+:}}
+\begin{DoxyItemize}
+\item Verifica disponibilidad del contexto Co\+AP
+\item Valida parámetros de entrada
+\end{DoxyItemize}
+
+\begin{DoxySeeAlso}{See also}
+\doxyref{ag\+\_\+can\+\_\+bridge\+\_\+process\+\_\+incoming\+\_\+frame()}{p.}{can__bridge_8c_aacea58e11d63ec4a2601d1b225af2af7} 
+
+\doxyref{movement\+\_\+direction\+\_\+enum\+\_\+t}{p.}{elevator__state__manager_8h_a1a5ec99e71d6b5e93656ae922276bf01} 
+\end{DoxySeeAlso}
+\label{mi__simulador__ascensor_8c_a75bd27a88662d9e2ac061e5285fc7ecb} 
+\index{mi\_simulador\_ascensor.c@{mi\_simulador\_ascensor.c}!simular\_solicitud\_cabina\_via\_can@{simular\_solicitud\_cabina\_via\_can}}
+\index{simular\_solicitud\_cabina\_via\_can@{simular\_solicitud\_cabina\_via\_can}!mi\_simulador\_ascensor.c@{mi\_simulador\_ascensor.c}}
+\doxysubsubsection{simular\_solicitud\_cabina\_via\_can()}
+{\footnotesize\ttfamily void simular\+\_\+solicitud\+\_\+cabina\+\_\+via\+\_\+can (\begin{DoxyParamCaption}\item[{int}]{indice\+\_\+ascensor,  }\item[{int}]{piso\+\_\+destino }\end{DoxyParamCaption})}
+
+
+
+Simula una solicitud de cabina vía CAN. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em indice\+\_\+ascensor} & Índice del ascensor que realiza la solicitud (0-\/based) \\
+\hline
+{\em piso\+\_\+destino} & Piso destino solicitado\\
+\hline
+\end{DoxyParams}
+Esta función genera un frame CAN simulado que representa una solicitud de cabina desde el interior de un ascensor. El frame se envía al puente CAN-\/\+Co\+AP del API Gateway para su procesamiento.
+
+{\bfseries{Formato del frame CAN\+:}}
+\begin{DoxyItemize}
+\item ID\+: 0x200 (identificador para solicitudes de cabina)
+\item data[0]\+: Índice del ascensor (0-\/based, ej\+: 0 para E1\+A1)
+\item data[1]\+: Piso destino (0-\/255)
+\item DLC\+: 2 bytes
+\end{DoxyItemize}
+
+{\bfseries{Validaciones\+:}}
+\begin{DoxyItemize}
+\item Verifica disponibilidad del contexto Co\+AP
+\item Valida parámetros de entrada
+\end{DoxyItemize}
+
+\begin{DoxyNote}{Note}
+El índice del ascensor se mapea a IDs como E1\+A1, E1\+A2, etc.
+\end{DoxyNote}
+\begin{DoxySeeAlso}{See also}
+\doxyref{ag\+\_\+can\+\_\+bridge\+\_\+process\+\_\+incoming\+\_\+frame()}{p.}{can__bridge_8c_aacea58e11d63ec4a2601d1b225af2af7} 
+
+\doxyref{simulated\+\_\+can\+\_\+frame\+\_\+t}{p.}{structsimulated__can__frame__t} 
+\end{DoxySeeAlso}
+
+
+\doxysubsection{Variable Documentation}
+\label{mi__simulador__ascensor_8c_a2df9aa33421dd0ff2059a47a9c0f7877} 
+\index{mi\_simulador\_ascensor.c@{mi\_simulador\_ascensor.c}!datos\_simulacion\_global@{datos\_simulacion\_global}}
+\index{datos\_simulacion\_global@{datos\_simulacion\_global}!mi\_simulador\_ascensor.c@{mi\_simulador\_ascensor.c}}
+\doxysubsubsection{datos\_simulacion\_global}
+{\footnotesize\ttfamily \textbf{ datos\+\_\+simulacion\+\_\+t} datos\+\_\+simulacion\+\_\+global\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Datos de simulación cargados desde JSON. 
+
+Variable global que almacena todos los edificios y peticiones cargados desde el archivo de simulación JSON. \label{mi__simulador__ascensor_8c_abc8b9aeba00fbf6aeb7c811c034f383c} 
+\index{mi\_simulador\_ascensor.c@{mi\_simulador\_ascensor.c}!g\_coap\_context@{g\_coap\_context}}
+\index{g\_coap\_context@{g\_coap\_context}!mi\_simulador\_ascensor.c@{mi\_simulador\_ascensor.c}}
+\doxysubsubsection{g\_coap\_context}
+{\footnotesize\ttfamily coap\+\_\+context\+\_\+t$\ast$ g\+\_\+coap\+\_\+context\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+Contexto Co\+AP global del API Gateway. 
+
+Referencia externa al contexto Co\+AP principal definido en \doxyref{main.\+c}{p.}{main_8c} del API Gateway. Utilizado para procesar eventos Co\+AP y enviar solicitudes al servidor central.
+
+\begin{DoxySeeAlso}{See also}
+api\+\_\+gateway/main.\+c
+\end{DoxySeeAlso}
+Contexto Co\+AP global del API Gateway.
+
+Contexto principal utilizado para todas las operaciones Co\+AP, incluyendo la simulación de ascensores y la gestión de sesiones DTLS. \label{mi__simulador__ascensor_8c_a2e69b946477ed035db425886fe261a13} 
+\index{mi\_simulador\_ascensor.c@{mi\_simulador\_ascensor.c}!managed\_elevator\_group@{managed\_elevator\_group}}
+\index{managed\_elevator\_group@{managed\_elevator\_group}!mi\_simulador\_ascensor.c@{mi\_simulador\_ascensor.c}}
+\doxysubsubsection{managed\_elevator\_group}
+{\footnotesize\ttfamily \textbf{ elevator\+\_\+group\+\_\+state\+\_\+t} managed\+\_\+elevator\+\_\+group\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+Grupo de ascensores gestionado. 
+
+Referencia externa al grupo de ascensores principal definido en \doxyref{main.\+c}{p.}{main_8c}. Se utiliza para configurar el ID del edificio durante la simulación.
+
+\begin{DoxySeeAlso}{See also}
+\doxyref{elevator\+\_\+group\+\_\+state\+\_\+t}{p.}{structelevator__group__state__t}
+\end{DoxySeeAlso}
+Grupo de ascensores gestionado.
+
+Estado del grupo de ascensores gestionado.
+
+Estado del grupo de ascensores gestionado por este gateway.
+
+Contiene el estado completo de todos los ascensores del edificio gestionado por este API Gateway, incluyendo posiciones actuales, tareas asignadas, estados de puertas y disponibilidad.
+
+\begin{DoxySeeAlso}{See also}
+\doxyref{elevator\+\_\+group\+\_\+state\+\_\+t}{p.}{structelevator__group__state__t} 
+
+\doxyref{elevator\+\_\+state\+\_\+manager.\+h}{p.}{elevator__state__manager_8h}
+\end{DoxySeeAlso}
+Grupo de ascensores gestionado.
+
+Estado del grupo de ascensores gestionado.
+
+Declaración externa para acceder al estado del grupo de ascensores gestionado en \doxyref{main.\+c}{p.}{main_8c}. Contiene información completa de todos los ascensores del edificio.
+
+\begin{DoxySeeAlso}{See also}
+\doxyref{elevator\+\_\+group\+\_\+state\+\_\+t}{p.}{structelevator__group__state__t} 
+
+\doxyref{main.\+c}{p.}{main_8c}
+\end{DoxySeeAlso}
+Estado del grupo de ascensores gestionado por este gateway.
+
+Contiene el estado completo de todos los ascensores del edificio gestionado por este API Gateway, incluyendo posiciones actuales, tareas asignadas, estados de puertas y disponibilidad.
+
+\begin{DoxySeeAlso}{See also}
+\doxyref{elevator\+\_\+group\+\_\+state\+\_\+t}{p.}{structelevator__group__state__t} 
+
+\doxyref{elevator\+\_\+state\+\_\+manager.\+h}{p.}{elevator__state__manager_8h} 
+\end{DoxySeeAlso}

@@ -1,0 +1,84 @@
+\doxysection{logging.\+h}
+\label{logging_8h_source}\index{include/servidor\_central/logging.h@{include/servidor\_central/logging.h}}
+\textbf{ Go to the documentation of this file.}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#ifndef\ LOGGING\_H}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#define\ LOGGING\_H}}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ <stdio.h>}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#include\ <time.h>}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#include\ <stdarg.h>}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00024\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00033\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{00034\ \ \ \ \ LOG\_LEVEL\_DEBUG\ =\ 0,\ \ \ \ }
+\DoxyCodeLine{00035\ \ \ \ \ LOG\_LEVEL\_INFO\ =\ 1,\ \ \ \ \ }
+\DoxyCodeLine{00036\ \ \ \ \ LOG\_LEVEL\_WARN\ =\ 2,\ \ \ \ \ }
+\DoxyCodeLine{00037\ \ \ \ \ LOG\_LEVEL\_ERROR\ =\ 3,\ \ \ \ }
+\DoxyCodeLine{00038\ \ \ \ \ LOG\_LEVEL\_CRIT\ =\ 4\ \ \ \ \ \ }
+\DoxyCodeLine{00039\ \}\ log\_level\_t;}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00047\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00048\ \ \ \ \ log\_level\_t\ min\_level;\ \ \ \ \ \ }
+\DoxyCodeLine{00049\ \ \ \ \ FILE\ *log\_file;\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keywordtype}{int}\ use\_timestamps;\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keywordtype}{int}\ use\_colors;\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keywordtype}{int}\ use\_thread\_id;\ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keywordtype}{char}\ *log\_format;\ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00054\ \}\ logging\_config\_t;}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00066\ \textcolor{preprocessor}{\#define\ DEFAULT\_LOGGING\_CONFIG\ \{\ \(\backslash\)}}
+\DoxyCodeLine{00067\ \textcolor{preprocessor}{\ \ \ \ .min\_level\ =\ LOG\_LEVEL\_INFO,\ \(\backslash\)}}
+\DoxyCodeLine{00068\ \textcolor{preprocessor}{\ \ \ \ .log\_file\ =\ NULL,\ \(\backslash\)}}
+\DoxyCodeLine{00069\ \textcolor{preprocessor}{\ \ \ \ .use\_timestamps\ =\ 1,\ \(\backslash\)}}
+\DoxyCodeLine{00070\ \textcolor{preprocessor}{\ \ \ \ .use\_colors\ =\ 1,\ \(\backslash\)}}
+\DoxyCodeLine{00071\ \textcolor{preprocessor}{\ \ \ \ .use\_thread\_id\ =\ 1,\ \(\backslash\)}}
+\DoxyCodeLine{00072\ \textcolor{preprocessor}{\ \ \ \ .log\_format\ =\ NULL\ \(\backslash\)}}
+\DoxyCodeLine{00073\ \textcolor{preprocessor}{\}}}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00092\ \textcolor{keywordtype}{int}\ init\_logging(\textcolor{keyword}{const}\ logging\_config\_t\ *config,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *log\_file\_path);}
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00105\ \textcolor{keywordtype}{void}\ cleanup\_logging(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00106\ }
+\DoxyCodeLine{00117\ \textcolor{keywordtype}{void}\ set\_log\_level(log\_level\_t\ level);}
+\DoxyCodeLine{00118\ }
+\DoxyCodeLine{00126\ log\_level\_t\ get\_log\_level(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00127\ }
+\DoxyCodeLine{00141\ \textcolor{keywordtype}{void}\ \_log\_message(log\_level\_t\ level,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *file,\ \textcolor{keywordtype}{int}\ line,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *func,}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *format,\ ...);}
+\DoxyCodeLine{00143\ }
+\DoxyCodeLine{00156\ \textcolor{preprocessor}{\#define\ LOG\_DEBUG(format,\ ...)\ \(\backslash\)}}
+\DoxyCodeLine{00157\ \textcolor{preprocessor}{\ \ \ \ \_log\_message(LOG\_LEVEL\_DEBUG,\ \_\_FILE\_\_,\ \_\_LINE\_\_,\ \_\_func\_\_,\ format,\ \#\#\_\_VA\_ARGS\_\_)}}
+\DoxyCodeLine{00158\ }
+\DoxyCodeLine{00171\ \textcolor{preprocessor}{\#define\ LOG\_INFO(format,\ ...)\ \(\backslash\)}}
+\DoxyCodeLine{00172\ \textcolor{preprocessor}{\ \ \ \ \_log\_message(LOG\_LEVEL\_INFO,\ \_\_FILE\_\_,\ \_\_LINE\_\_,\ \_\_func\_\_,\ format,\ \#\#\_\_VA\_ARGS\_\_)}}
+\DoxyCodeLine{00173\ }
+\DoxyCodeLine{00186\ \textcolor{preprocessor}{\#define\ LOG\_WARN(format,\ ...)\ \(\backslash\)}}
+\DoxyCodeLine{00187\ \textcolor{preprocessor}{\ \ \ \ \_log\_message(LOG\_LEVEL\_WARN,\ \_\_FILE\_\_,\ \_\_LINE\_\_,\ \_\_func\_\_,\ format,\ \#\#\_\_VA\_ARGS\_\_)}}
+\DoxyCodeLine{00188\ }
+\DoxyCodeLine{00201\ \textcolor{preprocessor}{\#define\ LOG\_ERROR(format,\ ...)\ \(\backslash\)}}
+\DoxyCodeLine{00202\ \textcolor{preprocessor}{\ \ \ \ \_log\_message(LOG\_LEVEL\_ERROR,\ \_\_FILE\_\_,\ \_\_LINE\_\_,\ \_\_func\_\_,\ format,\ \#\#\_\_VA\_ARGS\_\_)}}
+\DoxyCodeLine{00203\ }
+\DoxyCodeLine{00216\ \textcolor{preprocessor}{\#define\ LOG\_CRIT(format,\ ...)\ \(\backslash\)}}
+\DoxyCodeLine{00217\ \textcolor{preprocessor}{\ \ \ \ \_log\_message(LOG\_LEVEL\_CRIT,\ \_\_FILE\_\_,\ \_\_LINE\_\_,\ \_\_func\_\_,\ format,\ \#\#\_\_VA\_ARGS\_\_)}}
+\DoxyCodeLine{00218\ }
+\DoxyCodeLine{00230\ \textcolor{preprocessor}{\#define\ LOG\_FUNC\_ENTER(func\_name,\ ...)\ \(\backslash\)}}
+\DoxyCodeLine{00231\ \textcolor{preprocessor}{\ \ \ \ LOG\_DEBUG("{}Entering\ \%s"{},\ func\_name)}}
+\DoxyCodeLine{00232\ }
+\DoxyCodeLine{00244\ \textcolor{preprocessor}{\#define\ LOG\_FUNC\_EXIT(func\_name,\ return\_value)\ \(\backslash\)}}
+\DoxyCodeLine{00245\ \textcolor{preprocessor}{\ \ \ \ LOG\_DEBUG("{}Exiting\ \%s\ with\ return\ value\ \%d"{},\ func\_name,\ return\_value)}}
+\DoxyCodeLine{00246\ }
+\DoxyCodeLine{00257\ \textcolor{preprocessor}{\#define\ LOG\_VAR(var\_name,\ var\_value,\ format)\ \(\backslash\)}}
+\DoxyCodeLine{00258\ \textcolor{preprocessor}{\ \ \ \ LOG\_DEBUG("{}\%s\ =\ "{}\ format,\ var\_name,\ var\_value)}}
+\DoxyCodeLine{00259\ }
+\DoxyCodeLine{00260\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00261\ \}}
+\DoxyCodeLine{00262\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00263\ }
+\DoxyCodeLine{00264\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ LOGGING\_H\ */}\textcolor{preprocessor}{\ }}
+
+\end{DoxyCode}

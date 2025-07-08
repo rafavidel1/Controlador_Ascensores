@@ -1,0 +1,87 @@
+\doxysection{src/simulation\+\_\+loader.c File Reference}
+\label{simulation__loader_8c}\index{src/simulation\_loader.c@{src/simulation\_loader.c}}
+
+
+Implementación del Sistema de Carga y Ejecución de Simulaciones.  
+
+
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \textbf{ cargar\+\_\+datos\+\_\+simulacion} (const char $\ast$archivo\+\_\+json, \textbf{ datos\+\_\+simulacion\+\_\+t} $\ast$datos)
+\begin{DoxyCompactList}\small\item\em Carga los datos de simulación desde un archivo JSON. \end{DoxyCompactList}\item 
+void \textbf{ liberar\+\_\+datos\+\_\+simulacion} (\textbf{ datos\+\_\+simulacion\+\_\+t} $\ast$datos)
+\begin{DoxyCompactList}\small\item\em Libera la memoria utilizada por los datos de simulación. \end{DoxyCompactList}\item 
+\textbf{ edificio\+\_\+simulacion\+\_\+t} $\ast$ \textbf{ seleccionar\+\_\+edificio\+\_\+aleatorio} (\textbf{ datos\+\_\+simulacion\+\_\+t} $\ast$datos)
+\begin{DoxyCompactList}\small\item\em Selecciona un edificio aleatorio de los datos cargados. \end{DoxyCompactList}\item 
+int \textbf{ convertir\+\_\+direccion\+\_\+string} (const char $\ast$direccion\+\_\+str)
+\begin{DoxyCompactList}\small\item\em Convierte una cadena de dirección a enum. \end{DoxyCompactList}\item 
+int \textbf{ ejecutar\+\_\+peticiones\+\_\+edificio} (\textbf{ edificio\+\_\+simulacion\+\_\+t} $\ast$edificio, coap\+\_\+context\+\_\+t $\ast$ctx)
+\begin{DoxyCompactList}\small\item\em Ejecuta todas las peticiones de un edificio. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\textbf{ elevator\+\_\+group\+\_\+state\+\_\+t} \textbf{ managed\+\_\+elevator\+\_\+group}
+\begin{DoxyCompactList}\small\item\em Estado global del grupo de ascensores gestionado por este gateway. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Implementación del Sistema de Carga y Ejecución de Simulaciones. 
+
+\begin{DoxyAuthor}{Author}
+Sistema de Control de Ascensores 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2025 
+\end{DoxyDate}
+\begin{DoxyVersion}{Version}
+1.\+0 
+\end{DoxyVersion}
+
+
+\doxysubsection{Variable Documentation}
+\label{simulation__loader_8c_a2e69b946477ed035db425886fe261a13} 
+\index{simulation\_loader.c@{simulation\_loader.c}!managed\_elevator\_group@{managed\_elevator\_group}}
+\index{managed\_elevator\_group@{managed\_elevator\_group}!simulation\_loader.c@{simulation\_loader.c}}
+\doxysubsubsection{managed\_elevator\_group}
+{\footnotesize\ttfamily \textbf{ elevator\+\_\+group\+\_\+state\+\_\+t} managed\+\_\+elevator\+\_\+group\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+Estado global del grupo de ascensores gestionado por este gateway. 
+
+Grupo de ascensores gestionado.
+
+Estado del grupo de ascensores gestionado.
+
+Estado del grupo de ascensores gestionado por este gateway.
+
+Contiene el estado completo de todos los ascensores del edificio gestionado por este API Gateway, incluyendo posiciones actuales, tareas asignadas, estados de puertas y disponibilidad.
+
+\begin{DoxySeeAlso}{See also}
+\doxyref{elevator\+\_\+group\+\_\+state\+\_\+t}{p.}{structelevator__group__state__t} 
+
+\doxyref{elevator\+\_\+state\+\_\+manager.\+h}{p.}{elevator__state__manager_8h}
+\end{DoxySeeAlso}
+Estado global del grupo de ascensores gestionado por este gateway.
+
+Grupo de ascensores gestionado.
+
+Estado del grupo de ascensores gestionado.
+
+Declaración externa para acceder al estado del grupo de ascensores gestionado en \doxyref{main.\+c}{p.}{main_8c}. Contiene información completa de todos los ascensores del edificio.
+
+\begin{DoxySeeAlso}{See also}
+\doxyref{elevator\+\_\+group\+\_\+state\+\_\+t}{p.}{structelevator__group__state__t} 
+
+\doxyref{main.\+c}{p.}{main_8c}
+\end{DoxySeeAlso}
+Estado del grupo de ascensores gestionado por este gateway.
+
+Contiene el estado completo de todos los ascensores del edificio gestionado por este API Gateway, incluyendo posiciones actuales, tareas asignadas, estados de puertas y disponibilidad.
+
+\begin{DoxySeeAlso}{See also}
+\doxyref{elevator\+\_\+group\+\_\+state\+\_\+t}{p.}{structelevator__group__state__t} 
+
+\doxyref{elevator\+\_\+state\+\_\+manager.\+h}{p.}{elevator__state__manager_8h} 
+\end{DoxySeeAlso}

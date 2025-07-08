@@ -1,0 +1,52 @@
+\doxysection{server\+\_\+functions.\+h}
+\label{server__functions_8h_source}\index{include/servidor\_central/server\_functions.h@{include/servidor\_central/server\_functions.h}}
+\textbf{ Go to the documentation of this file.}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#ifndef\ SERVER\_FUNCTIONS\_H}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#define\ SERVER\_FUNCTIONS\_H}}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ <coap3/coap.h>}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#include\ <openssl/ssl.h>}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#include\ <openssl/err.h>}}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#include\ <sqlite3.h>}}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00025\ \textcolor{keyword}{extern}\ \textcolor{stringliteral}{"{}C"{}}\ \{}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00035\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00036\ \ \ \ \ coap\_context\_t\ *ctx;\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00037\ \ \ \ \ SSL\_CTX\ *ssl\_ctx;\ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00038\ \ \ \ \ sqlite3\ *db;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keywordtype}{int}\ running;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keywordtype}{char}\ *psk\_file;\ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keywordtype}{int}\ port;\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00042\ \}\ server\_context\_t;}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00063\ \textcolor{keywordtype}{int}\ init\_server\_context(server\_context\_t\ *server\_ctx,\ \textcolor{keywordtype}{int}\ port,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *psk\_file);}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00079\ \textcolor{keywordtype}{void}\ cleanup\_server\_context(server\_context\_t\ *server\_ctx);}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00098\ \textcolor{keywordtype}{int}\ run\_server(server\_context\_t\ *server\_ctx);}
+\DoxyCodeLine{00099\ }
+\DoxyCodeLine{00114\ \textcolor{keywordtype}{int}\ setup\_coap\_resources(coap\_context\_t\ *ctx);}
+\DoxyCodeLine{00115\ }
+\DoxyCodeLine{00134\ \textcolor{keywordtype}{int}\ validate\_psk(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *identity,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *psk,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *psk\_file);}
+\DoxyCodeLine{00135\ }
+\DoxyCodeLine{00155\ \textcolor{keywordtype}{int}\ handle\_floor\_request(coap\_session\_t\ *session,\ coap\_pdu\_t\ *request,\ }
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ coap\_pdu\_t\ *response,\ sqlite3\ *db);}
+\DoxyCodeLine{00157\ }
+\DoxyCodeLine{00177\ \textcolor{keywordtype}{int}\ handle\_cabin\_request(coap\_session\_t\ *session,\ coap\_pdu\_t\ *request,\ }
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ coap\_pdu\_t\ *response,\ sqlite3\ *db);}
+\DoxyCodeLine{00179\ }
+\DoxyCodeLine{00201\ \textcolor{keywordtype}{int}\ assign\_elevator(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *edificio\_id,\ \textcolor{keywordtype}{int}\ piso\_origen,\ \textcolor{keywordtype}{int}\ piso\_destino,}
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ sqlite3\ *db,\ \textcolor{keywordtype}{char}\ **ascensor\_asignado,\ \textcolor{keywordtype}{int}\ *tiempo\_estimado);}
+\DoxyCodeLine{00203\ }
+\DoxyCodeLine{00204\ \textcolor{preprocessor}{\#ifdef\ \_\_cplusplus}}
+\DoxyCodeLine{00205\ \}}
+\DoxyCodeLine{00206\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00207\ }
+\DoxyCodeLine{00208\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ SERVER\_FUNCTIONS\_H\ */}\textcolor{preprocessor}{\ }}
+
+\end{DoxyCode}

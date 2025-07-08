@@ -1,0 +1,164 @@
+---
+config:
+  theme: redux
+  look: neo
+  layout: fixed
+---
+flowchart TB
+ subgraph SimulatorLayer["🔧 Simulator Layer"]
+    direction TB
+        MiSimulator["🧪 Mi Simulador Ascensor<br/>mi_simulador_ascensor.c"]
+        SimulationData["📊 Simulation Data<br/>simulation_data.json<br/>100 edificios, 1000 peticiones"]
+        CANFrameGenerator["🔄 CAN Frame Generator<br/>generate_can_frame()"]
+        CANBus["🔌 CAN Bus Simulator<br/>simulated_can_frame_t"]
+        
+        MiSimulator --> SimulationData
+        SimulationData --> CANFrameGenerator
+        CANFrameGenerator --> CANBus
+  end
+
+ subgraph CANProcessing["🌉 CAN Processing Module"]
+    direction TB
+        CANBridge["🌉 CAN Bridge<br/>can_bridge.c<br/>ag_can_bridge_process_incoming_frame()"]
+        CANTracker["📋 CAN Tracker<br/>can_origin_tracker_t<br/>Buffer circular"]
+        CANValidator["✅ CAN Validator<br/>validate_can_frame()"]
+        
+        CANBridge --> CANValidator
+        CANValidator --> CANTracker
+  end
+
+ subgraph StateManagement["📊 State Management Module"]
+    direction TB
+        StateManager["📊 State Manager<br/>elevator_state_manager.c<br/>init_elevator_group()"]
+        ElevatorGroup["🏢 Elevator Group<br/>elevator_group_state_t<br/>MAX_ELEVATORS_PER_GATEWAY"]
+        StateUpdater["🔄 State Updater<br/>update_elevator_state()"]
+        
+        StateManager --> ElevatorGroup
+        ElevatorGroup --> StateUpdater
+  end
+
+ subgraph JSONProcessing["📋 JSON Processing Module"]
+    direction TB
+        JSONSerializer["📋 JSON Serializer<br/>elevator_group_to_json_for_server()"]
+        FloorCallBuilder["🏗️ Floor Call Builder<br/>floor_call_to_json()"]
+        CabinRequestBuilder["🏗️ Cabin Request Builder<br/>cabin_request_to_json()"]
+        JSONValidator["✅ JSON Validator<br/>validate_json_structure()"]
+        
+        JSONSerializer --> FloorCallBuilder
+        JSONSerializer --> CabinRequestBuilder
+        FloorCallBuilder --> JSONValidator
+        CabinRequestBuilder --> JSONValidator
+  end
+
+ subgraph NetworkClient["🌐 Network Client Module"]
+    direction TB
+        CoAPClient["🌐 CoAP Client<br/>libcoap 4.3.0<br/>coap_new_context()"]
+        DTLSClient["🔐 DTLS Client<br/>libcoap + OpenSSL<br/>coap_context_set_psk()"]
+        RequestTracker["📋 Request Tracker<br/>api_request_tracker_t<br/>Token correlation"]
+        SessionManager["🔗 Session Manager<br/>get_or_create_central_server_dtls_session()"]
+        
+        CoAPClient --> DTLSClient
+        DTLSClient --> SessionManager
+        SessionManager --> RequestTracker
+  end
+
+ subgraph ConfigManager["⚙️ Configuration Module"]
+    direction TB
+        EnvConfig["⚙️ Environment Config<br/>dotenv-c<br/>gateway.env"]
+        CoAPConfig["🔧 CoAP Config<br/>coap_config.h<br/>CENTRAL_SERVER_IP"]
+        DTLSConfig["🔐 DTLS Config<br/>dtls_common_config.h<br/>PSK keys"]
+        TimeoutConfig["⏰ Timeout Config<br/>COAP_REQUEST_TIMEOUT_MS"]
+        
+        EnvConfig --> CoAPConfig
+        EnvConfig --> DTLSConfig
+        EnvConfig --> TimeoutConfig
+  end
+
+ subgraph LoggingModule["📊 Logging Module"]
+    direction TB
+        ExecutionLogger["📊 Execution Logger<br/>execution_logger.c<br/>log_execution_event()"]
+        LogFormatter["📝 Log Formatter<br/>format_markdown_log()"]
+        LogRotator["🔄 Log Rotator<br/>create_daily_log_directory()"]
+        
+        ExecutionLogger --> LogFormatter
+        LogFormatter --> LogRotator
+  end
+
+ subgraph APIGateway["☁️ API Gateway Process"]
+    direction TB
+        CANProcessing
+        StateManagement
+        JSONProcessing
+        NetworkClient
+        ConfigManager
+        LoggingModule
+  end
+
+ subgraph NetworkInterface["🌐 Network Interface"]
+    direction TB
+        DTLSTunnel["🔒 DTLS-PSK Tunnel<br/>AES-128-CCM-8<br/>RFC 6347<br/>Puerto 5684"]
+        NetworkStack["🕸️ Network Stack<br/>UDP/IP<br/>Socket programming"]
+        LoadBalancer["⚖️ MetalLB LoadBalancer<br/>192.168.49.2:5684<br/>External IP"]
+        
+        DTLSTunnel --> NetworkStack
+        NetworkStack --> LoadBalancer
+  end
+
+    %% Data Flow Connections
+    CANBus -- "simulated_can_frame_t<br/>ID: 0x100 (Floor Call)<br/>ID: 0x200 (Cabin Request)<br/>ID: 0x300 (Arrival)<br/>Data: uint8_t[8]<br/>DLC: 0-8 bytes" --> CANBridge
+    
+    CANBridge -- "gw_request_type_t<br/>GW_REQUEST_TYPE_FLOOR_CALL<br/>GW_REQUEST_TYPE_CABIN_REQUEST<br/>api_request_details_for_json_t<br/>Floor/cabin specific data" --> StateManager
+    
+    StateManager -- "elevator_group_state_t<br/>elevator_status_t[]<br/>num_elevadores_en_grupo<br/>edificio_id_str_grupo<br/>Estado completo del grupo" --> JSONSerializer
+    
+    JSONSerializer -- "FloorCallRequest JSON<br/>{id_edificio, piso_origen_llamada,<br/>direccion_llamada, elevadores_estado}<br/>CabinRequest JSON<br/>{id_edificio, solicitando_ascensor_id,<br/>piso_destino_solicitud, elevadores_estado}" --> CoAPClient
+    
+    CoAPClient -- "CoAP POST /peticion_piso<br/>CoAP POST /peticion_cabina<br/>Content-Type: application/json<br/>Token: unique_token<br/>Message ID: mid<br/>Payload: JSON structure" --> DTLSTunnel
+    
+    DTLSTunnel -- "DTLS-PSK encrypted CoAP<br/>Cipher: AES-128-CCM-8<br/>PSK Identity: Gateway_Client_*<br/>UDP packets to 192.168.49.2:5684<br/>Authenticated & Encrypted" --> LoadBalancer
+
+    %% Configuration Dependencies
+    EnvConfig -. "IDENTITY_TO_PRESENT_TO_SERVER<br/>KEY_FOR_SERVER<br/>CENTRAL_SERVER_IP<br/>CENTRAL_SERVER_PORT<br/>Runtime configuration" .-> DTLSClient
+    
+    EnvConfig -. "COAP_REQUEST_TIMEOUT_MS<br/>COAP_MAX_RETRIES<br/>FLOOR_CALL_RESOURCE<br/>CABIN_REQUEST_RESOURCE<br/>Network parameters" .-> CoAPClient
+    
+    CANTracker -. "Correlation tracking<br/>original_can_id<br/>coap_token<br/>request_type<br/>Response correlation" .-> RequestTracker
+    
+    ExecutionLogger -. "Event logging<br/>CAN frames processed<br/>CoAP requests sent<br/>DTLS sessions<br/>Performance metrics" .-> LogRotator
+
+    %% Styling
+    MiSimulator:::simulatorStyle
+    SimulationData:::simulatorStyle
+    CANFrameGenerator:::simulatorStyle
+    CANBus:::hardwareStyle
+    CANBridge:::gatewayStyle
+    CANTracker:::gatewayStyle
+    CANValidator:::gatewayStyle
+    StateManager:::gatewayStyle
+    ElevatorGroup:::gatewayStyle
+    StateUpdater:::gatewayStyle
+    JSONSerializer:::gatewayStyle
+    FloorCallBuilder:::gatewayStyle
+    CabinRequestBuilder:::gatewayStyle
+    JSONValidator:::gatewayStyle
+    CoAPClient:::gatewayStyle
+    DTLSClient:::gatewayStyle
+    RequestTracker:::gatewayStyle
+    SessionManager:::gatewayStyle
+    EnvConfig:::configStyle
+    CoAPConfig:::configStyle
+    DTLSConfig:::configStyle
+    TimeoutConfig:::configStyle
+    ExecutionLogger:::logStyle
+    LogFormatter:::logStyle
+    LogRotator:::logStyle
+    DTLSTunnel:::networkStyle
+    NetworkStack:::networkStyle
+    LoadBalancer:::networkStyle
+    
+    classDef simulatorStyle fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    classDef hardwareStyle fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+    classDef gatewayStyle fill:#f3e5f5,stroke:#4a148c,stroke-width:2px  
+    classDef configStyle fill:#e8f5e8,stroke:#1b5e20,stroke-width:2px
+    classDef logStyle fill:#fff9c4,stroke:#f57f17,stroke-width:2px
+    classDef networkStyle fill:#fce4ec,stroke:#880e4f,stroke-width:2px 

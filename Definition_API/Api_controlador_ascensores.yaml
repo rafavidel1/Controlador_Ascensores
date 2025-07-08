@@ -21,7 +21,7 @@ info:
     name: Sistema de Control de Ascensores
 
 servers:
-  - url: coap://127.0.0.1:5684
+  - url: coap://192.168.49.2:5684
     description: Servidor Central (CoAP sobre DTLS-PSK)
 
 paths:
@@ -128,7 +128,8 @@ components:
           type: string
           nullable: true
           description: ID de la tarea actual asignada por el servidor central.
-          example: T_123456
+          pattern: '^T_[0-9]+$'
+          example: T_1640995200123
           maxLength: 31
         destino_actual:
           type: integer
@@ -223,7 +224,7 @@ components:
           type: string
           description: ID único de la tarea asignada por el servidor central.
           pattern: '^T_[0-9]+$'
-          example: T_123456
+          example: T_1640995200123
           maxLength: 31
         piso_destino_asignado:
           type: integer

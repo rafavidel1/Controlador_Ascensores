@@ -1,0 +1,75 @@
+\doxysection{logging\+\_\+config\+\_\+t Struct Reference}
+\label{structlogging__config__t}\index{logging\_config\_t@{logging\_config\_t}}
+
+
+Configuración del sistema de logging.  
+
+
+
+
+{\ttfamily \#include $<$logging.\+h$>$}
+
+\doxysubsubsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+\textbf{ log\+\_\+level\+\_\+t} \textbf{ min\+\_\+level}
+\item 
+FILE $\ast$ \textbf{ log\+\_\+file}
+\item 
+int \textbf{ use\+\_\+timestamps}
+\item 
+int \textbf{ use\+\_\+colors}
+\item 
+int \textbf{ use\+\_\+thread\+\_\+id}
+\item 
+char $\ast$ \textbf{ log\+\_\+format}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Configuración del sistema de logging. 
+
+Esta estructura contiene la configuración del sistema de logging, incluyendo el nivel mínimo, el archivo de salida y las opciones de formato. 
+
+\doxysubsection{Field Documentation}
+\label{structlogging__config__t_af404f3613f578bbdd075728650f546f1} 
+\index{logging\_config\_t@{logging\_config\_t}!log\_file@{log\_file}}
+\index{log\_file@{log\_file}!logging\_config\_t@{logging\_config\_t}}
+\doxysubsubsection{log\_file}
+{\footnotesize\ttfamily FILE$\ast$ logging\+\_\+config\+\_\+t\+::log\+\_\+file}
+
+Archivo de salida para logs \label{structlogging__config__t_a13d049321739f19be87577c25fb270ab} 
+\index{logging\_config\_t@{logging\_config\_t}!log\_format@{log\_format}}
+\index{log\_format@{log\_format}!logging\_config\_t@{logging\_config\_t}}
+\doxysubsubsection{log\_format}
+{\footnotesize\ttfamily char$\ast$ logging\+\_\+config\+\_\+t\+::log\+\_\+format}
+
+Formato personalizado de log \label{structlogging__config__t_ae11ed4ae134b5d101e1efb996eec2537} 
+\index{logging\_config\_t@{logging\_config\_t}!min\_level@{min\_level}}
+\index{min\_level@{min\_level}!logging\_config\_t@{logging\_config\_t}}
+\doxysubsubsection{min\_level}
+{\footnotesize\ttfamily \textbf{ log\+\_\+level\+\_\+t} logging\+\_\+config\+\_\+t\+::min\+\_\+level}
+
+Nivel mínimo de logging \label{structlogging__config__t_a6417a6c2e26465c788473ff3958c28a5} 
+\index{logging\_config\_t@{logging\_config\_t}!use\_colors@{use\_colors}}
+\index{use\_colors@{use\_colors}!logging\_config\_t@{logging\_config\_t}}
+\doxysubsubsection{use\_colors}
+{\footnotesize\ttfamily int logging\+\_\+config\+\_\+t\+::use\+\_\+colors}
+
+1 para colores en terminal, 0 para no \label{structlogging__config__t_a41828efefdf2513ed20adfb8d15b97c2} 
+\index{logging\_config\_t@{logging\_config\_t}!use\_thread\_id@{use\_thread\_id}}
+\index{use\_thread\_id@{use\_thread\_id}!logging\_config\_t@{logging\_config\_t}}
+\doxysubsubsection{use\_thread\_id}
+{\footnotesize\ttfamily int logging\+\_\+config\+\_\+t\+::use\+\_\+thread\+\_\+id}
+
+1 para incluir ID de thread, 0 para no \label{structlogging__config__t_ac199d15e916a841edbaa4ee86d8c6b1e} 
+\index{logging\_config\_t@{logging\_config\_t}!use\_timestamps@{use\_timestamps}}
+\index{use\_timestamps@{use\_timestamps}!logging\_config\_t@{logging\_config\_t}}
+\doxysubsubsection{use\_timestamps}
+{\footnotesize\ttfamily int logging\+\_\+config\+\_\+t\+::use\+\_\+timestamps}
+
+1 para incluir timestamps, 0 para no 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/servidor\+\_\+central/\textbf{ logging.\+h}\end{DoxyCompactItemize}

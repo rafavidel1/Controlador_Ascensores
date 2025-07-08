@@ -1,0 +1,23 @@
+\doxysection{psk\+\_\+manager.\+h}
+\label{psk__manager_8h_source}\index{src/psk\_manager.h@{src/psk\_manager.h}}
+\textbf{ Go to the documentation of this file.}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#ifndef\ PSK\_MANAGER\_H}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#define\ PSK\_MANAGER\_H}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ <stddef.h>}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00022\ \textcolor{keywordtype}{int}\ psk\_manager\_init(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ keys\_file\_path);}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00030\ \textcolor{keywordtype}{int}\ psk\_manager\_get\_random\_key(\textcolor{keywordtype}{char}*\ key\_buffer,\ \textcolor{keywordtype}{size\_t}\ buffer\_size);}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00038\ \textcolor{keywordtype}{int}\ psk\_manager\_get\_first\_key(\textcolor{keywordtype}{char}*\ key\_buffer,\ \textcolor{keywordtype}{size\_t}\ buffer\_size);}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00047\ \textcolor{keywordtype}{int}\ psk\_manager\_get\_deterministic\_key(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ identity,\ \textcolor{keywordtype}{char}*\ key\_buffer,\ \textcolor{keywordtype}{size\_t}\ buffer\_size);}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00052\ \textcolor{keywordtype}{void}\ psk\_manager\_cleanup(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ PSK\_MANAGER\_H\ }}
+
+\end{DoxyCode}

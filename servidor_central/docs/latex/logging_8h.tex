@@ -1,0 +1,211 @@
+\doxysection{include/servidor\+\_\+central/logging.h File Reference}
+\label{logging_8h}\index{include/servidor\_central/logging.h@{include/servidor\_central/logging.h}}
+
+
+Sistema de logging estructurado para el servidor central.  
+
+
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \textbf{ logging\+\_\+config\+\_\+t}
+\begin{DoxyCompactList}\small\item\em Configuración del sistema de logging. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \textbf{ log\+\_\+level\+\_\+t} \{ \newline
+\textbf{ LOG\+\_\+\+LEVEL\+\_\+\+DEBUG} = 0
+, \textbf{ LOG\+\_\+\+LEVEL\+\_\+\+INFO} = 1
+, \textbf{ LOG\+\_\+\+LEVEL\+\_\+\+WARN} = 2
+, \textbf{ LOG\+\_\+\+LEVEL\+\_\+\+ERROR} = 3
+, \newline
+\textbf{ LOG\+\_\+\+LEVEL\+\_\+\+CRIT} = 4
+ \}
+\begin{DoxyCompactList}\small\item\em Niveles de logging disponibles. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \textbf{ init\+\_\+logging} (const \textbf{ logging\+\_\+config\+\_\+t} $\ast$config, const char $\ast$log\+\_\+file\+\_\+path)
+\begin{DoxyCompactList}\small\item\em Inicializa el sistema de logging. \end{DoxyCompactList}\item 
+void \textbf{ cleanup\+\_\+logging} (void)
+\begin{DoxyCompactList}\small\item\em Limpia y cierra el sistema de logging. \end{DoxyCompactList}\item 
+void \textbf{ set\+\_\+log\+\_\+level} (\textbf{ log\+\_\+level\+\_\+t} level)
+\begin{DoxyCompactList}\small\item\em Establece el nivel mínimo de logging. \end{DoxyCompactList}\item 
+\textbf{ log\+\_\+level\+\_\+t} \textbf{ get\+\_\+log\+\_\+level} (void)
+\begin{DoxyCompactList}\small\item\em Obtiene el nivel actual de logging. \end{DoxyCompactList}\item 
+void \textbf{ \+\_\+log\+\_\+message} (\textbf{ log\+\_\+level\+\_\+t} level, const char $\ast$file, int line, const char $\ast$func, const char $\ast$format,...)
+\begin{DoxyCompactList}\small\item\em Función interna para escribir logs. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Sistema de logging estructurado para el servidor central. 
+
+\begin{DoxyAuthor}{Author}
+Sistema de Control de Ascensores 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+2.\+0 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+2025
+\end{DoxyDate}
+Este archivo define el sistema de logging completo del servidor central, incluyendo macros para diferentes niveles de log, funciones de inicialización y configuración del sistema de logging.
+
+\begin{DoxySeeAlso}{See also}
+\doxyref{server\+\_\+functions.\+h}{p.}{server__functions_8h} 
+
+\doxyref{main.\+c}{p.}{main_8c} 
+\end{DoxySeeAlso}
+
+
+\doxysubsection{Enumeration Type Documentation}
+\label{logging_8h_a98121d38a8cf3daf5246a349f912ca1d} 
+\index{logging.h@{logging.h}!log\_level\_t@{log\_level\_t}}
+\index{log\_level\_t@{log\_level\_t}!logging.h@{logging.h}}
+\doxysubsubsection{log\_level\_t}
+{\footnotesize\ttfamily enum \textbf{ log\+\_\+level\+\_\+t}}
+
+
+
+Niveles de logging disponibles. 
+
+Define los diferentes niveles de logging del sistema, ordenados de menor a mayor prioridad. \begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LOG\_LEVEL\_DEBUG@{LOG\_LEVEL\_DEBUG}!logging.h@{logging.h}}\index{logging.h@{logging.h}!LOG\_LEVEL\_DEBUG@{LOG\_LEVEL\_DEBUG}}}\label{logging_8h_a98121d38a8cf3daf5246a349f912ca1da538b2b6e011479d408ecd2be0f6d6177} 
+LOG\+\_\+\+LEVEL\+\_\+\+DEBUG&Información detallada para debugging \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LOG\_LEVEL\_INFO@{LOG\_LEVEL\_INFO}!logging.h@{logging.h}}\index{logging.h@{logging.h}!LOG\_LEVEL\_INFO@{LOG\_LEVEL\_INFO}}}\label{logging_8h_a98121d38a8cf3daf5246a349f912ca1daedee1e3159bfe7d918b6e29873c5aee4} 
+LOG\+\_\+\+LEVEL\+\_\+\+INFO&Información general del sistema \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LOG\_LEVEL\_WARN@{LOG\_LEVEL\_WARN}!logging.h@{logging.h}}\index{logging.h@{logging.h}!LOG\_LEVEL\_WARN@{LOG\_LEVEL\_WARN}}}\label{logging_8h_a98121d38a8cf3daf5246a349f912ca1da99c1e5c8e6d557f3993b9ab54a0107f4} 
+LOG\+\_\+\+LEVEL\+\_\+\+WARN&Advertencias que no impiden funcionamiento \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LOG\_LEVEL\_ERROR@{LOG\_LEVEL\_ERROR}!logging.h@{logging.h}}\index{logging.h@{logging.h}!LOG\_LEVEL\_ERROR@{LOG\_LEVEL\_ERROR}}}\label{logging_8h_a98121d38a8cf3daf5246a349f912ca1da5b40f003febbc3b535649d63f4b8a44f} 
+LOG\+\_\+\+LEVEL\+\_\+\+ERROR&Errores que afectan funcionalidad \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{LOG\_LEVEL\_CRIT@{LOG\_LEVEL\_CRIT}!logging.h@{logging.h}}\index{logging.h@{logging.h}!LOG\_LEVEL\_CRIT@{LOG\_LEVEL\_CRIT}}}\label{logging_8h_a98121d38a8cf3daf5246a349f912ca1da993094394bb919145bc46868c5c46997} 
+LOG\+\_\+\+LEVEL\+\_\+\+CRIT&Errores críticos que pueden causar fallos \\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Function Documentation}
+\label{logging_8h_a968bb8066cd03ef52ed9eb314d6abae7} 
+\index{logging.h@{logging.h}!\_log\_message@{\_log\_message}}
+\index{\_log\_message@{\_log\_message}!logging.h@{logging.h}}
+\doxysubsubsection{\_log\_message()}
+{\footnotesize\ttfamily void \+\_\+log\+\_\+message (\begin{DoxyParamCaption}\item[{\textbf{ log\+\_\+level\+\_\+t}}]{level,  }\item[{const char $\ast$}]{file,  }\item[{int}]{line,  }\item[{const char $\ast$}]{func,  }\item[{const char $\ast$}]{format,  }\item[{}]{... }\end{DoxyParamCaption})}
+
+
+
+Función interna para escribir logs. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em level} & Nivel del log \\
+\hline
+\mbox{\texttt{ in}}  & {\em file} & Archivo donde se originó el log \\
+\hline
+\mbox{\texttt{ in}}  & {\em line} & Línea donde se originó el log \\
+\hline
+\mbox{\texttt{ in}}  & {\em func} & Función donde se originó el log \\
+\hline
+\mbox{\texttt{ in}}  & {\em format} & Formato del mensaje \\
+\hline
+\mbox{\texttt{ in}}  & {\em ...} & Argumentos variables del mensaje\\
+\hline
+\end{DoxyParams}
+Esta función es llamada internamente por las macros de logging. No debe ser llamada directamente desde el código. \label{logging_8h_ac42027cad4076d432c44b52142dd10dd} 
+\index{logging.h@{logging.h}!cleanup\_logging@{cleanup\_logging}}
+\index{cleanup\_logging@{cleanup\_logging}!logging.h@{logging.h}}
+\doxysubsubsection{cleanup\_logging()}
+{\footnotesize\ttfamily void cleanup\+\_\+logging (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Limpia y cierra el sistema de logging. 
+
+Esta función limpia los recursos del sistema de logging\+:
+\begin{DoxyItemize}
+\item Cierra el archivo de log si está abierto
+\item Libera memoria dinámica
+\item Resetea la configuración
+\end{DoxyItemize}
+
+\begin{DoxyNote}{Note}
+Debe ser llamada al finalizar el programa 
+\end{DoxyNote}
+\begin{DoxySeeAlso}{See also}
+\doxyref{init\+\_\+logging}{p.}{logging_8h_aef84f1c7d25b676ceb0d8071cf7e6680} 
+\end{DoxySeeAlso}
+\label{logging_8h_a8223bce835d2d8e99911fae08671ef40} 
+\index{logging.h@{logging.h}!get\_log\_level@{get\_log\_level}}
+\index{get\_log\_level@{get\_log\_level}!logging.h@{logging.h}}
+\doxysubsubsection{get\_log\_level()}
+{\footnotesize\ttfamily \textbf{ log\+\_\+level\+\_\+t} get\+\_\+log\+\_\+level (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Obtiene el nivel actual de logging. 
+
+\begin{DoxyReturn}{Returns}
+Nivel actual de logging
+\end{DoxyReturn}
+Esta función retorna el nivel mínimo de logging actualmente configurado. \label{logging_8h_aef84f1c7d25b676ceb0d8071cf7e6680} 
+\index{logging.h@{logging.h}!init\_logging@{init\_logging}}
+\index{init\_logging@{init\_logging}!logging.h@{logging.h}}
+\doxysubsubsection{init\_logging()}
+{\footnotesize\ttfamily int init\+\_\+logging (\begin{DoxyParamCaption}\item[{const \textbf{ logging\+\_\+config\+\_\+t} $\ast$}]{config,  }\item[{const char $\ast$}]{log\+\_\+file\+\_\+path }\end{DoxyParamCaption})}
+
+
+
+Inicializa el sistema de logging. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em config} & Configuración del sistema de logging \\
+\hline
+\mbox{\texttt{ in}}  & {\em log\+\_\+file\+\_\+path} & Ruta al archivo de log (NULL para stdout)\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 en caso de éxito, -\/1 en caso de error
+\end{DoxyReturn}
+Esta función inicializa el sistema de logging\+:
+\begin{DoxyItemize}
+\item Configura el nivel mínimo de logging
+\item Abre el archivo de log si se especifica
+\item Configura el formato de salida
+\item Inicializa las opciones de timestamp y colores
+\end{DoxyItemize}
+
+\begin{DoxyNote}{Note}
+Debe ser llamada antes de usar cualquier macro de logging 
+\end{DoxyNote}
+\begin{DoxySeeAlso}{See also}
+\doxyref{cleanup\+\_\+logging}{p.}{logging_8h_ac42027cad4076d432c44b52142dd10dd} 
+\end{DoxySeeAlso}
+\label{logging_8h_a4061480cf3a51689b1a2b1a1a2fab90d} 
+\index{logging.h@{logging.h}!set\_log\_level@{set\_log\_level}}
+\index{set\_log\_level@{set\_log\_level}!logging.h@{logging.h}}
+\doxysubsubsection{set\_log\_level()}
+{\footnotesize\ttfamily void set\+\_\+log\+\_\+level (\begin{DoxyParamCaption}\item[{\textbf{ log\+\_\+level\+\_\+t}}]{level }\end{DoxyParamCaption})}
+
+
+
+Establece el nivel mínimo de logging. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em level} & Nuevo nivel mínimo de logging\\
+\hline
+\end{DoxyParams}
+Esta función permite cambiar dinámicamente el nivel mínimo de logging durante la ejecución del programa.
+
+\begin{DoxyNote}{Note}
+Solo los logs con nivel $>$= al mínimo serán mostrados 
+\end{DoxyNote}

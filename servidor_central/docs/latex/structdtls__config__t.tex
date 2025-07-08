@@ -1,0 +1,75 @@
+\doxysection{dtls\+\_\+config\+\_\+t Struct Reference}
+\label{structdtls__config__t}\index{dtls\_config\_t@{dtls\_config\_t}}
+
+
+Configuración de seguridad DTLS-\/\+PSK.  
+
+
+
+
+{\ttfamily \#include $<$dtls\+\_\+common\+\_\+config.\+h$>$}
+
+\doxysubsubsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+char $\ast$ \textbf{ psk\+\_\+file}
+\item 
+int \textbf{ psk\+\_\+timeout}
+\item 
+int \textbf{ dtls\+\_\+mtu}
+\item 
+int \textbf{ retransmit\+\_\+timeout}
+\item 
+int \textbf{ max\+\_\+connections}
+\item 
+int \textbf{ session\+\_\+cache\+\_\+size}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Configuración de seguridad DTLS-\/\+PSK. 
+
+Esta estructura contiene todos los parámetros necesarios para configurar la seguridad DTLS-\/\+PSK del servidor central. 
+
+\doxysubsection{Field Documentation}
+\label{structdtls__config__t_aa82fdc71d9d2710baaca063da69908ca} 
+\index{dtls\_config\_t@{dtls\_config\_t}!dtls\_mtu@{dtls\_mtu}}
+\index{dtls\_mtu@{dtls\_mtu}!dtls\_config\_t@{dtls\_config\_t}}
+\doxysubsubsection{dtls\_mtu}
+{\footnotesize\ttfamily int dtls\+\_\+config\+\_\+t\+::dtls\+\_\+mtu}
+
+MTU para DTLS en bytes \label{structdtls__config__t_a0765633bba38ce8214d9f069f001cb75} 
+\index{dtls\_config\_t@{dtls\_config\_t}!max\_connections@{max\_connections}}
+\index{max\_connections@{max\_connections}!dtls\_config\_t@{dtls\_config\_t}}
+\doxysubsubsection{max\_connections}
+{\footnotesize\ttfamily int dtls\+\_\+config\+\_\+t\+::max\+\_\+connections}
+
+Número máximo de conexiones simultáneas \label{structdtls__config__t_a9cd4c93dee099bfe65087d92bc528f21} 
+\index{dtls\_config\_t@{dtls\_config\_t}!psk\_file@{psk\_file}}
+\index{psk\_file@{psk\_file}!dtls\_config\_t@{dtls\_config\_t}}
+\doxysubsubsection{psk\_file}
+{\footnotesize\ttfamily char$\ast$ dtls\+\_\+config\+\_\+t\+::psk\+\_\+file}
+
+Ruta al archivo de claves PSK \label{structdtls__config__t_a671527c770de5bb84e951259533f13a2} 
+\index{dtls\_config\_t@{dtls\_config\_t}!psk\_timeout@{psk\_timeout}}
+\index{psk\_timeout@{psk\_timeout}!dtls\_config\_t@{dtls\_config\_t}}
+\doxysubsubsection{psk\_timeout}
+{\footnotesize\ttfamily int dtls\+\_\+config\+\_\+t\+::psk\+\_\+timeout}
+
+Timeout de sesión PSK en segundos \label{structdtls__config__t_a4b5ceb3462d2f5eff52947bacc757324} 
+\index{dtls\_config\_t@{dtls\_config\_t}!retransmit\_timeout@{retransmit\_timeout}}
+\index{retransmit\_timeout@{retransmit\_timeout}!dtls\_config\_t@{dtls\_config\_t}}
+\doxysubsubsection{retransmit\_timeout}
+{\footnotesize\ttfamily int dtls\+\_\+config\+\_\+t\+::retransmit\+\_\+timeout}
+
+Timeout de retransmisión en segundos \label{structdtls__config__t_a4e99fa8c9fb9ab466279db12a84ccc07} 
+\index{dtls\_config\_t@{dtls\_config\_t}!session\_cache\_size@{session\_cache\_size}}
+\index{session\_cache\_size@{session\_cache\_size}!dtls\_config\_t@{dtls\_config\_t}}
+\doxysubsubsection{session\_cache\_size}
+{\footnotesize\ttfamily int dtls\+\_\+config\+\_\+t\+::session\+\_\+cache\+\_\+size}
+
+Tamaño del caché de sesiones 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/servidor\+\_\+central/\textbf{ dtls\+\_\+common\+\_\+config.\+h}\end{DoxyCompactItemize}

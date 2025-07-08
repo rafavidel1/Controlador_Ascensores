@@ -1,0 +1,47 @@
+% Ejemplo de cómo incluir el apéndice en tu TFG
+% Copia este contenido en tu documento principal
+
+\documentclass[11pt,a4paper]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{hyperref}
+
+% Configuración básica
+\geometry{a4paper,left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm}
+
+% Configuración de listados
+\lstset{
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    frame=single,
+    numbers=left,
+    numberstyle=\tiny,
+    stepnumber=1,
+    numbersep=5pt,
+    backgroundcolor=\color{white},
+    commentstyle=\color{green},
+    keywordstyle=\color{blue},
+    stringstyle=\color{red},
+    showstringspaces=false,
+    tabsize=4
+}
+
+\title{Tu Trabajo de Fin de Grado}
+\author{Tu Nombre}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+% Tu contenido principal aquí...
+
+% Incluir el apéndice
+\include{codigo_fuente_appendix}
+
+\end{document}

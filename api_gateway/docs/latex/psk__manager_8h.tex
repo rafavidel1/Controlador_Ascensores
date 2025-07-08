@@ -1,0 +1,127 @@
+\doxysection{src/psk\+\_\+manager.h File Reference}
+\label{psk__manager_8h}\index{src/psk\_manager.h@{src/psk\_manager.h}}
+
+
+Gestor de claves PSK para API Gateway.  
+
+
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \textbf{ psk\+\_\+manager\+\_\+init} (const char $\ast$keys\+\_\+file\+\_\+path)
+\begin{DoxyCompactList}\small\item\em Inicializa el gestor de claves PSK. \end{DoxyCompactList}\item 
+int \textbf{ psk\+\_\+manager\+\_\+get\+\_\+random\+\_\+key} (char $\ast$key\+\_\+buffer, size\+\_\+t buffer\+\_\+size)
+\begin{DoxyCompactList}\small\item\em Obtiene una clave PSK aleatoria del archivo. \end{DoxyCompactList}\item 
+int \textbf{ psk\+\_\+manager\+\_\+get\+\_\+first\+\_\+key} (char $\ast$key\+\_\+buffer, size\+\_\+t buffer\+\_\+size)
+\begin{DoxyCompactList}\small\item\em Obtiene la primera clave PSK del archivo como fallback. \end{DoxyCompactList}\item 
+int \textbf{ psk\+\_\+manager\+\_\+get\+\_\+deterministic\+\_\+key} (const char $\ast$identity, char $\ast$key\+\_\+buffer, size\+\_\+t buffer\+\_\+size)
+\begin{DoxyCompactList}\small\item\em Obtiene una clave PSK determinística basada en la identidad. \end{DoxyCompactList}\item 
+void \textbf{ psk\+\_\+manager\+\_\+cleanup} (void)
+\begin{DoxyCompactList}\small\item\em Libera los recursos del gestor de claves PSK. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Gestor de claves PSK para API Gateway. 
+
+\begin{DoxyAuthor}{Author}
+Sistema de Control de Ascensores 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2025 
+\end{DoxyDate}
+\begin{DoxyVersion}{Version}
+1.\+0
+\end{DoxyVersion}
+Este archivo define las funciones para gestionar claves PSK desde un archivo de claves predefinidas. 
+
+\doxysubsection{Function Documentation}
+\label{psk__manager_8h_ad35ff5f3bbc4390b787ccd3cc84789fd} 
+\index{psk\_manager.h@{psk\_manager.h}!psk\_manager\_cleanup@{psk\_manager\_cleanup}}
+\index{psk\_manager\_cleanup@{psk\_manager\_cleanup}!psk\_manager.h@{psk\_manager.h}}
+\doxysubsubsection{psk\_manager\_cleanup()}
+{\footnotesize\ttfamily void psk\+\_\+manager\+\_\+cleanup (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Libera los recursos del gestor de claves PSK. 
+
+\label{psk__manager_8h_ae935da22c745fa1661bb66f846e67caf} 
+\index{psk\_manager.h@{psk\_manager.h}!psk\_manager\_get\_deterministic\_key@{psk\_manager\_get\_deterministic\_key}}
+\index{psk\_manager\_get\_deterministic\_key@{psk\_manager\_get\_deterministic\_key}!psk\_manager.h@{psk\_manager.h}}
+\doxysubsubsection{psk\_manager\_get\_deterministic\_key()}
+{\footnotesize\ttfamily int psk\+\_\+manager\+\_\+get\+\_\+deterministic\+\_\+key (\begin{DoxyParamCaption}\item[{const char $\ast$}]{identity,  }\item[{char $\ast$}]{key\+\_\+buffer,  }\item[{size\+\_\+t}]{buffer\+\_\+size }\end{DoxyParamCaption})}
+
+
+
+Obtiene una clave PSK determinística basada en la identidad. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em identity} & Identidad del cliente \\
+\hline
+{\em key\+\_\+buffer} & Buffer donde se almacenará la clave \\
+\hline
+{\em buffer\+\_\+size} & Tamaño del buffer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 si se obtuvo correctamente, -\/1 en caso de error 
+\end{DoxyReturn}
+\label{psk__manager_8h_ae0d0cd73b05236bb4bfbbf26420ddcb1} 
+\index{psk\_manager.h@{psk\_manager.h}!psk\_manager\_get\_first\_key@{psk\_manager\_get\_first\_key}}
+\index{psk\_manager\_get\_first\_key@{psk\_manager\_get\_first\_key}!psk\_manager.h@{psk\_manager.h}}
+\doxysubsubsection{psk\_manager\_get\_first\_key()}
+{\footnotesize\ttfamily int psk\+\_\+manager\+\_\+get\+\_\+first\+\_\+key (\begin{DoxyParamCaption}\item[{char $\ast$}]{key\+\_\+buffer,  }\item[{size\+\_\+t}]{buffer\+\_\+size }\end{DoxyParamCaption})}
+
+
+
+Obtiene la primera clave PSK del archivo como fallback. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em key\+\_\+buffer} & Buffer donde se almacenará la clave \\
+\hline
+{\em buffer\+\_\+size} & Tamaño del buffer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 si se obtuvo correctamente, -\/1 en caso de error 
+\end{DoxyReturn}
+\label{psk__manager_8h_a5663ed8700e380919e18e9d9ae752621} 
+\index{psk\_manager.h@{psk\_manager.h}!psk\_manager\_get\_random\_key@{psk\_manager\_get\_random\_key}}
+\index{psk\_manager\_get\_random\_key@{psk\_manager\_get\_random\_key}!psk\_manager.h@{psk\_manager.h}}
+\doxysubsubsection{psk\_manager\_get\_random\_key()}
+{\footnotesize\ttfamily int psk\+\_\+manager\+\_\+get\+\_\+random\+\_\+key (\begin{DoxyParamCaption}\item[{char $\ast$}]{key\+\_\+buffer,  }\item[{size\+\_\+t}]{buffer\+\_\+size }\end{DoxyParamCaption})}
+
+
+
+Obtiene una clave PSK aleatoria del archivo. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em key\+\_\+buffer} & Buffer donde se almacenará la clave \\
+\hline
+{\em buffer\+\_\+size} & Tamaño del buffer \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 si se obtuvo correctamente, -\/1 en caso de error 
+\end{DoxyReturn}
+\label{psk__manager_8h_a47c0404c2287b0964a03a03f5843dd7e} 
+\index{psk\_manager.h@{psk\_manager.h}!psk\_manager\_init@{psk\_manager\_init}}
+\index{psk\_manager\_init@{psk\_manager\_init}!psk\_manager.h@{psk\_manager.h}}
+\doxysubsubsection{psk\_manager\_init()}
+{\footnotesize\ttfamily int psk\+\_\+manager\+\_\+init (\begin{DoxyParamCaption}\item[{const char $\ast$}]{keys\+\_\+file\+\_\+path }\end{DoxyParamCaption})}
+
+
+
+Inicializa el gestor de claves PSK. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em keys\+\_\+file\+\_\+path} & Ruta al archivo de claves PSK \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 si se inicializó correctamente, -\/1 en caso de error 
+\end{DoxyReturn}

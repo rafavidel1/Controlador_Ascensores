@@ -1,0 +1,99 @@
+\doxysection{can\+\_\+origin\+\_\+tracker\+\_\+t Struct Reference}
+\label{structcan__origin__tracker__t}\index{can\_origin\_tracker\_t@{can\_origin\_tracker\_t}}
+
+
+Tracker para correlacionar solicitudes CAN con respuestas Co\+AP.  
+
+
+
+
+{\ttfamily \#include $<$can\+\_\+bridge.\+h$>$}
+
+\doxysubsubsection*{Data Fields}
+\begin{DoxyCompactItemize}
+\item 
+coap\+\_\+binary\+\_\+t \textbf{ coap\+\_\+token}
+\begin{DoxyCompactList}\small\item\em Token de la solicitud Co\+AP enviada al servidor central. \end{DoxyCompactList}\item 
+uint32\+\_\+t \textbf{ original\+\_\+can\+\_\+id}
+\begin{DoxyCompactList}\small\item\em ID del frame CAN original que originó la solicitud. \end{DoxyCompactList}\item 
+\textbf{ gw\+\_\+request\+\_\+type\+\_\+t} \textbf{ request\+\_\+type}
+\begin{DoxyCompactList}\small\item\em Tipo de solicitud original (floor call, cabin request) \end{DoxyCompactList}\item 
+int \textbf{ target\+\_\+floor\+\_\+for\+\_\+task}
+\begin{DoxyCompactList}\small\item\em Piso destino de la tarea asignada. \end{DoxyCompactList}\item 
+int \textbf{ call\+\_\+reference\+\_\+floor}
+\begin{DoxyCompactList}\small\item\em Piso origen de la llamada (para floor calls) \end{DoxyCompactList}\item 
+char \textbf{ requesting\+\_\+elevator\+\_\+id\+\_\+if\+\_\+cabin} [ID\+\_\+\+STRING\+\_\+\+MAX\+\_\+\+LEN]
+\begin{DoxyCompactList}\small\item\em ID del ascensor si fue cabin request. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Tracker para correlacionar solicitudes CAN con respuestas Co\+AP. 
+
+Estructura utilizada para asociar un token Co\+AP de una solicitud enviada al servidor central con la información original del frame CAN que la originó. Permite correlacionar respuestas para enviar confirmaciones apropiadas vía CAN. 
+
+\doxysubsection{Field Documentation}
+\label{structcan__origin__tracker__t_a12cab7216a9ad7e701d5d34b6257c179} 
+\index{can\_origin\_tracker\_t@{can\_origin\_tracker\_t}!call\_reference\_floor@{call\_reference\_floor}}
+\index{call\_reference\_floor@{call\_reference\_floor}!can\_origin\_tracker\_t@{can\_origin\_tracker\_t}}
+\doxysubsubsection{call\_reference\_floor}
+{\footnotesize\ttfamily int can\+\_\+origin\+\_\+tracker\+\_\+t\+::call\+\_\+reference\+\_\+floor}
+
+
+
+Piso origen de la llamada (para floor calls) 
+
+\label{structcan__origin__tracker__t_a71fae8a9747dd2111516c79178c67562} 
+\index{can\_origin\_tracker\_t@{can\_origin\_tracker\_t}!coap\_token@{coap\_token}}
+\index{coap\_token@{coap\_token}!can\_origin\_tracker\_t@{can\_origin\_tracker\_t}}
+\doxysubsubsection{coap\_token}
+{\footnotesize\ttfamily coap\+\_\+binary\+\_\+t can\+\_\+origin\+\_\+tracker\+\_\+t\+::coap\+\_\+token}
+
+
+
+Token de la solicitud Co\+AP enviada al servidor central. 
+
+\label{structcan__origin__tracker__t_aa73a054e696a24931ba16ea543fbdd2f} 
+\index{can\_origin\_tracker\_t@{can\_origin\_tracker\_t}!original\_can\_id@{original\_can\_id}}
+\index{original\_can\_id@{original\_can\_id}!can\_origin\_tracker\_t@{can\_origin\_tracker\_t}}
+\doxysubsubsection{original\_can\_id}
+{\footnotesize\ttfamily uint32\+\_\+t can\+\_\+origin\+\_\+tracker\+\_\+t\+::original\+\_\+can\+\_\+id}
+
+
+
+ID del frame CAN original que originó la solicitud. 
+
+\label{structcan__origin__tracker__t_aa62b425f082bbe1eb9f9c02f08427064} 
+\index{can\_origin\_tracker\_t@{can\_origin\_tracker\_t}!request\_type@{request\_type}}
+\index{request\_type@{request\_type}!can\_origin\_tracker\_t@{can\_origin\_tracker\_t}}
+\doxysubsubsection{request\_type}
+{\footnotesize\ttfamily \textbf{ gw\+\_\+request\+\_\+type\+\_\+t} can\+\_\+origin\+\_\+tracker\+\_\+t\+::request\+\_\+type}
+
+
+
+Tipo de solicitud original (floor call, cabin request) 
+
+\label{structcan__origin__tracker__t_aec30cc82e2e764d7da2337c6d1a287ac} 
+\index{can\_origin\_tracker\_t@{can\_origin\_tracker\_t}!requesting\_elevator\_id\_if\_cabin@{requesting\_elevator\_id\_if\_cabin}}
+\index{requesting\_elevator\_id\_if\_cabin@{requesting\_elevator\_id\_if\_cabin}!can\_origin\_tracker\_t@{can\_origin\_tracker\_t}}
+\doxysubsubsection{requesting\_elevator\_id\_if\_cabin}
+{\footnotesize\ttfamily char can\+\_\+origin\+\_\+tracker\+\_\+t\+::requesting\+\_\+elevator\+\_\+id\+\_\+if\+\_\+cabin[ID\+\_\+\+STRING\+\_\+\+MAX\+\_\+\+LEN]}
+
+
+
+ID del ascensor si fue cabin request. 
+
+\label{structcan__origin__tracker__t_a48cfc39dc425d95712a52651e4d9e35e} 
+\index{can\_origin\_tracker\_t@{can\_origin\_tracker\_t}!target\_floor\_for\_task@{target\_floor\_for\_task}}
+\index{target\_floor\_for\_task@{target\_floor\_for\_task}!can\_origin\_tracker\_t@{can\_origin\_tracker\_t}}
+\doxysubsubsection{target\_floor\_for\_task}
+{\footnotesize\ttfamily int can\+\_\+origin\+\_\+tracker\+\_\+t\+::target\+\_\+floor\+\_\+for\+\_\+task}
+
+
+
+Piso destino de la tarea asignada. 
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/api\+\_\+gateway/\textbf{ can\+\_\+bridge.\+h}\end{DoxyCompactItemize}
