@@ -37,6 +37,7 @@
 #include <netinet/in.h> // For sockaddr_in, htons
 #include <arpa/inet.h>  // For inet_pton
 #include <time.h>     // For time() used in srand()
+#include <stdbool.h>  // For bool type (simulación no-bloqueante)
 
 #include <coap3/coap.h> // Incluir este paraguas primero
 #include <coap3/coap_address.h> // Para coap_address_to_str
@@ -140,6 +141,7 @@ static void simulate_elevator_group_step(coap_context_t *ctx, elevator_group_sta
 // --- Prototipos para el simulador de ascensor (normalmente en mi_simulador_ascensor.h) ---
 void inicializar_mi_simulacion_ascensor(void); // No necesita ctx si usamos g_coap_context
 void simular_eventos_ascensor(void);
+bool procesar_siguiente_peticion_simulacion(void); // Nueva función no-bloqueante
 // --- Fin Prototipos simulador ---
 
 /**
@@ -467,15 +469,47 @@ coap_session_t* get_or_create_central_server_dtls_session(coap_context_t *ctx) {
  */
 static void 
 simulate_elevator_group_step(coap_context_t *ctx, elevator_group_state_t *group) {
+    // Agregar logging detallado para diagnóstico
+    static int debug_counter = 0;
+    debug_counter++;
+    
+    // Log cada 10 iteraciones para no saturar los logs
+    if (debug_counter % 10 == 0) {
+        LOG_DEBUG_GW("[SimStep] === DIAGNÓSTICO SIMULADOR === Iteración %d", debug_counter);
+        LOG_DEBUG_GW("[SimStep] Grupo: %s, Ascensores: %d", 
+                    group ? group->edificio_id_str_grupo : "NULL",
+                    group ? group->num_elevadores_en_grupo : 0);
+    }
+    
     if (!ctx || !group) {
         LOG_ERROR_GW("[SimStep] Error: ctx o group es NULL.");
         return;
     }
 
+    int ascensores_ocupados = 0;
+    int ascensores_moviendo = 0;
+    
     for (int i = 0; i < group->num_elevadores_en_grupo; ++i) {
         elevator_status_t *elevator = &group->ascensores[i];
+        
+        // Contar ascensores ocupados
+        if (elevator->ocupado) {
+            ascensores_ocupados++;
+        }
+        
+        // Log detallado cada 10 iteraciones
+        if (debug_counter % 10 == 0) {
+            LOG_DEBUG_GW("[SimStep] Ascensor %s: Piso=%d, Destino=%d, Ocupado=%s, Tarea=%s", 
+                        elevator->ascensor_id,
+                        elevator->piso_actual,
+                        elevator->destino_actual,
+                        elevator->ocupado ? "SÍ" : "NO",
+                        elevator->tarea_actual_id[0] != '\0' ? elevator->tarea_actual_id : "NINGUNA");
+        }
 
         if (elevator->ocupado && elevator->destino_actual != -1) {
+            ascensores_moviendo++;
+            
             if (elevator->piso_actual != elevator->destino_actual) {
                 // Simulate door closing if it was open before movement
                 if (elevator->estado_puerta_enum != DOOR_CLOSED) {
@@ -555,6 +589,12 @@ simulate_elevator_group_step(coap_context_t *ctx, elevator_group_state_t *group)
             }
         } // end if (elevator->ocupado && elevator->destino_actual != -1)
     } // end for each elevator
+    
+    // Log estadísticas cada 10 iteraciones
+    if (debug_counter % 10 == 0) {
+        LOG_DEBUG_GW("[SimStep] ESTADÍSTICAS: Ocupados=%d, Moviendo=%d, Total=%d", 
+                    ascensores_ocupados, ascensores_moviendo, group->num_elevadores_en_grupo);
+    }
 }
 
 /**
@@ -720,14 +760,18 @@ int main(int argc, char *argv[]) {
     // This loop continuously processes incoming CoAP messages and handles I/O operations.
     // It will run until quit_main_loop is set by the signal handler.
     while (!quit_main_loop) {
-        // Process CoAP I/O for up to 500 milliseconds (0.5 seconds).
+        // Process CoAP I/O for up to 100 milliseconds (0.1 seconds).
         // This function handles sending, receiving, and retransmissions.
-        result = coap_io_process(ctx, 500); 
+        // Reducido de 500ms a 100ms para permitir simulación más frecuente
+        result = coap_io_process(ctx, 100); 
         if (result < 0) {
             fprintf(stderr, "API Gateway: Error in coap_io_process. Shutting down.\n");
             break; // Exit loop on critical error
         }
         // result >= 0: milliseconds spent in I/O, or 0 if no I/O was ready within the timeout.
+
+        // --- Procesar siguiente petición de simulación no-bloqueante ---
+        procesar_siguiente_peticion_simulacion();
 
         // --- Simulate elevator group step (movimiento ascensor) ---
         simulate_elevator_group_step(ctx, &managed_elevator_group);

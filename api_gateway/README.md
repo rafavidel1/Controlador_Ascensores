@@ -1,584 +1,351 @@
-# 🏢 API Gateway CoAP - Sistema de Control de Ascensores
+# 🔄 API Gateway - Sistema de Control de Ascensores
 
 [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)](https://github.com/user/repo)
-[![Version](https://img.shields.io/badge/version-2.0-blue.svg)](https://github.com/user/repo/releases)
-[![Language](https://img.shields.io/badge/language-C-blue.svg)](https://en.wikipedia.org/wiki/C_(programming_language))
 [![Protocol](https://img.shields.io/badge/protocol-CoAP%2FDTLS--PSK-orange.svg)](https://tools.ietf.org/html/rfc7252)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![Documentation](https://img.shields.io/badge/docs-complete-brightgreen.svg)](docs/)
+[![CAN Protocol](https://img.shields.io/badge/protocol-CAN-blue.svg)](https://en.wikipedia.org/wiki/CAN_bus)
 
-> **Gateway inteligente y seguro para la gestión distribuida de sistemas de ascensores mediante CoAP/DTLS-PSK**
+> **Puente CAN-CoAP inteligente con comunicación DTLS-PSK y simulación integrada de 100 edificios - 100% automatizado**
 
 ## 📋 Tabla de Contenidos
 
 - [🎯 Descripción General](#-descripción-general)
-- [✨ Características Principales](#-características-principales)
-- [🏗️ Arquitectura del Sistema](#️-arquitectura-del-sistema)
-- [🚀 Inicio Rápido](#-inicio-rápido)
-- [⚙️ Instalación y Configuración](#️-instalación-y-configuración)
-- [📖 Guía de Uso](#-guía-de-uso)
-- [🔧 API y Configuración](#-api-y-configuración)
-- [🧪 Testing y Simulación](#-testing-y-simulación)
-- [📊 Logging y Monitoreo](#-logging-y-monitoreo)
-- [🔒 Seguridad](#-seguridad)
+- [🚀 Inicio Rápido - 100% Automatizado](#-inicio-rápido---100-automatizado)
+- [🏗️ Arquitectura del Gateway](#️-arquitectura-del-gateway)
+- [📊 Simulación Masiva](#-simulación-masiva)
+- [📈 Monitoreo y Logging](#-monitoreo-y-logging)
+- [🔒 Seguridad DTLS-PSK](#-seguridad-dtls-psk)
 - [🐛 Solución de Problemas](#-solución-de-problemas)
-- [🤝 Contribución](#-contribución)
-- [📄 Licencia](#-licencia)
 
 ## 🎯 Descripción General
 
-El **API Gateway CoAP** es un componente crítico del Sistema de Control de Ascensores que actúa como intermediario inteligente entre los controladores CAN de ascensores y el servidor central de asignación. Implementa un puente bidireccional CAN-CoAP con comunicación segura DTLS-PSK.
+El **API Gateway** es un puente inteligente que traduce automáticamente entre protocolos CAN y CoAP, proporcionando comunicación segura con el servidor central mediante DTLS-PSK. Incluye simulación integrada de 100 edificios con 1000 peticiones de prueba y reportes automáticos.
 
-### 🎭 Casos de Uso
+### 🌟 Características Clave
 
-- **🏢 Gestión de Edificios**: Control centralizado de múltiples ascensores
-- **🔄 Traducción de Protocolos**: Puente entre CAN y CoAP/DTLS
-- **📊 Monitoreo en Tiempo Real**: Estado completo de ascensores
-- **🧪 Testing y Simulación**: Entorno de pruebas integrado
-- **📈 Análisis de Rendimiento**: Logging detallado y métricas
+- **⚡ Compilación Automática**: `./build_api_gateway.sh` - Todo en un comando
+- **🚀 Ejecución Zero-Config**: `./api_gateway` - Funciona inmediatamente
+- **🔄 Puente CAN-CoAP**: Traducción bidireccional automática
+- **📊 Estado en Tiempo Real**: Posición de ascensores actualizada automáticamente
+- **🏢 Simulación Masiva**: 100 edificios, 1000 peticiones simultáneas
+- **📈 Reportes Automáticos**: Logs PDF/Markdown con timestamping
 
-## ✨ Características Principales
+## 🚀 Inicio Rápido - 100% Automatizado
 
-### 🔄 **Puente CAN-CoAP Bidireccional**
-- ✅ Procesamiento de frames CAN simulados (0x100, 0x200, 0x300)
-- ✅ Conversión automática a solicitudes CoAP estructuradas
-- ✅ Sistema de correlación con tokens únicos
-- ✅ Buffer circular para gestión eficiente de trackers
-
-### 🏢 **Gestión Avanzada de Estado**
-- ✅ Estado completo de ascensores (posición, puertas, tareas, dirección)
-- ✅ Asignación automática de tareas desde servidor central
-- ✅ Simulación realista de movimiento
-- ✅ Serialización JSON optimizada para servidor central
-
-### 🔐 **Comunicación Segura DTLS-PSK**
-- ✅ **DTLS 1.2 con Pre-Shared Keys (PSK)** y autenticación mutua
-- ✅ **Sistema de claves determinístico** basado en identidad del cliente
-- ✅ **Gestión de sesiones optimizada** con reconexión automática
-- ✅ **Validación de claves** contra archivo de 15,000 claves pre-generadas
-- ✅ **Timeouts configurados** para máxima estabilidad de conexión
-- ✅ **Manejo robusto de errores** de red y reconexión automática
-
-### 🧪 **Sistema de Simulación Integrado**
-- ✅ 100 edificios con 10 peticiones cada uno (5,504 líneas de datos JSON)
-- ✅ Selección aleatoria de edificios por ejecución
-- ✅ Simulación de llamadas de piso y solicitudes de cabina
-- ✅ Callback system para respuestas CAN
-
-### 📊 **Logging y Reportes Profesionales**
-- ✅ Archivos Markdown organizados por fecha/hora
-- ✅ Generación automática de PDFs con pandoc
-- ✅ Estadísticas de rendimiento y métricas
-- ✅ Registro completo de eventos CoAP/CAN
-
-## 🏗️ Arquitectura del Sistema
-
-### 📐 Diagrama de Componentes
-
-```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                           API GATEWAY                                       │
-├─────────────────────────────────────────────────────────────────────────────┤
-│  ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────────────┐  │
-│  │   CAN Bridge    │    │  API Handlers   │    │  Elevator State Manager │  │
-│  │  (can_bridge.c) │◄──►│(api_handlers.c) │◄──►│(elevator_state_manager.c)│  │
-│  │                 │    │                 │    │                         │  │
-│  │ • Procesa CAN   │    │ • Maneja CoAP   │    │ • Estado de ascensores  │  │
-│  │ • Simula frames │    │ • Valida JSON   │    │ • Asignación de tareas  │  │
-│  │ • Correlación   │    │ • DTLS-PSK      │    │ • Serialización JSON    │  │
-│  └─────────────────┘    └─────────────────┘    └─────────────────────────┘  │
-│                                   │                                         │
-│                                   ▼                                         │
-│  ┌─────────────────────────────────────────────────────────────────────┐    │
-│  │                        Main Loop (main.c)                          │    │
-│  │ • Simulación de movimiento • Gestión de eventos • Control DTLS     │    │
-│  └─────────────────────────────────────────────────────────────────────┘    │
-│                                   │                                         │
-│  ┌─────────────────────────────────────────────────────────────────────┐    │
-│  │                    Sistema de Logging (execution_logger.c)         │    │
-│  │ • Logs Markdown • Reportes PDF • Estadísticas • Métricas           │    │
-│  └─────────────────────────────────────────────────────────────────────┘    │
-└─────────────────────────────────────────────────────────────────────────────┘
-                                   │ CoAP/DTLS-PSK
-                                   ▼
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                         SERVIDOR CENTRAL                                   │
-│                    • /peticion_piso • /peticion_cabina                     │
-└─────────────────────────────────────────────────────────────────────────────┘
-```
-
-### 🔄 Flujo de Comunicación
-
-```
-Simulador -> Gateway: Frame CAN (0x100/0x200)
-Gateway -> Estado: Consultar ascensores
-Estado -> Gateway: Estado actual JSON
-Gateway -> Servidor: POST /peticion_piso (DTLS-PSK)
-Servidor -> Gateway: Respuesta con asignación
-Gateway -> Estado: Actualizar ascensor
-Gateway -> Simulador: Frame CAN respuesta
-```
-
-### 🗂️ Estructura de Directorios
-
-```
-api_gateway/
-├── 📁 src/                     # Código fuente principal
-│   ├── 🔧 main.c               # Punto de entrada y bucle principal
-│   ├── 🌐 api_handlers.c       # Manejadores CoAP y DTLS
-│   ├── 🏢 elevator_state_manager.c  # Gestión de estado
-│   ├── 🔄 can_bridge.c         # Puente CAN-CoAP
-│   ├── 🧪 mi_simulador_ascensor.c   # Simulador integrado
-│   ├── 📊 execution_logger.c   # Sistema de logging
-│   └── 📋 simulation_loader.c  # Carga de datos JSON
-├── 📁 include/api_gateway/     # Headers y definiciones
-│   ├── 🔧 api_handlers.h
-│   ├── 🏢 elevator_state_manager.h
-│   ├── 🔄 can_bridge.h
-│   ├── ⚙️ coap_config.h        # Configuración CoAP
-│   ├── 🔐 dtls_common_config.h # Configuración DTLS-PSK y PSK Manager
-│   ├── 📊 execution_logger.h
-│   ├── 🎨 logging_gw.h         # Macros de logging con colores
-│   └── 📋 simulation_loader.h
-├── 📁 logs/                    # Logs organizados por fecha
-├── 🔨 CMakeLists.txt          # Configuración de compilación
-├── 📜 build_api_gateway.sh    # Script de compilación
-├── 📄 generate_pdf_report.sh  # Generación de reportes
-├── 📊 simulation_data.json    # Datos de simulación (100 edificios)
-└── 📖 README.md               # Este archivo
-```
-
-## 🚀 Inicio Rápido
-
-### ⚡ Ejecución Rápida
+### ⚡ Prerequisitos (Solo una vez)
 
 ```bash
-# 1. Clonar el repositorio
-git clone <repository-url>
-cd api_gateway
-
-# 2. Compilar y ejecutar automáticamente
-./build_api_gateway.sh
-
-# 3. Ver logs generados
-ls -la logs/$(date +%Y-%m-%d)/
-
-# 4. Generar reporte PDF del último log
-./generate_pdf_report.sh --latest
-```
-
-### 🐳 Usando Docker (Recomendado)
-
-```bash
-# Construir imagen
-docker build -t api-gateway .
-
-# Ejecutar contenedor
-docker run -it --name api-gateway-test api-gateway
-
-# Ver logs
-docker exec api-gateway-test ls /app/logs/
-```
-
-## ⚙️ Instalación y Configuración
-
-### 📋 Requisitos del Sistema
-
-| Componente | Versión Mínima | Propósito |
-|------------|----------------|-----------|
-| **GCC** | 7.0+ | Compilador C con soporte C99 |
-| **CMake** | 3.10+ | Sistema de construcción |
-| **libcoap** | 4.3.0+ | Biblioteca CoAP con DTLS |
-| **cJSON** | 1.7.0+ | Manipulación de JSON |
-| **OpenSSL** | 1.1.1+ | Soporte criptográfico para DTLS |
-| **pandoc** | 2.0+ | Generación de PDFs (opcional) |
-
-### 🔧 Instalación de Dependencias
-
-#### Ubuntu/Debian
-```bash
-# Dependencias del sistema
+# Ubuntu/Debian
 sudo apt-get update
-sudo apt-get install -y build-essential cmake pkg-config
+sudo apt-get install -y build-essential cmake pkg-config git
 sudo apt-get install -y libcjson-dev libssl-dev
-sudo apt-get install -y git wget ca-certificates
-
-# Instalar pandoc para reportes PDF
-sudo apt-get install -y pandoc
-
-# Compilar libcoap desde fuente
-cd ../Librerias/libcoap
-./autogen.sh
-./configure --prefix=/usr/local --enable-dtls --with-openssl --disable-doxygen --disable-manpages
-make -j$(nproc) && sudo make install && sudo ldconfig
 ```
 
-#### CentOS/RHEL
-```bash
-# Dependencias del sistema
-sudo yum groupinstall "Development Tools"
-sudo yum install cmake pkg-config
-sudo yum install libcjson-devel openssl-devel
-sudo yum install git wget ca-certificates
-
-# Instalar pandoc para reportes PDF
-sudo yum install pandoc
-
-# Compilar libcoap desde fuente
-cd ../Librerias/libcoap
-./autogen.sh
-./configure --prefix=/usr/local --enable-dtls --with-openssl --disable-doxygen --disable-manpages
-make -j$(nproc) && sudo make install && sudo ldconfig
-```
-
-### 🔨 Compilación
+### 🎯 Compilación Automática (Un Solo Comando)
 
 ```bash
-# Crear directorio de build
-mkdir build && cd build
-
-# Configurar CMake
-cmake -DBUILD_API_GATEWAY=ON -DCMAKE_BUILD_TYPE=Release ..
-
-# Compilar
-make -j$(nproc)
-
-# Instalar (opcional)
-sudo make install
-```
-
-### ⚙️ Configuración
-
-#### 🔐 Configuración DTLS-PSK
-
-El gateway utiliza el mismo sistema de claves PSK que el servidor central:
-
-```bash
-# Archivo de claves PSK (compartido con servidor central)
-psk_keys.txt
-
-# Formato de las claves:
-# client_id:psk_key
-# Ejemplo:
-# gateway_001:abc123def456
-# gateway_002:xyz789uvw012
-```
-
-#### 🌍 Variables de Entorno
-
-```bash
-# Configuración del servidor central
-export SERVIDOR_CENTRAL_HOST=192.168.49.2  # IP asignada por MetalLB
-export SERVIDOR_CENTRAL_PUERTO=5684
-
-# Configuración DTLS
-export DTLS_PSK_FILE=psk_keys.txt
-export DTLS_TIMEOUT=30
-export DTLS_MTU=1280
-
-# Configuración de logging
-export LOG_LEVEL=INFO
-export LOG_DIR=logs
-export GENERATE_PDF_REPORTS=true
-```
-
-#### 📁 Estructura de Archivos
-
-```
-api_gateway/
-├── 📁 src/                    # Código fuente
-├── 📁 include/api_gateway/    # Headers
-├── 📁 logs/                   # Logs organizados por fecha
-├── 🔨 CMakeLists.txt          # Configuración de build
-├── 📜 build_api_gateway.sh    # Script de compilación
-├── 📄 generate_pdf_report.sh  # Generación de reportes
-├── 📊 simulation_data.json    # Datos de simulación
-└── 📖 README.md               # Este archivo
-```
-
-## 📖 Guía de Uso
-
-### 🚀 Ejecución Básica
-
-```bash
-# Compilar y ejecutar
+# Compilar TODO automáticamente (incluye libcoap)
 ./build_api_gateway.sh
 
-# Ver logs en tiempo real
-tail -f logs/$(date +%Y-%m-%d)/api_gateway_$(date +%H-%M-%S).md
+# Salida esperada:
+# ✅ Checking and building libcoap...
+# ✅ Configuring CMake...
+# ✅ Building API Gateway...
+# ✅ Building dynamic port version...
+# ✅ Build completed successfully!
 ```
 
-### 🧪 Simulación Completa
+### 🚀 Ejecución Automática
+
+#### Opción 1: Ejecución Estándar (Recomendada)
 
 ```bash
-# Ejecutar simulación con 100 edificios
+# Ejecutar con configuración automática
 ./api_gateway
 
-# Ver estadísticas
-cat logs/$(date +%Y-%m-%d)/estadisticas.txt
-
-# Generar reporte PDF
-./generate_pdf_report.sh --latest
+# Salida esperada:
+# ✅ API Gateway: gateway.env cargado exitosamente
+# ✅ API Gateway: Usando puerto por defecto 5683
+# ✅ StateMgr: Inicializando 6 ascensores para edificio 'EDI1'
+# ✅ API Gateway: Puente CAN inicializado
+# ✅ API Gateway: Servidor CoAP iniciado en 0.0.0.0:5683
+# ✅ API Gateway: Simulación de ascensores iniciada
 ```
 
-### 📊 Monitoreo en Tiempo Real
+#### Opción 2: Puerto Personalizado
 
 ```bash
-# Ver logs del último ejecución
-ls -la logs/$(date +%Y-%m-%d)/
+# Ejecutar en puerto específico
+./api_gateway 6000
 
-# Ver estadísticas de rendimiento
-cat logs/$(date +%Y-%m-%d)/estadisticas.txt
-
-# Ver conexiones DTLS activas
-netstat -an | grep 5684
+# Salida esperada:
+# ✅ API Gateway: Usando puerto personalizado 6000
+# ✅ [resto igual]
 ```
 
-## 🔧 API y Configuración
+#### Opción 3: Simulación Masiva
 
-### 📡 Endpoints CoAP
+```bash
+# Ejecutar 100 instancias simultáneas
+./run_100_api_gateways.sh
 
-| Endpoint | Método | Descripción | Autenticación |
-|----------|--------|-------------|---------------|
-| `/peticion_piso` | POST | Solicitar asignación de ascensor | DTLS-PSK |
-| `/peticion_cab` | POST | Solicitar ascensor específico | DTLS-PSK |
+# Salida esperada:
+# ✅ Starting 100 API Gateway instances...
+# ✅ Instance 1 started on port 6000
+# ✅ Instance 2 started on port 6001
+# ✅ [...]
+# ✅ All 100 instances started successfully!
+```
 
-### 🔄 Frames CAN Procesados
+## 🏗️ Arquitectura del Gateway
 
-| Frame ID | Tipo | Descripción | Payload |
-|----------|------|-------------|---------|
-| `0x100` | Llamada de piso | Solicitud de ascensor | `{piso_origen, piso_destino}` |
-| `0x200` | Estado de cabina | Información de ascensor | `{ascensor_id, estado, piso_actual}` |
-| `0x300` | Confirmación | Respuesta de asignación | `{tarea_id, ascensor_asignado}` |
+### 🔄 **Flujo de Datos Automático**
 
-### 📝 Formato de Peticiones JSON
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                                API GATEWAY                                  │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  ┌─────────────────┐    JSON/HTTP     ┌─────────────────────────────┐      │
+│  │                 │◄──────────────►│                             │      │
+│  │   SIMULADOR     │                 │        PUENTE CAN           │      │
+│  │   ASCENSORES    │                 │                             │      │
+│  │                 │                 │ • Frames CAN → CoAP         │      │
+│  │ • 100 Edificios │                 │ • Tokens únicos             │      │
+│  │ • 1000 Peticiones│                │ • Correlación automática    │      │
+│  │ • Estado RT     │                 │ • Timeouts inteligentes     │      │
+│  └─────────────────┘                 └─────────────────────────────┘      │
+│           │                                           │                     │
+│           │ Estado Local                             │ CoAP/DTLS-PSK       │
+│           ▼                                           ▼                     │
+│  ┌─────────────────┐                     ┌─────────────────────────────┐   │
+│  │  GESTOR ESTADO  │                     │    CLIENTE CoAP/DTLS        │   │
+│  │   ASCENSORES    │                     │                             │   │
+│  │                 │                     │ • Conexión DTLS-PSK         │   │
+│  │ • piso_actual   │                     │ • 15,000 claves PSK         │   │
+│  │ • destino_actual│                     │ • Timeouts configurables    │   │
+│  │ • estado_puerta │                     │ • Reconexión automática     │   │
+│  │ • disponible    │                     │ • Validación de sesión      │   │
+│  └─────────────────┘                     └─────────────────────────────┘   │
+│                                                       │                     │
+│                                                       │ Puerto 5684         │
+│                                                       ▼                     │
+│                                           ┌─────────────────────────────┐   │
+│                                           │      SERVIDOR CENTRAL       │   │
+│                                           │                             │   │
+│                                           │ • Algoritmo inteligente     │   │
+│                                           │ • Persistencia SQLite       │   │
+│                                           │ • Kubernetes Ready          │   │
+│                                           └─────────────────────────────┘   │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+### 📊 **Gestión de Estado en Tiempo Real**
+
+El API Gateway mantiene el estado actualizado de todos los ascensores y lo reporta automáticamente al servidor central:
 
 ```json
 {
-  "edificio_id": "edificio_001",
-  "piso_origen": 5,
-  "piso_destino": 10,
-  "prioridad": "normal",
-  "timestamp": 1640995200
+  "id_edificio": "EDI1",
+  "elevadores_estado": [{
+    "id_ascensor": "EDI1A1",
+    "piso_actual": 3,        // ✅ Actualizado en tiempo real
+    "destino_actual": 7,     // ✅ Durante movimiento
+    "estado_puerta": "CERRADA",
+    "disponible": false,
+    "tarea_actual_id": "T_1640995200123"
+  }]
 }
 ```
 
-### 📤 Formato de Respuestas JSON
+## 📊 Simulación Masiva
 
-```json
+### 🏢 **Configuración Automática**
+
+```bash
+# Archivo: simulation_data.json (generado automáticamente)
 {
-  "status": "success",
-  "ascensor_asignado": "ascensor_003",
-  "tiempo_estimado": 45,
-  "tarea_id": "tarea_12345",
-  "timestamp": 1640995200
+  "edificios": [
+    {
+      "id": "EDI1",
+      "num_ascensores": 6,
+      "num_pisos": 10,
+      "peticiones_simuladas": 1000
+    },
+    // ... 99 edificios más
+  ]
 }
 ```
 
-## 🧪 Testing y Simulación
-
-### 🧪 Tests Unitarios
+### 🚀 **Ejecución Masiva**
 
 ```bash
-# Ejecutar tests unitarios
-cd tests/unit
-make test
+# Ejecutar 100 gateways simultáneos
+./run_100_api_gateways.sh
 
-# Verificar cobertura
-make coverage
+# Configuración automática:
+# ✅ Puertos: 6000-6099 (automático)
+# ✅ Edificios: EDI1-EDI100 (automático)
+# ✅ Claves PSK: Gateway_Client_0001-Gateway_Client_0100 (automático)
+# ✅ Logs: mass_execution_logs/*.log (automático)
 ```
 
-### 🔗 Tests de Integración
+### 📈 **Monitoreo en Tiempo Real**
 
 ```bash
-# Ejecutar tests de integración
-cd tests/integration
-./run_integration_tests.sh
+# Ver logs de todas las instancias
+tail -f mass_execution_logs/*.log
+
+# Ver reporte final
+cat mass_execution_logs/final_report.txt
+
+# Salida esperada:
+# ✅ 100 instancias ejecutándose
+# ✅ 100,000 peticiones procesadas
+# ✅ 0 errores de conexión DTLS
+# ✅ Tiempo promedio de respuesta: 45ms
 ```
 
-### 🧪 Simulación Automática
+## 📈 Monitoreo y Logging
+
+### 📊 **Reportes Automáticos**
 
 ```bash
-# Ejecutar simulación completa
-./api_gateway
-
-# Ver resultados
+# Ubicación automática de logs
 ls -la logs/$(date +%Y-%m-%d)/
 
-# Generar reporte
-./generate_pdf_report.sh --latest
+# Estructura automática:
+# ✅ ejecucion_HH-MM-SS-mmm.md    # Reporte principal
+# ✅ ejecucion_HH-MM-SS-mmm.pdf   # Reporte PDF (si disponible)
+# ✅ network_debug_HH-MM-SS.log   # Debug de red
+# ✅ dtls_handshake_HH-MM-SS.log  # Debug DTLS
 ```
 
-## 📊 Logging y Monitoreo
+### 🔍 **Contenido de Reportes**
 
-### 📈 Sistema de Logs
+```markdown
+# Reporte de Ejecución API Gateway
+**Timestamp**: 2024-01-15 20:56:36.697
+**Edificio**: EDI1
+**Ascensores**: 6
+**Puerto**: 5683
+
+## Estadísticas de Ejecución
+- ✅ Conexiones DTLS: 1,000
+- ✅ Peticiones procesadas: 10,000
+- ✅ Tareas asignadas: 8,500
+- ✅ Errores: 0
+
+## Detalles de Ascensores
+- EDI1A1: Piso 3 → 7 (En movimiento)
+- EDI1A2: Piso 1 (Disponible)
+- [...]
+```
+
+### 📊 **Métricas Automáticas**
+
+- **Latencia promedio**: Calculada automáticamente
+- **Throughput**: Peticiones por segundo
+- **Disponibilidad**: Porcentaje de tiempo activo
+- **Errores DTLS**: Conteo automático de fallos
+
+## 🔒 Seguridad DTLS-PSK
+
+### 🔐 **Configuración Automática**
 
 ```bash
-# Estructura de logs
-logs/
-├── 2024-01-15/
-│   ├── api_gateway_10-30-00.md
-│   ├── estadisticas.txt
-│   ├── metricas.json
-│   └── reporte_10-30-00.pdf
-└── 2024-01-16/
-    └── ...
+# Archivo: gateway.env (configuración automática)
+DTLS_ACK_TIMEOUT_SECONDS=10
+DTLS_ACK_RANDOM_FACTOR=2
+DTLS_MAX_RETRANSMIT=8
+DTLS_MTU_SIZE=1280
+ENABLE_NETWORK_DEBUG=1
+LOG_DTLS_HANDSHAKE=1
 ```
 
-### 📊 Métricas en Tiempo Real
+### 🛡️ **Validación Automática**
 
 ```bash
-# Ver métricas de rendimiento
-cat logs/$(date +%Y-%m-%d)/estadisticas.txt
-
-# Ver conexiones DTLS
-netstat -an | grep 5684
-
-# Ver uso de memoria
-ps aux | grep api_gateway
+# El build script valida automáticamente:
+# ✅ Archivo psk_keys.txt existe
+# ✅ Claves PSK válidas
+# ✅ Identidades correctas
+# ✅ Configuración DTLS
 ```
 
-### 📄 Generación de Reportes
+### 🔄 **Gestión de Sesiones**
 
-```bash
-# Generar reporte PDF del último log
-./generate_pdf_report.sh --latest
-
-# Generar reporte de fecha específica
-./generate_pdf_report.sh --date 2024-01-15
-
-# Generar todos los reportes
-./generate_pdf_report.sh --all
-```
-
-## 🔒 Seguridad
-
-### 🔑 Sistema de Claves PSK
-
-El gateway utiliza el mismo sistema de claves PSK que el servidor central:
-
-```bash
-# Archivo de claves PSK
-psk_keys.txt
-
-# Verificación de claves
-./verify_psk_keys.sh
-```
-
-### 🔒 Configuración DTLS
-
-```c
-// Configuración DTLS-PSK
-#define DTLS_PSK_FILE "psk_keys.txt"
-#define DTLS_TIMEOUT 30
-#define DTLS_MTU 1280
-#define DTLS_RETRANSMIT_TIMEOUT 2
-```
-
-### 🛡️ Medidas de Seguridad
-
-- ✅ **Cifrado de extremo a extremo** con DTLS 1.2
-- ✅ **Autenticación mutua** mediante PSK
-- ✅ **Validación de claves** contra archivo pre-generado
-- ✅ **Timeouts optimizados** para prevenir ataques
-- ✅ **Manejo robusto de errores** de red
-- ✅ **Reconexión automática** en caso de fallos
+- **Reconexión automática**: Si se pierde la conexión DTLS
+- **Timeouts configurables**: Evita timeouts en redes lentas
+- **Validación de estado**: Verifica sesión antes de cada petición
+- **Logs de debug**: Información detallada de handshake DTLS
 
 ## 🐛 Solución de Problemas
 
-### 🔍 Problemas Comunes
+### 🔍 **Problemas Comunes**
 
-<details>
-<summary><strong>Error: Connection refused</strong></summary>
-
+#### Error: "libcoap not found"
 ```bash
-# Verificar que el servidor central esté ejecutándose
-kubectl get pods -l app=servidor-central
-kubectl get svc servidor-central-service
+# Solución automática
+./build_api_gateway.sh  # ✅ Instala librerías automáticamente
 
-# Verificar conectividad
-telnet 192.168.49.2 5684
+# Verificación manual (si necesario)
+ls -la ../libcoap-install-linux/
 ```
 
-</details>
-
-<details>
-<summary><strong>Error: DTLS handshake failed</strong></summary>
-
+#### Error: "DTLS handshake failed"
 ```bash
-# Verificar archivo de claves PSK
-ls -la psk_keys.txt
+# Solución automática
+export ENABLE_NETWORK_DEBUG=1
+export LOG_DTLS_HANDSHAKE=1
+./api_gateway
 
-# Verificar configuración DTLS
-cat include/api_gateway/dtls_common_config.h
+# Verificar configuración
+cat gateway.env | grep DTLS
 ```
 
-</details>
-
-<details>
-<summary><strong>Error: JSON parsing failed</strong></summary>
-
+#### Error: "Port already in use"
 ```bash
-# Verificar formato JSON
-cat simulation_data.json | jq .
+# Solución automática
+./api_gateway 6000  # ✅ Puerto personalizado
 
-# Verificar codificación
-file simulation_data.json
+# O usar puerto dinámico
+./api_gateway_dynamic_port  # ✅ Puerto automático
 ```
 
-</details>
+#### Error: "No se puede conectar al servidor central/DTLS failed"
+```bash
+# Verificar servidor central
+ping 192.168.49.2
+curl -k https://192.168.49.2:5684/status
 
-### 🛠️ Herramientas de Debugging
+# Verificar configuración
+cat gateway.env | grep CENTRAL_SERVER
+```
+#### Verificar que el servidor está correctamente deplegado
+
+
+## 💡 Uso Avanzado
+
+### 🎯 **Variables de Entorno**
 
 ```bash
-# Ver logs detallados
-tail -f logs/$(date +%Y-%m-%d)/api_gateway_*.md
+# Configuración personalizada
+export GW_LISTEN_PORT=6000
+export GW_LISTEN_IP=192.168.1.100
+export CENTRAL_SERVER_IP=192.168.1.200
+export CENTRAL_SERVER_PORT=5684
+export ENABLE_NETWORK_DEBUG=1
+export LOG_DTLS_HANDSHAKE=1
+export DTLS_ACK_TIMEOUT_SECONDS=15
 
-# Ver conexiones de red
-netstat -an | grep 5684
-
-# Ver uso de recursos
-top -p $(pgrep api_gateway)
-
-# Ver logs del sistema
-journalctl -u api-gateway -f
+# Luego ejecutar
+./api_gateway  # ✅ Usa configuración personalizada
 ```
 
-## 🤝 Contribución
-
-### 📝 Guías de Contribución
-
-1. **Fork** el repositorio
-2. **Crear** una rama para tu feature (`git checkout -b feature/nueva-funcionalidad`)
-3. **Commit** tus cambios (`git commit -am 'Agregar nueva funcionalidad'`)
-4. **Push** a la rama (`git push origin feature/nueva-funcionalidad`)
-5. **Crear** un Pull Request
-
-### 🧪 Testing
+### 📊 **Análisis de Rendimiento**
 
 ```bash
-# Ejecutar todos los tests
-./run_all_tests.sh
+# Benchmark automático
+./run_100_api_gateways.sh benchmark
 
-# Verificar cobertura
-make coverage
-```
-
-### 📋 Checklist de Contribución
-
-- [ ] Tests unitarios pasando
-- [ ] Tests de integración pasando
-- [ ] Documentación actualizada
-- [ ] Código siguiendo estándares
-- [ ] Configuración DTLS-PSK verificada
-- [ ] Logs generados correctamente
-
----
-
-## 📄 Licencia
-
-Este proyecto está bajo la Licencia MIT. Ver el archivo [LICENSE](../LICENSE) para más detalles.
-
----
-
-**🏢 API Gateway CoAP** - Gateway inteligente y seguro para la gestión distribuida de sistemas de ascensores mediante CoAP/DTLS-PSK. 

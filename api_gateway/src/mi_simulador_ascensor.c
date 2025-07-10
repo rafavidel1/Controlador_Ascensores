@@ -38,6 +38,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
+#include <time.h> // Para manejo de tiempo en simulación no-bloqueante
+#include <stdbool.h> // Para manejo de booleanos en simulación no-bloqueante
 
 /**
  * @brief Contexto CoAP global del API Gateway
@@ -68,6 +70,13 @@ extern elevator_group_state_t managed_elevator_group;
  * cargados desde el archivo de simulación JSON.
  */
 static datos_simulacion_t datos_simulacion_global;
+
+// Variables globales para manejo de simulación no-bloqueante
+static bool simulacion_activa = false;
+static int peticion_actual_index = 0;
+static edificio_simulacion_t *edificio_actual = NULL;
+static time_t tiempo_ultima_peticion = 0;
+static const int INTERVALO_PETICIONES_MS = 2000; // 2 segundos entre peticiones
 
 /**
  * @brief Callback para recibir frames CAN de respuesta del gateway
@@ -281,115 +290,67 @@ void simular_solicitud_cabina_via_can(int indice_ascensor, int piso_destino) {
 }
 
 /**
- * @brief Ejecuta una secuencia de eventos simulados de ascensor desde JSON
+ * @brief Ejecuta una secuencia de eventos simulados de ascensor desde JSON de forma no-bloqueante
  * 
- * Esta función reemplaza la simulación hardcodeada anterior. Ahora carga
- * datos de simulación desde un archivo JSON, selecciona un edificio aleatorio
- * y ejecuta todas sus peticiones secuencialmente.
+ * Esta función reemplaza la simulación bloqueante anterior. Ahora la simulación
+ * se ejecuta de forma incremental, permitiendo que el main loop procese I/O
+ * y ejecute la simulación de movimiento entre peticiones.
+ * 
+ * **Cambios principales:**
+ * - Simulación no-bloqueante (una petición por llamada)
+ * - Control regresa al main loop para permitir movimiento de ascensores
+ * - Intervalo configurable entre peticiones
+ * - Estado global para rastrear progreso
  * 
  * **Proceso de simulación:**
- * 1. Verifica si hay datos de simulación cargados
- * 2. Selecciona un edificio aleatorio de los 100 disponibles
- * 3. Configura el ID del edificio en el sistema
- * 4. Ejecuta las 10 peticiones del edificio secuencialmente
- * 5. Procesa I/O CoAP entre cada petición
+ * 1. Inicialización: selecciona edificio y configura estado
+ * 2. Ejecución incremental: una petición por llamada
+ * 3. El main loop ejecuta tanto I/O como simulación de movimiento
+ * 4. Finalización automática al completar todas las peticiones
  * 
- * **Fallback:**
- * Si no se pueden cargar los datos JSON, ejecuta la simulación básica
- * de 2 peticiones hardcodeadas como antes.
- * 
- * **Características:**
- * - Procesamiento de I/O CoAP entre eventos
- * - Logging detallado de cada paso
- * - Sincronización para evitar condiciones de carrera
- * - Configuración automática del ID de edificio
- * 
- * @see cargar_datos_simulacion()
- * @see seleccionar_edificio_aleatorio()
- * @see simular_llamada_de_piso_via_can()
- * @see simular_solicitud_cabina_via_can()
- * @see coap_io_process()
+ * @note Esta función debe llamarse desde el main loop para ser no-bloqueante
+ * @see simulate_elevator_group_step() - se ejecuta en paralelo
  */
 void simular_eventos_ascensor(void) {
-    printf("\n[SIM_ASCENSOR] === INICIANDO SIMULACIÓN DE EVENTOS CAN ===\n");
+    printf("\n[SIM_ASCENSOR] === INICIANDO SIMULACIÓN NO-BLOQUEANTE DE EVENTOS CAN ===\n");
 
     // Verificar si hay datos de simulación cargados
     if (datos_simulacion_global.datos_cargados && datos_simulacion_global.num_edificios > 0) {
-        printf("[SIM_ASCENSOR] Usando simulación desde JSON con %d edificios disponibles\n", 
+        printf("[SIM_ASCENSOR] Configurando simulación desde JSON con %d edificios disponibles\n", 
                datos_simulacion_global.num_edificios);
 
         // Seleccionar edificio aleatorio
-        edificio_simulacion_t *edificio_seleccionado = seleccionar_edificio_aleatorio(&datos_simulacion_global);
-        if (!edificio_seleccionado) {
+        edificio_actual = seleccionar_edificio_aleatorio(&datos_simulacion_global);
+        if (!edificio_actual) {
             printf("[SIM_ASCENSOR] Error: No se pudo seleccionar edificio. Usando simulación básica.\n");
             goto simulacion_basica;
         }
 
         // Configurar el ID del edificio en el sistema
-        // Re-inicializar completamente el grupo de ascensores con el edificio correcto
-        // Esto es necesario porque los IDs individuales de ascensores deben coincidir
-        init_elevator_group(&managed_elevator_group, edificio_seleccionado->id_edificio, 4, 14);
+        init_elevator_group(&managed_elevator_group, edificio_actual->id_edificio, 4, 14);
 
-        printf("[SIM_ASCENSOR] Sistema re-inicializado para edificio: %s\n", managed_elevator_group.edificio_id_str_grupo);
+        printf("[SIM_ASCENSOR] Sistema configurado para edificio: %s\n", managed_elevator_group.edificio_id_str_grupo);
         printf("[SIM_ASCENSOR] Ascensores disponibles: %sA1, %sA2, %sA3, %sA4\n", 
-               edificio_seleccionado->id_edificio, edificio_seleccionado->id_edificio, 
-               edificio_seleccionado->id_edificio, edificio_seleccionado->id_edificio);
-        printf("[SIM_ASCENSOR] Ejecutando %d peticiones del edificio %s...\n", 
-               edificio_seleccionado->num_peticiones, edificio_seleccionado->id_edificio);
+               edificio_actual->id_edificio, edificio_actual->id_edificio, 
+               edificio_actual->id_edificio, edificio_actual->id_edificio);
+        printf("[SIM_ASCENSOR] Simulación NO-BLOQUEANTE: %d peticiones con %dms entre cada una\n", 
+               edificio_actual->num_peticiones, INTERVALO_PETICIONES_MS);
 
-        // Registrar inicio de simulación en el logger
-        exec_logger_log_simulation_start(edificio_seleccionado->id_edificio, edificio_seleccionado->num_peticiones);
+        // Registrar inicio de simulación
+        exec_logger_log_simulation_start(edificio_actual->id_edificio, edificio_actual->num_peticiones);
 
-        // Ejecutar todas las peticiones del edificio
-        int peticiones_exitosas = 0;
-        for (int i = 0; i < edificio_seleccionado->num_peticiones; i++) {
-            peticion_simulacion_t *peticion = &edificio_seleccionado->peticiones[i];
+        // Activar simulación no-bloqueante
+        simulacion_activa = true;
+        peticion_actual_index = 0;
+        tiempo_ultima_peticion = time(NULL);
 
-            printf("[SIM_ASCENSOR] --- Petición %d/%d ---\n", i + 1, edificio_seleccionado->num_peticiones);
-
-            if (peticion->tipo == PETICION_LLAMADA_PISO) {
-                printf("[SIM_ASCENSOR] Ejecutando llamada de piso: Piso %d, Dirección %s\n", 
-                       peticion->piso_origen, peticion->direccion);
-
-                movement_direction_enum_t direccion = convertir_direccion_string(peticion->direccion);
-                simular_llamada_de_piso_via_can(peticion->piso_origen, direccion);
-
-            } else if (peticion->tipo == PETICION_SOLICITUD_CABINA) {
-                printf("[SIM_ASCENSOR] Ejecutando solicitud de cabina: Ascensor %d, Destino piso %d\n", 
-                       peticion->indice_ascensor, peticion->piso_destino);
-
-                simular_solicitud_cabina_via_can(peticion->indice_ascensor, peticion->piso_destino);
-
-            } else {
-                printf("[SIM_ASCENSOR] Advertencia: Tipo de petición desconocido: %d\n", peticion->tipo);
-                continue;
-            }
-
-            peticiones_exitosas++;
-
-            // Pausa y procesamiento CoAP entre peticiones
-            printf("[SIM_ASCENSOR] Procesando I/O CoAP por 1 segundo...\n");
-            for (int j = 0; j < 10; j++) { // 10 * 100ms = 1 segundo
-                if (g_coap_context) {
-                    coap_io_process(g_coap_context, 100);
-                } else {
-                    usleep(100000); // 100ms
-                }
-            }
-        }
-
-        printf("[SIM_ASCENSOR] === FIN SIMULACIÓN DEL EDIFICIO %s ===\n", edificio_seleccionado->id_edificio);
-        printf("[SIM_ASCENSOR] Peticiones ejecutadas exitosamente: %d/%d\n", 
-               peticiones_exitosas, edificio_seleccionado->num_peticiones);
-
-        // Registrar fin de simulación en el logger
-        exec_logger_log_simulation_end(peticiones_exitosas, edificio_seleccionado->num_peticiones);
+        printf("[SIM_ASCENSOR] ✅ Simulación no-bloqueante activada. El main loop manejará las peticiones.\n");
 
     } else {
         printf("[SIM_ASCENSOR] No hay datos de simulación JSON. Usando simulación básica hardcodeada.\n");
 
     simulacion_basica:
-        // Simulación básica original (fallback)
+        // Simulación básica original (mantener como fallback síncrono)
         printf("[SIM_ASCENSOR] Ejecutando simulación básica de 2 peticiones...\n");
 
         // Simulación 1: Llamada desde el piso 2 para subir
@@ -409,5 +370,73 @@ void simular_eventos_ascensor(void) {
         simular_solicitud_cabina_via_can(0, 5);
     }
     
-    printf("[SIM_ASCENSOR] === FIN SIMULACIÓN DE EVENTOS CAN ===\n\n");
+    printf("[SIM_ASCENSOR] === CONFIGURACIÓN DE SIMULACIÓN COMPLETADA ===\n\n");
+}
+
+/**
+ * @brief Procesa la siguiente petición de la simulación no-bloqueante
+ * 
+ * Esta función debe llamarse desde el main loop para ejecutar las peticiones
+ * de forma incremental, permitiendo que el simulador de movimiento funcione
+ * en paralelo.
+ * 
+ * @return true si la simulación continúa, false si ha terminado
+ */
+bool procesar_siguiente_peticion_simulacion(void) {
+    if (!simulacion_activa || !edificio_actual) {
+        return false; // Simulación no activa o no configurada
+    }
+
+    // Verificar si han pasado suficientes milisegundos desde la última petición
+    time_t tiempo_actual = time(NULL);
+    if ((tiempo_actual - tiempo_ultima_peticion) < (INTERVALO_PETICIONES_MS / 1000)) {
+        return true; // Aún no es tiempo para la siguiente petición
+    }
+
+    // Verificar si hemos completado todas las peticiones
+    if (peticion_actual_index >= edificio_actual->num_peticiones) {
+        printf("[SIM_ASCENSOR] === FIN SIMULACIÓN NO-BLOQUEANTE DEL EDIFICIO %s ===\n", edificio_actual->id_edificio);
+        printf("[SIM_ASCENSOR] Peticiones ejecutadas exitosamente: %d/%d\n", 
+               peticion_actual_index, edificio_actual->num_peticiones);
+        
+        // Registrar fin de simulación
+        exec_logger_log_simulation_end(peticion_actual_index, edificio_actual->num_peticiones);
+        
+        // Desactivar simulación
+        simulacion_activa = false;
+        edificio_actual = NULL;
+        peticion_actual_index = 0;
+        
+        return false; // Simulación terminada
+    }
+
+    // Ejecutar la petición actual
+    peticion_simulacion_t *peticion = &edificio_actual->peticiones[peticion_actual_index];
+
+    printf("[SIM_ASCENSOR] --- Petición %d/%d (NO-BLOQUEANTE) ---\n", 
+           peticion_actual_index + 1, edificio_actual->num_peticiones);
+
+    if (peticion->tipo == PETICION_LLAMADA_PISO) {
+        printf("[SIM_ASCENSOR] Ejecutando llamada de piso: Piso %d, Dirección %s\n", 
+               peticion->piso_origen, peticion->direccion);
+
+        movement_direction_enum_t direccion = convertir_direccion_string(peticion->direccion);
+        simular_llamada_de_piso_via_can(peticion->piso_origen, direccion);
+
+    } else if (peticion->tipo == PETICION_SOLICITUD_CABINA) {
+        printf("[SIM_ASCENSOR] Ejecutando solicitud de cabina: Ascensor %d, Destino piso %d\n", 
+               peticion->indice_ascensor, peticion->piso_destino);
+
+        simular_solicitud_cabina_via_can(peticion->indice_ascensor, peticion->piso_destino);
+
+    } else {
+        printf("[SIM_ASCENSOR] Advertencia: Tipo de petición desconocido: %d\n", peticion->tipo);
+        // Continuar con la siguiente petición
+    }
+
+    // Actualizar estado para la siguiente petición
+    peticion_actual_index++;
+    tiempo_ultima_peticion = tiempo_actual;
+
+    return true; // Simulación continúa
 } 

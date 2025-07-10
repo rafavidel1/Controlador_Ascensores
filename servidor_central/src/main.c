@@ -1,120 +1,103 @@
 /**
  * @file main.c
- * @brief Servidor Central del Sistema de Control de Ascensores con DTLS-PSK
- * @author Sistema de Control de Ascensores
- * @version 2.1
- * @date 2025
+ * @brief Servidor central de control de ascensores con protocolo CoAP sobre DTLS
+ * @author Sistema de Ascensores
+ * @date 2024
+ * @version 2.0
  * 
- * @details Este archivo implementa el servidor central que gestiona la asignación
- * de tareas a ascensores en el sistema distribuido de control de ascensores.
- * El servidor utiliza CoAP sobre DTLS-PSK para comunicaciones seguras con
- * los API Gateways y proporciona endpoints RESTful para gestionar solicitudes
- * de ascensores.
+ * @details Este archivo implementa el servidor central que gestiona las solicitudes
+ * de ascensores desde múltiples API Gateways usando CoAP sobre DTLS con autenticación PSK.
  * 
- * **Funcionalidades principales:**
- * - **Servidor CoAP DTLS**: Configuración de servidor CoAP con seguridad DTLS-PSK
- * - **Gestión de solicitudes**: Procesamiento de peticiones de piso y cabina
- * - **Algoritmos de asignación**: Lógica inteligente para asignar ascensores a tareas
- * - **Generación de IDs únicos**: Creación de identificadores únicos para tareas
- * - **Respuestas JSON**: Envío de respuestas estructuradas a los gateways
- * - **Logging detallado**: Sistema de registro para monitoreo y debugging
- * - **Gestión de sesiones**: Optimización de timeouts y reconexiones DTLS
+ * **Arquitectura del sistema:**
+ * - Servidor CoAP-DTLS que escucha en puerto 5684
+ * - Autenticación mediante claves precompartidas (PSK)
+ * - Gestión stateless de solicitudes de ascensores
+ * - Balanceamiento de carga automático entre ascensores
+ * - Logging detallado para debugging y auditoría
  * 
- * **Endpoints CoAP soportados:**
- * - `POST /peticion_piso`: Solicitudes de llamada de piso desde botones externos
- * - `POST /peticion_cabina`: Solicitudes de cabina desde interior de ascensores
+ * **Recursos CoAP disponibles:**
+ * - `POST /peticion_piso`: Solicitudes de llamada desde pisos
+ * - `POST /peticion_cabina`: Solicitudes desde cabinas de ascensores
  * 
- * **Algoritmo de asignación de ascensores:**
- * Utiliza el algoritmo de proximidad inteligente implementado en select_optimal_elevator():
- * - Filtra ascensores disponibles (disponible=true)
- * - Calcula distancia absoluta desde piso_origen a cada ascensor
- * - Selecciona todos los ascensores con distancia mínima
- * - En caso de empate, selecciona aleatoriamente para distribuir carga
- * - Garantiza asignación óptima basada en proximidad geográfica
+ * **Seguridad:**
+ * - Cifrado DTLS para todas las comunicaciones
+ * - Autenticación PSK con validación de identidades
+ * - Timeouts configurables para estabilidad de conexiones
+ * - Logging de todos los eventos de seguridad
  * 
- * **Seguridad DTLS-PSK:**
- * - Autenticación mutua usando claves precompartidas
- * - Cifrado de todas las comunicaciones
- * - Validación de identidades de clientes
- * - Gestión de sesiones con timeouts optimizados
- * - Prevención de ataques de repetición
+ * **Funcionamiento:**
+ * 1. Inicialización del contexto CoAP con DTLS
+ * 2. Configuración de callbacks PSK personalizados
+ * 3. Registro de recursos CoAP disponibles
+ * 4. Bucle principal procesando solicitudes
+ * 5. Terminación elegante con liberación de recursos
  * 
- * **Configuración de red:**
- * - Puerto: 5684 (estándar CoAP-DTLS)
- * - Interfaz: 0.0.0.0 (todas las interfaces)
- * - Protocolo: UDP con DTLS
- * 
- * **Gestión de memoria:**
- * - Liberación automática de recursos al terminar
- * - Manejo seguro de strings y buffers
- * - Prevención de memory leaks
- * 
- * @see servidor_central/logging.h
- * @see servidor_central/dtls_common_config.h
- * @see psk_validator.h
- * @see coap3/coap.h
- * @see cJSON.h
+ * @note Requiere libcoap compilado con soporte DTLS/OpenSSL
+ * @see https://libcoap.net/doc/reference/4.3.0/
  */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <errno.h>
 #include <signal.h>
-#include <unistd.h> // Para unlink, aunque ya no lo usaremos para DB
-#include <sys/time.h> // Para gettimeofday (generar IDs únicos)
-#include <arpa/inet.h> // Para inet_pton
-#include <errno.h> // <--- AÑADIDO PARA errno
-#include <limits.h> // Para INT_MAX
-#include <time.h> // Para time() y srand()
-#include <math.h> // Para abs() (aunque también está en stdlib.h)
-
+#include <unistd.h>
+#include <sys/time.h>
+#include <arpa/inet.h>
+#include <time.h>
+#include <math.h>
+#include <limits.h>
 #include <coap3/coap.h>
-// #include <sqlite3.h> // REMOVED
-#include <cJSON.h> // Keep for parsing new payloads. Corrected include path.
+#include <cjson/cJSON.h>
+#include <openssl/rand.h>
 
-// #include "servidor_central/database_manager.h" // REMOVED
-// #include "servidor_central/coap_server.h" // REMOVED (if not used otherwise)
-// #include "servidor_central/config.h" // REMOVED as it may not exist or be needed
-#include "servidor_central/logging.h" 
-#include "servidor_central/dtls_common_config.h" // <--- AÑADIDO para PSK_SERVER_HINT, PSK_CLIENT_IDENTITY, PSK_KEY
-#include "servidor_central/psk_validator.h" // Validador de claves PSK
+#include "servidor_central/logging.h"
+#include "servidor_central/psk_validator.h"
 
-
+// Definición de la constante PSK_SERVER_HINT
+#define PSK_SERVER_HINT "ElevatorCentralServer"
 
 /**
- * @brief Callback para configurar sesiones DTLS con timeouts optimizados
+ * @brief Manejador de eventos de sesión para configurar timeouts DTLS optimizados
  * 
- * @param[in] session Sesión CoAP que se está configurando
- * @param[in] event Tipo de evento DTLS/CoAP
+ * @param[in] session Sesión CoAP donde ocurrió el evento
+ * @param[in] event Tipo de evento de sesión
  * 
- * @return 0 en todos los casos (éxito)
+ * @return 0 en caso de éxito, valor negativo en caso de error
  * 
- * @details Esta función maneja eventos de sesión DTLS y configura parámetros
- * optimizados para mejorar la estabilidad de las conexiones:
+ * @details Esta función maneja eventos de sesión CoAP para configurar
+ * parámetros optimizados de DTLS, especialmente timeouts para mejorar
+ * la estabilidad de conexiones en redes con latencia variable.
  * 
  * **Eventos manejados:**
- * - COAP_EVENT_SERVER_SESSION_NEW: Configura timeouts para nueva sesión
- * - COAP_EVENT_DTLS_CLOSED: Registra cierre de sesión DTLS
- * - COAP_EVENT_DTLS_ERROR: Registra errores DTLS
- * - COAP_EVENT_SERVER_SESSION_DEL: Registra eliminación de sesión
+ * - `COAP_EVENT_DTLS_CONNECTED`: Nueva conexión DTLS establecida
+ * - `COAP_EVENT_DTLS_CLOSED`: Conexión DTLS cerrada
+ * - `COAP_EVENT_DTLS_ERROR`: Error en conexión DTLS
+ * - `COAP_EVENT_SERVER_SESSION_DEL`: Sesión de servidor eliminada
  * 
  * **Configuración de timeouts:**
- * - ACK timeout: 5 segundos
- * - Random factor: 1.5 (para evitar colisiones)
- * - Max retransmit: 4 intentos
+ * - ACK timeout: 4 segundos (equilibrio entre rapidez y estabilidad)
+ * - Random factor: 1.5 (factor aleatorio para evitar congestión)
+ * - Max retransmit: 4 intentos (suficiente para redes problemáticas)
  * 
- * @note Esta función es llamada automáticamente por libcoap
+ * **Justificación de valores:**
+ * - 4s ACK timeout: Permite recuperación en redes con latencia alta
+ * - 1.5 random factor: Reduce colisiones en múltiples conexiones
+ * - 4 retransmisiones: Balance entre persistencia y eficiencia
+ * 
+ * @note Estos valores están optimizados para entornos Kubernetes
+ * @note El logging detallado facilita debugging de problemas de conectividad
  * @see coap_session_set_ack_timeout()
  * @see coap_session_set_ack_random_factor()
  * @see coap_session_set_max_retransmit()
  */
 static int session_event_handler(coap_session_t *session,
                                const coap_event_t event) {
-    if (event == COAP_EVENT_SERVER_SESSION_NEW) {
-        // Configurar timeouts optimizados para la nueva sesión
+    if (event == COAP_EVENT_DTLS_CONNECTED) {
+        // Configurar timeouts optimizados para estabilidad DTLS
         coap_fixed_point_t timeout;
-        timeout.integer_part = 5;      // 5 segundos para ACK
-        timeout.fractional_part = 0;
+        timeout.integer_part = 4;        // 4 segundos para ACK
+        timeout.fractional_part = 0;     // Sin fracción
         coap_session_set_ack_timeout(session, timeout);
         
         coap_fixed_point_t random_factor;
@@ -344,170 +327,202 @@ void generate_unique_task_id(char *task_id_out, size_t len) {
 }
 
 /**
- * @brief Encuentra el ascensor más cercano para una llamada de piso
+ * @brief Algoritmo de selección inteligente de ascensores mejorado
  * 
  * @param[in] elevadores_estado Array JSON con el estado de todos los ascensores
- * @param[in] piso_origen Piso desde donde se realiza la llamada
- * @param[in] direccion_llamada Dirección solicitada ("up" o "down")
+ * @param[in] piso_origen Piso desde donde se hace la llamada
+ * @param[in] direccion_llamada Dirección deseada ("SUBIENDO" o "BAJANDO")
  * 
- * @return ID del ascensor asignado (debe liberarse con free()) o NULL si no hay ascensores disponibles
+ * @return ID del ascensor asignado (debe ser liberado por el caller) o NULL si no hay ascensores
  * 
- * @details Esta función implementa un algoritmo de asignación inteligente que selecciona
- * el ascensor más cercano al piso de origen de la llamada. Utiliza un algoritmo
- * de proximidad optimizado para minimizar el tiempo de espera.
+ * @details Esta función implementa un algoritmo inteligente que:
  * 
- * **Algoritmo de selección:**
- * 1. **Filtrado inicial**: Solo considera ascensores disponibles (disponible == true)
- * 2. **Cálculo de distancia**: Distancia absoluta entre piso_actual y piso_origen
- * 3. **Búsqueda de mínimos**: Encuentra la distancia mínima entre todos los candidatos
- * 4. **Resolución de empates**: Si hay múltiples ascensores con distancia mínima, selecciona aleatoriamente
+ * **🧠 ALGORITMO MEJORADO:**
+ * 1. **Prioridad 1:** Ascensores disponibles más cercanos
+ * 2. **Prioridad 2:** Ascensores ocupados que van en la misma dirección y pueden recoger
+ * 3. **Prioridad 3:** Ascensores ocupados que terminarán cerca del origen
+ * 4. **Prioridad 4:** Cualquier ascensor disponible como último recurso
  * 
- * **Criterios de disponibilidad:**
- * - Campo "disponible" debe ser true
- * - Campo "id_ascensor" debe ser string válido
- * - Campo "piso_actual" debe ser número válido
+ * **📊 ANÁLISIS POR CATEGORÍAS:**
+ * - **DISPONIBLES:** Ascensores sin tarea actual (disponible=true)
+ * - **COMPATIBLES:** Ascensores ocupados que van en la misma dirección
+ * - **PRÓXIMOS:** Ascensores que terminarán cerca del piso origen
+ * - **CUALQUIERA:** Fallback si todos están ocupados
  * 
- * **Ejemplo de funcionamiento:**
- * ```
- * Ascensores en pisos: [3, 6, 8, 10]
- * Llamada desde piso: 0
- * Distancias calculadas: [3, 6, 8, 10]
- * Resultado: Selecciona ascensor en piso 3 (distancia mínima = 3)
- * ```
+ * **🎯 CRITERIOS DE SELECCIÓN:**
+ * - Distancia al piso origen
+ * - Compatibilidad de dirección
+ * - Eficiencia de ruta
+ * - Tiempo estimado de disponibilidad
  * 
- * **Gestión de memoria:**
- * - Asigna memoria dinámicamente para el ID del ascensor seleccionado
- * - El llamador debe liberar la memoria con free()
- * - En caso de error, retorna NULL sin asignar memoria
- * 
- * **Optimizaciones:**
- * - Búsqueda en dos pasadas para eficiencia
- * - Uso de arrays temporales para candidatos
- * - Liberación automática de memoria no utilizada
- * 
- * @note La función es thread-safe para lecturas concurrentes
- * @note El parámetro direccion_llamada no se usa actualmente pero se mantiene para futuras mejoras
- * @see hnd_floor_call()
- * @see cJSON_IsArray()
- * @see cJSON_GetArraySize()
+ * @note Esta función resuelve el problema crítico del algoritmo anterior
+ * @note El ID retornado debe ser liberado con free() por el caller
  */
 static char* select_optimal_elevator(cJSON *elevadores_estado, int piso_origen, const char *direccion_llamada) {
-    if (!cJSON_IsArray(elevadores_estado)) {
-        SRV_LOG_ERROR("elevadores_estado no es un array válido");
+    if (!elevadores_estado || !cJSON_IsArray(elevadores_estado) || !direccion_llamada) {
+        SRV_LOG_ERROR("Invalid parameters for elevator selection");
         return NULL;
     }
 
     int array_size = cJSON_GetArraySize(elevadores_estado);
     if (array_size == 0) {
-        SRV_LOG_WARN("Array elevadores_estado está vacío");
+        SRV_LOG_WARN("No elevators in the building");
         return NULL;
     }
 
-    // Arrays para almacenar candidatos con distancia mínima
-    char **closest_elevators = malloc(array_size * sizeof(char*));
-    int *closest_floors = malloc(array_size * sizeof(int));
-    int closest_count = 0;
-    int min_distance = INT_MAX;
+    SRV_LOG_INFO("🧠 ALGORITMO MEJORADO: Analizando %d ascensores para piso %d, dirección %s", 
+                 array_size, piso_origen, direccion_llamada);
 
-    SRV_LOG_DEBUG("Analizando %d ascensores para llamada desde piso %d", array_size, piso_origen);
+    // Estructuras para candidatos por prioridad
+    struct {
+        char *id;
+        int piso_actual;
+        int destino_actual;
+        int score;
+        int distance;
+        int disponible;
+        char *estado;
+    } *candidatos = malloc(array_size * sizeof(*candidatos));
+    
+    if (!candidatos) {
+        SRV_LOG_ERROR("Memory allocation failed for elevator candidates");
+        return NULL;
+    }
 
-    // Primera pasada: encontrar la distancia mínima
+    int num_candidatos = 0;
+    int num_disponibles = 0;
+    int num_compatibles = 0;
+    int num_ocupados = 0;
+
+    // Analizar todos los ascensores
     for (int i = 0; i < array_size; i++) {
         cJSON *elevator = cJSON_GetArrayItem(elevadores_estado, i);
         if (!elevator) continue;
 
-        cJSON *j_id_ascensor = cJSON_GetObjectItemCaseSensitive(elevator, "id_ascensor");
-        cJSON *j_piso_actual = cJSON_GetObjectItemCaseSensitive(elevator, "piso_actual");
+        cJSON *j_id = cJSON_GetObjectItemCaseSensitive(elevator, "id_ascensor");
+        cJSON *j_piso = cJSON_GetObjectItemCaseSensitive(elevator, "piso_actual");
         cJSON *j_disponible = cJSON_GetObjectItemCaseSensitive(elevator, "disponible");
+        cJSON *j_destino = cJSON_GetObjectItemCaseSensitive(elevator, "destino_actual");
 
-        // Validar campos obligatorios
-        if (!cJSON_IsString(j_id_ascensor) || !cJSON_IsNumber(j_piso_actual) || !cJSON_IsBool(j_disponible)) {
-            SRV_LOG_WARN("Ascensor %d: campos inválidos o faltantes", i);
+        if (!cJSON_IsString(j_id) || !cJSON_IsNumber(j_piso) || !cJSON_IsBool(j_disponible)) {
+            SRV_LOG_WARN("Ascensor %d: campos inválidos", i);
             continue;
         }
 
-        // Solo considerar ascensores disponibles
-        if (!cJSON_IsTrue(j_disponible)) {
-            SRV_LOG_DEBUG("Ascensor %s no disponible (disponible=false)", j_id_ascensor->valuestring);
-            continue;
-        }
+        char *id = j_id->valuestring;
+        int piso_actual = j_piso->valueint;
+        int disponible = cJSON_IsTrue(j_disponible) ? 1 : 0;
+        int destino_actual = (j_destino && cJSON_IsNumber(j_destino)) ? j_destino->valueint : -1;
 
-        int piso_actual = j_piso_actual->valueint;
+        // Calcular métricas
         int distance = abs(piso_actual - piso_origen);
+        int score = 0;
+        char *estado = "UNKNOWN";
 
-        SRV_LOG_DEBUG("Ascensor %s: piso_actual=%d, distancia=%d", 
-                     j_id_ascensor->valuestring, piso_actual, distance);
-
-        if (distance < min_distance) {
-            min_distance = distance;
-        }
-    }
-
-    if (min_distance == INT_MAX) {
-        SRV_LOG_WARN("No se encontraron ascensores disponibles");
-        free(closest_elevators);
-        free(closest_floors);
-        return NULL;
-    }
-
-    SRV_LOG_DEBUG("Distancia mínima encontrada: %d", min_distance);
-
-    // Segunda pasada: recopilar todos los ascensores con distancia mínima
-    for (int i = 0; i < array_size; i++) {
-        cJSON *elevator = cJSON_GetArrayItem(elevadores_estado, i);
-        if (!elevator) continue;
-
-        cJSON *j_id_ascensor = cJSON_GetObjectItemCaseSensitive(elevator, "id_ascensor");
-        cJSON *j_piso_actual = cJSON_GetObjectItemCaseSensitive(elevator, "piso_actual");
-        cJSON *j_disponible = cJSON_GetObjectItemCaseSensitive(elevator, "disponible");
-
-        if (!cJSON_IsString(j_id_ascensor) || !cJSON_IsNumber(j_piso_actual) || !cJSON_IsBool(j_disponible)) {
-            continue;
-        }
-
-        if (!cJSON_IsTrue(j_disponible)) {
-            continue;
-        }
-
-        int piso_actual = j_piso_actual->valueint;
-        int distance = abs(piso_actual - piso_origen);
-
-        if (distance == min_distance) {
-            closest_elevators[closest_count] = strdup(j_id_ascensor->valuestring);
-            closest_floors[closest_count] = piso_actual;
-            closest_count++;
-            SRV_LOG_DEBUG("Candidato %d: %s (piso %d, distancia %d)", 
-                         closest_count, j_id_ascensor->valuestring, piso_actual, distance);
-        }
-    }
-
-    char *selected_elevator = NULL;
-    if (closest_count > 0) {
-        if (closest_count == 1) {
-            SRV_LOG_INFO("Ascensor más cercano: %s (piso %d, distancia %d)", 
-                        closest_elevators[0], closest_floors[0], min_distance);
-            selected_elevator = closest_elevators[0];
-        } else {
-            // Selección aleatoria entre candidatos empatados
-            srand((unsigned int)time(NULL));
-            int random_index = rand() % closest_count;
-            SRV_LOG_INFO("Empate en distancia (%d). Seleccionando aleatoriamente: %s (piso %d) entre %d candidatos", 
-                        min_distance, closest_elevators[random_index], closest_floors[random_index], closest_count);
+        if (disponible) {
+            // CATEGORÍA 1: DISPONIBLES
+            score = 1000 - distance; // Prioridad máxima, menor distancia = mayor score
+            estado = "DISPONIBLE";
+            num_disponibles++;
+        } else if (destino_actual != -1) {
+            // CATEGORÍA 2: OCUPADOS CON DESTINO
+            num_ocupados++;
             
-            selected_elevator = closest_elevators[random_index];
+            // Verificar si es compatible (va en la misma dirección y puede recoger)
+            int va_subiendo = (destino_actual > piso_actual);
+            int va_bajando = (destino_actual < piso_actual);
+            int puede_recoger = 0;
             
-            // Liberar los otros candidatos no seleccionados
-            for (int i = 0; i < closest_count; i++) {
-                if (i != random_index) {
-                    free(closest_elevators[i]);
+            if (strcmp(direccion_llamada, "SUBIENDO") == 0) {
+                // Llamada hacia arriba
+                if (va_subiendo && piso_actual <= piso_origen && piso_origen <= destino_actual) {
+                    puede_recoger = 1;
+                    estado = "COMPATIBLE_SUBIENDO";
+                }
+            } else if (strcmp(direccion_llamada, "BAJANDO") == 0) {
+                // Llamada hacia abajo
+                if (va_bajando && piso_actual >= piso_origen && piso_origen >= destino_actual) {
+                    puede_recoger = 1;
+                    estado = "COMPATIBLE_BAJANDO";
                 }
             }
+            
+            if (puede_recoger) {
+                // CATEGORÍA 2: COMPATIBLES
+                score = 800 - distance; // Alta prioridad
+                num_compatibles++;
+            } else {
+                // CATEGORÍA 3: PRÓXIMOS (terminarán cerca)
+                int distancia_al_terminar = abs(destino_actual - piso_origen);
+                score = 600 - distancia_al_terminar; // Prioridad media
+                estado = "PRÓXIMO";
+            }
+        } else {
+            // CATEGORÍA 4: OCUPADOS SIN DESTINO CONOCIDO
+            score = 400 - distance; // Prioridad baja
+            estado = "OCUPADO_SIN_DESTINO";
+            num_ocupados++;
+        }
+
+        // Agregar candidato
+        candidatos[num_candidatos].id = strdup(id);
+        candidatos[num_candidatos].piso_actual = piso_actual;
+        candidatos[num_candidatos].destino_actual = destino_actual;
+        candidatos[num_candidatos].score = score;
+        candidatos[num_candidatos].distance = distance;
+        candidatos[num_candidatos].disponible = disponible;
+        candidatos[num_candidatos].estado = strdup(estado);
+        num_candidatos++;
+
+        SRV_LOG_DEBUG("📊 Candidato: %s | Piso: %d | Destino: %d | Score: %d | Estado: %s", 
+                     id, piso_actual, destino_actual, score, estado);
+    }
+
+    // Estadísticas del análisis
+    SRV_LOG_INFO("📈 ESTADÍSTICAS: Disponibles=%d, Compatibles=%d, Ocupados=%d, Total=%d", 
+                 num_disponibles, num_compatibles, num_ocupados, num_candidatos);
+
+    // Seleccionar el mejor candidato
+    char *selected_id = NULL;
+    int best_score = -1;
+    int best_index = -1;
+
+    for (int i = 0; i < num_candidatos; i++) {
+        if (candidatos[i].score > best_score) {
+            best_score = candidatos[i].score;
+            best_index = i;
         }
     }
 
-    free(closest_elevators);
-    free(closest_floors);
-    return selected_elevator;
+    if (best_index != -1) {
+        selected_id = strdup(candidatos[best_index].id);
+        SRV_LOG_INFO("🎯 SELECCIONADO: %s | Score: %d | Estado: %s | Piso: %d → %d", 
+                     candidatos[best_index].id,
+                     candidatos[best_index].score,
+                     candidatos[best_index].estado,
+                     candidatos[best_index].piso_actual,
+                     candidatos[best_index].destino_actual);
+        
+        // Logging adicional según el tipo de selección
+        if (candidatos[best_index].disponible) {
+            SRV_LOG_INFO("✅ ASIGNACIÓN ÓPTIMA: Ascensor disponible más cercano");
+        } else if (strstr(candidatos[best_index].estado, "COMPATIBLE")) {
+            SRV_LOG_INFO("🚀 ASIGNACIÓN INTELIGENTE: Ascensor compatible en ruta");
+        } else {
+            SRV_LOG_INFO("⏳ ASIGNACIÓN DIFERIDA: Ascensor ocupado, se asignará al terminar");
+        }
+    } else {
+        SRV_LOG_ERROR("🚫 ERROR CRÍTICO: No se pudo seleccionar ningún ascensor");
+    }
+
+    // Liberar memoria de candidatos
+    for (int i = 0; i < num_candidatos; i++) {
+        free(candidatos[i].id);
+        free(candidatos[i].estado);
+    }
+    free(candidatos);
+
+    return selected_id;
 }
 
 // --- STUBBED CoAP Handlers (to be refactored) ---
@@ -598,9 +613,49 @@ static void hnd_floor_call(coap_resource_t *resource, coap_session_t *session,
         SRV_LOG_INFO("Received request on /[unknown_path] (Peticion Piso)");
     }
 
+    // Verificar que la sesión tenga una conexión DTLS válida
+    if (coap_session_get_state(session) != COAP_SESSION_STATE_ESTABLISHED) {
+        SRV_LOG_ERROR("Unauthorized request: Session not properly connected via DTLS");
+        coap_pdu_set_code(response, COAP_RESPONSE_CODE_UNAUTHORIZED);
+        cJSON *error_json = cJSON_CreateObject();
+        cJSON_AddStringToObject(error_json, "error", "Unauthorized");
+        cJSON_AddStringToObject(error_json, "message", "DTLS connection required");
+        char *error_str = cJSON_PrintUnformatted(error_json);
+        coap_add_option(response, COAP_OPTION_CONTENT_FORMAT, coap_encode_var_safe( (uint8_t[2]){0}, 2, COAP_MEDIATYPE_APPLICATION_JSON), (uint8_t[2]){0});
+        coap_add_data(response, strlen(error_str), (const uint8_t*)error_str);
+        cJSON_Delete(error_json);
+        free(error_str);
+        return;
+    }
+
     const uint8_t *data;
     size_t data_len;
     if (coap_get_data(request, &data_len, &data)) {
+        // Verificar Content-Format si está presente
+        coap_opt_iterator_t opt_iter;
+        coap_opt_t *option;
+        coap_option_iterator_init(request, &opt_iter, COAP_OPT_ALL);
+        while ((option = coap_option_next(&opt_iter))) {
+            if (opt_iter.number == COAP_OPTION_CONTENT_FORMAT) {
+                uint32_t content_format = coap_decode_var_bytes(coap_opt_value(option), coap_opt_length(option));
+                if (content_format != COAP_MEDIATYPE_APPLICATION_JSON) {
+                    SRV_LOG_ERROR("Unsupported Content-Format: %u (expected JSON)", content_format);
+                    coap_pdu_set_code(response, COAP_RESPONSE_CODE_UNSUPPORTED_CONTENT_FORMAT);
+                    cJSON *error_json = cJSON_CreateObject();
+                    cJSON_AddStringToObject(error_json, "error", "Unsupported Content-Format");
+                    cJSON_AddStringToObject(error_json, "expected", "application/json");
+                    cJSON_AddNumberToObject(error_json, "received", content_format);
+                    char *error_str = cJSON_PrintUnformatted(error_json);
+                    coap_add_option(response, COAP_OPTION_CONTENT_FORMAT, coap_encode_var_safe( (uint8_t[2]){0}, 2, COAP_MEDIATYPE_APPLICATION_JSON), (uint8_t[2]){0});
+                    coap_add_data(response, strlen(error_str), (const uint8_t*)error_str);
+                    cJSON_Delete(error_json);
+                    free(error_str);
+                    return;
+                }
+                break;
+            }
+        }
+
         SRV_LOG_DEBUG("Floor Call Payload: %.*s", (int)data_len, (char*)data);
 
         cJSON *json_payload = cJSON_ParseWithLength((const char*)data, data_len);
@@ -643,14 +698,66 @@ static void hnd_floor_call(coap_resource_t *resource, coap_session_t *session,
         int piso_origen = j_piso_origen_llamada->valueint;
         char *direccion_llamada = j_direccion_llamada->valuestring;
 
+        // Validar rango de piso (asumiendo edificios de 1-50 pisos)
+        if (piso_origen < 1 || piso_origen > 50) {
+            SRV_LOG_ERROR("Invalid floor number: %d (must be between 1-50)", piso_origen);
+            coap_pdu_set_code(response, COAP_RESPONSE_CODE_BAD_REQUEST);
+            cJSON *error_json = cJSON_CreateObject();
+            cJSON_AddStringToObject(error_json, "error", "Invalid floor number");
+            cJSON_AddNumberToObject(error_json, "floor", piso_origen);
+            cJSON_AddStringToObject(error_json, "valid_range", "1-50");
+            char *error_str = cJSON_PrintUnformatted(error_json);
+            coap_add_option(response, COAP_OPTION_CONTENT_FORMAT, coap_encode_var_safe( (uint8_t[2]){0}, 2, COAP_MEDIATYPE_APPLICATION_JSON), (uint8_t[2]){0});
+            coap_add_data(response, strlen(error_str), (const uint8_t*)error_str);
+            cJSON_Delete(error_json);
+            free(error_str);
+            cJSON_Delete(json_payload);
+            return;
+        }
+
+        // Validar dirección de llamada
+        if (strcmp(direccion_llamada, "SUBIENDO") != 0 && strcmp(direccion_llamada, "BAJANDO") != 0) {
+            SRV_LOG_ERROR("Invalid call direction: %s (must be SUBIENDO or BAJANDO)", direccion_llamada);
+            coap_pdu_set_code(response, COAP_RESPONSE_CODE_BAD_REQUEST);
+            cJSON *error_json = cJSON_CreateObject();
+            cJSON_AddStringToObject(error_json, "error", "Invalid call direction");
+            cJSON_AddStringToObject(error_json, "direction", direccion_llamada);
+            cJSON_AddStringToObject(error_json, "valid_values", "SUBIENDO, BAJANDO");
+            char *error_str = cJSON_PrintUnformatted(error_json);
+            coap_add_option(response, COAP_OPTION_CONTENT_FORMAT, coap_encode_var_safe( (uint8_t[2]){0}, 2, COAP_MEDIATYPE_APPLICATION_JSON), (uint8_t[2]){0});
+            coap_add_data(response, strlen(error_str), (const uint8_t*)error_str);
+            cJSON_Delete(error_json);
+            free(error_str);
+            cJSON_Delete(json_payload);
+            return;
+        }
+
         SRV_LOG_INFO("Floor call from Edificio '%s', Piso Origen Llamada %d, Direccion '%s'", id_edificio, piso_origen, direccion_llamada);
 
-        // Usar algoritmo de asignación inteligente basado en proximidad
+        // Usar algoritmo de asignación inteligente mejorado
         char *assigned_elevator_id = select_optimal_elevator(j_elevadores_estado, piso_origen, direccion_llamada);
 
         if (assigned_elevator_id) {
             char task_id[32];
             generate_unique_task_id(task_id, sizeof(task_id));
+            
+            // Verificar que se pudo generar el task_id correctamente
+            if (strlen(task_id) == 0) {
+                SRV_LOG_ERROR("Internal error: Failed to generate task ID");
+                coap_pdu_set_code(response, COAP_RESPONSE_CODE_INTERNAL_ERROR);
+                cJSON *error_json = cJSON_CreateObject();
+                cJSON_AddStringToObject(error_json, "error", "Internal Server Error");
+                cJSON_AddStringToObject(error_json, "message", "Failed to generate task ID");
+                char *error_str = cJSON_PrintUnformatted(error_json);
+                coap_add_option(response, COAP_OPTION_CONTENT_FORMAT, coap_encode_var_safe( (uint8_t[2]){0}, 2, COAP_MEDIATYPE_APPLICATION_JSON), (uint8_t[2]){0});
+                coap_add_data(response, strlen(error_str), (const uint8_t*)error_str);
+                cJSON_Delete(error_json);
+                free(error_str);
+                free(assigned_elevator_id);
+                cJSON_Delete(json_payload);
+                return;
+            }
+            
             SRV_LOG_INFO("Assigning task %s to elevator %s for floor call from piso %d (Edificio: %s)", 
                         task_id, assigned_elevator_id, piso_origen, id_edificio);
 
@@ -659,13 +766,30 @@ static void hnd_floor_call(coap_resource_t *resource, coap_session_t *session,
             cJSON_AddStringToObject(response_json, "ascensor_asignado_id", assigned_elevator_id);
 
             char *response_str = cJSON_PrintUnformatted(response_json);
+            if (!response_str) {
+                SRV_LOG_ERROR("Internal error: Failed to create JSON response");
+                coap_pdu_set_code(response, COAP_RESPONSE_CODE_INTERNAL_ERROR);
+                cJSON *error_json = cJSON_CreateObject();
+                cJSON_AddStringToObject(error_json, "error", "Internal Server Error");
+                cJSON_AddStringToObject(error_json, "message", "Failed to create response");
+                char *error_str = cJSON_PrintUnformatted(error_json);
+                coap_add_option(response, COAP_OPTION_CONTENT_FORMAT, coap_encode_var_safe( (uint8_t[2]){0}, 2, COAP_MEDIATYPE_APPLICATION_JSON), (uint8_t[2]){0});
+                coap_add_data(response, strlen(error_str), (const uint8_t*)error_str);
+                cJSON_Delete(error_json);
+                free(error_str);
+                cJSON_Delete(response_json);
+                free(assigned_elevator_id);
+                cJSON_Delete(json_payload);
+                return;
+            }
+            
             coap_pdu_set_code(response, COAP_RESPONSE_CODE_CONTENT);
             coap_add_option(response, COAP_OPTION_CONTENT_FORMAT, coap_encode_var_safe( (uint8_t[2]){0}, 2, COAP_MEDIATYPE_APPLICATION_JSON), (uint8_t[2]){0});
             coap_add_data(response, strlen(response_str), (const uint8_t *)response_str);
 
             cJSON_Delete(response_json);
             free(response_str);
-            free(assigned_elevator_id); // Liberar el ID asignado
+            free(assigned_elevator_id);
         } else {
             SRV_LOG_WARN("No elevators available for floor call from edificio '%s', piso %d", id_edificio, piso_origen);
             coap_pdu_set_code(response, COAP_RESPONSE_CODE_SERVICE_UNAVAILABLE);
@@ -673,6 +797,7 @@ static void hnd_floor_call(coap_resource_t *resource, coap_session_t *session,
             cJSON_AddStringToObject(error_json, "error", "No elevators available at the moment.");
             cJSON_AddStringToObject(error_json, "edificio", id_edificio);
             cJSON_AddNumberToObject(error_json, "piso_origen", piso_origen);
+            cJSON_AddStringToObject(error_json, "suggestion", "Try again in a few moments");
             char *error_str = cJSON_PrintUnformatted(error_json);
             coap_add_option(response, COAP_OPTION_CONTENT_FORMAT, coap_encode_var_safe( (uint8_t[2]){0}, 2, COAP_MEDIATYPE_APPLICATION_JSON), (uint8_t[2]){0});
             coap_add_data(response, strlen(error_str), (const uint8_t*)error_str);
@@ -781,6 +906,21 @@ static void hnd_cabin_request(coap_resource_t *resource, coap_session_t *session
         SRV_LOG_INFO("Received request on /[unknown_path] (Peticion Cabina)");
     }
 
+    // Verificar conexión DTLS
+    if (coap_session_get_state(session) != COAP_SESSION_STATE_ESTABLISHED) {
+        SRV_LOG_ERROR("Unauthorized cabin request: Session not properly connected via DTLS");
+        coap_pdu_set_code(response, COAP_RESPONSE_CODE_UNAUTHORIZED);
+        cJSON *error_json = cJSON_CreateObject();
+        cJSON_AddStringToObject(error_json, "error", "Unauthorized");
+        cJSON_AddStringToObject(error_json, "message", "DTLS connection required");
+        char *error_str = cJSON_PrintUnformatted(error_json);
+        coap_add_option(response, COAP_OPTION_CONTENT_FORMAT, coap_encode_var_safe( (uint8_t[2]){0}, 2, COAP_MEDIATYPE_APPLICATION_JSON), (uint8_t[2]){0});
+        coap_add_data(response, strlen(error_str), (const uint8_t*)error_str);
+        cJSON_Delete(error_json);
+        free(error_str);
+        return;
+    }
+
     const uint8_t *data;
     size_t data_len;
     if (coap_get_data(request, &data_len, &data)) {
@@ -804,14 +944,14 @@ static void hnd_cabin_request(coap_resource_t *resource, coap_session_t *session
         cJSON *j_id_edificio = cJSON_GetObjectItemCaseSensitive(json_payload, "id_edificio");
         cJSON *j_solicitando_ascensor_id = cJSON_GetObjectItemCaseSensitive(json_payload, "solicitando_ascensor_id");
         cJSON *j_piso_destino_solicitud = cJSON_GetObjectItemCaseSensitive(json_payload, "piso_destino_solicitud");
-        cJSON *j_elevadores_estado = cJSON_GetObjectItemCaseSensitive(json_payload, "elevadores_estado"); // Though not directly used for assignment logic here
+        cJSON *j_elevadores_estado = cJSON_GetObjectItemCaseSensitive(json_payload, "elevadores_estado");
 
         if (!cJSON_IsString(j_id_edificio) || !cJSON_IsString(j_solicitando_ascensor_id) ||
             !cJSON_IsNumber(j_piso_destino_solicitud) || !cJSON_IsArray(j_elevadores_estado)) {
-            SRV_LOG_ERROR("Missing or invalid fields in JSON payload for cabin request (expected id_edificio, solicitando_ascensor_id, piso_destino_solicitud, elevadores_estado).");
+            SRV_LOG_ERROR("Missing or invalid fields in JSON payload for cabin request");
             coap_pdu_set_code(response, COAP_RESPONSE_CODE_BAD_REQUEST);
             cJSON *error_json = cJSON_CreateObject();
-            cJSON_AddStringToObject(error_json, "error", "Missing or invalid fields in JSON payload for cabin request.");
+            cJSON_AddStringToObject(error_json, "error", "Missing or invalid fields in JSON payload for cabin request");
             cJSON_AddStringToObject(error_json, "expected_fields", "id_edificio (string), solicitando_ascensor_id (string), piso_destino_solicitud (number), elevadores_estado (array)");
             char *error_str = cJSON_PrintUnformatted(error_json);
             coap_add_option(response, COAP_OPTION_CONTENT_FORMAT, coap_encode_var_safe( (uint8_t[2]){0}, 2, COAP_MEDIATYPE_APPLICATION_JSON), (uint8_t[2]){0});
@@ -824,22 +964,102 @@ static void hnd_cabin_request(coap_resource_t *resource, coap_session_t *session
 
         char *id_edificio = j_id_edificio->valuestring;
         char *solicitando_ascensor_id = j_solicitando_ascensor_id->valuestring;
-        int piso_destino_solicitud = j_piso_destino_solicitud->valueint;
+        int piso_destino = j_piso_destino_solicitud->valueint;
 
-        SRV_LOG_INFO("Cabin request from Edificio '%s', Ascensor '%s' to Piso Destino %d", 
-                     id_edificio, solicitando_ascensor_id, piso_destino_solicitud);
+        // Validar rango de piso destino
+        if (piso_destino < 1 || piso_destino > 50) {
+            SRV_LOG_ERROR("Invalid destination floor: %d (must be between 1-50)", piso_destino);
+            coap_pdu_set_code(response, COAP_RESPONSE_CODE_BAD_REQUEST);
+            cJSON *error_json = cJSON_CreateObject();
+            cJSON_AddStringToObject(error_json, "error", "Invalid destination floor");
+            cJSON_AddNumberToObject(error_json, "destination_floor", piso_destino);
+            cJSON_AddStringToObject(error_json, "valid_range", "1-50");
+            char *error_str = cJSON_PrintUnformatted(error_json);
+            coap_add_option(response, COAP_OPTION_CONTENT_FORMAT, coap_encode_var_safe( (uint8_t[2]){0}, 2, COAP_MEDIATYPE_APPLICATION_JSON), (uint8_t[2]){0});
+            coap_add_data(response, strlen(error_str), (const uint8_t*)error_str);
+            cJSON_Delete(error_json);
+            free(error_str);
+            cJSON_Delete(json_payload);
+            return;
+        }
 
-        // For a cabin request, the assigned elevator is the one making the request.
+        // Verificar que el ascensor solicitante existe en el array de estado
+        int ascensor_encontrado = 0;
+        int array_size = cJSON_GetArraySize(j_elevadores_estado);
+        for (int i = 0; i < array_size; i++) {
+            cJSON *elevator = cJSON_GetArrayItem(j_elevadores_estado, i);
+            if (elevator) {
+                cJSON *j_id_ascensor = cJSON_GetObjectItemCaseSensitive(elevator, "id_ascensor");
+                if (cJSON_IsString(j_id_ascensor) && 
+                    strcmp(j_id_ascensor->valuestring, solicitando_ascensor_id) == 0) {
+                    ascensor_encontrado = 1;
+                    break;
+                }
+            }
+        }
+
+        if (!ascensor_encontrado) {
+            SRV_LOG_ERROR("Requesting elevator '%s' not found in elevators state array", solicitando_ascensor_id);
+            coap_pdu_set_code(response, COAP_RESPONSE_CODE_BAD_REQUEST);
+            cJSON *error_json = cJSON_CreateObject();
+            cJSON_AddStringToObject(error_json, "error", "Requesting elevator not found");
+            cJSON_AddStringToObject(error_json, "elevator_id", solicitando_ascensor_id);
+            cJSON_AddStringToObject(error_json, "message", "Elevator must exist in elevators_estado array");
+            char *error_str = cJSON_PrintUnformatted(error_json);
+            coap_add_option(response, COAP_OPTION_CONTENT_FORMAT, coap_encode_var_safe( (uint8_t[2]){0}, 2, COAP_MEDIATYPE_APPLICATION_JSON), (uint8_t[2]){0});
+            coap_add_data(response, strlen(error_str), (const uint8_t*)error_str);
+            cJSON_Delete(error_json);
+            free(error_str);
+            cJSON_Delete(json_payload);
+            return;
+        }
+
+        SRV_LOG_INFO("Cabin request from Edificio '%s', Ascensor '%s', Destino %d", 
+                    id_edificio, solicitando_ascensor_id, piso_destino);
+
+        // Para solicitudes de cabina, el ascensor se auto-asigna
         char task_id[32];
         generate_unique_task_id(task_id, sizeof(task_id));
-        SRV_LOG_INFO("Assigning task %s to elevator %s for its cabin request to piso %d", 
-                     task_id, solicitando_ascensor_id, piso_destino_solicitud);
+        
+        if (strlen(task_id) == 0) {
+            SRV_LOG_ERROR("Internal error: Failed to generate task ID for cabin request");
+            coap_pdu_set_code(response, COAP_RESPONSE_CODE_INTERNAL_ERROR);
+            cJSON *error_json = cJSON_CreateObject();
+            cJSON_AddStringToObject(error_json, "error", "Internal Server Error");
+            cJSON_AddStringToObject(error_json, "message", "Failed to generate task ID");
+            char *error_str = cJSON_PrintUnformatted(error_json);
+            coap_add_option(response, COAP_OPTION_CONTENT_FORMAT, coap_encode_var_safe( (uint8_t[2]){0}, 2, COAP_MEDIATYPE_APPLICATION_JSON), (uint8_t[2]){0});
+            coap_add_data(response, strlen(error_str), (const uint8_t*)error_str);
+            cJSON_Delete(error_json);
+            free(error_str);
+            cJSON_Delete(json_payload);
+            return;
+        }
+
+        SRV_LOG_INFO("Self-assigning task %s to elevator %s for cabin request to floor %d", 
+                    task_id, solicitando_ascensor_id, piso_destino);
 
         cJSON *response_json = cJSON_CreateObject();
         cJSON_AddStringToObject(response_json, "tarea_id", task_id);
-        cJSON_AddStringToObject(response_json, "ascensor_asignado_id", solicitando_ascensor_id); // Assign to self
+        cJSON_AddStringToObject(response_json, "ascensor_asignado_id", solicitando_ascensor_id);
 
         char *response_str = cJSON_PrintUnformatted(response_json);
+        if (!response_str) {
+            SRV_LOG_ERROR("Internal error: Failed to create JSON response for cabin request");
+            coap_pdu_set_code(response, COAP_RESPONSE_CODE_INTERNAL_ERROR);
+            cJSON *error_json = cJSON_CreateObject();
+            cJSON_AddStringToObject(error_json, "error", "Internal Server Error");
+            cJSON_AddStringToObject(error_json, "message", "Failed to create response");
+            char *error_str = cJSON_PrintUnformatted(error_json);
+            coap_add_option(response, COAP_OPTION_CONTENT_FORMAT, coap_encode_var_safe( (uint8_t[2]){0}, 2, COAP_MEDIATYPE_APPLICATION_JSON), (uint8_t[2]){0});
+            coap_add_data(response, strlen(error_str), (const uint8_t*)error_str);
+            cJSON_Delete(error_json);
+            free(error_str);
+            cJSON_Delete(response_json);
+            cJSON_Delete(json_payload);
+            return;
+        }
+        
         coap_pdu_set_code(response, COAP_RESPONSE_CODE_CONTENT);
         coap_add_option(response, COAP_OPTION_CONTENT_FORMAT, coap_encode_var_safe( (uint8_t[2]){0}, 2, COAP_MEDIATYPE_APPLICATION_JSON), (uint8_t[2]){0});
         coap_add_data(response, strlen(response_str), (const uint8_t *)response_str);
@@ -849,10 +1069,10 @@ static void hnd_cabin_request(coap_resource_t *resource, coap_session_t *session
         cJSON_Delete(json_payload);
 
     } else {
-        SRV_LOG_ERROR("Received cabin request with no payload.");
+        SRV_LOG_ERROR("Received cabin request with no payload");
         coap_pdu_set_code(response, COAP_RESPONSE_CODE_BAD_REQUEST);
         cJSON *error_json = cJSON_CreateObject();
-        cJSON_AddStringToObject(error_json, "error", "Missing payload for cabin request.");
+        cJSON_AddStringToObject(error_json, "error", "Missing payload for cabin request");
         char *error_str = cJSON_PrintUnformatted(error_json);
         coap_add_option(response, COAP_OPTION_CONTENT_FORMAT, coap_encode_var_safe( (uint8_t[2]){0}, 2, COAP_MEDIATYPE_APPLICATION_JSON), (uint8_t[2]){0});
         coap_add_data(response, strlen(error_str), (const uint8_t*)error_str);
@@ -934,7 +1154,7 @@ int main(int argc, char **argv) {
     signal(SIGINT, handle_sigint);
     SRV_LOG_INFO(ANSI_COLOR_GREEN "--- Servidor Central Ascensores CoAP (Stateless Dispatcher) ---" ANSI_COLOR_RESET);
 
-    coap_set_log_level(LOG_DEBUG);
+    coap_set_log_level(COAP_LOG_DEBUG);
     coap_startup();
     SRV_LOG_INFO("libCoAP initialized.");
 

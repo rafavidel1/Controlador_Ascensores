@@ -48,9 +48,29 @@ paths:
               schema:
                 $ref: '#/components/schemas/ServerResponse'
         '400':
-          description: Error en la solicitud (e.g., formato JSON inválido o campos faltantes).
+          description: Error en la solicitud - JSON inválido, campos faltantes o piso fuera de rango.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: No autorizado - Sesión DTLS no establecida correctamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '415':
+          description: Tipo de contenido no soportado - Se requiere application/json.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         '500':
-          description: Error interno en el servidor central.
+          description: Error interno en el servidor central durante procesamiento de solicitud.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 
   /peticion_cabina:
     post:
@@ -75,9 +95,29 @@ paths:
               schema:
                 $ref: '#/components/schemas/ServerResponse'
         '400':
-          description: Error en la solicitud (e.g., formato JSON inválido o campos faltantes).
+          description: Error en la solicitud - JSON inválido, campos faltantes o piso fuera de rango.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: No autorizado - Sesión DTLS no establecida correctamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '415':
+          description: Tipo de contenido no soportado - Se requiere application/json.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         '500':
-          description: Error interno en el servidor central.
+          description: Error interno en el servidor central durante procesamiento de solicitud.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 
 components:
   schemas:
@@ -241,4 +281,30 @@ components:
       required:
         - ascensor_asignado_id
         - tarea_id
-        - piso_destino_asignado 
+        - piso_destino_asignado
+
+    ErrorResponse:
+      type: object
+      description: Respuesta de error del servidor central.
+      properties:
+        error:
+          type: string
+          description: Tipo de error ocurrido.
+          example: "Bad Request"
+        message:
+          type: string
+          description: Mensaje descriptivo del error.
+          example: "JSON inválido: campo 'piso_origen_llamada' es requerido"
+        expected:
+          type: string
+          nullable: true
+          description: Valor esperado (para errores de tipo de contenido).
+          example: "application/json"
+        received:
+          type: integer
+          nullable: true
+          description: Valor recibido (para errores de tipo de contenido).
+          example: 0
+      required:
+        - error
+        - message 

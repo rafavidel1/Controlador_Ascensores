@@ -97,6 +97,7 @@ CMakeFiles/api_gateway.dir/src/main.c.o: \
  /usr/include/time.h /usr/include/x86_64-linux-gnu/bits/time.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct_tm.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h \
+ /usr/lib/gcc/x86_64-linux-gnu/13/include/stdbool.h \
  /mnt/d/AATFG/API/Librerias/libcoap-install-linux/include/coap3/coap.h \
  /mnt/d/AATFG/API/Librerias/libcoap-install-linux/include/coap3/libcoap.h \
  /mnt/d/AATFG/API/Librerias/libcoap-install-linux/include/coap3/coap_forward_decls.h \
@@ -147,7 +148,6 @@ CMakeFiles/api_gateway.dir/src/main.c.o: \
  /mnt/d/AATFG/API/Codigo/git/api_gateway/include/api_gateway/logging_gw.h \
  /mnt/d/AATFG/API/Codigo/git/api_gateway/include/api_gateway/elevator_state_manager.h \
  /usr/include/cjson/cJSON.h \
- /usr/lib/gcc/x86_64-linux-gnu/13/include/stdbool.h \
  /mnt/d/AATFG/API/Codigo/git/api_gateway/include/api_gateway/elevator_state_manager.h \
  /mnt/d/AATFG/API/Codigo/git/api_gateway/include/api_gateway/can_bridge.h \
  /usr/include/cjson/cJSON.h \

@@ -1,3 +1,7 @@
+API Gateway: Intentando cargar gateway.env...
+API Gateway: gateway.env cargado exitosamente
+API Gateway: GW_LISTEN_IP = '0.0.0.0'
+API Gateway: GW_LISTEN_PORT = '5683'
 API Gateway: Usando puerto personalizado 6097
 [32m[INFO-GW] [0m[CAN_Bridge] Inicializando el puente CAN simulado.
 [34m[DEBUG-GW] [0m[Main] Manejador de eventos CoAP global registrado.
@@ -9,6 +13,8 @@ API Gateway: Listening on 0.0.0.0:6097 for CoAP messages (UDP).
 [34m[DEBUG-GW] [0mStateMgr: Ascensor E1A3 inicializado: Piso 0, Puerta CERRADA, Ocupado: No
 [34m[DEBUG-GW] [0mStateMgr: Ascensor E1A4 inicializado: Piso 0, Puerta CERRADA, Ocupado: No
 [32m[INFO-GW] [0mAPI Gateway: Grupo de 4 ascensores para edificio 'E1' inicializado.
+PSK Manager: Cargadas 15000 claves desde psk_keys.txt
+[32m[INFO-GW] [0m[Main] Gestor de claves PSK inicializado correctamente.
 [32m[INFO-GW] [0m[CAN_Bridge] Registrando callback para enviar frames CAN a la simulación.
 [SIM_ASCENSOR] Simulador de ascensor inicializado y callback CAN registrado.
 [SIM_ASCENSOR] Intentando cargar datos de simulación desde: simulation_data.json
@@ -19,366 +25,638 @@ API Gateway: Listening on 0.0.0.0:6097 for CoAP messages (UDP).
 [SIM_ASCENSOR] Datos de simulación cargados exitosamente desde simulation_data.json
 [SIM_ASCENSOR] Edificios cargados: 100, Datos válidos: Sí
 
-[EXEC_LOGGER] Directorio de trabajo actual: /mnt/d/AATFG/API/Codigo/api_gateway
-[EXEC_LOGGER] Detectado: ejecutando desde api_gateway/, usando logs
-[EXEC_LOGGER] Intentando crear directorio 'logs'...
-[EXEC_LOGGER] Directorio ya existe: logs
-[EXEC_LOGGER] Intentando crear directorio 'logs/2025-06-20'...
-[EXEC_LOGGER] Directorio ya existe: logs/2025-06-20
-[EXEC_LOGGER] Intentando crear archivo: logs/2025-06-20/ejecucion_20-30-41-843.md
-[EXEC_LOGGER] Sistema de logging inicializado: logs/2025-06-20/ejecucion_20-30-41-843.md
+[EXEC_LOGGER] Directorio de trabajo actual: /mnt/d/AATFG/API/Codigo/git/api_gateway
+[EXEC_LOGGER] Usando directorio personalizado: logs/instance_98_port_6097
+[EXEC_LOGGER] Intentando crear directorio 'logs/instance_98_port_6097'...
+[EXEC_LOGGER] Directorio ya existe: logs/instance_98_port_6097
+[EXEC_LOGGER] Intentando crear directorio 'logs/instance_98_port_6097/2025-07-11'...
+[EXEC_LOGGER] Directorio ya existe: logs/instance_98_port_6097/2025-07-11
+[EXEC_LOGGER] Intentando crear archivo: logs/instance_98_port_6097/2025-07-11/ejecucion_01-48-16-649.md
+[EXEC_LOGGER] Sistema de logging inicializado: logs/instance_98_port_6097/2025-07-11/ejecucion_01-48-16-649.md
 
-[SIM_ASCENSOR] === INICIANDO SIMULACIÓN DE EVENTOS CAN ===
-[SIM_ASCENSOR] Usando simulación desde JSON con 100 edificios disponibles
-[SIMULATION] Edificio seleccionado: E048 (índice 47 de 100)
-[32m[INFO-GW] [0mStateMgr: Inicializando 4 ascensores para edificio 'E048', 14 pisos.
-[34m[DEBUG-GW] [0mStateMgr: Ascensor E048A1 inicializado: Piso 0, Puerta CERRADA, Ocupado: No
-[34m[DEBUG-GW] [0mStateMgr: Ascensor E048A2 inicializado: Piso 0, Puerta CERRADA, Ocupado: No
-[34m[DEBUG-GW] [0mStateMgr: Ascensor E048A3 inicializado: Piso 0, Puerta CERRADA, Ocupado: No
-[34m[DEBUG-GW] [0mStateMgr: Ascensor E048A4 inicializado: Piso 0, Puerta CERRADA, Ocupado: No
-[SIM_ASCENSOR] Sistema re-inicializado para edificio: E048
-[SIM_ASCENSOR] Ascensores disponibles: E048A1, E048A2, E048A3, E048A4
-[SIM_ASCENSOR] Ejecutando 10 peticiones del edificio E048...
-[SIM_ASCENSOR] --- Petición 1/10 ---
-[SIM_ASCENSOR] Ejecutando llamada de piso: Piso 7, Dirección up
-[SIM_ASCENSOR] Enviando LLAMADA DE PISO a GW (vía CAN): Piso 7, Dir SUBIR
+[SIM_ASCENSOR] === INICIANDO SIMULACIÓN NO-BLOQUEANTE DE EVENTOS CAN ===
+[SIM_ASCENSOR] Configurando simulación desde JSON con 100 edificios disponibles
+[SIMULATION] Edificio seleccionado: E071 (índice 70 de 100)
+[32m[INFO-GW] [0mStateMgr: Inicializando 4 ascensores para edificio 'E071', 14 pisos.
+[34m[DEBUG-GW] [0mStateMgr: Ascensor E071A1 inicializado: Piso 0, Puerta CERRADA, Ocupado: No
+[34m[DEBUG-GW] [0mStateMgr: Ascensor E071A2 inicializado: Piso 0, Puerta CERRADA, Ocupado: No
+[34m[DEBUG-GW] [0mStateMgr: Ascensor E071A3 inicializado: Piso 0, Puerta CERRADA, Ocupado: No
+[34m[DEBUG-GW] [0mStateMgr: Ascensor E071A4 inicializado: Piso 0, Puerta CERRADA, Ocupado: No
+[SIM_ASCENSOR] Sistema configurado para edificio: E071
+[SIM_ASCENSOR] Ascensores disponibles: E071A1, E071A2, E071A3, E071A4
+[SIM_ASCENSOR] Simulación NO-BLOQUEANTE: 10 peticiones con 2000ms entre cada una
+[SIM_ASCENSOR] ✅ Simulación no-bloqueante activada. El main loop manejará las peticiones.
+[SIM_ASCENSOR] === CONFIGURACIÓN DE SIMULACIÓN COMPLETADA ===
+
+[34m[DEBUG-GW] [0m[SimStep] === DIAGNÓSTICO SIMULADOR === Iteración 10
+[34m[DEBUG-GW] [0m[SimStep] Grupo: E071, Ascensores: 4
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A1: Piso=0, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A2: Piso=0, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A3: Piso=0, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A4: Piso=0, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] ESTADÍSTICAS: Ocupados=0, Moviendo=0, Total=4
+[SIM_ASCENSOR] --- Petición 1/10 (NO-BLOQUEANTE) ---
+[SIM_ASCENSOR] Ejecutando llamada de piso: Piso 4, Dirección down
+[SIM_ASCENSOR] Enviando LLAMADA DE PISO a GW (vía CAN): Piso 4, Dir BAJAR
 [32m[INFO-GW] [0m[CAN_Bridge] Procesando frame CAN ID: 0x100, DLC: 2
-[32m[INFO-GW] [0m[CAN_Bridge] Llamada de piso CAN: Piso 7, Dirección SUBIENDO
+[32m[INFO-GW] [0m[CAN_Bridge] Llamada de piso CAN: Piso 4, Dirección BAJANDO
 [32m[INFO-GW] [0m[33m[CAN_FloorCall] Gateway (Origen CAN ID: 0x100): Preparando solicitud para Servidor Central.[0m
 
-[34m[DEBUG-GW] [0m[CAN_FloorCall] Payload para Servidor Central (Origen CAN ID: 0x100): {"id_edificio":"E048","piso_origen_llamada":7,"direccion_llamada":"SUBIENDO","elevadores_estado":[{"id_ascensor":"E048A1","piso_actual":0,"estado_puerta":"CERRADA","disponible":true,"tarea_actual_id":null,"destino_actual":null},{"id_ascensor":"E048A2","piso_actual":0,"estado_puerta":"CERRADA","disponible":true,"tarea_actual_id":null,"destino_actual":null},{"id_ascensor":"E048A3","piso_actual":0,"estado_puerta":"CERRADA","disponible":true,"tarea_actual_id":null,"destino_actual":null},{"id_ascensor":"E048A4","piso_actual":0,"estado_puerta":"CERRADA","disponible":true,"tarea_actual_id":null,"destino_actual":null}]}
+[34m[DEBUG-GW] [0m[CAN_FloorCall] Payload para Servidor Central (Origen CAN ID: 0x100): {"id_edificio":"E071","piso_origen_llamada":4,"direccion_llamada":"BAJANDO","elevadores_estado":[{"id_ascensor":"E071A1","piso_actual":0,"estado_puerta":"CERRADA","disponible":true,"tarea_actual_id":null,"destino_actual":null},{"id_ascensor":"E071A2","piso_actual":0,"estado_puerta":"CERRADA","disponible":true,"tarea_actual_id":null,"destino_actual":null},{"id_ascensor":"E071A3","piso_actual":0,"estado_puerta":"CERRADA","disponible":true,"tarea_actual_id":null,"destino_actual":null},{"id_ascensor":"E071A4","piso_actual":0,"estado_puerta":"CERRADA","disponible":true,"tarea_actual_id":null,"destino_actual":null}]}
 [32m[INFO-GW] [0m[SessionHelper] Creando NUEVA sesión DTLS-PSK con servidor central.
-[32m[INFO-GW] [0m[SessionHelper] NUEVA Sesión DTLS-PSK (0x0x5a3895c63ce0) creada con servidor central. Identity: 'Gateway_Client_001'
+[32m[INFO-GW] [0m[SessionHelper] Debug - server_ip = '192.168.49.2' (longitud: 12)
+[32m[INFO-GW] [0m[SessionHelper] Debug - CENTRAL_SERVER_IP env var = '192.168.49.2'
+[34m[DEBUG-GW] [0m[PSK] Clave determinística para identidad 'Gateway_Client_117729_1752191298': eY6,F+PL
+[32m[INFO-GW] [0m[SessionHelper] Usando identidad única: 'Gateway_Client_117729_1752191298'
+[32m[INFO-GW] [0m[SessionHelper] NUEVA Sesión DTLS-PSK (0x0x5da42ac63120) creada con servidor central. Identity: 'Gateway_Client_117729_1752191298'
+[32m[INFO-GW] [0m[SessionHelper] Esperando establecimiento de nueva sesión DTLS-PSK (0x0x5da42ac63120)...
+[32m[INFO-GW] [0m[EventHandlerGW] Sesión DTLS global (0x0x5da42ac63120) establecida exitosamente con servidor central.
+[32m[INFO-GW] [0m[SessionHelper] Nueva sesión DTLS-PSK (0x0x5da42ac63120) establecida exitosamente después de 2 intentos.
 [34m[DEBUG-GW] [0m[CAN_Bridge] Stored token for CAN tracker: (len 1) 01
 [34m[DEBUG-GW] [0m[CAN_Bridge] Stored CAN ID 0x100 at index 0
 [32m[INFO-GW] [0m[36m[CAN_FloorCall] Gateway (Origen CAN ID: 0x100) -> Central: Enviando solicitud...[0m
 
 [32m[INFO-GW] [0m[32m[CAN_FloorCall] Gateway (Origen CAN ID: 0x100) -> Central: Solicitud enviada, esperando rsp...[0m
 
-[SIM_ASCENSOR] Procesando I/O CoAP por 1 segundo...
-[32m[INFO-GW] [0m[ResponseHandlerGW] Servidor Central -> Gateway: Respuesta recibida (Code: 2.69). MID: 63292
+[32m[INFO-GW] [0m[ResponseHandlerGW] Servidor Central -> Gateway: Respuesta recibida (Code: 2.69). MID: 17271
 [34m[DEBUG-GW] [0m[ResponseHandlerGW] JSON recibido de Servidor Central: {
-	"tarea_id":	"T_1750444241856",
-	"ascensor_asignado_id":	"E048A1"
+	"tarea_id":	"T_1752191298077",
+	"ascensor_asignado_id":	"E071A1"
 }
 [34m[DEBUG-GW] [0m[ResponseHandlerGW] Token recibido del servidor: (len 1) 01
 [34m[DEBUG-GW] [0m[CAN_Bridge] Finding token for CAN tracker: (len 1) 01
 [32m[INFO-GW] [0m[ResponseHandlerGW] Respuesta CoAP corresponde a una solicitud originada por CAN (ID: 0x100). Token 01
-[32m[INFO-GW] [0m[ResponseHandlerGW] Servidor Central (vía CAN origin) asignó tarea 'T_1750444241856' a ascensor 'E048A1'. Actualizando estado local.
-[32m[INFO-GW] [0mStateMgr: Tarea 'T_1750444241856' asignada a ascensor E048A1. Destino: piso 7. Piso actual: 0. Dirección: SUBIENDO
+[32m[INFO-GW] [0m[ResponseHandlerGW] Servidor Central (vía CAN origin) asignó tarea 'T_1752191298077' a ascensor 'E071A1'. Actualizando estado local.
+[32m[INFO-GW] [0mStateMgr: Tarea 'T_1752191298077' asignada a ascensor E071A1. Destino: piso 4. Piso actual: 0. Dirección: SUBIENDO
 [32m[INFO-GW] [0m[CAN_Bridge] Enviando respuesta CAN ID: 0x101, DLC: 8. Datos: 00 54 5F...
-[SIM_ASCENSOR] Recibido frame CAN de GW: ID=0x101, DLC=8, Datos: 00 54 5F 31 37 35 30 34
+[SIM_ASCENSOR] Recibido frame CAN de GW: ID=0x101, DLC=8, Datos: 00 54 5F 31 37 35 32 31
     Simulador -> Respuesta de llamada de piso: Ascensor (índice 0) asignado.
-    Simulador -> Tarea ID (parcial): T_17504
-[34m[DEBUG-GW] [0m[ResponseHandlerGW] Respuesta recibida en la sesión DTLS global (0x0x5a3895c63ce0). No se libera aquí.
-[SIM_ASCENSOR] --- Petición 2/10 ---
-[SIM_ASCENSOR] Ejecutando solicitud de cabina: Ascensor 0, Destino piso 9
-[SIM_ASCENSOR] Enviando SOLICITUD DE CABINA a GW (vía CAN): Ascensor idx 0, Piso Destino 9
+    Simulador -> Tarea ID (parcial): T_17521
+[34m[DEBUG-GW] [0m[ResponseHandlerGW] Respuesta recibida en la sesión DTLS global (0x0x5da42ac63120). No se libera aquí.
+[32m[INFO-GW] [0m[SimStep] Ascensor E071A1 SUBE a piso 1 (Destino: 4, Tarea: T_1752191298077)
+[32m[INFO-GW] [0m[SimStep] Ascensor E071A1 SUBE a piso 2 (Destino: 4, Tarea: T_1752191298077)
+[32m[INFO-GW] [0m[SimStep] Ascensor E071A1 SUBE a piso 3 (Destino: 4, Tarea: T_1752191298077)
+[32m[INFO-GW] [0m[SimStep] Ascensor E071A1 SUBE a piso 4 (Destino: 4, Tarea: T_1752191298077)
+[32m[INFO-GW] [0m[SimStep] Ascensor E071A1 LLEGÓ a destino 4.
+[32m[INFO-GW] [0mStateMgr: Ascensor E071A1 completó tarea T_1752191298077 en piso 4.
+[32m[INFO-GW] [0m[SimStep] Tarea completada por E071A1.
+[34m[DEBUG-GW] [0m[SimStep] === DIAGNÓSTICO SIMULADOR === Iteración 20
+[34m[DEBUG-GW] [0m[SimStep] Grupo: E071, Ascensores: 4
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A1: Piso=4, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A2: Piso=0, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A3: Piso=0, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A4: Piso=0, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] ESTADÍSTICAS: Ocupados=0, Moviendo=0, Total=4
+[34m[DEBUG-GW] [0m[SimStep] === DIAGNÓSTICO SIMULADOR === Iteración 30
+[34m[DEBUG-GW] [0m[SimStep] Grupo: E071, Ascensores: 4
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A1: Piso=4, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A2: Piso=0, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A3: Piso=0, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A4: Piso=0, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] ESTADÍSTICAS: Ocupados=0, Moviendo=0, Total=4
+[SIM_ASCENSOR] --- Petición 2/10 (NO-BLOQUEANTE) ---
+[SIM_ASCENSOR] Ejecutando solicitud de cabina: Ascensor 2, Destino piso 6
+[SIM_ASCENSOR] Enviando SOLICITUD DE CABINA a GW (vía CAN): Ascensor idx 2, Piso Destino 6
 [32m[INFO-GW] [0m[CAN_Bridge] Procesando frame CAN ID: 0x200, DLC: 2
-[32m[INFO-GW] [0m[CAN_Bridge] Solicitud de cabina CAN: Ascensor E048A1 (idx 0), Piso Destino 9
+[32m[INFO-GW] [0m[CAN_Bridge] Solicitud de cabina CAN: Ascensor E071A3 (idx 2), Piso Destino 6
 [32m[INFO-GW] [0m[33m[CAN_CabinReq] Gateway (Origen CAN ID: 0x200): Preparando solicitud para Servidor Central.[0m
 
-[34m[DEBUG-GW] [0m[CAN_CabinReq] Payload para Servidor Central (Origen CAN ID: 0x200): {"id_edificio":"E048","solicitando_ascensor_id":"E048A1","piso_destino_solicitud":9,"elevadores_estado":[{"id_ascensor":"E048A1","piso_actual":0,"estado_puerta":"CERRADA","disponible":false,"tarea_actual_id":"T_1750444241856","destino_actual":7},{"id_ascensor":"E048A2","piso_actual":0,"estado_puerta":"CERRADA","disponible":true,"tarea_actual_id":null,"destino_actual":null},{"id_ascensor":"E048A3","piso_actual":0,"estado_puerta":"CERRADA","disponible":true,"tarea_actual_id":null,"destino_actual":null},{"id_ascensor":"E048A4","piso_actual":0,"estado_puerta":"CERRADA","disponible":true,"tarea_actual_id":null,"destino_actual":null}]}
-[34m[DEBUG-GW] [0m[SessionHelper] Reutilizando sesión DTLS-PSK existente (0x0x5a3895c63ce0) con servidor central.
+[34m[DEBUG-GW] [0m[CAN_CabinReq] Payload para Servidor Central (Origen CAN ID: 0x200): {"id_edificio":"E071","solicitando_ascensor_id":"E071A3","piso_destino_solicitud":6,"elevadores_estado":[{"id_ascensor":"E071A1","piso_actual":4,"estado_puerta":"ABIERTA","disponible":true,"tarea_actual_id":null,"destino_actual":null},{"id_ascensor":"E071A2","piso_actual":0,"estado_puerta":"CERRADA","disponible":true,"tarea_actual_id":null,"destino_actual":null},{"id_ascensor":"E071A3","piso_actual":0,"estado_puerta":"CERRADA","disponible":true,"tarea_actual_id":null,"destino_actual":null},{"id_ascensor":"E071A4","piso_actual":0,"estado_puerta":"CERRADA","disponible":true,"tarea_actual_id":null,"destino_actual":null}]}
+[34m[DEBUG-GW] [0m[SessionHelper] Reutilizando sesión DTLS-PSK establecida (0x0x5da42ac63120) con servidor central.
 [34m[DEBUG-GW] [0m[CAN_Bridge] Stored token for CAN tracker: (len 1) 02
 [34m[DEBUG-GW] [0m[CAN_Bridge] Stored CAN ID 0x200 at index 1
 [32m[INFO-GW] [0m[36m[CAN_CabinReq] Gateway (Origen CAN ID: 0x200) -> Central: Enviando solicitud...[0m
 
 [32m[INFO-GW] [0m[32m[CAN_CabinReq] Gateway (Origen CAN ID: 0x200) -> Central: Solicitud enviada, esperando rsp...[0m
 
-[SIM_ASCENSOR] Procesando I/O CoAP por 1 segundo...
-[32m[INFO-GW] [0m[ResponseHandlerGW] Servidor Central -> Gateway: Respuesta recibida (Code: 2.69). MID: 63293
+[32m[INFO-GW] [0m[ResponseHandlerGW] Servidor Central -> Gateway: Respuesta recibida (Code: 2.69). MID: 17272
 [34m[DEBUG-GW] [0m[ResponseHandlerGW] JSON recibido de Servidor Central: {
-	"tarea_id":	"T_1750444242467",
-	"ascensor_asignado_id":	"E048A1"
+	"tarea_id":	"T_1752191300097",
+	"ascensor_asignado_id":	"E071A3"
 }
 [34m[DEBUG-GW] [0m[ResponseHandlerGW] Token recibido del servidor: (len 1) 02
 [34m[DEBUG-GW] [0m[CAN_Bridge] Finding token for CAN tracker: (len 1) 02
 [32m[INFO-GW] [0m[ResponseHandlerGW] Respuesta CoAP corresponde a una solicitud originada por CAN (ID: 0x200). Token 02
-[32m[INFO-GW] [0m[ResponseHandlerGW] Servidor Central (vía CAN origin) asignó tarea 'T_1750444242467' a ascensor 'E048A1'. Actualizando estado local.
-[32m[INFO-GW] [0mStateMgr: Tarea 'T_1750444242467' asignada a ascensor E048A1. Destino: piso 9. Piso actual: 0. Dirección: SUBIENDO
-[32m[INFO-GW] [0m[CAN_Bridge] Enviando respuesta CAN ID: 0x201, DLC: 8. Datos: 00 54 5F...
-[SIM_ASCENSOR] Recibido frame CAN de GW: ID=0x201, DLC=8, Datos: 00 54 5F 31 37 35 30 34
-    Simulador -> Respuesta de solicitud de cabina: Datos[0]=00
-    Simulador -> Tarea ID (parcial): T_17504
-[34m[DEBUG-GW] [0m[ResponseHandlerGW] Respuesta recibida en la sesión DTLS global (0x0x5a3895c63ce0). No se libera aquí.
-[SIM_ASCENSOR] --- Petición 3/10 ---
-[SIM_ASCENSOR] Ejecutando llamada de piso: Piso 3, Dirección up
-[SIM_ASCENSOR] Enviando LLAMADA DE PISO a GW (vía CAN): Piso 3, Dir SUBIR
-[32m[INFO-GW] [0m[CAN_Bridge] Procesando frame CAN ID: 0x100, DLC: 2
-[32m[INFO-GW] [0m[CAN_Bridge] Llamada de piso CAN: Piso 3, Dirección SUBIENDO
-[32m[INFO-GW] [0m[33m[CAN_FloorCall] Gateway (Origen CAN ID: 0x100): Preparando solicitud para Servidor Central.[0m
-
-[34m[DEBUG-GW] [0m[CAN_FloorCall] Payload para Servidor Central (Origen CAN ID: 0x100): {"id_edificio":"E048","piso_origen_llamada":3,"direccion_llamada":"SUBIENDO","elevadores_estado":[{"id_ascensor":"E048A1","piso_actual":0,"estado_puerta":"CERRADA","disponible":false,"tarea_actual_id":"T_1750444242467","destino_actual":9},{"id_ascensor":"E048A2","piso_actual":0,"estado_puerta":"CERRADA","disponible":true,"tarea_actual_id":null,"destino_actual":null},{"id_ascensor":"E048A3","piso_actual":0,"estado_puerta":"CERRADA","disponible":true,"tarea_actual_id":null,"destino_actual":null},{"id_ascensor":"E048A4","piso_actual":0,"estado_puerta":"CERRADA","disponible":true,"tarea_actual_id":null,"destino_actual":null}]}
-[34m[DEBUG-GW] [0m[SessionHelper] Reutilizando sesión DTLS-PSK existente (0x0x5a3895c63ce0) con servidor central.
-[34m[DEBUG-GW] [0m[CAN_Bridge] Stored token for CAN tracker: (len 1) 03
-[34m[DEBUG-GW] [0m[CAN_Bridge] Stored CAN ID 0x100 at index 2
-[32m[INFO-GW] [0m[36m[CAN_FloorCall] Gateway (Origen CAN ID: 0x100) -> Central: Enviando solicitud...[0m
-
-[32m[INFO-GW] [0m[32m[CAN_FloorCall] Gateway (Origen CAN ID: 0x100) -> Central: Solicitud enviada, esperando rsp...[0m
-
-[SIM_ASCENSOR] Procesando I/O CoAP por 1 segundo...
-[32m[INFO-GW] [0m[ResponseHandlerGW] Servidor Central -> Gateway: Respuesta recibida (Code: 2.69). MID: 63294
-[34m[DEBUG-GW] [0m[ResponseHandlerGW] JSON recibido de Servidor Central: {
-	"tarea_id":	"T_1750444243378",
-	"ascensor_asignado_id":	"E048A1"
-}
-[34m[DEBUG-GW] [0m[ResponseHandlerGW] Token recibido del servidor: (len 1) 03
-[34m[DEBUG-GW] [0m[CAN_Bridge] Finding token for CAN tracker: (len 1) 03
-[32m[INFO-GW] [0m[ResponseHandlerGW] Respuesta CoAP corresponde a una solicitud originada por CAN (ID: 0x100). Token 03
-[32m[INFO-GW] [0m[ResponseHandlerGW] Servidor Central (vía CAN origin) asignó tarea 'T_1750444243378' a ascensor 'E048A1'. Actualizando estado local.
-[32m[INFO-GW] [0mStateMgr: Tarea 'T_1750444243378' asignada a ascensor E048A1. Destino: piso 3. Piso actual: 0. Dirección: SUBIENDO
-[32m[INFO-GW] [0m[CAN_Bridge] Enviando respuesta CAN ID: 0x101, DLC: 8. Datos: 00 54 5F...
-[SIM_ASCENSOR] Recibido frame CAN de GW: ID=0x101, DLC=8, Datos: 00 54 5F 31 37 35 30 34
-    Simulador -> Respuesta de llamada de piso: Ascensor (índice 0) asignado.
-    Simulador -> Tarea ID (parcial): T_17504
-[34m[DEBUG-GW] [0m[ResponseHandlerGW] Respuesta recibida en la sesión DTLS global (0x0x5a3895c63ce0). No se libera aquí.
-[SIM_ASCENSOR] --- Petición 4/10 ---
-[SIM_ASCENSOR] Ejecutando solicitud de cabina: Ascensor 1, Destino piso 8
-[SIM_ASCENSOR] Enviando SOLICITUD DE CABINA a GW (vía CAN): Ascensor idx 1, Piso Destino 8
-[32m[INFO-GW] [0m[CAN_Bridge] Procesando frame CAN ID: 0x200, DLC: 2
-[32m[INFO-GW] [0m[CAN_Bridge] Solicitud de cabina CAN: Ascensor E048A2 (idx 1), Piso Destino 8
-[32m[INFO-GW] [0m[33m[CAN_CabinReq] Gateway (Origen CAN ID: 0x200): Preparando solicitud para Servidor Central.[0m
-
-[34m[DEBUG-GW] [0m[CAN_CabinReq] Payload para Servidor Central (Origen CAN ID: 0x200): {"id_edificio":"E048","solicitando_ascensor_id":"E048A2","piso_destino_solicitud":8,"elevadores_estado":[{"id_ascensor":"E048A1","piso_actual":0,"estado_puerta":"CERRADA","disponible":false,"tarea_actual_id":"T_1750444243378","destino_actual":3},{"id_ascensor":"E048A2","piso_actual":0,"estado_puerta":"CERRADA","disponible":true,"tarea_actual_id":null,"destino_actual":null},{"id_ascensor":"E048A3","piso_actual":0,"estado_puerta":"CERRADA","disponible":true,"tarea_actual_id":null,"destino_actual":null},{"id_ascensor":"E048A4","piso_actual":0,"estado_puerta":"CERRADA","disponible":true,"tarea_actual_id":null,"destino_actual":null}]}
-[34m[DEBUG-GW] [0m[SessionHelper] Reutilizando sesión DTLS-PSK existente (0x0x5a3895c63ce0) con servidor central.
-[34m[DEBUG-GW] [0m[CAN_Bridge] Stored token for CAN tracker: (len 1) 04
-[34m[DEBUG-GW] [0m[CAN_Bridge] Stored CAN ID 0x200 at index 3
-[32m[INFO-GW] [0m[36m[CAN_CabinReq] Gateway (Origen CAN ID: 0x200) -> Central: Enviando solicitud...[0m
-
-[32m[INFO-GW] [0m[32m[CAN_CabinReq] Gateway (Origen CAN ID: 0x200) -> Central: Solicitud enviada, esperando rsp...[0m
-
-[SIM_ASCENSOR] Procesando I/O CoAP por 1 segundo...
-[32m[INFO-GW] [0m[ResponseHandlerGW] Servidor Central -> Gateway: Respuesta recibida (Code: 2.69). MID: 63295
-[34m[DEBUG-GW] [0m[ResponseHandlerGW] JSON recibido de Servidor Central: {
-	"tarea_id":	"T_1750444244289",
-	"ascensor_asignado_id":	"E048A2"
-}
-[34m[DEBUG-GW] [0m[ResponseHandlerGW] Token recibido del servidor: (len 1) 04
-[34m[DEBUG-GW] [0m[CAN_Bridge] Finding token for CAN tracker: (len 1) 04
-[32m[INFO-GW] [0m[ResponseHandlerGW] Respuesta CoAP corresponde a una solicitud originada por CAN (ID: 0x200). Token 04
-[32m[INFO-GW] [0m[ResponseHandlerGW] Servidor Central (vía CAN origin) asignó tarea 'T_1750444244289' a ascensor 'E048A2'. Actualizando estado local.
-[32m[INFO-GW] [0mStateMgr: Tarea 'T_1750444244289' asignada a ascensor E048A2. Destino: piso 8. Piso actual: 0. Dirección: SUBIENDO
-[32m[INFO-GW] [0m[CAN_Bridge] Enviando respuesta CAN ID: 0x201, DLC: 8. Datos: 01 54 5F...
-[SIM_ASCENSOR] Recibido frame CAN de GW: ID=0x201, DLC=8, Datos: 01 54 5F 31 37 35 30 34
-    Simulador -> Respuesta de solicitud de cabina: Datos[0]=01
-    Simulador -> Tarea ID (parcial): T_17504
-[34m[DEBUG-GW] [0m[ResponseHandlerGW] Respuesta recibida en la sesión DTLS global (0x0x5a3895c63ce0). No se libera aquí.
-[SIM_ASCENSOR] --- Petición 5/10 ---
-[SIM_ASCENSOR] Ejecutando llamada de piso: Piso 0, Dirección down
-[SIM_ASCENSOR] Enviando LLAMADA DE PISO a GW (vía CAN): Piso 0, Dir BAJAR
-[32m[INFO-GW] [0m[CAN_Bridge] Procesando frame CAN ID: 0x100, DLC: 2
-[32m[INFO-GW] [0m[CAN_Bridge] Llamada de piso CAN: Piso 0, Dirección BAJANDO
-[32m[INFO-GW] [0m[33m[CAN_FloorCall] Gateway (Origen CAN ID: 0x100): Preparando solicitud para Servidor Central.[0m
-
-[34m[DEBUG-GW] [0m[CAN_FloorCall] Payload para Servidor Central (Origen CAN ID: 0x100): {"id_edificio":"E048","piso_origen_llamada":0,"direccion_llamada":"BAJANDO","elevadores_estado":[{"id_ascensor":"E048A1","piso_actual":0,"estado_puerta":"CERRADA","disponible":false,"tarea_actual_id":"T_1750444243378","destino_actual":3},{"id_ascensor":"E048A2","piso_actual":0,"estado_puerta":"CERRADA","disponible":false,"tarea_actual_id":"T_1750444244289","destino_actual":8},{"id_ascensor":"E048A3","piso_actual":0,"estado_puerta":"CERRADA","disponible":true,"tarea_actual_id":null,"destino_actual":null},{"id_ascensor":"E048A4","piso_actual":0,"estado_puerta":"CERRADA","disponible":true,"tarea_actual_id":null,"destino_actual":null}]}
-[34m[DEBUG-GW] [0m[SessionHelper] Reutilizando sesión DTLS-PSK existente (0x0x5a3895c63ce0) con servidor central.
-[34m[DEBUG-GW] [0m[CAN_Bridge] Stored token for CAN tracker: (len 1) 05
-[34m[DEBUG-GW] [0m[CAN_Bridge] Stored CAN ID 0x100 at index 4
-[32m[INFO-GW] [0m[36m[CAN_FloorCall] Gateway (Origen CAN ID: 0x100) -> Central: Enviando solicitud...[0m
-
-[32m[INFO-GW] [0m[32m[CAN_FloorCall] Gateway (Origen CAN ID: 0x100) -> Central: Solicitud enviada, esperando rsp...[0m
-
-[SIM_ASCENSOR] Procesando I/O CoAP por 1 segundo...
-[32m[INFO-GW] [0m[ResponseHandlerGW] Servidor Central -> Gateway: Respuesta recibida (Code: 2.69). MID: 63296
-[34m[DEBUG-GW] [0m[ResponseHandlerGW] JSON recibido de Servidor Central: {
-	"tarea_id":	"T_1750444245199",
-	"ascensor_asignado_id":	"E048A1"
-}
-[34m[DEBUG-GW] [0m[ResponseHandlerGW] Token recibido del servidor: (len 1) 05
-[34m[DEBUG-GW] [0m[CAN_Bridge] Finding token for CAN tracker: (len 1) 05
-[32m[INFO-GW] [0m[ResponseHandlerGW] Respuesta CoAP corresponde a una solicitud originada por CAN (ID: 0x100). Token 05
-[32m[INFO-GW] [0m[ResponseHandlerGW] Servidor Central (vía CAN origin) asignó tarea 'T_1750444245199' a ascensor 'E048A1'. Actualizando estado local.
-[32m[INFO-GW] [0mStateMgr: Tarea 'T_1750444245199' asignada a ascensor E048A1. Destino: piso 0. Piso actual: 0. Dirección: PARADO
-[32m[INFO-GW] [0m[CAN_Bridge] Enviando respuesta CAN ID: 0x101, DLC: 8. Datos: 00 54 5F...
-[SIM_ASCENSOR] Recibido frame CAN de GW: ID=0x101, DLC=8, Datos: 00 54 5F 31 37 35 30 34
-    Simulador -> Respuesta de llamada de piso: Ascensor (índice 0) asignado.
-    Simulador -> Tarea ID (parcial): T_17504
-[34m[DEBUG-GW] [0m[ResponseHandlerGW] Respuesta recibida en la sesión DTLS global (0x0x5a3895c63ce0). No se libera aquí.
-[SIM_ASCENSOR] --- Petición 6/10 ---
-[SIM_ASCENSOR] Ejecutando solicitud de cabina: Ascensor 0, Destino piso 3
-[SIM_ASCENSOR] Enviando SOLICITUD DE CABINA a GW (vía CAN): Ascensor idx 0, Piso Destino 3
-[32m[INFO-GW] [0m[CAN_Bridge] Procesando frame CAN ID: 0x200, DLC: 2
-[32m[INFO-GW] [0m[CAN_Bridge] Solicitud de cabina CAN: Ascensor E048A1 (idx 0), Piso Destino 3
-[32m[INFO-GW] [0m[33m[CAN_CabinReq] Gateway (Origen CAN ID: 0x200): Preparando solicitud para Servidor Central.[0m
-
-[34m[DEBUG-GW] [0m[CAN_CabinReq] Payload para Servidor Central (Origen CAN ID: 0x200): {"id_edificio":"E048","solicitando_ascensor_id":"E048A1","piso_destino_solicitud":3,"elevadores_estado":[{"id_ascensor":"E048A1","piso_actual":0,"estado_puerta":"CERRADA","disponible":false,"tarea_actual_id":"T_1750444245199","destino_actual":0},{"id_ascensor":"E048A2","piso_actual":0,"estado_puerta":"CERRADA","disponible":false,"tarea_actual_id":"T_1750444244289","destino_actual":8},{"id_ascensor":"E048A3","piso_actual":0,"estado_puerta":"CERRADA","disponible":true,"tarea_actual_id":null,"destino_actual":null},{"id_ascensor":"E048A4","piso_actual":0,"estado_puerta":"CERRADA","disponible":true,"tarea_actual_id":null,"destino_actual":null}]}
-[34m[DEBUG-GW] [0m[SessionHelper] Reutilizando sesión DTLS-PSK existente (0x0x5a3895c63ce0) con servidor central.
-[34m[DEBUG-GW] [0m[CAN_Bridge] Stored token for CAN tracker: (len 1) 06
-[34m[DEBUG-GW] [0m[CAN_Bridge] Stored CAN ID 0x200 at index 5
-[32m[INFO-GW] [0m[36m[CAN_CabinReq] Gateway (Origen CAN ID: 0x200) -> Central: Enviando solicitud...[0m
-
-[32m[INFO-GW] [0m[32m[CAN_CabinReq] Gateway (Origen CAN ID: 0x200) -> Central: Solicitud enviada, esperando rsp...[0m
-
-[SIM_ASCENSOR] Procesando I/O CoAP por 1 segundo...
-[32m[INFO-GW] [0m[ResponseHandlerGW] Servidor Central -> Gateway: Respuesta recibida (Code: 2.69). MID: 63297
-[34m[DEBUG-GW] [0m[ResponseHandlerGW] JSON recibido de Servidor Central: {
-	"tarea_id":	"T_1750444246112",
-	"ascensor_asignado_id":	"E048A1"
-}
-[34m[DEBUG-GW] [0m[ResponseHandlerGW] Token recibido del servidor: (len 1) 06
-[34m[DEBUG-GW] [0m[CAN_Bridge] Finding token for CAN tracker: (len 1) 06
-[32m[INFO-GW] [0m[ResponseHandlerGW] Respuesta CoAP corresponde a una solicitud originada por CAN (ID: 0x200). Token 06
-[32m[INFO-GW] [0m[ResponseHandlerGW] Servidor Central (vía CAN origin) asignó tarea 'T_1750444246112' a ascensor 'E048A1'. Actualizando estado local.
-[32m[INFO-GW] [0mStateMgr: Tarea 'T_1750444246112' asignada a ascensor E048A1. Destino: piso 3. Piso actual: 0. Dirección: SUBIENDO
-[32m[INFO-GW] [0m[CAN_Bridge] Enviando respuesta CAN ID: 0x201, DLC: 8. Datos: 00 54 5F...
-[SIM_ASCENSOR] Recibido frame CAN de GW: ID=0x201, DLC=8, Datos: 00 54 5F 31 37 35 30 34
-    Simulador -> Respuesta de solicitud de cabina: Datos[0]=00
-    Simulador -> Tarea ID (parcial): T_17504
-[34m[DEBUG-GW] [0m[ResponseHandlerGW] Respuesta recibida en la sesión DTLS global (0x0x5a3895c63ce0). No se libera aquí.
-[SIM_ASCENSOR] --- Petición 7/10 ---
-[SIM_ASCENSOR] Ejecutando llamada de piso: Piso 1, Dirección down
-[SIM_ASCENSOR] Enviando LLAMADA DE PISO a GW (vía CAN): Piso 1, Dir BAJAR
-[32m[INFO-GW] [0m[CAN_Bridge] Procesando frame CAN ID: 0x100, DLC: 2
-[32m[INFO-GW] [0m[CAN_Bridge] Llamada de piso CAN: Piso 1, Dirección BAJANDO
-[32m[INFO-GW] [0m[33m[CAN_FloorCall] Gateway (Origen CAN ID: 0x100): Preparando solicitud para Servidor Central.[0m
-
-[34m[DEBUG-GW] [0m[CAN_FloorCall] Payload para Servidor Central (Origen CAN ID: 0x100): {"id_edificio":"E048","piso_origen_llamada":1,"direccion_llamada":"BAJANDO","elevadores_estado":[{"id_ascensor":"E048A1","piso_actual":0,"estado_puerta":"CERRADA","disponible":false,"tarea_actual_id":"T_1750444246112","destino_actual":3},{"id_ascensor":"E048A2","piso_actual":0,"estado_puerta":"CERRADA","disponible":false,"tarea_actual_id":"T_1750444244289","destino_actual":8},{"id_ascensor":"E048A3","piso_actual":0,"estado_puerta":"CERRADA","disponible":true,"tarea_actual_id":null,"destino_actual":null},{"id_ascensor":"E048A4","piso_actual":0,"estado_puerta":"CERRADA","disponible":true,"tarea_actual_id":null,"destino_actual":null}]}
-[34m[DEBUG-GW] [0m[SessionHelper] Reutilizando sesión DTLS-PSK existente (0x0x5a3895c63ce0) con servidor central.
-[34m[DEBUG-GW] [0m[CAN_Bridge] Stored token for CAN tracker: (len 1) 07
-[34m[DEBUG-GW] [0m[CAN_Bridge] Stored CAN ID 0x100 at index 6
-[32m[INFO-GW] [0m[36m[CAN_FloorCall] Gateway (Origen CAN ID: 0x100) -> Central: Enviando solicitud...[0m
-
-[32m[INFO-GW] [0m[32m[CAN_FloorCall] Gateway (Origen CAN ID: 0x100) -> Central: Solicitud enviada, esperando rsp...[0m
-
-[SIM_ASCENSOR] Procesando I/O CoAP por 1 segundo...
-[32m[INFO-GW] [0m[ResponseHandlerGW] Servidor Central -> Gateway: Respuesta recibida (Code: 2.69). MID: 63298
-[34m[DEBUG-GW] [0m[ResponseHandlerGW] JSON recibido de Servidor Central: {
-	"tarea_id":	"T_1750444247027",
-	"ascensor_asignado_id":	"E048A1"
-}
-[34m[DEBUG-GW] [0m[ResponseHandlerGW] Token recibido del servidor: (len 1) 07
-[34m[DEBUG-GW] [0m[CAN_Bridge] Finding token for CAN tracker: (len 1) 07
-[32m[INFO-GW] [0m[ResponseHandlerGW] Respuesta CoAP corresponde a una solicitud originada por CAN (ID: 0x100). Token 07
-[32m[INFO-GW] [0m[ResponseHandlerGW] Servidor Central (vía CAN origin) asignó tarea 'T_1750444247027' a ascensor 'E048A1'. Actualizando estado local.
-[32m[INFO-GW] [0mStateMgr: Tarea 'T_1750444247027' asignada a ascensor E048A1. Destino: piso 1. Piso actual: 0. Dirección: SUBIENDO
-[32m[INFO-GW] [0m[CAN_Bridge] Enviando respuesta CAN ID: 0x101, DLC: 8. Datos: 00 54 5F...
-[SIM_ASCENSOR] Recibido frame CAN de GW: ID=0x101, DLC=8, Datos: 00 54 5F 31 37 35 30 34
-    Simulador -> Respuesta de llamada de piso: Ascensor (índice 0) asignado.
-    Simulador -> Tarea ID (parcial): T_17504
-[34m[DEBUG-GW] [0m[ResponseHandlerGW] Respuesta recibida en la sesión DTLS global (0x0x5a3895c63ce0). No se libera aquí.
-[SIM_ASCENSOR] --- Petición 8/10 ---
-[SIM_ASCENSOR] Ejecutando solicitud de cabina: Ascensor 0, Destino piso 2
-[SIM_ASCENSOR] Enviando SOLICITUD DE CABINA a GW (vía CAN): Ascensor idx 0, Piso Destino 2
-[32m[INFO-GW] [0m[CAN_Bridge] Procesando frame CAN ID: 0x200, DLC: 2
-[32m[INFO-GW] [0m[CAN_Bridge] Solicitud de cabina CAN: Ascensor E048A1 (idx 0), Piso Destino 2
-[32m[INFO-GW] [0m[33m[CAN_CabinReq] Gateway (Origen CAN ID: 0x200): Preparando solicitud para Servidor Central.[0m
-
-[34m[DEBUG-GW] [0m[CAN_CabinReq] Payload para Servidor Central (Origen CAN ID: 0x200): {"id_edificio":"E048","solicitando_ascensor_id":"E048A1","piso_destino_solicitud":2,"elevadores_estado":[{"id_ascensor":"E048A1","piso_actual":0,"estado_puerta":"CERRADA","disponible":false,"tarea_actual_id":"T_1750444247027","destino_actual":1},{"id_ascensor":"E048A2","piso_actual":0,"estado_puerta":"CERRADA","disponible":false,"tarea_actual_id":"T_1750444244289","destino_actual":8},{"id_ascensor":"E048A3","piso_actual":0,"estado_puerta":"CERRADA","disponible":true,"tarea_actual_id":null,"destino_actual":null},{"id_ascensor":"E048A4","piso_actual":0,"estado_puerta":"CERRADA","disponible":true,"tarea_actual_id":null,"destino_actual":null}]}
-[34m[DEBUG-GW] [0m[SessionHelper] Reutilizando sesión DTLS-PSK existente (0x0x5a3895c63ce0) con servidor central.
-[34m[DEBUG-GW] [0m[CAN_Bridge] Stored token for CAN tracker: (len 1) 08
-[34m[DEBUG-GW] [0m[CAN_Bridge] Stored CAN ID 0x200 at index 7
-[32m[INFO-GW] [0m[36m[CAN_CabinReq] Gateway (Origen CAN ID: 0x200) -> Central: Enviando solicitud...[0m
-
-[32m[INFO-GW] [0m[32m[CAN_CabinReq] Gateway (Origen CAN ID: 0x200) -> Central: Solicitud enviada, esperando rsp...[0m
-
-[SIM_ASCENSOR] Procesando I/O CoAP por 1 segundo...
-[32m[INFO-GW] [0m[ResponseHandlerGW] Servidor Central -> Gateway: Respuesta recibida (Code: 2.69). MID: 63299
-[34m[DEBUG-GW] [0m[ResponseHandlerGW] JSON recibido de Servidor Central: {
-	"tarea_id":	"T_1750444247945",
-	"ascensor_asignado_id":	"E048A1"
-}
-[34m[DEBUG-GW] [0m[ResponseHandlerGW] Token recibido del servidor: (len 1) 08
-[34m[DEBUG-GW] [0m[CAN_Bridge] Finding token for CAN tracker: (len 1) 08
-[32m[INFO-GW] [0m[ResponseHandlerGW] Respuesta CoAP corresponde a una solicitud originada por CAN (ID: 0x200). Token 08
-[32m[INFO-GW] [0m[ResponseHandlerGW] Servidor Central (vía CAN origin) asignó tarea 'T_1750444247945' a ascensor 'E048A1'. Actualizando estado local.
-[32m[INFO-GW] [0mStateMgr: Tarea 'T_1750444247945' asignada a ascensor E048A1. Destino: piso 2. Piso actual: 0. Dirección: SUBIENDO
-[32m[INFO-GW] [0m[CAN_Bridge] Enviando respuesta CAN ID: 0x201, DLC: 8. Datos: 00 54 5F...
-[SIM_ASCENSOR] Recibido frame CAN de GW: ID=0x201, DLC=8, Datos: 00 54 5F 31 37 35 30 34
-    Simulador -> Respuesta de solicitud de cabina: Datos[0]=00
-    Simulador -> Tarea ID (parcial): T_17504
-[34m[DEBUG-GW] [0m[ResponseHandlerGW] Respuesta recibida en la sesión DTLS global (0x0x5a3895c63ce0). No se libera aquí.
-[SIM_ASCENSOR] --- Petición 9/10 ---
+[32m[INFO-GW] [0m[ResponseHandlerGW] Servidor Central (vía CAN origin) asignó tarea 'T_1752191300097' a ascensor 'E071A3'. Actualizando estado local.
+[32m[INFO-GW] [0mStateMgr: Tarea 'T_1752191300097' asignada a ascensor E071A3. Destino: piso 6. Piso actual: 0. Dirección: SUBIENDO
+[32m[INFO-GW] [0m[CAN_Bridge] Enviando respuesta CAN ID: 0x201, DLC: 8. Datos: 02 54 5F...
+[SIM_ASCENSOR] Recibido frame CAN de GW: ID=0x201, DLC=8, Datos: 02 54 5F 31 37 35 32 31
+    Simulador -> Respuesta de solicitud de cabina: Datos[0]=02
+    Simulador -> Tarea ID (parcial): T_17521
+[34m[DEBUG-GW] [0m[ResponseHandlerGW] Respuesta recibida en la sesión DTLS global (0x0x5da42ac63120). No se libera aquí.
+[32m[INFO-GW] [0m[SimStep] Ascensor E071A3 SUBE a piso 1 (Destino: 6, Tarea: T_1752191300097)
+[32m[INFO-GW] [0m[SimStep] Ascensor E071A3 SUBE a piso 2 (Destino: 6, Tarea: T_1752191300097)
+[32m[INFO-GW] [0m[SimStep] Ascensor E071A3 SUBE a piso 3 (Destino: 6, Tarea: T_1752191300097)
+[32m[INFO-GW] [0m[SimStep] Ascensor E071A3 SUBE a piso 4 (Destino: 6, Tarea: T_1752191300097)
+[34m[DEBUG-GW] [0m[SimStep] === DIAGNÓSTICO SIMULADOR === Iteración 40
+[34m[DEBUG-GW] [0m[SimStep] Grupo: E071, Ascensores: 4
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A1: Piso=4, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A2: Piso=0, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A3: Piso=4, Destino=6, Ocupado=SÍ, Tarea=T_1752191300097
+[32m[INFO-GW] [0m[SimStep] Ascensor E071A3 SUBE a piso 5 (Destino: 6, Tarea: T_1752191300097)
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A4: Piso=0, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] ESTADÍSTICAS: Ocupados=1, Moviendo=1, Total=4
+[32m[INFO-GW] [0m[SimStep] Ascensor E071A3 SUBE a piso 6 (Destino: 6, Tarea: T_1752191300097)
+[32m[INFO-GW] [0m[SimStep] Ascensor E071A3 LLEGÓ a destino 6.
+[32m[INFO-GW] [0mStateMgr: Ascensor E071A3 completó tarea T_1752191300097 en piso 6.
+[32m[INFO-GW] [0m[SimStep] Tarea completada por E071A3.
+[34m[DEBUG-GW] [0m[SimStep] === DIAGNÓSTICO SIMULADOR === Iteración 50
+[34m[DEBUG-GW] [0m[SimStep] Grupo: E071, Ascensores: 4
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A1: Piso=4, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A2: Piso=0, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A3: Piso=6, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A4: Piso=0, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] ESTADÍSTICAS: Ocupados=0, Moviendo=0, Total=4
+[SIM_ASCENSOR] --- Petición 3/10 (NO-BLOQUEANTE) ---
 [SIM_ASCENSOR] Ejecutando llamada de piso: Piso 7, Dirección down
 [SIM_ASCENSOR] Enviando LLAMADA DE PISO a GW (vía CAN): Piso 7, Dir BAJAR
 [32m[INFO-GW] [0m[CAN_Bridge] Procesando frame CAN ID: 0x100, DLC: 2
 [32m[INFO-GW] [0m[CAN_Bridge] Llamada de piso CAN: Piso 7, Dirección BAJANDO
 [32m[INFO-GW] [0m[33m[CAN_FloorCall] Gateway (Origen CAN ID: 0x100): Preparando solicitud para Servidor Central.[0m
 
-[34m[DEBUG-GW] [0m[CAN_FloorCall] Payload para Servidor Central (Origen CAN ID: 0x100): {"id_edificio":"E048","piso_origen_llamada":7,"direccion_llamada":"BAJANDO","elevadores_estado":[{"id_ascensor":"E048A1","piso_actual":0,"estado_puerta":"CERRADA","disponible":false,"tarea_actual_id":"T_1750444247945","destino_actual":2},{"id_ascensor":"E048A2","piso_actual":0,"estado_puerta":"CERRADA","disponible":false,"tarea_actual_id":"T_1750444244289","destino_actual":8},{"id_ascensor":"E048A3","piso_actual":0,"estado_puerta":"CERRADA","disponible":true,"tarea_actual_id":null,"destino_actual":null},{"id_ascensor":"E048A4","piso_actual":0,"estado_puerta":"CERRADA","disponible":true,"tarea_actual_id":null,"destino_actual":null}]}
-[34m[DEBUG-GW] [0m[SessionHelper] Reutilizando sesión DTLS-PSK existente (0x0x5a3895c63ce0) con servidor central.
+[34m[DEBUG-GW] [0m[CAN_FloorCall] Payload para Servidor Central (Origen CAN ID: 0x100): {"id_edificio":"E071","piso_origen_llamada":7,"direccion_llamada":"BAJANDO","elevadores_estado":[{"id_ascensor":"E071A1","piso_actual":4,"estado_puerta":"ABIERTA","disponible":true,"tarea_actual_id":null,"destino_actual":null},{"id_ascensor":"E071A2","piso_actual":0,"estado_puerta":"CERRADA","disponible":true,"tarea_actual_id":null,"destino_actual":null},{"id_ascensor":"E071A3","piso_actual":6,"estado_puerta":"ABIERTA","disponible":true,"tarea_actual_id":null,"destino_actual":null},{"id_ascensor":"E071A4","piso_actual":0,"estado_puerta":"CERRADA","disponible":true,"tarea_actual_id":null,"destino_actual":null}]}
+[34m[DEBUG-GW] [0m[SessionHelper] Reutilizando sesión DTLS-PSK establecida (0x0x5da42ac63120) con servidor central.
+[34m[DEBUG-GW] [0m[CAN_Bridge] Stored token for CAN tracker: (len 1) 03
+[34m[DEBUG-GW] [0m[CAN_Bridge] Stored CAN ID 0x100 at index 2
+[32m[INFO-GW] [0m[36m[CAN_FloorCall] Gateway (Origen CAN ID: 0x100) -> Central: Enviando solicitud...[0m
+
+[32m[INFO-GW] [0m[32m[CAN_FloorCall] Gateway (Origen CAN ID: 0x100) -> Central: Solicitud enviada, esperando rsp...[0m
+
+[32m[INFO-GW] [0m[ResponseHandlerGW] Servidor Central -> Gateway: Respuesta recibida (Code: 2.69). MID: 17273
+[34m[DEBUG-GW] [0m[ResponseHandlerGW] JSON recibido de Servidor Central: {
+	"tarea_id":	"T_1752191302021",
+	"ascensor_asignado_id":	"E071A3"
+}
+[34m[DEBUG-GW] [0m[ResponseHandlerGW] Token recibido del servidor: (len 1) 03
+[34m[DEBUG-GW] [0m[CAN_Bridge] Finding token for CAN tracker: (len 1) 03
+[32m[INFO-GW] [0m[ResponseHandlerGW] Respuesta CoAP corresponde a una solicitud originada por CAN (ID: 0x100). Token 03
+[32m[INFO-GW] [0m[ResponseHandlerGW] Servidor Central (vía CAN origin) asignó tarea 'T_1752191302021' a ascensor 'E071A3'. Actualizando estado local.
+[32m[INFO-GW] [0mStateMgr: Tarea 'T_1752191302021' asignada a ascensor E071A3. Destino: piso 7. Piso actual: 6. Dirección: SUBIENDO
+[32m[INFO-GW] [0m[CAN_Bridge] Enviando respuesta CAN ID: 0x101, DLC: 8. Datos: 02 54 5F...
+[SIM_ASCENSOR] Recibido frame CAN de GW: ID=0x101, DLC=8, Datos: 02 54 5F 31 37 35 32 31
+    Simulador -> Respuesta de llamada de piso: Ascensor (índice 2) asignado.
+    Simulador -> Tarea ID (parcial): T_17521
+[34m[DEBUG-GW] [0m[ResponseHandlerGW] Respuesta recibida en la sesión DTLS global (0x0x5da42ac63120). No se libera aquí.
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A3 cerrando puertas en piso 6 para moverse.
+[32m[INFO-GW] [0m[SimStep] Ascensor E071A3 SUBE a piso 7 (Destino: 7, Tarea: T_1752191302021)
+[32m[INFO-GW] [0m[SimStep] Ascensor E071A3 LLEGÓ a destino 7.
+[32m[INFO-GW] [0mStateMgr: Ascensor E071A3 completó tarea T_1752191302021 en piso 7.
+[32m[INFO-GW] [0m[SimStep] Tarea completada por E071A3.
+[34m[DEBUG-GW] [0m[SimStep] === DIAGNÓSTICO SIMULADOR === Iteración 60
+[34m[DEBUG-GW] [0m[SimStep] Grupo: E071, Ascensores: 4
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A1: Piso=4, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A2: Piso=0, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A3: Piso=7, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A4: Piso=0, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] ESTADÍSTICAS: Ocupados=0, Moviendo=0, Total=4
+[34m[DEBUG-GW] [0m[SimStep] === DIAGNÓSTICO SIMULADOR === Iteración 70
+[34m[DEBUG-GW] [0m[SimStep] Grupo: E071, Ascensores: 4
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A1: Piso=4, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A2: Piso=0, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A3: Piso=7, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A4: Piso=0, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] ESTADÍSTICAS: Ocupados=0, Moviendo=0, Total=4
+[SIM_ASCENSOR] --- Petición 4/10 (NO-BLOQUEANTE) ---
+[SIM_ASCENSOR] Ejecutando solicitud de cabina: Ascensor 1, Destino piso 4
+[SIM_ASCENSOR] Enviando SOLICITUD DE CABINA a GW (vía CAN): Ascensor idx 1, Piso Destino 4
+[32m[INFO-GW] [0m[CAN_Bridge] Procesando frame CAN ID: 0x200, DLC: 2
+[32m[INFO-GW] [0m[CAN_Bridge] Solicitud de cabina CAN: Ascensor E071A2 (idx 1), Piso Destino 4
+[32m[INFO-GW] [0m[33m[CAN_CabinReq] Gateway (Origen CAN ID: 0x200): Preparando solicitud para Servidor Central.[0m
+
+[34m[DEBUG-GW] [0m[CAN_CabinReq] Payload para Servidor Central (Origen CAN ID: 0x200): {"id_edificio":"E071","solicitando_ascensor_id":"E071A2","piso_destino_solicitud":4,"elevadores_estado":[{"id_ascensor":"E071A1","piso_actual":4,"estado_puerta":"ABIERTA","disponible":true,"tarea_actual_id":null,"destino_actual":null},{"id_ascensor":"E071A2","piso_actual":0,"estado_puerta":"CERRADA","disponible":true,"tarea_actual_id":null,"destino_actual":null},{"id_ascensor":"E071A3","piso_actual":7,"estado_puerta":"ABIERTA","disponible":true,"tarea_actual_id":null,"destino_actual":null},{"id_ascensor":"E071A4","piso_actual":0,"estado_puerta":"CERRADA","disponible":true,"tarea_actual_id":null,"destino_actual":null}]}
+[34m[DEBUG-GW] [0m[SessionHelper] Reutilizando sesión DTLS-PSK establecida (0x0x5da42ac63120) con servidor central.
+[34m[DEBUG-GW] [0m[CAN_Bridge] Stored token for CAN tracker: (len 1) 04
+[34m[DEBUG-GW] [0m[CAN_Bridge] Stored CAN ID 0x200 at index 3
+[32m[INFO-GW] [0m[36m[CAN_CabinReq] Gateway (Origen CAN ID: 0x200) -> Central: Enviando solicitud...[0m
+
+[32m[INFO-GW] [0m[32m[CAN_CabinReq] Gateway (Origen CAN ID: 0x200) -> Central: Solicitud enviada, esperando rsp...[0m
+
+[32m[INFO-GW] [0m[ResponseHandlerGW] Servidor Central -> Gateway: Respuesta recibida (Code: 2.69). MID: 17274
+[34m[DEBUG-GW] [0m[ResponseHandlerGW] JSON recibido de Servidor Central: {
+	"tarea_id":	"T_1752191304070",
+	"ascensor_asignado_id":	"E071A2"
+}
+[34m[DEBUG-GW] [0m[ResponseHandlerGW] Token recibido del servidor: (len 1) 04
+[34m[DEBUG-GW] [0m[CAN_Bridge] Finding token for CAN tracker: (len 1) 04
+[32m[INFO-GW] [0m[ResponseHandlerGW] Respuesta CoAP corresponde a una solicitud originada por CAN (ID: 0x200). Token 04
+[32m[INFO-GW] [0m[ResponseHandlerGW] Servidor Central (vía CAN origin) asignó tarea 'T_1752191304070' a ascensor 'E071A2'. Actualizando estado local.
+[32m[INFO-GW] [0mStateMgr: Tarea 'T_1752191304070' asignada a ascensor E071A2. Destino: piso 4. Piso actual: 0. Dirección: SUBIENDO
+[32m[INFO-GW] [0m[CAN_Bridge] Enviando respuesta CAN ID: 0x201, DLC: 8. Datos: 01 54 5F...
+[SIM_ASCENSOR] Recibido frame CAN de GW: ID=0x201, DLC=8, Datos: 01 54 5F 31 37 35 32 31
+    Simulador -> Respuesta de solicitud de cabina: Datos[0]=01
+    Simulador -> Tarea ID (parcial): T_17521
+[34m[DEBUG-GW] [0m[ResponseHandlerGW] Respuesta recibida en la sesión DTLS global (0x0x5da42ac63120). No se libera aquí.
+[32m[INFO-GW] [0m[SimStep] Ascensor E071A2 SUBE a piso 1 (Destino: 4, Tarea: T_1752191304070)
+[32m[INFO-GW] [0m[SimStep] Ascensor E071A2 SUBE a piso 2 (Destino: 4, Tarea: T_1752191304070)
+[32m[INFO-GW] [0m[SimStep] Ascensor E071A2 SUBE a piso 3 (Destino: 4, Tarea: T_1752191304070)
+[34m[DEBUG-GW] [0m[SimStep] === DIAGNÓSTICO SIMULADOR === Iteración 80
+[34m[DEBUG-GW] [0m[SimStep] Grupo: E071, Ascensores: 4
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A1: Piso=4, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A2: Piso=3, Destino=4, Ocupado=SÍ, Tarea=T_1752191304070
+[32m[INFO-GW] [0m[SimStep] Ascensor E071A2 SUBE a piso 4 (Destino: 4, Tarea: T_1752191304070)
+[32m[INFO-GW] [0m[SimStep] Ascensor E071A2 LLEGÓ a destino 4.
+[32m[INFO-GW] [0mStateMgr: Ascensor E071A2 completó tarea T_1752191304070 en piso 4.
+[32m[INFO-GW] [0m[SimStep] Tarea completada por E071A2.
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A3: Piso=7, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A4: Piso=0, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] ESTADÍSTICAS: Ocupados=1, Moviendo=1, Total=4
+[34m[DEBUG-GW] [0m[SimStep] === DIAGNÓSTICO SIMULADOR === Iteración 90
+[34m[DEBUG-GW] [0m[SimStep] Grupo: E071, Ascensores: 4
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A1: Piso=4, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A2: Piso=4, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A3: Piso=7, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A4: Piso=0, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] ESTADÍSTICAS: Ocupados=0, Moviendo=0, Total=4
+[SIM_ASCENSOR] --- Petición 5/10 (NO-BLOQUEANTE) ---
+[SIM_ASCENSOR] Ejecutando llamada de piso: Piso 3, Dirección up
+[SIM_ASCENSOR] Enviando LLAMADA DE PISO a GW (vía CAN): Piso 3, Dir SUBIR
+[32m[INFO-GW] [0m[CAN_Bridge] Procesando frame CAN ID: 0x100, DLC: 2
+[32m[INFO-GW] [0m[CAN_Bridge] Llamada de piso CAN: Piso 3, Dirección SUBIENDO
+[32m[INFO-GW] [0m[33m[CAN_FloorCall] Gateway (Origen CAN ID: 0x100): Preparando solicitud para Servidor Central.[0m
+
+[34m[DEBUG-GW] [0m[CAN_FloorCall] Payload para Servidor Central (Origen CAN ID: 0x100): {"id_edificio":"E071","piso_origen_llamada":3,"direccion_llamada":"SUBIENDO","elevadores_estado":[{"id_ascensor":"E071A1","piso_actual":4,"estado_puerta":"ABIERTA","disponible":true,"tarea_actual_id":null,"destino_actual":null},{"id_ascensor":"E071A2","piso_actual":4,"estado_puerta":"ABIERTA","disponible":true,"tarea_actual_id":null,"destino_actual":null},{"id_ascensor":"E071A3","piso_actual":7,"estado_puerta":"ABIERTA","disponible":true,"tarea_actual_id":null,"destino_actual":null},{"id_ascensor":"E071A4","piso_actual":0,"estado_puerta":"CERRADA","disponible":true,"tarea_actual_id":null,"destino_actual":null}]}
+[34m[DEBUG-GW] [0m[SessionHelper] Reutilizando sesión DTLS-PSK establecida (0x0x5da42ac63120) con servidor central.
+[34m[DEBUG-GW] [0m[CAN_Bridge] Stored token for CAN tracker: (len 1) 05
+[34m[DEBUG-GW] [0m[CAN_Bridge] Stored CAN ID 0x100 at index 4
+[32m[INFO-GW] [0m[36m[CAN_FloorCall] Gateway (Origen CAN ID: 0x100) -> Central: Enviando solicitud...[0m
+
+[32m[INFO-GW] [0m[32m[CAN_FloorCall] Gateway (Origen CAN ID: 0x100) -> Central: Solicitud enviada, esperando rsp...[0m
+
+[32m[INFO-GW] [0m[ResponseHandlerGW] Servidor Central -> Gateway: Respuesta recibida (Code: 2.69). MID: 17275
+[34m[DEBUG-GW] [0m[ResponseHandlerGW] JSON recibido de Servidor Central: {
+	"tarea_id":	"T_1752191306014",
+	"ascensor_asignado_id":	"E071A1"
+}
+[34m[DEBUG-GW] [0m[ResponseHandlerGW] Token recibido del servidor: (len 1) 05
+[34m[DEBUG-GW] [0m[CAN_Bridge] Finding token for CAN tracker: (len 1) 05
+[32m[INFO-GW] [0m[ResponseHandlerGW] Respuesta CoAP corresponde a una solicitud originada por CAN (ID: 0x100). Token 05
+[32m[INFO-GW] [0m[ResponseHandlerGW] Servidor Central (vía CAN origin) asignó tarea 'T_1752191306014' a ascensor 'E071A1'. Actualizando estado local.
+[32m[INFO-GW] [0mStateMgr: Tarea 'T_1752191306014' asignada a ascensor E071A1. Destino: piso 3. Piso actual: 4. Dirección: BAJANDO
+[32m[INFO-GW] [0m[CAN_Bridge] Enviando respuesta CAN ID: 0x101, DLC: 8. Datos: 00 54 5F...
+[SIM_ASCENSOR] Recibido frame CAN de GW: ID=0x101, DLC=8, Datos: 00 54 5F 31 37 35 32 31
+    Simulador -> Respuesta de llamada de piso: Ascensor (índice 0) asignado.
+    Simulador -> Tarea ID (parcial): T_17521
+[34m[DEBUG-GW] [0m[ResponseHandlerGW] Respuesta recibida en la sesión DTLS global (0x0x5da42ac63120). No se libera aquí.
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A1 cerrando puertas en piso 4 para moverse.
+[32m[INFO-GW] [0m[SimStep] Ascensor E071A1 BAJA a piso 3 (Destino: 3, Tarea: T_1752191306014)
+[32m[INFO-GW] [0m[SimStep] Ascensor E071A1 LLEGÓ a destino 3.
+[32m[INFO-GW] [0mStateMgr: Ascensor E071A1 completó tarea T_1752191306014 en piso 3.
+[32m[INFO-GW] [0m[SimStep] Tarea completada por E071A1.
+[34m[DEBUG-GW] [0m[SimStep] === DIAGNÓSTICO SIMULADOR === Iteración 100
+[34m[DEBUG-GW] [0m[SimStep] Grupo: E071, Ascensores: 4
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A1: Piso=3, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A2: Piso=4, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A3: Piso=7, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A4: Piso=0, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] ESTADÍSTICAS: Ocupados=0, Moviendo=0, Total=4
+[34m[DEBUG-GW] [0m[SimStep] === DIAGNÓSTICO SIMULADOR === Iteración 110
+[34m[DEBUG-GW] [0m[SimStep] Grupo: E071, Ascensores: 4
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A1: Piso=3, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A2: Piso=4, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A3: Piso=7, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A4: Piso=0, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] ESTADÍSTICAS: Ocupados=0, Moviendo=0, Total=4
+[SIM_ASCENSOR] --- Petición 6/10 (NO-BLOQUEANTE) ---
+[SIM_ASCENSOR] Ejecutando solicitud de cabina: Ascensor 1, Destino piso 6
+[SIM_ASCENSOR] Enviando SOLICITUD DE CABINA a GW (vía CAN): Ascensor idx 1, Piso Destino 6
+[32m[INFO-GW] [0m[CAN_Bridge] Procesando frame CAN ID: 0x200, DLC: 2
+[32m[INFO-GW] [0m[CAN_Bridge] Solicitud de cabina CAN: Ascensor E071A2 (idx 1), Piso Destino 6
+[32m[INFO-GW] [0m[33m[CAN_CabinReq] Gateway (Origen CAN ID: 0x200): Preparando solicitud para Servidor Central.[0m
+
+[34m[DEBUG-GW] [0m[CAN_CabinReq] Payload para Servidor Central (Origen CAN ID: 0x200): {"id_edificio":"E071","solicitando_ascensor_id":"E071A2","piso_destino_solicitud":6,"elevadores_estado":[{"id_ascensor":"E071A1","piso_actual":3,"estado_puerta":"ABIERTA","disponible":true,"tarea_actual_id":null,"destino_actual":null},{"id_ascensor":"E071A2","piso_actual":4,"estado_puerta":"ABIERTA","disponible":true,"tarea_actual_id":null,"destino_actual":null},{"id_ascensor":"E071A3","piso_actual":7,"estado_puerta":"ABIERTA","disponible":true,"tarea_actual_id":null,"destino_actual":null},{"id_ascensor":"E071A4","piso_actual":0,"estado_puerta":"CERRADA","disponible":true,"tarea_actual_id":null,"destino_actual":null}]}
+[34m[DEBUG-GW] [0m[SessionHelper] Reutilizando sesión DTLS-PSK establecida (0x0x5da42ac63120) con servidor central.
+[34m[DEBUG-GW] [0m[CAN_Bridge] Stored token for CAN tracker: (len 1) 06
+[34m[DEBUG-GW] [0m[CAN_Bridge] Stored CAN ID 0x200 at index 5
+[32m[INFO-GW] [0m[36m[CAN_CabinReq] Gateway (Origen CAN ID: 0x200) -> Central: Enviando solicitud...[0m
+
+[32m[INFO-GW] [0m[32m[CAN_CabinReq] Gateway (Origen CAN ID: 0x200) -> Central: Solicitud enviada, esperando rsp...[0m
+
+[32m[INFO-GW] [0m[ResponseHandlerGW] Servidor Central -> Gateway: Respuesta recibida (Code: 2.69). MID: 17276
+[34m[DEBUG-GW] [0m[ResponseHandlerGW] JSON recibido de Servidor Central: {
+	"tarea_id":	"T_1752191308041",
+	"ascensor_asignado_id":	"E071A2"
+}
+[34m[DEBUG-GW] [0m[ResponseHandlerGW] Token recibido del servidor: (len 1) 06
+[34m[DEBUG-GW] [0m[CAN_Bridge] Finding token for CAN tracker: (len 1) 06
+[32m[INFO-GW] [0m[ResponseHandlerGW] Respuesta CoAP corresponde a una solicitud originada por CAN (ID: 0x200). Token 06
+[32m[INFO-GW] [0m[ResponseHandlerGW] Servidor Central (vía CAN origin) asignó tarea 'T_1752191308041' a ascensor 'E071A2'. Actualizando estado local.
+[32m[INFO-GW] [0mStateMgr: Tarea 'T_1752191308041' asignada a ascensor E071A2. Destino: piso 6. Piso actual: 4. Dirección: SUBIENDO
+[32m[INFO-GW] [0m[CAN_Bridge] Enviando respuesta CAN ID: 0x201, DLC: 8. Datos: 01 54 5F...
+[SIM_ASCENSOR] Recibido frame CAN de GW: ID=0x201, DLC=8, Datos: 01 54 5F 31 37 35 32 31
+    Simulador -> Respuesta de solicitud de cabina: Datos[0]=01
+    Simulador -> Tarea ID (parcial): T_17521
+[34m[DEBUG-GW] [0m[ResponseHandlerGW] Respuesta recibida en la sesión DTLS global (0x0x5da42ac63120). No se libera aquí.
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A2 cerrando puertas en piso 4 para moverse.
+[32m[INFO-GW] [0m[SimStep] Ascensor E071A2 SUBE a piso 5 (Destino: 6, Tarea: T_1752191308041)
+[32m[INFO-GW] [0m[SimStep] Ascensor E071A2 SUBE a piso 6 (Destino: 6, Tarea: T_1752191308041)
+[32m[INFO-GW] [0m[SimStep] Ascensor E071A2 LLEGÓ a destino 6.
+[32m[INFO-GW] [0mStateMgr: Ascensor E071A2 completó tarea T_1752191308041 en piso 6.
+[32m[INFO-GW] [0m[SimStep] Tarea completada por E071A2.
+[34m[DEBUG-GW] [0m[SimStep] === DIAGNÓSTICO SIMULADOR === Iteración 120
+[34m[DEBUG-GW] [0m[SimStep] Grupo: E071, Ascensores: 4
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A1: Piso=3, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A2: Piso=6, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A3: Piso=7, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A4: Piso=0, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] ESTADÍSTICAS: Ocupados=0, Moviendo=0, Total=4
+[SIM_ASCENSOR] --- Petición 7/10 (NO-BLOQUEANTE) ---
+[SIM_ASCENSOR] Ejecutando llamada de piso: Piso 1, Dirección down
+[SIM_ASCENSOR] Enviando LLAMADA DE PISO a GW (vía CAN): Piso 1, Dir BAJAR
+[32m[INFO-GW] [0m[CAN_Bridge] Procesando frame CAN ID: 0x100, DLC: 2
+[32m[INFO-GW] [0m[CAN_Bridge] Llamada de piso CAN: Piso 1, Dirección BAJANDO
+[32m[INFO-GW] [0m[33m[CAN_FloorCall] Gateway (Origen CAN ID: 0x100): Preparando solicitud para Servidor Central.[0m
+
+[34m[DEBUG-GW] [0m[CAN_FloorCall] Payload para Servidor Central (Origen CAN ID: 0x100): {"id_edificio":"E071","piso_origen_llamada":1,"direccion_llamada":"BAJANDO","elevadores_estado":[{"id_ascensor":"E071A1","piso_actual":3,"estado_puerta":"ABIERTA","disponible":true,"tarea_actual_id":null,"destino_actual":null},{"id_ascensor":"E071A2","piso_actual":6,"estado_puerta":"ABIERTA","disponible":true,"tarea_actual_id":null,"destino_actual":null},{"id_ascensor":"E071A3","piso_actual":7,"estado_puerta":"ABIERTA","disponible":true,"tarea_actual_id":null,"destino_actual":null},{"id_ascensor":"E071A4","piso_actual":0,"estado_puerta":"CERRADA","disponible":true,"tarea_actual_id":null,"destino_actual":null}]}
+[34m[DEBUG-GW] [0m[SessionHelper] Reutilizando sesión DTLS-PSK establecida (0x0x5da42ac63120) con servidor central.
+[34m[DEBUG-GW] [0m[CAN_Bridge] Stored token for CAN tracker: (len 1) 07
+[34m[DEBUG-GW] [0m[CAN_Bridge] Stored CAN ID 0x100 at index 6
+[32m[INFO-GW] [0m[36m[CAN_FloorCall] Gateway (Origen CAN ID: 0x100) -> Central: Enviando solicitud...[0m
+
+[32m[INFO-GW] [0m[32m[CAN_FloorCall] Gateway (Origen CAN ID: 0x100) -> Central: Solicitud enviada, esperando rsp...[0m
+
+[32m[INFO-GW] [0m[ResponseHandlerGW] Servidor Central -> Gateway: Respuesta recibida (Code: 2.69). MID: 17277
+[34m[DEBUG-GW] [0m[ResponseHandlerGW] JSON recibido de Servidor Central: {
+	"tarea_id":	"T_1752191312596",
+	"ascensor_asignado_id":	"E071A4"
+}
+[34m[DEBUG-GW] [0m[ResponseHandlerGW] Token recibido del servidor: (len 1) 07
+[34m[DEBUG-GW] [0m[CAN_Bridge] Finding token for CAN tracker: (len 1) 07
+[32m[INFO-GW] [0m[ResponseHandlerGW] Respuesta CoAP corresponde a una solicitud originada por CAN (ID: 0x100). Token 07
+[32m[INFO-GW] [0m[ResponseHandlerGW] Servidor Central (vía CAN origin) asignó tarea 'T_1752191312596' a ascensor 'E071A4'. Actualizando estado local.
+[32m[INFO-GW] [0mStateMgr: Tarea 'T_1752191312596' asignada a ascensor E071A4. Destino: piso 1. Piso actual: 0. Dirección: SUBIENDO
+[32m[INFO-GW] [0m[CAN_Bridge] Enviando respuesta CAN ID: 0x101, DLC: 8. Datos: 03 54 5F...
+[SIM_ASCENSOR] Recibido frame CAN de GW: ID=0x101, DLC=8, Datos: 03 54 5F 31 37 35 32 31
+    Simulador -> Respuesta de llamada de piso: Ascensor (índice 3) asignado.
+    Simulador -> Tarea ID (parcial): T_17521
+[34m[DEBUG-GW] [0m[ResponseHandlerGW] Respuesta recibida en la sesión DTLS global (0x0x5da42ac63120). No se libera aquí.
+[32m[INFO-GW] [0m[SimStep] Ascensor E071A4 SUBE a piso 1 (Destino: 1, Tarea: T_1752191312596)
+[32m[INFO-GW] [0m[SimStep] Ascensor E071A4 LLEGÓ a destino 1.
+[32m[INFO-GW] [0mStateMgr: Ascensor E071A4 completó tarea T_1752191312596 en piso 1.
+[32m[INFO-GW] [0m[SimStep] Tarea completada por E071A4.
+[34m[DEBUG-GW] [0m[SimStep] === DIAGNÓSTICO SIMULADOR === Iteración 130
+[34m[DEBUG-GW] [0m[SimStep] Grupo: E071, Ascensores: 4
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A1: Piso=3, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A2: Piso=6, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A3: Piso=7, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A4: Piso=1, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] ESTADÍSTICAS: Ocupados=0, Moviendo=0, Total=4
+[34m[DEBUG-GW] [0m[SimStep] === DIAGNÓSTICO SIMULADOR === Iteración 140
+[34m[DEBUG-GW] [0m[SimStep] Grupo: E071, Ascensores: 4
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A1: Piso=3, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A2: Piso=6, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A3: Piso=7, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A4: Piso=1, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] ESTADÍSTICAS: Ocupados=0, Moviendo=0, Total=4
+[SIM_ASCENSOR] --- Petición 8/10 (NO-BLOQUEANTE) ---
+[SIM_ASCENSOR] Ejecutando solicitud de cabina: Ascensor 2, Destino piso 9
+[SIM_ASCENSOR] Enviando SOLICITUD DE CABINA a GW (vía CAN): Ascensor idx 2, Piso Destino 9
+[32m[INFO-GW] [0m[CAN_Bridge] Procesando frame CAN ID: 0x200, DLC: 2
+[32m[INFO-GW] [0m[CAN_Bridge] Solicitud de cabina CAN: Ascensor E071A3 (idx 2), Piso Destino 9
+[32m[INFO-GW] [0m[33m[CAN_CabinReq] Gateway (Origen CAN ID: 0x200): Preparando solicitud para Servidor Central.[0m
+
+[34m[DEBUG-GW] [0m[CAN_CabinReq] Payload para Servidor Central (Origen CAN ID: 0x200): {"id_edificio":"E071","solicitando_ascensor_id":"E071A3","piso_destino_solicitud":9,"elevadores_estado":[{"id_ascensor":"E071A1","piso_actual":3,"estado_puerta":"ABIERTA","disponible":true,"tarea_actual_id":null,"destino_actual":null},{"id_ascensor":"E071A2","piso_actual":6,"estado_puerta":"ABIERTA","disponible":true,"tarea_actual_id":null,"destino_actual":null},{"id_ascensor":"E071A3","piso_actual":7,"estado_puerta":"ABIERTA","disponible":true,"tarea_actual_id":null,"destino_actual":null},{"id_ascensor":"E071A4","piso_actual":1,"estado_puerta":"ABIERTA","disponible":true,"tarea_actual_id":null,"destino_actual":null}]}
+[34m[DEBUG-GW] [0m[SessionHelper] Reutilizando sesión DTLS-PSK establecida (0x0x5da42ac63120) con servidor central.
+[34m[DEBUG-GW] [0m[CAN_Bridge] Stored token for CAN tracker: (len 1) 08
+[34m[DEBUG-GW] [0m[CAN_Bridge] Stored CAN ID 0x200 at index 7
+[32m[INFO-GW] [0m[36m[CAN_CabinReq] Gateway (Origen CAN ID: 0x200) -> Central: Enviando solicitud...[0m
+
+[32m[INFO-GW] [0m[32m[CAN_CabinReq] Gateway (Origen CAN ID: 0x200) -> Central: Solicitud enviada, esperando rsp...[0m
+
+[32m[INFO-GW] [0m[ResponseHandlerGW] Servidor Central -> Gateway: Respuesta recibida (Code: 2.69). MID: 17278
+[34m[DEBUG-GW] [0m[ResponseHandlerGW] JSON recibido de Servidor Central: {
+	"tarea_id":	"T_1752191314078",
+	"ascensor_asignado_id":	"E071A3"
+}
+[34m[DEBUG-GW] [0m[ResponseHandlerGW] Token recibido del servidor: (len 1) 08
+[34m[DEBUG-GW] [0m[CAN_Bridge] Finding token for CAN tracker: (len 1) 08
+[32m[INFO-GW] [0m[ResponseHandlerGW] Respuesta CoAP corresponde a una solicitud originada por CAN (ID: 0x200). Token 08
+[32m[INFO-GW] [0m[ResponseHandlerGW] Servidor Central (vía CAN origin) asignó tarea 'T_1752191314078' a ascensor 'E071A3'. Actualizando estado local.
+[32m[INFO-GW] [0mStateMgr: Tarea 'T_1752191314078' asignada a ascensor E071A3. Destino: piso 9. Piso actual: 7. Dirección: SUBIENDO
+[32m[INFO-GW] [0m[CAN_Bridge] Enviando respuesta CAN ID: 0x201, DLC: 8. Datos: 02 54 5F...
+[SIM_ASCENSOR] Recibido frame CAN de GW: ID=0x201, DLC=8, Datos: 02 54 5F 31 37 35 32 31
+    Simulador -> Respuesta de solicitud de cabina: Datos[0]=02
+    Simulador -> Tarea ID (parcial): T_17521
+[34m[DEBUG-GW] [0m[ResponseHandlerGW] Respuesta recibida en la sesión DTLS global (0x0x5da42ac63120). No se libera aquí.
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A3 cerrando puertas en piso 7 para moverse.
+[32m[INFO-GW] [0m[SimStep] Ascensor E071A3 SUBE a piso 8 (Destino: 9, Tarea: T_1752191314078)
+[32m[INFO-GW] [0m[SimStep] Ascensor E071A3 SUBE a piso 9 (Destino: 9, Tarea: T_1752191314078)
+[32m[INFO-GW] [0m[SimStep] Ascensor E071A3 LLEGÓ a destino 9.
+[32m[INFO-GW] [0mStateMgr: Ascensor E071A3 completó tarea T_1752191314078 en piso 9.
+[32m[INFO-GW] [0m[SimStep] Tarea completada por E071A3.
+[34m[DEBUG-GW] [0m[SimStep] === DIAGNÓSTICO SIMULADOR === Iteración 150
+[34m[DEBUG-GW] [0m[SimStep] Grupo: E071, Ascensores: 4
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A1: Piso=3, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A2: Piso=6, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A3: Piso=9, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A4: Piso=1, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] ESTADÍSTICAS: Ocupados=0, Moviendo=0, Total=4
+[34m[DEBUG-GW] [0m[SimStep] === DIAGNÓSTICO SIMULADOR === Iteración 160
+[34m[DEBUG-GW] [0m[SimStep] Grupo: E071, Ascensores: 4
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A1: Piso=3, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A2: Piso=6, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A3: Piso=9, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A4: Piso=1, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] ESTADÍSTICAS: Ocupados=0, Moviendo=0, Total=4
+[SIM_ASCENSOR] --- Petición 9/10 (NO-BLOQUEANTE) ---
+[SIM_ASCENSOR] Ejecutando llamada de piso: Piso 7, Dirección down
+[SIM_ASCENSOR] Enviando LLAMADA DE PISO a GW (vía CAN): Piso 7, Dir BAJAR
+[32m[INFO-GW] [0m[CAN_Bridge] Procesando frame CAN ID: 0x100, DLC: 2
+[32m[INFO-GW] [0m[CAN_Bridge] Llamada de piso CAN: Piso 7, Dirección BAJANDO
+[32m[INFO-GW] [0m[33m[CAN_FloorCall] Gateway (Origen CAN ID: 0x100): Preparando solicitud para Servidor Central.[0m
+
+[34m[DEBUG-GW] [0m[CAN_FloorCall] Payload para Servidor Central (Origen CAN ID: 0x100): {"id_edificio":"E071","piso_origen_llamada":7,"direccion_llamada":"BAJANDO","elevadores_estado":[{"id_ascensor":"E071A1","piso_actual":3,"estado_puerta":"ABIERTA","disponible":true,"tarea_actual_id":null,"destino_actual":null},{"id_ascensor":"E071A2","piso_actual":6,"estado_puerta":"ABIERTA","disponible":true,"tarea_actual_id":null,"destino_actual":null},{"id_ascensor":"E071A3","piso_actual":9,"estado_puerta":"ABIERTA","disponible":true,"tarea_actual_id":null,"destino_actual":null},{"id_ascensor":"E071A4","piso_actual":1,"estado_puerta":"ABIERTA","disponible":true,"tarea_actual_id":null,"destino_actual":null}]}
+[34m[DEBUG-GW] [0m[SessionHelper] Reutilizando sesión DTLS-PSK establecida (0x0x5da42ac63120) con servidor central.
 [34m[DEBUG-GW] [0m[CAN_Bridge] Stored token for CAN tracker: (len 1) 09
 [34m[DEBUG-GW] [0m[CAN_Bridge] Stored CAN ID 0x100 at index 8
 [32m[INFO-GW] [0m[36m[CAN_FloorCall] Gateway (Origen CAN ID: 0x100) -> Central: Enviando solicitud...[0m
 
 [32m[INFO-GW] [0m[32m[CAN_FloorCall] Gateway (Origen CAN ID: 0x100) -> Central: Solicitud enviada, esperando rsp...[0m
 
-[SIM_ASCENSOR] Procesando I/O CoAP por 1 segundo...
-[32m[INFO-GW] [0m[ResponseHandlerGW] Servidor Central -> Gateway: Respuesta recibida (Code: 2.69). MID: 63300
+[32m[INFO-GW] [0m[ResponseHandlerGW] Servidor Central -> Gateway: Respuesta recibida (Code: 2.69). MID: 17279
 [34m[DEBUG-GW] [0m[ResponseHandlerGW] JSON recibido de Servidor Central: {
-	"tarea_id":	"T_1750444250669",
-	"ascensor_asignado_id":	"E048A1"
+	"tarea_id":	"T_1752191316046",
+	"ascensor_asignado_id":	"E071A2"
 }
 [34m[DEBUG-GW] [0m[ResponseHandlerGW] Token recibido del servidor: (len 1) 09
 [34m[DEBUG-GW] [0m[CAN_Bridge] Finding token for CAN tracker: (len 1) 09
 [32m[INFO-GW] [0m[ResponseHandlerGW] Respuesta CoAP corresponde a una solicitud originada por CAN (ID: 0x100). Token 09
-[32m[INFO-GW] [0m[ResponseHandlerGW] Servidor Central (vía CAN origin) asignó tarea 'T_1750444250669' a ascensor 'E048A1'. Actualizando estado local.
-[32m[INFO-GW] [0mStateMgr: Tarea 'T_1750444250669' asignada a ascensor E048A1. Destino: piso 7. Piso actual: 0. Dirección: SUBIENDO
-[32m[INFO-GW] [0m[CAN_Bridge] Enviando respuesta CAN ID: 0x101, DLC: 8. Datos: 00 54 5F...
-[SIM_ASCENSOR] Recibido frame CAN de GW: ID=0x101, DLC=8, Datos: 00 54 5F 31 37 35 30 34
-    Simulador -> Respuesta de llamada de piso: Ascensor (índice 0) asignado.
-    Simulador -> Tarea ID (parcial): T_17504
-[34m[DEBUG-GW] [0m[ResponseHandlerGW] Respuesta recibida en la sesión DTLS global (0x0x5a3895c63ce0). No se libera aquí.
-[SIM_ASCENSOR] --- Petición 10/10 ---
-[SIM_ASCENSOR] Ejecutando solicitud de cabina: Ascensor 2, Destino piso 4
-[SIM_ASCENSOR] Enviando SOLICITUD DE CABINA a GW (vía CAN): Ascensor idx 2, Piso Destino 4
+[32m[INFO-GW] [0m[ResponseHandlerGW] Servidor Central (vía CAN origin) asignó tarea 'T_1752191316046' a ascensor 'E071A2'. Actualizando estado local.
+[32m[INFO-GW] [0mStateMgr: Tarea 'T_1752191316046' asignada a ascensor E071A2. Destino: piso 7. Piso actual: 6. Dirección: SUBIENDO
+[32m[INFO-GW] [0m[CAN_Bridge] Enviando respuesta CAN ID: 0x101, DLC: 8. Datos: 01 54 5F...
+[SIM_ASCENSOR] Recibido frame CAN de GW: ID=0x101, DLC=8, Datos: 01 54 5F 31 37 35 32 31
+    Simulador -> Respuesta de llamada de piso: Ascensor (índice 1) asignado.
+    Simulador -> Tarea ID (parcial): T_17521
+[34m[DEBUG-GW] [0m[ResponseHandlerGW] Respuesta recibida en la sesión DTLS global (0x0x5da42ac63120). No se libera aquí.
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A2 cerrando puertas en piso 6 para moverse.
+[32m[INFO-GW] [0m[SimStep] Ascensor E071A2 SUBE a piso 7 (Destino: 7, Tarea: T_1752191316046)
+[32m[INFO-GW] [0m[SimStep] Ascensor E071A2 LLEGÓ a destino 7.
+[32m[INFO-GW] [0mStateMgr: Ascensor E071A2 completó tarea T_1752191316046 en piso 7.
+[32m[INFO-GW] [0m[SimStep] Tarea completada por E071A2.
+[34m[DEBUG-GW] [0m[SimStep] === DIAGNÓSTICO SIMULADOR === Iteración 170
+[34m[DEBUG-GW] [0m[SimStep] Grupo: E071, Ascensores: 4
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A1: Piso=3, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A2: Piso=7, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A3: Piso=9, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A4: Piso=1, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] ESTADÍSTICAS: Ocupados=0, Moviendo=0, Total=4
+[34m[DEBUG-GW] [0m[SimStep] === DIAGNÓSTICO SIMULADOR === Iteración 180
+[34m[DEBUG-GW] [0m[SimStep] Grupo: E071, Ascensores: 4
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A1: Piso=3, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A2: Piso=7, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A3: Piso=9, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A4: Piso=1, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] ESTADÍSTICAS: Ocupados=0, Moviendo=0, Total=4
+[SIM_ASCENSOR] --- Petición 10/10 (NO-BLOQUEANTE) ---
+[SIM_ASCENSOR] Ejecutando solicitud de cabina: Ascensor 0, Destino piso 3
+[SIM_ASCENSOR] Enviando SOLICITUD DE CABINA a GW (vía CAN): Ascensor idx 0, Piso Destino 3
 [32m[INFO-GW] [0m[CAN_Bridge] Procesando frame CAN ID: 0x200, DLC: 2
-[32m[INFO-GW] [0m[CAN_Bridge] Solicitud de cabina CAN: Ascensor E048A3 (idx 2), Piso Destino 4
+[32m[INFO-GW] [0m[CAN_Bridge] Solicitud de cabina CAN: Ascensor E071A1 (idx 0), Piso Destino 3
 [32m[INFO-GW] [0m[33m[CAN_CabinReq] Gateway (Origen CAN ID: 0x200): Preparando solicitud para Servidor Central.[0m
 
-[34m[DEBUG-GW] [0m[CAN_CabinReq] Payload para Servidor Central (Origen CAN ID: 0x200): {"id_edificio":"E048","solicitando_ascensor_id":"E048A3","piso_destino_solicitud":4,"elevadores_estado":[{"id_ascensor":"E048A1","piso_actual":0,"estado_puerta":"CERRADA","disponible":false,"tarea_actual_id":"T_1750444250669","destino_actual":7},{"id_ascensor":"E048A2","piso_actual":0,"estado_puerta":"CERRADA","disponible":false,"tarea_actual_id":"T_1750444244289","destino_actual":8},{"id_ascensor":"E048A3","piso_actual":0,"estado_puerta":"CERRADA","disponible":true,"tarea_actual_id":null,"destino_actual":null},{"id_ascensor":"E048A4","piso_actual":0,"estado_puerta":"CERRADA","disponible":true,"tarea_actual_id":null,"destino_actual":null}]}
-[34m[DEBUG-GW] [0m[SessionHelper] Reutilizando sesión DTLS-PSK existente (0x0x5a3895c63ce0) con servidor central.
+[34m[DEBUG-GW] [0m[CAN_CabinReq] Payload para Servidor Central (Origen CAN ID: 0x200): {"id_edificio":"E071","solicitando_ascensor_id":"E071A1","piso_destino_solicitud":3,"elevadores_estado":[{"id_ascensor":"E071A1","piso_actual":3,"estado_puerta":"ABIERTA","disponible":true,"tarea_actual_id":null,"destino_actual":null},{"id_ascensor":"E071A2","piso_actual":7,"estado_puerta":"ABIERTA","disponible":true,"tarea_actual_id":null,"destino_actual":null},{"id_ascensor":"E071A3","piso_actual":9,"estado_puerta":"ABIERTA","disponible":true,"tarea_actual_id":null,"destino_actual":null},{"id_ascensor":"E071A4","piso_actual":1,"estado_puerta":"ABIERTA","disponible":true,"tarea_actual_id":null,"destino_actual":null}]}
+[34m[DEBUG-GW] [0m[SessionHelper] Reutilizando sesión DTLS-PSK establecida (0x0x5da42ac63120) con servidor central.
 [34m[DEBUG-GW] [0m[CAN_Bridge] Stored token for CAN tracker: (len 1) 0a
 [34m[DEBUG-GW] [0m[CAN_Bridge] Stored CAN ID 0x200 at index 9
 [32m[INFO-GW] [0m[36m[CAN_CabinReq] Gateway (Origen CAN ID: 0x200) -> Central: Enviando solicitud...[0m
 
 [32m[INFO-GW] [0m[32m[CAN_CabinReq] Gateway (Origen CAN ID: 0x200) -> Central: Solicitud enviada, esperando rsp...[0m
 
-[SIM_ASCENSOR] Procesando I/O CoAP por 1 segundo...
-[32m[INFO-GW] [0m[ResponseHandlerGW] Servidor Central -> Gateway: Respuesta recibida (Code: 2.69). MID: 63301
+[32m[INFO-GW] [0m[ResponseHandlerGW] Servidor Central -> Gateway: Respuesta recibida (Code: 2.69). MID: 17280
 [34m[DEBUG-GW] [0m[ResponseHandlerGW] JSON recibido de Servidor Central: {
-	"tarea_id":	"T_1750444251597",
-	"ascensor_asignado_id":	"E048A3"
+	"tarea_id":	"T_1752191318086",
+	"ascensor_asignado_id":	"E071A1"
 }
 [34m[DEBUG-GW] [0m[ResponseHandlerGW] Token recibido del servidor: (len 1) 0a
 [34m[DEBUG-GW] [0m[CAN_Bridge] Finding token for CAN tracker: (len 1) 0a
 [32m[INFO-GW] [0m[ResponseHandlerGW] Respuesta CoAP corresponde a una solicitud originada por CAN (ID: 0x200). Token 0a
-[32m[INFO-GW] [0m[ResponseHandlerGW] Servidor Central (vía CAN origin) asignó tarea 'T_1750444251597' a ascensor 'E048A3'. Actualizando estado local.
-[32m[INFO-GW] [0mStateMgr: Tarea 'T_1750444251597' asignada a ascensor E048A3. Destino: piso 4. Piso actual: 0. Dirección: SUBIENDO
-[32m[INFO-GW] [0m[CAN_Bridge] Enviando respuesta CAN ID: 0x201, DLC: 8. Datos: 02 54 5F...
-[SIM_ASCENSOR] Recibido frame CAN de GW: ID=0x201, DLC=8, Datos: 02 54 5F 31 37 35 30 34
-    Simulador -> Respuesta de solicitud de cabina: Datos[0]=02
-    Simulador -> Tarea ID (parcial): T_17504
-[34m[DEBUG-GW] [0m[ResponseHandlerGW] Respuesta recibida en la sesión DTLS global (0x0x5a3895c63ce0). No se libera aquí.
-[SIM_ASCENSOR] === FIN SIMULACIÓN DEL EDIFICIO E048 ===
+[32m[INFO-GW] [0m[ResponseHandlerGW] Servidor Central (vía CAN origin) asignó tarea 'T_1752191318086' a ascensor 'E071A1'. Actualizando estado local.
+[32m[INFO-GW] [0mStateMgr: Tarea 'T_1752191318086' asignada a ascensor E071A1. Destino: piso 3. Piso actual: 3. Dirección: PARADO
+[32m[INFO-GW] [0m[CAN_Bridge] Enviando respuesta CAN ID: 0x201, DLC: 8. Datos: 00 54 5F...
+[SIM_ASCENSOR] Recibido frame CAN de GW: ID=0x201, DLC=8, Datos: 00 54 5F 31 37 35 32 31
+    Simulador -> Respuesta de solicitud de cabina: Datos[0]=00
+    Simulador -> Tarea ID (parcial): T_17521
+[34m[DEBUG-GW] [0m[ResponseHandlerGW] Respuesta recibida en la sesión DTLS global (0x0x5da42ac63120). No se libera aquí.
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A1 está ocupado y en su destino 3. Verificando si la tarea debe completarse.
+[32m[INFO-GW] [0mStateMgr: Ascensor E071A1 completó tarea T_1752191318086 en piso 3.
+[32m[INFO-GW] [0m[SimStep] Tarea completada por E071A1 (estaba en destino).
+[34m[DEBUG-GW] [0m[SimStep] === DIAGNÓSTICO SIMULADOR === Iteración 190
+[34m[DEBUG-GW] [0m[SimStep] Grupo: E071, Ascensores: 4
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A1: Piso=3, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A2: Piso=7, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A3: Piso=9, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A4: Piso=1, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] ESTADÍSTICAS: Ocupados=0, Moviendo=0, Total=4
+[34m[DEBUG-GW] [0m[SimStep] === DIAGNÓSTICO SIMULADOR === Iteración 200
+[34m[DEBUG-GW] [0m[SimStep] Grupo: E071, Ascensores: 4
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A1: Piso=3, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A2: Piso=7, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A3: Piso=9, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A4: Piso=1, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] ESTADÍSTICAS: Ocupados=0, Moviendo=0, Total=4
+[SIM_ASCENSOR] === FIN SIMULACIÓN NO-BLOQUEANTE DEL EDIFICIO E071 ===
 [SIM_ASCENSOR] Peticiones ejecutadas exitosamente: 10/10
-[SIM_ASCENSOR] === FIN SIMULACIÓN DE EVENTOS CAN ===
-
-[32m[INFO-GW] [0m[SimStep] Ascensor E048A1 SUBE a piso 1 (Destino: 7, Tarea: T_1750444250669)
-[32m[INFO-GW] [0m[SimStep] Ascensor E048A2 SUBE a piso 1 (Destino: 8, Tarea: T_1750444244289)
-[32m[INFO-GW] [0m[SimStep] Ascensor E048A3 SUBE a piso 1 (Destino: 4, Tarea: T_1750444251597)
-[32m[INFO-GW] [0m[SimStep] Ascensor E048A1 SUBE a piso 2 (Destino: 7, Tarea: T_1750444250669)
-[32m[INFO-GW] [0m[SimStep] Ascensor E048A2 SUBE a piso 2 (Destino: 8, Tarea: T_1750444244289)
-[32m[INFO-GW] [0m[SimStep] Ascensor E048A3 SUBE a piso 2 (Destino: 4, Tarea: T_1750444251597)
-[32m[INFO-GW] [0m[SimStep] Ascensor E048A1 SUBE a piso 3 (Destino: 7, Tarea: T_1750444250669)
-[32m[INFO-GW] [0m[SimStep] Ascensor E048A2 SUBE a piso 3 (Destino: 8, Tarea: T_1750444244289)
-[32m[INFO-GW] [0m[SimStep] Ascensor E048A3 SUBE a piso 3 (Destino: 4, Tarea: T_1750444251597)
-[32m[INFO-GW] [0m[SimStep] Ascensor E048A1 SUBE a piso 4 (Destino: 7, Tarea: T_1750444250669)
-[32m[INFO-GW] [0m[SimStep] Ascensor E048A2 SUBE a piso 4 (Destino: 8, Tarea: T_1750444244289)
-[32m[INFO-GW] [0m[SimStep] Ascensor E048A3 SUBE a piso 4 (Destino: 4, Tarea: T_1750444251597)
-[32m[INFO-GW] [0m[SimStep] Ascensor E048A3 LLEGÓ a destino 4.
-[32m[INFO-GW] [0mStateMgr: Ascensor E048A3 completó tarea T_1750444251597 en piso 4.
-[32m[INFO-GW] [0m[SimStep] Tarea completada por E048A3.
-[32m[INFO-GW] [0m[SimStep] Ascensor E048A1 SUBE a piso 5 (Destino: 7, Tarea: T_1750444250669)
-[32m[INFO-GW] [0m[SimStep] Ascensor E048A2 SUBE a piso 5 (Destino: 8, Tarea: T_1750444244289)
-[32m[INFO-GW] [0m[SimStep] Ascensor E048A1 SUBE a piso 6 (Destino: 7, Tarea: T_1750444250669)
-[32m[INFO-GW] [0m[SimStep] Ascensor E048A2 SUBE a piso 6 (Destino: 8, Tarea: T_1750444244289)
-[32m[INFO-GW] [0m[SimStep] Ascensor E048A1 SUBE a piso 7 (Destino: 7, Tarea: T_1750444250669)
-[32m[INFO-GW] [0m[SimStep] Ascensor E048A1 LLEGÓ a destino 7.
-[32m[INFO-GW] [0mStateMgr: Ascensor E048A1 completó tarea T_1750444250669 en piso 7.
-[32m[INFO-GW] [0m[SimStep] Tarea completada por E048A1.
-[32m[INFO-GW] [0m[SimStep] Ascensor E048A2 SUBE a piso 7 (Destino: 8, Tarea: T_1750444244289)
-[32m[INFO-GW] [0m[SimStep] Ascensor E048A2 SUBE a piso 8 (Destino: 8, Tarea: T_1750444244289)
-[32m[INFO-GW] [0m[SimStep] Ascensor E048A2 LLEGÓ a destino 8.
-[32m[INFO-GW] [0mStateMgr: Ascensor E048A2 completó tarea T_1750444244289 en piso 8.
-[32m[INFO-GW] [0m[SimStep] Tarea completada por E048A2.
+[34m[DEBUG-GW] [0m[SimStep] === DIAGNÓSTICO SIMULADOR === Iteración 210
+[34m[DEBUG-GW] [0m[SimStep] Grupo: E071, Ascensores: 4
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A1: Piso=3, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A2: Piso=7, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A3: Piso=9, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A4: Piso=1, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] ESTADÍSTICAS: Ocupados=0, Moviendo=0, Total=4
+[34m[DEBUG-GW] [0m[SimStep] === DIAGNÓSTICO SIMULADOR === Iteración 220
+[34m[DEBUG-GW] [0m[SimStep] Grupo: E071, Ascensores: 4
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A1: Piso=3, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A2: Piso=7, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A3: Piso=9, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A4: Piso=1, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] ESTADÍSTICAS: Ocupados=0, Moviendo=0, Total=4
+[34m[DEBUG-GW] [0m[SimStep] === DIAGNÓSTICO SIMULADOR === Iteración 230
+[34m[DEBUG-GW] [0m[SimStep] Grupo: E071, Ascensores: 4
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A1: Piso=3, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A2: Piso=7, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A3: Piso=9, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A4: Piso=1, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] ESTADÍSTICAS: Ocupados=0, Moviendo=0, Total=4
+[34m[DEBUG-GW] [0m[SimStep] === DIAGNÓSTICO SIMULADOR === Iteración 240
+[34m[DEBUG-GW] [0m[SimStep] Grupo: E071, Ascensores: 4
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A1: Piso=3, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A2: Piso=7, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A3: Piso=9, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A4: Piso=1, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] ESTADÍSTICAS: Ocupados=0, Moviendo=0, Total=4
+[34m[DEBUG-GW] [0m[SimStep] === DIAGNÓSTICO SIMULADOR === Iteración 250
+[34m[DEBUG-GW] [0m[SimStep] Grupo: E071, Ascensores: 4
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A1: Piso=3, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A2: Piso=7, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A3: Piso=9, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A4: Piso=1, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] ESTADÍSTICAS: Ocupados=0, Moviendo=0, Total=4
+[34m[DEBUG-GW] [0m[SimStep] === DIAGNÓSTICO SIMULADOR === Iteración 260
+[34m[DEBUG-GW] [0m[SimStep] Grupo: E071, Ascensores: 4
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A1: Piso=3, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A2: Piso=7, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A3: Piso=9, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A4: Piso=1, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] ESTADÍSTICAS: Ocupados=0, Moviendo=0, Total=4
+[34m[DEBUG-GW] [0m[SimStep] === DIAGNÓSTICO SIMULADOR === Iteración 270
+[34m[DEBUG-GW] [0m[SimStep] Grupo: E071, Ascensores: 4
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A1: Piso=3, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A2: Piso=7, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A3: Piso=9, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A4: Piso=1, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] ESTADÍSTICAS: Ocupados=0, Moviendo=0, Total=4
+[34m[DEBUG-GW] [0m[SimStep] === DIAGNÓSTICO SIMULADOR === Iteración 280
+[34m[DEBUG-GW] [0m[SimStep] Grupo: E071, Ascensores: 4
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A1: Piso=3, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A2: Piso=7, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A3: Piso=9, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A4: Piso=1, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] ESTADÍSTICAS: Ocupados=0, Moviendo=0, Total=4
+[34m[DEBUG-GW] [0m[SimStep] === DIAGNÓSTICO SIMULADOR === Iteración 290
+[34m[DEBUG-GW] [0m[SimStep] Grupo: E071, Ascensores: 4
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A1: Piso=3, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A2: Piso=7, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A3: Piso=9, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A4: Piso=1, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] ESTADÍSTICAS: Ocupados=0, Moviendo=0, Total=4
+[34m[DEBUG-GW] [0m[SimStep] === DIAGNÓSTICO SIMULADOR === Iteración 300
+[34m[DEBUG-GW] [0m[SimStep] Grupo: E071, Ascensores: 4
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A1: Piso=3, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A2: Piso=7, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A3: Piso=9, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A4: Piso=1, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] ESTADÍSTICAS: Ocupados=0, Moviendo=0, Total=4
+[34m[DEBUG-GW] [0m[SimStep] === DIAGNÓSTICO SIMULADOR === Iteración 310
+[34m[DEBUG-GW] [0m[SimStep] Grupo: E071, Ascensores: 4
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A1: Piso=3, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A2: Piso=7, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A3: Piso=9, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A4: Piso=1, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] ESTADÍSTICAS: Ocupados=0, Moviendo=0, Total=4
+[34m[DEBUG-GW] [0m[SimStep] === DIAGNÓSTICO SIMULADOR === Iteración 320
+[34m[DEBUG-GW] [0m[SimStep] Grupo: E071, Ascensores: 4
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A1: Piso=3, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A2: Piso=7, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A3: Piso=9, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A4: Piso=1, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] ESTADÍSTICAS: Ocupados=0, Moviendo=0, Total=4
+[34m[DEBUG-GW] [0m[SimStep] === DIAGNÓSTICO SIMULADOR === Iteración 330
+[34m[DEBUG-GW] [0m[SimStep] Grupo: E071, Ascensores: 4
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A1: Piso=3, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A2: Piso=7, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A3: Piso=9, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A4: Piso=1, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] ESTADÍSTICAS: Ocupados=0, Moviendo=0, Total=4
+[34m[DEBUG-GW] [0m[SimStep] === DIAGNÓSTICO SIMULADOR === Iteración 340
+[34m[DEBUG-GW] [0m[SimStep] Grupo: E071, Ascensores: 4
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A1: Piso=3, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A2: Piso=7, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A3: Piso=9, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A4: Piso=1, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] ESTADÍSTICAS: Ocupados=0, Moviendo=0, Total=4
+[34m[DEBUG-GW] [0m[SimStep] === DIAGNÓSTICO SIMULADOR === Iteración 350
+[34m[DEBUG-GW] [0m[SimStep] Grupo: E071, Ascensores: 4
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A1: Piso=3, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A2: Piso=7, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A3: Piso=9, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] Ascensor E071A4: Piso=1, Destino=-1, Ocupado=NO, Tarea=NINGUNA
+[34m[DEBUG-GW] [0m[SimStep] ESTADÍSTICAS: Ocupados=0, Moviendo=0, Total=4

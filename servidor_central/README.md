@@ -1,584 +1,430 @@
-# 🏢 Servidor Central - Sistema de Gestión de Ascensores
+# 🏢 Servidor Central - Sistema de Control de Ascensores
 
 [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)](https://github.com/user/repo)
-[![Tests](https://img.shields.io/badge/tests-11%2F11%20passing-brightgreen.svg)](./tests/)
-[![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen.svg)](./tests/)
-[![Language](https://img.shields.io/badge/language-C-blue.svg)](https://en.wikipedia.org/wiki/C_(programming_language))
 [![Protocol](https://img.shields.io/badge/protocol-CoAP%2FDTLS--PSK-orange.svg)](https://tools.ietf.org/html/rfc7252)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Kubernetes](https://img.shields.io/badge/deployment-Kubernetes-blue.svg)](https://kubernetes.io/)
+[![SQLite](https://img.shields.io/badge/database-SQLite-green.svg)](https://sqlite.org/)
 
-> **Servidor central de alta disponibilidad para la gestión inteligente de sistemas de ascensores multi-edificio con comunicación segura CoAP/DTLS-PSK**
+> **Servidor central inteligente para asignación optimizada de ascensores con algoritmo avanzado, persistencia SQLite y despliegue automático en Kubernetes - 100% automatizado**
 
 ## 📋 Tabla de Contenidos
 
 - [🎯 Descripción General](#-descripción-general)
-- [✨ Características Principales](#-características-principales)
-- [🏗️ Arquitectura del Sistema](#️-arquitectura-del-sistema)
-- [🚀 Inicio Rápido](#-inicio-rápido)
-- [📦 Instalación](#-instalación)
-- [⚙️ Configuración](#️-configuración)
-- [🔌 API Endpoints](#-api-endpoints)
-- [💾 Base de Datos](#-base-de-datos)
-- [🧪 Testing](#-testing)
-- [🔐 Seguridad](#-seguridad)
-- [📊 Monitorización](#-monitorización)
+- [🚀 Inicio Rápido - 100% Automatizado](#-inicio-rápido---100-automatizado)
+- [🏗️ Arquitectura del Servidor](#️-arquitectura-del-servidor)
+- [🧠 Algoritmo Inteligente](#-algoritmo-inteligente)
+- [🔒 Seguridad DTLS-PSK](#-seguridad-dtls-psk)
+- [🐳 Despliegue en Kubernetes](#-despliegue-en-kubernetes)
+- [📊 Persistencia y Base de Datos](#-persistencia-y-base-de-datos)
 - [🐛 Solución de Problemas](#-solución-de-problemas)
-- [📚 Documentación](#-documentación)
-- [🤝 Contribución](#-contribución)
 
 ## 🎯 Descripción General
 
-El **Servidor Central** es el núcleo del sistema de gestión de ascensores, diseñado para manejar múltiples edificios con alta disponibilidad y rendimiento. Implementa algoritmos inteligentes de asignación de ascensores y proporciona una API CoAP segura con autenticación DTLS-PSK.
+El **Servidor Central** es el cerebro del sistema de control de ascensores. Implementa un algoritmo inteligente que considera la posición en tiempo real de los ascensores para optimizar asignaciones, con persistencia SQLite y despliegue automático en Kubernetes mediante scripts zero-config.
 
-### 🎯 Casos de Uso
+### 🌟 Características Clave
 
-- **Edificios Comerciales**: Gestión de ascensores en centros comerciales y oficinas
-- **Complejos Residenciales**: Coordinación de ascensores en edificios residenciales
-- **Hospitales**: Gestión crítica de ascensores con prioridades especiales
-- **Hoteles**: Optimización del servicio de ascensores para huéspedes
+- **⚡ Compilación Automática**: `./build_servidor_central.sh` - Todo en un comando
+- **🚀 Despliegue Zero-Config**: `./deploy.sh` - Kubernetes automático
+- **🧠 Algoritmo Inteligente**: Considera posición actual y destino en tiempo real
+- **🔒 Seguridad DTLS-PSK**: Comunicación cifrada con autenticación mutua
+- **📊 Persistencia SQLite**: Base de datos automática con respaldo
+- **🐳 Kubernetes Ready**: Escalabilidad horizontal automática
 
-## ✨ Características Principales
+## 🚀 Inicio Rápido - 100% Automatizado
 
-### 🏢 **Gestión Multi-Edificio**
-- Soporte para múltiples edificios con configuraciones independientes
-- Escalabilidad horizontal para cientos de ascensores
-- Aislamiento de lógica por edificio
-
-### 🧠 **Algoritmos Inteligentes**
-- Asignación óptima basada en distancia y carga
-- Balanceo de carga automático
-- Minimización de tiempo de espera
-
-### 💾 **Persistencia Robusta**
-- Base de datos SQLite integrada
-- Estado en tiempo real sincronizado
-- Sistema de logs completo
-
-### 🔐 **Seguridad DTLS-PSK Avanzada**
-- **Cifrado DTLS 1.2 con Pre-Shared Keys**: Comunicación segura de extremo a extremo
-- **Sistema de claves determinístico**: 15,000 claves únicas basadas en identidad del cliente
-- **Archivo de claves PSK**: `psk_keys.txt` con claves pre-generadas para sincronización perfecta
-- **Gestión de sesiones DTLS**: Evita múltiples conexiones simultáneas y timeouts
-- **Configuración por variables de entorno**: Sistema flexible y seguro de configuración
-- **Validación automática**: Verificación de claves PSK y estado de conexiones
-
-### 📊 **Monitorización**
-- Métricas en tiempo real
-- Sistema de logs estructurado
-- Herramientas de debugging integradas
-
-## 🏗️ Arquitectura del Sistema
-
-```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                           SERVIDOR CENTRAL                                 │
-├─────────────────────────────────────────────────────────────────────────────┤
-│  ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────────────┐  │
-│  │  CoAP Handlers  │    │  JSON Processor │    │   Assignment Engine    │  │
-│  │                 │◄──►│                 │◄──►│                         │  │
-│  │ • /peticion_piso│    │ • Validation    │    │ • Optimal Algorithm     │  │
-│  │ • /peticion_cab │    │ • Parsing       │    │ • Distance Calculation  │  │
-│  │ • DTLS-PSK      │    │ • Generation    │    │ • Load Balancing        │  │
-│  └─────────────────┘    └─────────────────┘    └─────────────────────────┘  │
-│                                   │                                         │
-│                                   ▼                                         │
-│  ┌─────────────────────────────────────────────────────────────────────┐    │
-│  │                    Database Manager (SQLite)                       │    │
-│  │ • edificios • ascensores_estado • configuraciones • logs           │    │
-│  └─────────────────────────────────────────────────────────────────────┘    │
-└─────────────────────────────────────────────────────────────────────────────┘
-                                   ▲
-                                   │ CoAP/DTLS-PSK
-                                   │
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                         API GATEWAYS                                       │
-│              Gateway A          Gateway B          Gateway C               │
-│            (Edificio 1)       (Edificio 2)       (Edificio 3)             │
-└─────────────────────────────────────────────────────────────────────────────┘
-```
-
-### 🔄 Flujo de Procesamiento
-
-1. **Recepción**: API Gateway envía solicitud CoAP/DTLS-PSK
-2. **Autenticación**: Verificación de clave PSK basada en identidad del cliente
-3. **Validación**: Verificación de formato JSON y datos de entrada
-4. **Procesamiento**: Ejecución de algoritmos de asignación optimizada
-5. **Persistencia**: Actualización de estado en base de datos SQLite
-6. **Respuesta**: Generación de respuesta estructurada con tarea asignada
-
-## 🚀 Inicio Rápido
-
-### 🐳 **Despliegue en Kubernetes (Recomendado)**
-
-El sistema está optimizado para ejecutarse en Kubernetes con Minikube y MetalLB:
-
-```bash
-# 1. Desplegar automáticamente
-./deploy.sh
-
-# El script automáticamente:
-# - Configura el entorno de Docker de Minikube
-# - Verifica y construye la imagen Docker con libcjson1
-# - Instala y configura MetalLB con IPAddressPool (192.168.49.2-192.168.49.10)
-# - Despliega el servidor central con imagePullPolicy: Never
-# - Asigna IP externa automáticamente
-
-# 2. Verificar el despliegue
-kubectl get pods
-kubectl get svc
-kubectl logs -f deployment/servidor-central-deployment
-
-# 3. Acceder al servicio
-# El servicio estará disponible en la IP asignada por MetalLB
-```
-
-### 🐳 **Docker Optimizado (Desarrollo)**
-
-El proyecto incluye un **Dockerfile optimizado con multi-stage build**:
-
-```bash
-# Construir imagen optimizada
-docker build -t servidor-central .
-
-# Ejecutar contenedor
-docker run -d \
-  --name servidor-central \
-  -p 5684:5684 \
-  -v $(pwd)/data:/app/data \
-  servidor-central
-
-# Verificar funcionamiento
-docker logs servidor-central
-```
-
-**Características del Docker optimizado:**
-- ✅ **Multi-stage build**: Compilación y runtime separados
-- ✅ **Dependencias mínimas**: Solo libcjson1, libssl3, libc6
-- ✅ **Seguridad mejorada**: Usuario no-root, sin herramientas de compilación
-- ✅ **Configuración por variables de entorno**: Sistema flexible
-- ✅ **Archivo de claves PSK incluido**: `psk_keys.txt` copiado al contenedor
-
-### 📦 **Instalación Local**
-
-#### Prerrequisitos
+### ⚡ Prerequisitos (Solo una vez)
 
 ```bash
 # Ubuntu/Debian
 sudo apt-get update
-sudo apt-get install -y build-essential cmake pkg-config
-sudo apt-get install -y libcjson-dev libsqlite3-dev libssl-dev
-```
+sudo apt-get install -y build-essential cmake pkg-config git
+sudo apt-get install -y libcjson-dev libssl-dev sqlite3 libsqlite3-dev
 
-#### Compilación
+# OBLIGATORIO: Instalar minikube para despliegue K8s, también docker, verificar repos de instalación
+curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+sudo install minikube-linux-amd64 /usr/local/bin/minikube
 
-```bash
-# Compilar libcoap (requerido)
-cd Librerias/libcoap
-./autogen.sh && ./configure --enable-dtls --with-openssl
-make -j$(nproc) && sudo make install && sudo ldconfig
-
-# Compilar servidor central
-cd ../../
-mkdir build && cd build
-cmake -DBUILD_SERVIDOR_CENTRAL=ON -DCMAKE_BUILD_TYPE=Release ..
-make -j$(nproc)
-```
-
-#### Ejecución
+### 🎯 Compilación Automática 
 
 ```bash
-# Ejecutar servidor
-./servidor_central/servidor_central
+# Compilar TODO automáticamente
+./build_servidor_central.sh
 
-# Verificar funcionamiento
-curl -X POST http://localhost:5684/.well-known/core
+# Salida esperada:
+# ✅ Checking dependencies...
+# ✅ Configuring CMake...
+# ✅ Building Servidor Central...
+# ✅ Build completed successfully!
+# ✅ Executable created: ./servidor_central
 ```
 
-## 📦 Instalación
 
-### 🔧 Dependencias del Sistema
-
-<details>
-<summary><strong>Ubuntu/Debian</strong></summary>
+#### Despliegue en Kubernetes 
 
 ```bash
-# Paquetes base
-sudo apt-get update
-sudo apt-get install -y build-essential cmake pkg-config
-sudo apt-get install -y libcjson-dev libsqlite3-dev libssl-dev
-sudo apt-get install -y git wget ca-certificates
+# Despliegue automático en minikube
+./deploy.sh
 
-# Compilar libcoap desde fuente
-cd Librerias/libcoap
-./autogen.sh
-./configure --prefix=/usr/local --enable-dtls --with-openssl --disable-doxygen --disable-manpages
-make -j$(nproc) && sudo make install && sudo ldconfig
+# Salida esperada:
+# ✅ Building Docker image...
+# ✅ Loading image to minikube...
+# ✅ Applying Kubernetes manifests...
+# ✅ Deployment created successfully!
+# ✅ Service exposed on NodePort
+# ✅ Server available at: http://192.168.49.2:5684
 ```
 
-</details>
-
-<details>
-<summary><strong>CentOS/RHEL</strong></summary>
+### 🎯 Verificación Automática
 
 ```bash
-# Paquetes base
-sudo yum groupinstall "Development Tools"
-sudo yum install cmake pkg-config
-sudo yum install libcjson-devel sqlite-devel openssl-devel
-sudo yum install git wget ca-certificates
+# Verificar despliegue K8s
+kubectl get pods -l app=servidor-central
 
-# Compilar libcoap desde fuente
-cd Librerias/libcoap
-./autogen.sh
-./configure --prefix=/usr/local --enable-dtls --with-openssl --disable-doxygen --disable-manpages
-make -j$(nproc) && sudo make install && sudo ldconfig
+# Salida esperada:
+# NAME                                READY   STATUS    RESTARTS
+# servidor-central-7d4f8b6c8d-xyz123  1/1     Running   0
+
+# Ver logs en tiempo real
+kubectl logs -f deployment/servidor-central
+
+# Probar conectividad
+curl -k https://192.168.49.2:5684/status
 ```
 
-</details>
+## 🏗️ Arquitectura del Servidor
 
-### 🔨 Compilación
-
-```bash
-# Crear directorio de build
-mkdir build && cd build
-
-# Configurar CMake
-cmake -DBUILD_SERVIDOR_CENTRAL=ON -DCMAKE_BUILD_TYPE=Release ..
-
-# Compilar
-make -j$(nproc)
-
-# Instalar (opcional)
-sudo make install
-```
-
-## ⚙️ Configuración
-
-### 🔐 Configuración DTLS-PSK
-
-El sistema utiliza un archivo de claves PSK pre-generadas:
-
-```bash
-# Archivo de claves PSK (15,000 claves únicas)
-psk_keys.txt
-
-# Formato de las claves:
-# client_id:psk_key
-# Ejemplo:
-# gateway_001:abc123def456
-# gateway_002:xyz789uvw012
-```
-
-### 🌍 Variables de Entorno
-
-```bash
-# Configuración del servidor
-export SERVIDOR_PUERTO=5684
-export SERVIDOR_HOST=0.0.0.0
-
-# Configuración de base de datos
-export DB_PATH=/app/data/servidor_central.db
-
-# Configuración de logging
-export LOG_LEVEL=INFO
-export LOG_FILE=/app/logs/servidor_central.log
-
-# Configuración DTLS
-export DTLS_PSK_FILE=/app/psk_keys.txt
-export DTLS_TIMEOUT=30
-```
-
-### 📁 Estructura de Archivos
+### 🔄 **Flujo de Procesamiento Automático**
 
 ```
-servidor_central/
-├── 📁 src/                    # Código fuente
-├── 📁 include/                # Headers
-├── 📁 kustomize/              # Configuración Kubernetes
-│   ├── deployment.yaml        # Deployment con imagePullPolicy: Never
-│   ├── service.yaml           # Service LoadBalancer
-│   └── hpa.yaml              # Horizontal Pod Autoscaler
-├── 🐳 Dockerfile              # Multi-stage build optimizado
-├── 📜 deploy.sh               # Script de despliegue automatizado
-├── 📜 metallb-config.yaml     # Configuración MetalLB (IPAddressPool)
-├── 📜 psk_keys.txt            # 15,000 claves PSK pre-generadas
-└── 📖 README.md               # Este archivo
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                              SERVIDOR CENTRAL                               │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  ┌─────────────────┐    CoAP/DTLS-PSK    ┌─────────────────────────────┐   │
+│  │                 │◄──────────────────►│                             │   │
+│  │   API GATEWAYS  │     Puerto 5684     │     SERVIDOR CoAP/DTLS      │   │
+│  │                 │                     │                             │   │
+│  │ • 100 Edificios │                     │ • Validación DTLS-PSK       │   │
+│  │ • 1000 Peticiones│                    │ • Autenticación mutua       │   │
+│  │ • Estado RT     │                     │ • Parsing JSON automático   │   │
+│  │ • Claves PSK    │                     │ • Validación de campos      │   │
+│  └─────────────────┘                     └─────────────────────────────┘   │
+│           │                                           │                     │
+│           │ JSON Requests                            │ Processing          │
+│           ▼                                           ▼                     │
+│  ┌─────────────────┐                     ┌─────────────────────────────┐   │
+│  │   ALGORITMO     │                     │       BASE DE DATOS         │   │
+│  │   INTELIGENTE   │◄──────────────────►│                             │   │
+│  │                 │                     │ • SQLite automático         │   │
+│  │ • Posición RT   │                     │ • Persistencia de tareas    │   │
+│  │ • Optimización  │                     │ • Historial de asignaciones│   │
+│  │ • Eficiencia    │                     │ • Métricas de rendimiento  │   │
+│  │ • Logging       │                     │ • Respaldo automático       │   │
+│  └─────────────────┘                     └─────────────────────────────┘   │
+│           │                                           │                     │
+│           │ Asignaciones                             │ Kubernetes          │
+│           ▼                                           ▼                     │
+│  ┌─────────────────┐                     ┌─────────────────────────────┐   │
+│  │   RESPUESTAS    │                     │       MINIKUBE              │   │
+│  │     JSON        │                     │                             │   │
+│  │                 │                     │ • Auto-scaling              │   │
+│  │ • tarea_id      │                     │ • LoadBalancer              │   │
+│  │ • ascensor_id   │                     │ • Health checks             │   │
+│  │ • piso_destino  │                     │ • Rolling updates           │   │
+│  │ • tiempo_est    │                     │ • Resource limits           │   │
+│  └─────────────────┘                     └─────────────────────────────┘   │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
 ```
 
-## 🔌 API Endpoints
+### 📊 **Endpoints Automáticos**
 
-### 📡 Endpoints CoAP/DTLS-PSK
-
-| Endpoint | Método | Descripción | Autenticación |
+| Endpoint | Método | Descripción | Procesamiento |
 |----------|--------|-------------|---------------|
-| `/peticion_piso` | POST | Solicitar asignación de ascensor | DTLS-PSK |
-| `/peticion_cab` | POST | Solicitar ascensor específico | DTLS-PSK |
-| `/.well-known/core` | GET | Descubrimiento de recursos | DTLS-PSK |
+| `/peticion_piso` | POST | Llamada desde piso | ✅ Algoritmo inteligente automático |
+| `/peticion_cabina` | POST | Solicitud desde cabina | ✅ Optimización de ruta automática |
+| `/status` | GET | Estado del servidor | ✅ Health check automático |
 
-### 📝 Formato de Peticiones
+## 🧠 Algoritmo Inteligente
 
-```json
-{
-  "edificio_id": "edificio_001",
-  "piso_origen": 5,
-  "piso_destino": 10,
-  "prioridad": "normal",
-  "timestamp": 1640995200
-}
-```
+### 🎯 **Algoritmo con Posición en Tiempo Real**
 
-### 📤 Formato de Respuestas
+El servidor central recibe la posición actualizada de cada ascensor durante el movimiento:
 
 ```json
 {
-  "status": "success",
-  "ascensor_asignado": "ascensor_003",
-  "tiempo_estimado": 45,
-  "tarea_id": "tarea_12345",
-  "timestamp": 1640995200
+  "elevadores_estado": [{
+    "id_ascensor": "EDI1A1",
+    "piso_actual": 3,        // ✅ Posición actualizada en tiempo real
+    "destino_actual": 7,     // ✅ Durante movimiento
+    "disponible": false,
+    "estado_puerta": "CERRADA"
+  }]
 }
 ```
 
-## 💾 Base de Datos
-
-### 🗄️ Esquema SQLite
-
-```sql
--- Tabla de edificios
-CREATE TABLE edificios (
-    id TEXT PRIMARY KEY,
-    nombre TEXT NOT NULL,
-    num_ascensores INTEGER DEFAULT 4,
-    configuracion TEXT
-);
-
--- Tabla de estado de ascensores
-CREATE TABLE ascensores_estado (
-    id TEXT PRIMARY KEY,
-    edificio_id TEXT,
-    piso_actual INTEGER DEFAULT 1,
-    estado TEXT DEFAULT 'disponible',
-    ultima_actualizacion TIMESTAMP,
-    FOREIGN KEY (edificio_id) REFERENCES edificios(id)
-);
-
--- Tabla de tareas asignadas
-CREATE TABLE tareas (
-    id TEXT PRIMARY KEY,
-    edificio_id TEXT,
-    ascensor_id TEXT,
-    piso_origen INTEGER,
-    piso_destino INTEGER,
-    estado TEXT DEFAULT 'pendiente',
-    timestamp TIMESTAMP,
-    FOREIGN KEY (edificio_id) REFERENCES edificios(id),
-    FOREIGN KEY (ascensor_id) REFERENCES ascensores_estado(id)
-);
-```
-
-## 🧪 Testing
-
-### 🧪 Tests Unitarios
+### 🤖 **Lógica de Optimización Automática**
 
 ```bash
-# Ejecutar tests unitarios
-cd tests/unit
-make test
-
-# Verificar cobertura
-make coverage
+# El algoritmo considera automáticamente:
+# ✅ Distancia desde posición actual (no estática)
+# ✅ Dirección de movimiento del ascensor
+# ✅ Compatibilidad de ruta (puede recoger en el camino)
+# ✅ Tiempo estimado de llegada real
+# ✅ Eficiencia de la asignación
 ```
 
-### 🔗 Tests de Integración
-
-```bash
-# Ejecutar tests de integración
-cd tests/integration
-./run_integration_tests.sh
-```
-
-### 🐳 Tests de Contenedor
-
-```bash
-# Test de imagen Docker
-docker build -t servidor-central-test .
-docker run --rm servidor-central-test ./run_tests.sh
-```
-
-## 🔐 Seguridad
-
-### 🔑 Sistema de Claves PSK
-
-El sistema utiliza un archivo de 15,000 claves PSK pre-generadas:
-
-```bash
-# Generación de claves (ya incluido)
-python3 generate_psk_keys.py
-
-# Verificación de claves
-./verify_psk_keys.sh
-```
-
-### 🔒 Configuración DTLS
+### 📊 **Scoring Automático**
 
 ```c
-// Configuración DTLS-PSK
-#define DTLS_PSK_FILE "/app/psk_keys.txt"
-#define DTLS_TIMEOUT 30
-#define DTLS_MTU 1280
-#define DTLS_RETRANSMIT_TIMEOUT 2
+// Algoritmo de scoring (automático)
+float score = 0.0;
+
+// Distancia (actualizada en tiempo real)
+int distance = abs(piso_actual - piso_origen);  // piso_actual viene del API Gateway
+if (distance == 0) score += 100.0;  // Mismo piso
+else score += (50.0 / distance);   // Más cerca = mejor score
+
+// Compatibilidad de ruta (ascensor en movimiento)
+if (va_subiendo && piso_actual <= piso_origen && piso_origen <= destino_actual) {
+    score += 30.0;  // Puede recoger en el camino
+}
+
+// Eficiencia total
+return score;
 ```
 
-### 🛡️ Medidas de Seguridad
-
-- ✅ **Cifrado de extremo a extremo** con DTLS 1.2
-- ✅ **Autenticación mutua** mediante PSK
-- ✅ **Validación de claves** contra archivo pre-generado
-- ✅ **Timeouts optimizados** para prevenir ataques
-- ✅ **Usuario no-root** en contenedor Docker
-- ✅ **Dependencias mínimas** para reducir superficie de ataque
-
-## 📊 Monitorización
-
-### 📈 Métricas en Tiempo Real
+### 🔄 **Logging Automático del Algoritmo**
 
 ```bash
-# Ver logs del servidor
-kubectl logs -f deployment/servidor-central-deployment
-
-# Ver métricas de recursos
-kubectl top pods
-
-# Ver estado de servicios
-kubectl get svc
+# Logs automáticos del algoritmo
+[INFO] Evaluando ascensor EDI1A1: piso_actual=3, destino_actual=7, score=85.5
+[INFO] Evaluando ascensor EDI1A2: piso_actual=1, destino_actual=-1, score=92.0
+[INFO] Mejor ascensor seleccionado: EDI1A2 (score: 92.0)
+[INFO] Tarea T_1640995200123 asignada a EDI1A2
 ```
 
-### 📊 Logs Estructurados
+## 🔒 Seguridad DTLS-PSK
 
-```json
-{
-  "timestamp": "2024-01-15T10:30:00Z",
-  "level": "INFO",
-  "component": "assignment_engine",
-  "message": "Ascensor asignado: ascensor_003",
-  "metadata": {
-    "edificio_id": "edificio_001",
-    "piso_origen": 5,
-    "piso_destino": 10,
-    "tiempo_procesamiento": 15
-  }
+### 🔐 **Configuración Automática**
+
+```bash
+# Validación automática de PSK
+cat psk_keys.txt | wc -l  # ✅ 15,000 claves
+grep "Gateway_Client_" psk_keys.txt | head -5
+
+# Salida esperada:
+# Gateway_Client_0001 41414141...
+# Gateway_Client_0002 42424242...
+# Gateway_Client_0003 43434343...
+# Gateway_Client_0004 44444444...
+# Gateway_Client_0005 45454545...
+```
+
+### 🛡️ **Autenticación Mutua Automática**
+
+```bash
+# El servidor valida automáticamente:
+# ✅ Identidad del cliente (Gateway_Client_XXXX)
+# ✅ Clave PSK correspondiente
+# ✅ Estado de la sesión DTLS
+# ✅ Timeouts y reconexiones
+```
+
+### 🔄 **Gestión de Sesiones**
+
+```c
+// Validación automática de sesión
+if (coap_session_get_state(session) != COAP_SESSION_STATE_ESTABLISHED) {
+    // Respuesta automática de error 401
+    return COAP_RESPONSE_CODE_UNAUTHORIZED;
 }
+```
+
+## 🐳 Despliegue en Kubernetes
+
+### 🚀 **Despliegue Completamente Automático**
+
+```bash
+# Un solo comando para desplegar todo
+./deploy.sh
+
+# El script hace automáticamente:
+# ✅ Construye imagen Docker
+# ✅ Carga imagen a minikube
+# ✅ Aplica manifiestos K8s
+# ✅ Configura servicios
+# ✅ Expone puertos
+# ✅ Verifica despliegue
+```
+
+### 🔧 **Configuración Automática**
+
+```yaml
+# kustomize/deployment.yaml (aplicado automáticamente)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: servidor-central
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: servidor-central
+  template:
+    metadata:
+      labels:
+        app: servidor-central
+    spec:
+      containers:
+      - name: servidor-central
+        image: servidor-central:latest
+        ports:
+        - containerPort: 5684
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+```
+
+### 📊 **Monitoreo Automático**
+
+```bash
+# Comandos de monitoreo automático
+kubectl get pods -l app=servidor-central -w  # Watch pods
+kubectl logs -f deployment/servidor-central  # Logs en tiempo real
+kubectl top pods -l app=servidor-central     # Uso de recursos
+
+# Métricas automáticas
+kubectl get hpa servidor-central-hpa         # Horizontal Pod Autoscaler
+```
+
+### 🔄 **Scaling Automático**
+
+```yaml
+# kustomize/hpa.yaml (aplicado automáticamente)
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: servidor-central-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: servidor-central
+  minReplicas: 1
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
 ```
 
 ## 🐛 Solución de Problemas
 
-### 🔍 Problemas Comunes
+### 🔍 **Problemas Comunes**
 
-<details>
-<summary><strong>Error: ImagePullBackOff</strong></summary>
-
+#### Error: "minikube not found"
 ```bash
-# Solución: Configurar entorno de Docker de Minikube
-eval $(minikube docker-env)
-docker build -t servidor-central .
+# Instalar minikube (prerequisito obligatorio)
+curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+sudo install minikube-linux-amd64 /usr/local/bin/minikube
 
-# Verificar que imagePullPolicy: Never esté configurado
-kubectl get deployment servidor-central-deployment -o yaml
+# Iniciar minikube
+minikube start
+
+# Verificar
+kubectl get nodes
 ```
 
-</details>
-
-<details>
-<summary><strong>Error: libcjson.so.1 not found</strong></summary>
-
+#### Error: "Docker image build failed"
 ```bash
-# Solución: Agregar libcjson1 al Dockerfile
-RUN apt-get install -y libcjson1
+# Solución automática
+./build_servidor_central.sh  # ✅ Compila primero
 
-# Reconstruir imagen
-docker build -t servidor-central .
+# Luego desplegar
+./deploy.sh  # ✅ Construye imagen automáticamente
 ```
 
-</details>
-
-<details>
-<summary><strong>Error: Service en estado pending</strong></summary>
-
+#### Error: "Port 5684 already in use"
 ```bash
-# Solución: Verificar configuración de MetalLB
-kubectl get ipaddresspools -n metallb-system
-kubectl apply -f metallb-config.yaml
+# Verificar procesos
+sudo netstat -tlnp | grep :5684
+sudo kill -9 <PID>
+
+# O usar Kubernetes (recomendado)
+./deploy.sh  # ✅ Maneja puertos automáticamente
 ```
 
-</details>
-
-### 🛠️ Herramientas de Debugging
-
+#### Error: "DTLS handshake failed"
 ```bash
-# Ver logs detallados
-kubectl logs -f deployment/servidor-central-deployment
+# Verificar claves PSK
+ls -la psk_keys.txt
+wc -l psk_keys.txt  # Debe ser 15,000 líneas
 
-# Ver eventos del pod
-kubectl describe pod <pod-name>
-
-# Ver configuración del deployment
-kubectl get deployment servidor-central-deployment -o yaml
-
-# Ver estado de servicios
-kubectl get svc -o wide
+# Verificar configuración
+grep "Gateway_Client_" psk_keys.txt | head -5
 ```
 
-## 📚 Documentación
-
-### 📖 Documentación Técnica
-
-- [📋 Especificación CoAP/DTLS-PSK](./docs/coap-dtls-spec.md)
-- [🏗️ Arquitectura del Sistema](./docs/architecture.md)
-- [🔐 Guía de Seguridad](./docs/security.md)
-- [📊 Guía de Monitorización](./docs/monitoring.md)
-
-### 🔗 Enlaces Útiles
-
-- [📦 Repositorio Principal](../README.md)
-- [🔌 API Gateway](../api_gateway/README.md)
-- [🧪 Tests](../tests/README.md)
-- [📊 Monitorización](../monitoring/README.md)
-
-## 🤝 Contribución
-
-### 📝 Guías de Contribución
-
-1. **Fork** el repositorio
-2. **Crear** una rama para tu feature (`git checkout -b feature/nueva-funcionalidad`)
-3. **Commit** tus cambios (`git commit -am 'Agregar nueva funcionalidad'`)
-4. **Push** a la rama (`git push origin feature/nueva-funcionalidad`)
-5. **Crear** un Pull Request
-
-### 🧪 Testing
+### 📋 **Logs de Diagnóstico**
 
 ```bash
-# Ejecutar todos los tests
-./run_all_tests.sh
+# Logs locales
+./servidor_central > server.log 2>&1 &
+tail -f server.log
 
-# Verificar cobertura
-make coverage
+# Logs en Kubernetes
+kubectl logs -f deployment/servidor-central
+
+# Logs de eventos K8s
+kubectl get events --sort-by=.metadata.creationTimestamp
 ```
 
-### 📋 Checklist de Contribución
+### 🔄 **Comandos de Diagnóstico**
 
-- [ ] Tests unitarios pasando
-- [ ] Tests de integración pasando
-- [ ] Documentación actualizada
-- [ ] Código siguiendo estándares
-- [ ] Configuración DTLS-PSK verificada
-- [ ] Imagen Docker construida correctamente
+```bash
+# Verificar estado completo
+kubectl get all -l app=servidor-central
 
----
+# Verificar configuración
+kubectl describe deployment servidor-central
 
-## 📄 Licencia
+# Verificar recursos
+kubectl top pods -l app=servidor-central
 
-Este proyecto está bajo la Licencia MIT. Ver el archivo [LICENSE](../LICENSE) para más detalles.
+# Verificar conectividad
+kubectl exec -it deployment/servidor-central -- netstat -tlnp
+```
 
----
+## 💡 Uso Avanzado
 
-**🏢 Sistema de Control de Ascensores** - Comunicación segura CoAP/DTLS-PSK para gestión inteligente de ascensores multi-edificio.
+### 🎯 **Variables de Entorno**
+
+```bash
+# Configuración personalizada (antes del despliegue)
+export DTLS_PSK_FILE="custom_psk_keys.txt"
+export SQLITE_DB_FILE="custom_database.db"
+export COAP_LISTEN_PORT=5685
+
+# Luego desplegar
+./deploy.sh  # ✅ Usa configuración personalizada
+```
+
+### 📊 **Análisis de Rendimiento**
+
+```bash
+# Métricas de Kubernetes
+kubectl top pods -l app=servidor-central
+
+# Logs de algoritmo
+kubectl logs -f deployment/servidor-central | grep "score"
+```
+
+

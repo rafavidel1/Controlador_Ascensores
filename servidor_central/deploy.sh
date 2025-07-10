@@ -6,6 +6,115 @@ RED='\033[0;31m'
 YELLOW='\033[1;33m'
 NC='\033[0m' # Sin color
 
+# Función para reinstalar MetalLB completamente cuando esté en mal estado
+reinstall_metallb() {
+  echo -e "${YELLOW}🔄 Reinstalando MetalLB completamente...${NC}"
+  
+  # 1. PRIMERO eliminar todos los CRDs de MetalLB (esto libera el namespace)
+  echo "Eliminando CRDs de MetalLB PRIMERO..."
+  kubectl delete crd ipaddresspools.metallb.io --force --grace-period=0 2>/dev/null || true
+  kubectl delete crd l2advertisements.metallb.io --force --grace-period=0 2>/dev/null || true
+  kubectl delete crd bgpadvertisements.metallb.io --force --grace-period=0 2>/dev/null || true
+  kubectl delete crd bgppeers.metallb.io --force --grace-period=0 2>/dev/null || true
+  kubectl delete crd addresspools.metallb.io --force --grace-period=0 2>/dev/null || true
+  kubectl delete crd bfdprofiles.metallb.io --force --grace-period=0 2>/dev/null || true
+  kubectl delete crd communities.metallb.io --force --grace-period=0 2>/dev/null || true
+  
+  # 2. Eliminar todos los recursos de MetalLB en el namespace
+  echo "Eliminando recursos de MetalLB..."
+  kubectl delete all --all -n metallb-system --force --grace-period=0 2>/dev/null || true
+  kubectl delete configmap --all -n metallb-system --force --grace-period=0 2>/dev/null || true
+  kubectl delete secret --all -n metallb-system --force --grace-period=0 2>/dev/null || true
+  kubectl delete serviceaccount --all -n metallb-system --force --grace-period=0 2>/dev/null || true
+  
+  # 3. Eliminar roles y bindings de MetalLB
+  echo "Eliminando roles y bindings de MetalLB..."
+  kubectl delete clusterrole metallb-system:controller 2>/dev/null || true
+  kubectl delete clusterrole metallb-system:speaker 2>/dev/null || true
+  kubectl delete clusterrolebinding metallb-system:controller 2>/dev/null || true
+  kubectl delete clusterrolebinding metallb-system:speaker 2>/dev/null || true
+  kubectl delete role -n metallb-system --all --force --grace-period=0 2>/dev/null || true
+  kubectl delete rolebinding -n metallb-system --all --force --grace-period=0 2>/dev/null || true
+  
+  # 3b. Eliminar webhooks de MetalLB que pueden bloquear la eliminación
+  echo "Eliminando webhooks de MetalLB..."
+  kubectl delete validatingwebhookconfiguration metallb-webhook-configuration 2>/dev/null || true
+  kubectl delete mutatingwebhookconfiguration metallb-webhook-configuration 2>/dev/null || true
+  
+  # 4. Ahora eliminar el namespace y forzar si está atascado
+  echo "Eliminando namespace metallb-system..."
+  kubectl delete namespace metallb-system --force --grace-period=0 2>/dev/null || true
+  
+  # 5. Si sigue atascado en "Terminating", forzar eliminación de finalizers
+  sleep 3
+  if kubectl get namespace metallb-system 2>/dev/null | grep -q "Terminating"; then
+    echo "Namespace atascado en 'Terminating'. Eliminando finalizers..."
+    # Método 1: Patch directo para eliminar finalizers
+    kubectl patch namespace metallb-system -p '{"metadata":{"finalizers":null}}' --type=merge 2>/dev/null || true
+    # Método 2: Patch usando spec.finalizers vacío
+    kubectl patch namespace metallb-system -p '{"spec":{"finalizers":[]}}' --type=merge 2>/dev/null || true
+    # Método 3: Usar kubectl replace con JSON directo (sin jq)
+    echo '{"apiVersion":"v1","kind":"Namespace","metadata":{"name":"metallb-system"},"spec":{"finalizers":[]}}' | kubectl replace --raw /api/v1/namespaces/metallb-system/finalize -f - 2>/dev/null || true
+  fi
+  
+  # 6. Esperar a que se elimine completamente (con timeout)
+  echo "Esperando a que se elimine completamente el namespace..."
+  TIMEOUT=30
+  COUNT=0
+  while kubectl get namespace metallb-system 2>/dev/null && [ $COUNT -lt $TIMEOUT ]; do
+    echo "Esperando eliminación del namespace... ($COUNT/$TIMEOUT)"
+    sleep 2
+    COUNT=$((COUNT + 1))
+  done
+  
+  # 7. Si aún existe después del timeout, mostrar advertencia pero continuar
+  if kubectl get namespace metallb-system 2>/dev/null; then
+    echo -e "${YELLOW}⚠ Namespace aún existe después de $TIMEOUT intentos.${NC}"
+    echo -e "${YELLOW}  Estado actual del namespace:${NC}"
+    kubectl get namespace metallb-system -o wide 2>/dev/null || true
+    echo -e "${YELLOW}  Continuando con reinstalación de MetalLB...${NC}"
+    echo -e "${BLUE}  💡 El nuevo MetalLB creará un namespace fresco${NC}"
+  else
+    echo -e "${GREEN}✓ Namespace metallb-system eliminado exitosamente${NC}"
+  fi
+  
+  # 8. Reinstalar MetalLB desde cero
+  echo "Reinstalando MetalLB..."
+  kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.13.7/config/manifests/metallb-native.yaml
+  
+  # 9. Esperar a que los pods estén listos
+  echo "Esperando a que MetalLB esté listo..."
+  kubectl wait --namespace metallb-system \
+    --for=condition=ready pod \
+    --selector=app=metallb \
+    --timeout=300s
+  
+  # 10. Aplicar configuración
+  echo "Aplicando configuración de MetalLB..."
+  sleep 10
+  kubectl apply -f metallb-config.yaml
+  
+  if [ $? -eq 0 ]; then
+    # 11. Verificación final del estado
+    echo "Verificando estado final de MetalLB..."
+    sleep 5
+    
+    # Mostrar estado de pods
+    echo -e "${BLUE}Pods de MetalLB:${NC}"
+    kubectl get pods -n metallb-system -o wide 2>/dev/null || echo "No se pudieron obtener pods"
+    
+    # Mostrar configuración aplicada
+    echo -e "${BLUE}IPAddressPools configurados:${NC}"
+    kubectl get ipaddresspools -n metallb-system 2>/dev/null || echo "No se encontraron IPAddressPools"
+    
+    echo -e "${GREEN}✓ MetalLB reinstalado exitosamente${NC}"
+    return 0
+  else
+    echo -e "${RED}✗ Error al aplicar configuración de MetalLB${NC}"
+    return 1
+  fi
+}
+
 # Función para verificar comandos
 check_command() {
   if ! command -v $1 &> /dev/null; then
@@ -47,20 +156,39 @@ detect_files
 check_docker_image() {
   echo "Verificando imagen Docker en contexto de Minikube..."
   
+  # Verificar que minikube esté funcionando
+  if ! minikube status | grep -q "Running"; then
+    echo -e "${YELLOW}Minikube no está funcionando. Iniciando minikube...${NC}"
+    minikube start --driver=docker
+    sleep 10
+  fi
+  
   # Configurar entorno de Docker de Minikube automáticamente
   echo "Configurando entorno de Docker de Minikube..."
-  eval $(minikube docker-env 2>/dev/null) || {
-    echo -e "${YELLOW}No se pudo configurar el entorno de Docker de Minikube.${NC}"
-    return 1
-  }
-  echo -e "${GREEN}✓ Entorno de Docker de Minikube configurado${NC}"
-  
-  # Verificar si la imagen existe
-  if docker images | grep -q "servidor-central.*latest"; then
-    echo -e "${GREEN}✓ Imagen servidor-central:latest encontrada en contexto de Minikube${NC}"
-    return 0
+  if eval $(minikube docker-env 2>/dev/null); then
+    echo -e "${GREEN}✓ Entorno de Docker de Minikube configurado${NC}"
+    
+    # Verificar si la imagen existe y mostrar información
+    if docker images | grep -q "servidor-central.*latest"; then
+      IMAGE_ID=$(docker images servidor-central:latest --format "table {{.ID}}" | tail -n 1)
+      IMAGE_SIZE=$(docker images servidor-central:latest --format "table {{.Size}}" | tail -n 1)
+      IMAGE_CREATED=$(docker images servidor-central:latest --format "table {{.CreatedSince}}" | tail -n 1)
+      
+      echo -e "${GREEN}✓ Imagen servidor-central:latest encontrada en contexto de Minikube${NC}"
+      echo -e "${GREEN}  ID: $IMAGE_ID${NC}"
+      echo -e "${GREEN}  Tamaño: $IMAGE_SIZE${NC}"
+      echo -e "${GREEN}  Creada: $IMAGE_CREATED${NC}"
+      
+      # Por simplicidad, por ahora solo verificamos si la imagen existe
+      # En futuras versiones se puede implementar detección más sofisticada de cambios
+      
+      return 0
+    else
+      echo -e "${YELLOW}⚠ Imagen servidor-central:latest NO encontrada en contexto de Minikube${NC}"
+      return 1
+    fi
   else
-    echo -e "${YELLOW}⚠ Imagen servidor-central:latest NO encontrada en contexto de Minikube${NC}"
+    echo -e "${YELLOW}No se pudo configurar el entorno de Docker de Minikube.${NC}"
     return 1
   fi
 }
@@ -69,27 +197,66 @@ check_docker_image() {
 build_docker_image() {
   echo "Construyendo imagen Docker..."
   
+  # Verificar que minikube esté funcionando
+  if ! minikube status | grep -q "Running"; then
+    echo -e "${YELLOW}Minikube no está funcionando. Iniciando minikube...${NC}"
+    minikube start --driver=docker
+    sleep 10
+  fi
+  
   # Configurar entorno de Docker de Minikube automáticamente
   echo "Configurando entorno de Docker de Minikube..."
-  eval $(minikube docker-env 2>/dev/null) || {
-    echo -e "${RED}Error: No se pudo configurar el entorno de Docker de Minikube${NC}"
-    return 1
-  }
-  echo -e "${GREEN}✓ Entorno de Docker de Minikube configurado${NC}"
-  
-  # Construir la imagen
-  if docker build -t servidor-central .; then
-    echo -e "${GREEN}✓ Imagen servidor-central:latest construida exitosamente${NC}"
-    return 0
+  if eval $(minikube docker-env 2>/dev/null); then
+    echo -e "${GREEN}✓ Entorno de Docker de Minikube configurado${NC}"
+    
+    # Eliminar imagen anterior si existe
+    echo "Verificando y eliminando imagen anterior..."
+    if docker images | grep -q "servidor-central.*latest"; then
+      echo -e "${YELLOW}Eliminando imagen anterior servidor-central:latest...${NC}"
+      docker rmi servidor-central:latest --force 2>/dev/null || true
+      echo -e "${GREEN}✓ Imagen anterior eliminada${NC}"
+    fi
+    
+    # Limpieza mínima y segura: solo eliminar imágenes builder específicas
+    echo "Limpieza segura: conservando todas las imágenes del sistema..."
+    
+    # Solo limpiar imágenes que tengan etiquetas específicas de build stages
+    # Esto es completamente seguro ya que no afecta imágenes de sistema
+    docker builder prune --force 2>/dev/null || true
+    
+    echo "✓ Limpieza completada sin afectar imágenes del sistema (MetalLB, Minikube, etc.)"
+    
+    # Construir la imagen
+    echo "Construyendo nueva imagen servidor-central:latest..."
+    if docker build -t servidor-central:latest --no-cache .; then
+      echo -e "${GREEN}✓ Imagen servidor-central:latest construida exitosamente${NC}"
+      
+      # Verificar que la imagen se creó correctamente
+      if docker images | grep -q "servidor-central.*latest"; then
+        IMAGE_SIZE=$(docker images servidor-central:latest --format "table {{.Size}}" | tail -n 1)
+        echo -e "${GREEN}✓ Nueva imagen creada correctamente (Tamaño: $IMAGE_SIZE)${NC}"
+        return 0
+      else
+        echo -e "${RED}✗ Error: La imagen no aparece en el registro de Docker${NC}"
+        return 1
+      fi
+    else
+      echo -e "${RED}✗ Error al construir la imagen Docker${NC}"
+      return 1
+    fi
   else
-    echo -e "${RED}✗ Error al construir la imagen Docker${NC}"
+    echo -e "${RED}Error: No se pudo configurar el entorno de Docker de Minikube${NC}"
     return 1
   fi
 }
 
 # Verificar imagen y preguntar por actualización
 IMAGE_EXISTS=false
+FORCE_REDEPLOY=false
+
+# Ejecutar check_docker_image y capturar el código de salida
 if check_docker_image; then
+  # Imagen existe y está disponible
   IMAGE_EXISTS=true
   echo -e "\n${YELLOW}¿Quieres actualizar la imagen compilando los archivos? (y/N)${NC}"
   read -r response
@@ -97,6 +264,21 @@ if check_docker_image; then
     echo "Actualizando imagen..."
     if build_docker_image; then
       echo -e "${GREEN}✓ Imagen actualizada exitosamente${NC}"
+      
+      # Forzar redeploy del servidor central con la nueva imagen
+      echo -e "${YELLOW}🔄 Forzando redeploy del servidor central con nueva imagen...${NC}"
+      echo -e "${BLUE}💡 Nota: Se eliminará el deployment existente para que use la nueva imagen${NC}"
+      if kubectl get deployment servidor-central-deployment &> /dev/null; then
+        echo "Eliminando deployment existente..."
+        kubectl delete deployment servidor-central-deployment --ignore-not-found=true
+        sleep 5
+        echo -e "${GREEN}✓ Deployment eliminado, se recreará automáticamente con kubectl apply${NC}"
+      else
+        echo -e "${YELLOW}⚠ Deployment no encontrado, se creará con kubectl apply${NC}"
+      fi
+      
+      # Marcar que se necesita redeploy para aplicar más tarde
+      FORCE_REDEPLOY=true
     else
       echo -e "${RED}✗ Error al actualizar la imagen. Continuando con la imagen existente...${NC}"
     fi
@@ -104,6 +286,7 @@ if check_docker_image; then
     echo "Continuando con la imagen existente..."
   fi
 else
+  # Imagen no existe
   echo -e "\n${YELLOW}La imagen servidor-central:latest no está disponible en el contexto de Minikube.${NC}"
   echo -e "${YELLOW}¿Quieres construir la imagen ahora? (Y/n)${NC}"
   read -r response
@@ -115,6 +298,21 @@ else
     if build_docker_image; then
       IMAGE_EXISTS=true
       echo -e "${GREEN}✓ Imagen construida exitosamente${NC}"
+      
+      # Forzar redeploy del servidor central con la nueva imagen
+      echo -e "${YELLOW}🔄 Forzando redeploy del servidor central con nueva imagen...${NC}"
+      echo -e "${BLUE}💡 Nota: Se eliminará el deployment existente para que use la nueva imagen${NC}"
+      if kubectl get deployment servidor-central-deployment &> /dev/null; then
+        echo "Eliminando deployment existente..."
+        kubectl delete deployment servidor-central-deployment --ignore-not-found=true
+        sleep 5
+        echo -e "${GREEN}✓ Deployment eliminado, se recreará automáticamente con kubectl apply${NC}"
+      else
+        echo -e "${YELLOW}⚠ Deployment no encontrado, se creará con kubectl apply${NC}"
+      fi
+      
+      # Marcar que se necesita redeploy para aplicar más tarde
+      FORCE_REDEPLOY=true
     else
       echo -e "${RED}✗ Error al construir la imagen. Saliendo...${NC}"
       exit 1
@@ -433,14 +631,35 @@ fi
 fix_metallb_config() {
   echo "Verificando configuración de MetalLB..."
   
+  # Verificar si el namespace está en estado "terminating" o no existe
+  NAMESPACE_STATUS=$(kubectl get namespace metallb-system -o jsonpath='{.status.phase}' 2>/dev/null || echo "NotFound")
+  
+  if [ "$NAMESPACE_STATUS" = "Terminating" ]; then
+    echo -e "${RED}⚠ Namespace metallb-system está en estado 'Terminating'. Reinstalando MetalLB...${NC}"
+    reinstall_metallb
+    return $?
+  elif [ "$NAMESPACE_STATUS" = "NotFound" ]; then
+    echo -e "${YELLOW}⚠ Namespace metallb-system no encontrado. Reinstalando MetalLB...${NC}"
+    reinstall_metallb
+    return $?
+  fi
+  
+  # Verificar si los pods de MetalLB están ejecutándose
+  METALLB_PODS=$(kubectl get pods -n metallb-system --no-headers 2>/dev/null | wc -l)
+  if [ "$METALLB_PODS" -eq 0 ]; then
+    echo -e "${YELLOW}⚠ No se encontraron pods de MetalLB. Reinstalando...${NC}"
+    reinstall_metallb
+    return $?
+  fi
+  
   # Verificar si existen IPAddressPools
-  if ! kubectl get ipaddresspools -n metallb-system &> /dev/null || [ "$(kubectl get ipaddresspools -n metallb-system --no-headers | wc -l)" -eq 0 ]; then
+  if ! kubectl get ipaddresspools -n metallb-system &> /dev/null || [ "$(kubectl get ipaddresspools -n metallb-system --no-headers 2>/dev/null | wc -l)" -eq 0 ]; then
     echo -e "${YELLOW}⚠ No se encontraron IPAddressPools. Aplicando configuración...${NC}"
     
-    # Aplicar configuración de MetalLB
+    # Intentar aplicar configuración normalmente primero
     if [ -f "metallb-config.yaml" ]; then
       echo "Aplicando metallb-config.yaml..."
-      kubectl apply -f metallb-config.yaml --validate=false
+      kubectl apply -f metallb-config.yaml --validate=false 2>/dev/null
       
       # Esperar a que se aplique
       sleep 5
@@ -449,8 +668,9 @@ fix_metallb_config() {
       if kubectl get ipaddresspools -n metallb-system &> /dev/null; then
         echo -e "${GREEN}✓ Configuración de MetalLB aplicada correctamente${NC}"
       else
-        echo -e "${RED}✗ Error al aplicar configuración de MetalLB${NC}"
-        return 1
+        echo -e "${YELLOW}⚠ Error al aplicar configuración. Reinstalando MetalLB...${NC}"
+        reinstall_metallb
+        return $?
       fi
     else
       echo -e "${RED}✗ metallb-config.yaml no encontrado${NC}"
@@ -486,42 +706,54 @@ else
   echo -e "${GREEN}Metrics Server ya está instalado.${NC}"
 fi
 
-# 6. Aplicar recursos de Kubernetes con Kustomize
-echo "Aplicando recursos de Kubernetes con Kustomize..."
-if [ -d "kustomize" ]; then
-  kubectl apply -k kustomize/
-else
-  echo -e "${RED}Error: Directorio kustomize no encontrado en el directorio actual.${NC}"
-  echo "Buscando en directorio padre..."
-  if [ -d "../kustomize" ]; then
-    echo "Usando kustomize del directorio padre"
-    kubectl apply -k ../kustomize/
-  else
-    echo -e "${RED}Error: Directorio kustomize no encontrado.${NC}"
-    exit 1
-  fi
-fi
+# 6. Configuración PSK simple (sin Keycloak)
+echo "Usando configuración PSK simple..."
 
-# Verificar que el servicio obtenga una IP externa
-echo "Verificando asignación de IP externa..."
-sleep 10
-EXTERNAL_IP=$(kubectl get svc servidor-central-service -o jsonpath='{.status.loadBalancer.ingress[0].ip}' 2>/dev/null)
-if [ -z "$EXTERNAL_IP" ] || [ "$EXTERNAL_IP" = "null" ]; then
-  echo -e "${YELLOW}⚠ Servicio sin IP externa. Verificando configuración de MetalLB...${NC}"
-  fix_metallb_config
-  
-  # Esperar y verificar nuevamente
-  echo "Esperando asignación de IP..."
-  sleep 15
-  EXTERNAL_IP=$(kubectl get svc servidor-central-service -o jsonpath='{.status.loadBalancer.ingress[0].ip}' 2>/dev/null)
-  if [ -z "$EXTERNAL_IP" ] || [ "$EXTERNAL_IP" = "null" ]; then
-    echo -e "${RED}✗ No se pudo asignar IP externa al servicio${NC}"
-  else
-    echo -e "${GREEN}✓ IP externa asignada: $EXTERNAL_IP${NC}"
+# Función para manejar redeploy forzado después de actualizar imagen
+handle_forced_redeploy() {
+  if [ "$FORCE_REDEPLOY" = true ]; then
+    echo -e "\n${YELLOW}🔄 Procesando redeploy forzado del servidor central...${NC}"
+    echo -e "${BLUE}💡 Esto asegura que el pod use la nueva imagen compilada${NC}"
+    
+    # Esperar a que el deployment se aplique
+    echo "Esperando a que el nuevo deployment se aplique..."
+    sleep 10
+    
+    # Verificar que el deployment existe
+    if kubectl get deployment servidor-central-deployment &> /dev/null; then
+      echo -e "${GREEN}✓ Nuevo deployment detectado${NC}"
+      
+      # Esperar a que el pod esté listo
+      echo "Esperando a que el pod esté listo con la nueva imagen..."
+      kubectl wait --for=condition=ready pod -l app=servidor-central --timeout=180s
+      
+      if [ $? -eq 0 ]; then
+        echo -e "${GREEN}✓ Pod con nueva imagen está listo${NC}"
+        
+        # Verificar que efectivamente está usando la nueva imagen
+        NEW_POD_NAME=$(kubectl get pods -l app=servidor-central -o jsonpath="{.items[0].metadata.name}")
+        if [ -n "$NEW_POD_NAME" ]; then
+          POD_IMAGE=$(kubectl get pod $NEW_POD_NAME -o jsonpath="{.spec.containers[0].image}")
+          echo -e "${GREEN}✓ Pod $NEW_POD_NAME está usando imagen: $POD_IMAGE${NC}"
+          echo -e "${GREEN}✓ Redeploy forzado completado exitosamente${NC}"
+          
+          # Mostrar logs iniciales del nuevo pod
+          echo -e "${BLUE}Logs iniciales del servidor central con nueva imagen:${NC}"
+          kubectl logs $NEW_POD_NAME --tail=20
+        fi
+      else
+        echo -e "${RED}✗ Error: Pod no está listo después de 3 minutos${NC}"
+        echo "Verificando estado del deployment..."
+        kubectl get deployment servidor-central-deployment
+        kubectl get pods -l app=servidor-central
+      fi
+    else
+      echo -e "${RED}✗ Error: Deployment no encontrado después de aplicar recursos${NC}"
+    fi
+    
+    FORCE_REDEPLOY=false
   fi
-else
-  echo -e "${GREEN}✓ IP externa asignada: $EXTERNAL_IP${NC}"
-fi
+}
 
 # Función para verificar y corregir problemas del servidor central
 fix_servidor_central() {
@@ -563,10 +795,50 @@ fix_servidor_central() {
   fi
 }
 
-# 7. Verificar y corregir problemas del servidor central
+# 7. Aplicar recursos de Kubernetes con Kustomize
+echo "Aplicando recursos de Kubernetes con Kustomize..."
+if [ -d "kustomize" ]; then
+  kubectl apply -k kustomize/
+else
+  echo -e "${RED}Error: Directorio kustomize no encontrado en el directorio actual.${NC}"
+  echo "Buscando en directorio padre..."
+  if [ -d "../kustomize" ]; then
+    echo "Usando kustomize del directorio padre"
+    kubectl apply -k ../kustomize/
+  else
+    echo -e "${RED}Error: Directorio kustomize no encontrado.${NC}"
+    exit 1
+  fi
+fi
+
+# 7.1. Manejar redeploy forzado si se actualizó la imagen
+handle_forced_redeploy
+
+# Verificar que el servicio obtenga una IP externa
+echo "Verificando asignación de IP externa..."
+sleep 10
+EXTERNAL_IP=$(kubectl get svc servidor-central-service -o jsonpath='{.status.loadBalancer.ingress[0].ip}' 2>/dev/null)
+if [ -z "$EXTERNAL_IP" ] || [ "$EXTERNAL_IP" = "null" ]; then
+  echo -e "${YELLOW}⚠ Servicio sin IP externa. Verificando configuración de MetalLB...${NC}"
+  fix_metallb_config
+  
+  # Esperar y verificar nuevamente
+  echo "Esperando asignación de IP..."
+  sleep 15
+  EXTERNAL_IP=$(kubectl get svc servidor-central-service -o jsonpath='{.status.loadBalancer.ingress[0].ip}' 2>/dev/null)
+  if [ -z "$EXTERNAL_IP" ] || [ "$EXTERNAL_IP" = "null" ]; then
+    echo -e "${RED}✗ No se pudo asignar IP externa al servicio${NC}"
+  else
+    echo -e "${GREEN}✓ IP externa asignada: $EXTERNAL_IP${NC}"
+  fi
+else
+  echo -e "${GREEN}✓ IP externa asignada: $EXTERNAL_IP${NC}"
+fi
+
+# 8. Verificar y corregir problemas del servidor central
 fix_servidor_central
 
-# 8. Verificar el estado
+# 9. Verificar el estado
 echo -e "\n${GREEN}Verificando estado del despliegue...${NC}"
 echo "Servicios:"
 kubectl get services
@@ -575,9 +847,37 @@ kubectl get pods
 echo -e "\nHPA:"
 kubectl get hpa
 
-# 9. Verificar logs del pod
+# 10. Mostrar información de servicios desplegados
+echo -e "\n${GREEN}=== INFORMACIÓN DE SERVICIOS DESPLEGADOS ===${NC}"
+
+# Mostrar IP del servidor central
+if [ -n "$EXTERNAL_IP" ] && [ "$EXTERNAL_IP" != "null" ]; then
+  echo -e "${GREEN}✓ Servidor Central disponible en: $EXTERNAL_IP:5684${NC}"
+else
+  echo -e "${RED}✗ Servidor Central sin IP externa${NC}"
+fi
+
+echo -e "${GREEN}✓ Configuración PSK simple activada${NC}"
+
+echo -e "\n${GREEN}=== CONFIGURACIÓN COMPLETADA ===${NC}"
+echo "Sistema configurado con PSK simple (sin Keycloak)."
+
+echo -e "\n${GREEN}=== FUNCIONALIDAD MEJORADA ===${NC}"
+echo -e "${BLUE}💡 Redeploy Automático Activado:${NC}"
+echo "  • Cuando se construye/actualiza la imagen del servidor central"
+echo "  • Se elimina automáticamente el deployment existente"
+echo "  • Se fuerza la creación de un nuevo pod con la imagen actualizada"
+echo "  • Ya no necesitas hacer 'kubectl delete deployment' manualmente"
+echo ""
+echo -e "${BLUE}🔧 Autorecuperación de MetalLB:${NC}"
+echo "  • Detecta automáticamente cuando MetalLB está en mal estado"
+echo "  • Elimina y reinstala MetalLB completamente si es necesario"
+echo "  • Resuelve problemas de namespace 'Terminating' automáticamente"
+echo "  • No más errores manuales de configuración de MetalLB"
+
+# 11. Verificar logs del pod
 sleep 5
-echo -e "\nMostrando logs del pod..."
+echo -e "\n${GREEN}Mostrando logs del servidor central...${NC}"
 
 POD_NAME=$(kubectl get pods -l app=servidor-central -o jsonpath="{.items[0].metadata.name}")
 if [ -n "$POD_NAME" ]; then

@@ -1,5 +1,5 @@
 === REPORTE DE PRUEBA MASIVA DE API GATEWAYS ===
-Fecha: Fri Jun 20 20:31:17 CEST 2025
+Fecha: Fri Jul 11 01:48:53 CEST 2025
 Servidor destino: 192.168.49.2:5684
 Instancias solicitadas: 100
 Instancias iniciadas exitosamente: 100
