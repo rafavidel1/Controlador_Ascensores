@@ -93,34 +93,28 @@ tests/
 - `test_error_recovery_mechanisms`: Mecanismos de recuperación de errores
 - `test_integration_suite_setup`: Setup de suite de integración
 
-## 🔧 Instalación de Dependencias
+## 🔧 Instalación de Dependencias (100% Automática)
 
-### Ubuntu/Debian
+### ✅ Sin Prerequisitos Manuales
 
 ```bash
-# Dependencias básicas
-sudo apt-get update
-sudo apt-get install -y build-essential cmake pkg-config
-
-# Librerías específicas
-sudo apt-get install -y libcunit1-dev libcjson-dev libssl-dev
-
-# libcoap (compilación desde fuente)
-cd Librerias/libcoap
-./autogen.sh
-./configure --prefix=/usr/local --enable-dtls --with-openssl
-make -j$(nproc)
-sudo make install
-sudo ldconfig
+# ✅ NINGÚN PREREQUISITO MANUAL NECESARIO
+# El script run_all_tests.sh instala TODAS las dependencias automáticamente:
+# - build-essential, cmake, gcc, make, pkg-config, git
+# - libcunit1-dev, libcjson-dev, libssl-dev
+# - libcoap (compilado desde fuente)
+# - Configuración automática de variables de entorno
+# - Corrección automática de clock skew
+# - Generación automática de reportes
 ```
 
-### Verificación de Instalación
+### Verificación Automática
 
 ```bash
-# Verificar que todas las dependencias están disponibles
-pkg-config --exists libcoap-3-openssl && echo "✅ libcoap OK"
-pkg-config --exists libcjson && echo "✅ libcjson OK"
-ldconfig -p | grep -q libcunit && echo "✅ CUnit OK"
+# Las dependencias se verifican automáticamente
+# ✅ libcoap, libcjson, CUnit, OpenSSL
+# ✅ Configuración de paths y variables de entorno
+# ✅ Creación de directorios de build y reports
 ```
 
 ## 🚀 Ejecución Rápida

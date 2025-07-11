@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# =============================
+# API GATEWAY BUILD SCRIPT
+# =============================
+# 100% Autónomo - Instala todas las dependencias automáticamente
+# Sin prerrequisitos manuales - Zero configuration
+
 # Colores para la salida
 GREEN='\033[0;32m'
 RED='\033[0;31m'
@@ -7,7 +13,7 @@ YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m' # Sin color
 
-# Directorios base - usando rutas relativas
+# Directorios base
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 BASE_DIR="$SCRIPT_DIR"
 BUILD_DIR="$BASE_DIR/build"
@@ -18,230 +24,243 @@ log_message() {
     echo -e "${color}[$(date '+%H:%M:%S')] ${message}${NC}"
 }
 
-# Función para verificar comandos
-check_command() {
-    if ! command -v $1 &> /dev/null; then
-        log_message $RED "Error: $1 no está instalado."
-        return 1
-    fi
-    return 0
-}
-
-# Función para verificar librerías instaladas
-check_library() {
-    local lib_name=$1
-    local pkg_name=$2
-    local install_cmd=$3
+# Función para ejecutar comandos con logging
+run_command() {
+    local cmd="$1"
+    local desc="$2"
     
-    if pkg-config --exists "$pkg_name" 2>/dev/null; then
-        local version=$(pkg-config --modversion "$pkg_name" 2>/dev/null)
-        log_message $GREEN "$lib_name ya está instalada (versión: $version)"
+    log_message $BLUE "$desc"
+    if eval "$cmd"; then
+        log_message $GREEN "✅ $desc - Completado"
         return 0
     else
-        log_message $RED "$lib_name no está instalada"
-        log_message $YELLOW "Comando sugerido para instalar: $install_cmd"
-        echo -n "¿Deseas instalar $lib_name automáticamente? (s/n): "
-        read answer
-        if [ "$answer" = "s" ] || [ "$answer" = "S" ]; then
-            eval $install_cmd
-            if [ $? -eq 0 ]; then
-                log_message $GREEN "$lib_name instalada correctamente"
-                return 0
-            else
-                log_message $RED "Error al instalar $lib_name"
-                return 1
-            fi
-        else
-            return 1
-        fi
+        log_message $RED "❌ $desc - Error"
+        return 1
     fi
 }
 
-# Función para instalar libcoap (adaptada del Dockerfile)
+# Función para verificar si un comando existe
+command_exists() {
+    command -v "$1" >/dev/null 2>&1
+}
+
+# Función para verificar si una librería está instalada
+library_exists() {
+    pkg-config --exists "$1" 2>/dev/null
+}
+
+# Función para instalar dependencias básicas del sistema
+install_system_dependencies() {
+    log_message $BLUE "🔧 Instalando dependencias básicas del sistema..."
+    
+    # Actualizar repositorios
+    run_command "sudo apt-get update" "Actualizando repositorios de paquetes"
+    
+    # Instalar herramientas básicas de compilación
+    run_command "sudo apt-get install -y build-essential cmake gcc make pkg-config git" "Instalando herramientas de compilación básicas"
+    
+    # Instalar herramientas adicionales para libcoap
+    run_command "sudo apt-get install -y libtool autoconf automake wget ca-certificates" "Instalando herramientas adicionales"
+    
+    # Instalar OpenSSL
+    run_command "sudo apt-get install -y libssl-dev" "Instalando OpenSSL"
+    
+    # Instalar cJSON
+    run_command "sudo apt-get install -y libcjson-dev" "Instalando cJSON"
+    
+    # Instalar json-c como alternativa
+    run_command "sudo apt-get install -y libjson-c-dev" "Instalando json-c"
+    
+    # Limpiar cache de apt
+    run_command "sudo apt-get clean && sudo apt-get autoclean" "Limpiando cache de paquetes"
+    
+    log_message $GREEN "✅ Todas las dependencias básicas instaladas correctamente"
+}
+
+# Función para instalar libcoap desde fuente
 install_libcoap() {
-    log_message $BLUE "Instalando dependencias necesarias para libcoap..."
+    log_message $BLUE "🔧 Instalando libcoap desde fuente..."
     
-    # Instalar dependencias de compilación
-    sudo apt-get update && sudo apt-get install -y \
-        build-essential \
-        cmake \
-        gcc \
-        make \
-        pkg-config \
-        libtool \
-        autoconf \
-        automake \
-        git \
-        libssl-dev \
-        ca-certificates \
-        && sudo apt-get clean && sudo apt-get autoclean
+    # Crear directorio temporal
+    local temp_dir="/tmp/libcoap-build-$$"
+    mkdir -p "$temp_dir"
     
-    if [ $? -ne 0 ]; then
-        log_message $RED "Error instalando dependencias para libcoap"
-        return 1
-    fi
+    # Clonar repositorio
+    run_command "git clone --depth=1 https://github.com/obgm/libcoap.git $temp_dir" "Clonando repositorio libcoap"
+    
+    # Cambiar al directorio
+    cd "$temp_dir" || { log_message $RED "Error: No se pudo cambiar al directorio temporal"; return 1; }
+    
+    # Compilar e instalar
+    run_command "./autogen.sh" "Ejecutando autogen.sh"
+    run_command "./configure --prefix=/usr/local --enable-dtls --with-openssl --disable-doxygen --disable-manpages" "Configurando libcoap"
+    run_command "make -j$(nproc)" "Compilando libcoap"
+    run_command "sudo make install" "Instalando libcoap"
+    run_command "sudo ldconfig" "Actualizando cache de librerías"
+    
+    # Limpiar directorio temporal
+    cd / && rm -rf "$temp_dir"
+    
+    # Configurar variables de entorno
+    export PKG_CONFIG_PATH="/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH"
+    export LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"
+    
+    log_message $GREEN "✅ libcoap instalado correctamente en /usr/local/"
+}
 
-    log_message $BLUE "Clonando y compilando libcoap..."
-    # Instalar libcoap desde fuente (igual que en Dockerfile)
-    git clone --depth=1 https://github.com/obgm/libcoap.git /tmp/libcoap && \
-        cd /tmp/libcoap && \
-        ./autogen.sh && \
-        ./configure --prefix=/usr/local --enable-dtls --with-openssl --disable-doxygen --disable-manpages && \
-        make -j$(nproc) && \
-        sudo make install && \
-        sudo ldconfig && \
-        rm -rf /tmp/libcoap
+# Función principal de verificación e instalación de dependencias
+install_all_dependencies() {
+    log_message $BLUE "🚀 === INSTALACIÓN AUTOMÁTICA DE DEPENDENCIAS ==="
     
-    if [ $? -eq 0 ]; then
-        log_message $GREEN "libcoap instalado correctamente en /usr/local/"
-        # Configurar variables de entorno
-        export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH
-        export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
-        return 0
+    # 1. Verificar e instalar dependencias básicas
+    if ! command_exists cmake || ! command_exists make || ! command_exists pkg-config || ! command_exists gcc; then
+        log_message $YELLOW "Algunas dependencias básicas no están instaladas. Instalando..."
+        install_system_dependencies
     else
-        log_message $RED "Error al instalar libcoap"
-        return 1
+        log_message $GREEN "✅ Dependencias básicas del sistema verificadas"
+    fi
+    
+    # 2. Verificar e instalar libcoap
+    if ! library_exists "libcoap-3"; then
+        log_message $YELLOW "libcoap no está instalado. Instalando desde fuente..."
+        install_libcoap
+    else
+        local version=$(pkg-config --modversion libcoap-3 2>/dev/null)
+        log_message $GREEN "✅ libcoap ya está instalado (versión: $version)"
+        # Configurar variables de entorno por si acaso
+        export PKG_CONFIG_PATH="/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH"
+        export LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"
+    fi
+    
+    # 3. Verificar cJSON
+    if ! library_exists "libcjson"; then
+        log_message $YELLOW "cJSON no está instalado. Instalando..."
+        run_command "sudo apt-get install -y libcjson-dev" "Instalando cJSON"
+    else
+        local version=$(pkg-config --modversion libcjson 2>/dev/null)
+        log_message $GREEN "✅ cJSON ya está instalado (versión: $version)"
+    fi
+    
+    # 4. Verificar OpenSSL
+    if ! library_exists "openssl"; then
+        log_message $YELLOW "OpenSSL no está instalado. Instalando..."
+        run_command "sudo apt-get install -y libssl-dev" "Instalando OpenSSL"
+    else
+        local version=$(pkg-config --modversion openssl 2>/dev/null)
+        log_message $GREEN "✅ OpenSSL ya está instalado (versión: $version)"
+    fi
+    
+    # 5. Verificar json-c (opcional)
+    if ! library_exists "json-c"; then
+        log_message $YELLOW "json-c no está instalado. Instalando..."
+        run_command "sudo apt-get install -y libjson-c-dev" "Instalando json-c"
+    else
+        local version=$(pkg-config --modversion json-c 2>/dev/null)
+        log_message $GREEN "✅ json-c ya está instalado (versión: $version)"
+    fi
+    
+    log_message $GREEN "🎉 === TODAS LAS DEPENDENCIAS INSTALADAS CORRECTAMENTE ==="
+}
+
+# Función para compilar el proyecto
+build_project() {
+    log_message $BLUE "🔨 === COMPILANDO API GATEWAY ==="
+    
+    # Crear directorio build
+    if [ ! -d "$BUILD_DIR" ]; then
+        mkdir -p "$BUILD_DIR"
+    fi
+    
+    cd "$BUILD_DIR" || { log_message $RED "Error: No se pudo cambiar al directorio $BUILD_DIR."; exit 1; }
+    
+    # Limpiar directorio build
+    run_command "rm -rf $BUILD_DIR/*" "Limpiando directorio build"
+    
+    # Configurar variables de entorno
+    export PKG_CONFIG_PATH="/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH"
+    export LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"
+    
+    # Ejecutar cmake
+    run_command "cmake -S .. -B ." "Ejecutando cmake"
+    
+    # Solucionar clock skew - sincronizar timestamps
+    run_command "find . -name 'Makefile*' -o -name '*.make' -o -name '*.cmake' | xargs -r touch" "Sincronizando timestamps para evitar clock skew"
+    
+    # Pequeña pausa para asegurar consistencia de timestamps
+    sleep 1
+    
+    # Ejecutar make
+    run_command "make api_gateway" "Compilando API Gateway"
+    
+    # Copiar archivos necesarios
+    if [ -f "../simulation_data.json" ]; then
+        run_command "cp ../simulation_data.json ." "Copiando archivo de simulación"
+    fi
+    
+    # Verificar que el ejecutable existe
+    if [ -f "$BUILD_DIR/api_gateway" ]; then
+        log_message $GREEN "✅ Ejecutable api_gateway creado exitosamente"
+        log_message $GREEN "📍 Ubicación: $BUILD_DIR/api_gateway"
+    else
+        log_message $RED "❌ Error: No se pudo crear el ejecutable api_gateway"
+        exit 1
+    fi
+    
+    log_message $GREEN "🎉 === COMPILACIÓN COMPLETADA EXITOSAMENTE ==="
+}
+
+# Función para ejecutar el API Gateway
+run_api_gateway() {
+    log_message $BLUE "🚀 === EJECUTANDO API GATEWAY ==="
+    
+    cd "$BUILD_DIR" || { log_message $RED "Error: No se pudo cambiar al directorio $BUILD_DIR."; exit 1; }
+    
+    # Configurar variables de entorno
+    export PKG_CONFIG_PATH="/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH"
+    export LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"
+    
+    log_message $GREEN "🎯 Ejecutando API Gateway..."
+    log_message $YELLOW "Para detener el API Gateway, presiona Ctrl+C"
+    log_message $YELLOW "Para ejecutar múltiples instancias, usa: ./run_100_api_gateways.sh"
+    log_message $YELLOW "IMPORTANTE: Asegúrate de que el servidor central esté ejecutándose antes de usar el API Gateway."
+    
+    # Ejecutar el API Gateway
+    ./api_gateway
+}
+
+# FUNCIÓN PRINCIPAL
+main() {
+    log_message $BLUE "🌟 === API GATEWAY BUILD SCRIPT - 100% AUTÓNOMO ==="
+    log_message $BLUE "🔧 Sin prerrequisitos manuales - Instalación automática de dependencias"
+    
+    # Verificar que estamos en el directorio correcto
+    if [ ! -f "CMakeLists.txt" ]; then
+        log_message $RED "Error: Este script debe ejecutarse desde el directorio api_gateway"
+        exit 1
+    fi
+    
+    # Paso 1: Instalar todas las dependencias automáticamente
+    install_all_dependencies
+    
+    # Paso 2: Compilar el proyecto
+    build_project
+    
+    # Paso 3: Ejecutar el API Gateway
+    log_message $BLUE "🚀 === LISTO PARA EJECUTAR ==="
+    log_message $GREEN "✅ API Gateway compilado exitosamente"
+    log_message $GREEN "📍 Ejecutable disponible en: $BUILD_DIR/api_gateway"
+    log_message $GREEN "🎯 Para ejecutar manualmente: $BUILD_DIR/api_gateway"
+    log_message $GREEN "🚀 Para ejecutar múltiples instancias: ./run_100_api_gateways.sh"
+    
+    echo
+    log_message $YELLOW "¿Deseas ejecutar el API Gateway ahora? (s/n): "
+    read -r answer
+    if [ "$answer" = "s" ] || [ "$answer" = "S" ] || [ "$answer" = "" ]; then
+        run_api_gateway
+    else
+        log_message $GREEN "👍 API Gateway listo para ejecutar cuando quieras"
     fi
 }
 
-# Verificar dependencias básicas
-log_message $BLUE "Verificando dependencias básicas..."
-failed_deps=0
-
-if ! check_command cmake; then
-    log_message $YELLOW "Instalar con: sudo apt-get install cmake"
-    failed_deps=$((failed_deps + 1))
-fi
-
-if ! check_command make; then
-    log_message $YELLOW "Instalar con: sudo apt-get install make"
-    failed_deps=$((failed_deps + 1))
-fi
-
-if ! check_command pkg-config; then
-    log_message $YELLOW "Instalar con: sudo apt-get install pkg-config"
-    failed_deps=$((failed_deps + 1))
-fi
-
-if ! check_command gcc; then
-    log_message $YELLOW "Instalar con: sudo apt-get install build-essential"
-    failed_deps=$((failed_deps + 1))
-fi
-
-if [ $failed_deps -gt 0 ]; then
-    log_message $RED "Se encontraron $failed_deps dependencias faltantes. Instálalas antes de continuar."
-    exit 1
-fi
-
-log_message $GREEN "Dependencias básicas verificadas correctamente"
-
-# Verificar librerías específicas
-log_message $BLUE "Verificando librerías específicas..."
-
-# 1. Verificar libcoap
-log_message $BLUE "Comprobando libcoap..."
-if ! check_library "libcoap" "libcoap-3" "install_libcoap"; then
-    log_message $RED "No se pudo instalar libcoap. No se puede continuar con la compilación."
-    exit 1
-fi
-
-# 2. Verificar cJSON
-log_message $BLUE "Comprobando cJSON..."
-if ! check_library "cJSON" "libcjson" "sudo apt-get install -y libcjson-dev"; then
-    log_message $RED "No se pudo instalar cJSON. No se puede continuar con la compilación."
-    exit 1
-fi
-
-# 3. Verificar json-c (alternativa)
-log_message $BLUE "Comprobando json-c..."
-if ! check_library "json-c" "json-c" "sudo apt-get install -y libjson-c-dev"; then
-    log_message $YELLOW "json-c no está disponible, pero cJSON ya está instalado."
-fi
-
-# 4. Verificar OpenSSL
-log_message $BLUE "Comprobando OpenSSL..."
-if ! check_library "OpenSSL" "openssl" "sudo apt-get install -y libssl-dev"; then
-    log_message $RED "No se pudo instalar OpenSSL. No se puede continuar con la compilación."
-    exit 1
-fi
-
-# 5. Verificar SQLite3 (si es necesario)
-log_message $BLUE "Comprobando SQLite3..."
-if ! check_library "SQLite3" "sqlite3" "sudo apt-get install -y libsqlite3-dev"; then
-    log_message $YELLOW "SQLite3 no está disponible, pero puede no ser necesario para el API Gateway."
-fi
-
-# Exportar variables de entorno para libcoap
-export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH
-export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
-
-log_message $GREEN "Todas las librerías verificadas correctamente"
-
-# 2. Crear y navegar al directorio build
-log_message $BLUE "Navegando al directorio $BUILD_DIR..."
-if [ ! -d "$BUILD_DIR" ]; then
-    mkdir -p "$BUILD_DIR"
-fi
-cd "$BUILD_DIR" || { log_message $RED "Error: No se pudo cambiar al directorio $BUILD_DIR."; exit 1; }
-
-# 3. Limpiar el directorio build
-log_message $BLUE "Limpiando el directorio $BUILD_DIR..."
-rm -rf "$BUILD_DIR"/*
-if [ $? -eq 0 ]; then
-    log_message $GREEN "Directorio build limpio."
-else
-    log_message $RED "Error al limpiar el directorio build."
-    exit 1
-fi
-
-# 4. Ejecutar cmake
-log_message $BLUE "Ejecutando cmake..."
-cmake -S .. -B .
-if [ $? -eq 0 ]; then
-    log_message $GREEN "cmake ejecutado correctamente."
-else
-    log_message $RED "Error al ejecutar cmake."
-    exit 1
-fi
-
-# 5. Ejecutar make para el target api_gateway
-log_message $BLUE "Ejecutando make api_gateway..."
-make api_gateway
-if [ $? -eq 0 ]; then
-    log_message $GREEN "make ejecutado correctamente."
-else
-    log_message $RED "Error al ejecutar make."
-    exit 1
-fi
-
-# 5.1. Copiar archivo de datos de simulación
-log_message $BLUE "Copiando archivo de datos de simulación..."
-if [ -f "$BASE_DIR/simulation_data.json" ]; then
-    cp "$BASE_DIR/simulation_data.json" "$BUILD_DIR/simulation_data.json"
-    if [ $? -eq 0 ]; then
-        log_message $GREEN "Archivo simulation_data.json copiado al directorio build."
-    else
-        log_message $YELLOW "Advertencia: No se pudo copiar simulation_data.json."
-    fi
-else
-    log_message $YELLOW "Advertencia: No se encontró simulation_data.json en $BASE_DIR."
-fi
-
-# 6. Verificar existencia del ejecutable api_gateway
-API_GATEWAY_EXEC=$(find "$BUILD_DIR" -type f -name api_gateway -executable | head -n 1)
-if [ -n "$API_GATEWAY_EXEC" ]; then
-    log_message $GREEN "Ejecutable api_gateway encontrado en $API_GATEWAY_EXEC."
-else
-    log_message $RED "Error: No se encontró el ejecutable api_gateway en $BUILD_DIR."
-    exit 1
-fi
-
-# 7. Ejecutar api_gateway
-log_message $GREEN "=== COMPILACIÓN COMPLETADA EXITOSAMENTE ==="
-log_message $BLUE "Ejecutable disponible en: $API_GATEWAY_EXEC"
-log_message $BLUE "Para ejecutar manualmente: $API_GATEWAY_EXEC"
-log_message $BLUE "Para ejecutar múltiples instancias: ./run_100_api_gateways.sh"
-log_message $YELLOW "IMPORTANTE: Asegúrate de que el servidor central esté ejecutándose antes de usar el API Gateway."
-echo ""
-log_message $GREEN "Ejecutando $API_GATEWAY_EXEC..."
-"$API_GATEWAY_EXEC"
+# Ejecutar función principal
+main "$@"

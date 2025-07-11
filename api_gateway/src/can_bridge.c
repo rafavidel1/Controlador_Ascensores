@@ -651,19 +651,27 @@ forward_can_originated_request_to_central_server(
     
     if (cleaned_path[0] == '/') {
         strncpy(qualified_target_path, cleaned_path, sizeof(qualified_target_path) - 1);
+        qualified_target_path[sizeof(qualified_target_path) - 1] = '\0';
     } else {
         // Verificar que hay espacio suficiente para "/" + cleaned_path + null terminator
+        size_t cleaned_len = strlen(cleaned_path);
         size_t max_path_len = sizeof(qualified_target_path) - 1; // Reservar espacio para null terminator
-        if (strlen(cleaned_path) + 1 <= max_path_len) { // +1 para el "/"
-            snprintf(qualified_target_path, sizeof(qualified_target_path), "/%s", cleaned_path);
+        if (cleaned_len + 1 <= max_path_len) { // +1 para el "/"
+            int result = snprintf(qualified_target_path, sizeof(qualified_target_path), "/%s", cleaned_path);
+            if (result >= (int)sizeof(qualified_target_path)) {
+                // Truncación ocurrió, asegurar terminación nula
+                qualified_target_path[sizeof(qualified_target_path) - 1] = '\0';
+                LOG_WARN_GW("[%s] Warning: Path truncado en qualified_target_path", log_tag_param);
+            }
         } else {
-            // Si es demasiado largo, truncar
+            // Si es demasiado largo, truncar manualmente
             strncpy(qualified_target_path, "/", sizeof(qualified_target_path) - 1);
             size_t remaining_space = sizeof(qualified_target_path) - 2; // -2 para "/" y null terminator
             strncat(qualified_target_path, cleaned_path, remaining_space);
+            qualified_target_path[sizeof(qualified_target_path) - 1] = '\0';
+            LOG_WARN_GW("[%s] Warning: Path demasiado largo, truncado", log_tag_param);
         }
     }
-    qualified_target_path[sizeof(qualified_target_path) - 1] = '\0';
 
     coap_uri_t *uri_obj = coap_new_uri((const uint8_t *)qualified_target_path, strlen(qualified_target_path));
     if (uri_obj) {

@@ -44,7 +44,7 @@ El **Sistema de Control de Ascensores** es una solución distribuida de alta dis
 │  │                 │                     │                             │   │
 │  │ • Puerto 5683   │                     │ • Asignación Inteligente    │   │
 │  │ • Puente CAN    │                     │ • Algoritmos de Optimización│   │
-│  │ • Estado Local  │                     │ • Persistencia SQLite       │   │
+│  │ • Estado Local  │                     │ • Algoritmo Inteligente      │   │
 │  │ • Simulación    │                     │ • Kubernetes Ready          │   │
 │  └─────────────────┘                     └─────────────────────────────┘   │
 │           │                                           │                     │
@@ -64,19 +64,18 @@ El **Sistema de Control de Ascensores** es una solución distribuida de alta dis
 
 ## 🚀 Inicio Rápido - 100% Automatizado
 
-### ⚡ Prerequisitos (Solo una vez)
+### ⚡ Prerequisitos (100% Autónomos - Sin instalación manual)
 
 ```bash
-# Ubuntu/Debian
-sudo apt-get update
-sudo apt-get install -y build-essential cmake pkg-config git
-sudo apt-get install -y libcjson-dev libssl-dev sqlite3 libsqlite3-dev
+# ✅ NINGÚN PREREQUISITO MANUAL NECESARIO
+# Los scripts instalan TODAS las dependencias automáticamente:
+# - build-essential, cmake, gcc, make, pkg-config, git
+# - libcoap (compilado desde fuente)
+# - OpenSSL, cJSON, json-c, libcurl
+# - Configuración automática de variables de entorno
 
-# Para servidor central (si usas Kubernetes)
-# Instalar minikube: https://minikube.sigs.k8s.io/docs/start/
-curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-sudo install minikube-linux-amd64 /usr/local/bin/minikube
-minikube start
+# Solo para Kubernetes (opcional):
+# Los scripts verifican y guían la instalación si es necesario
 ```
 
 ### 🎯 Compilación Automática (Zero-Config)
@@ -153,7 +152,7 @@ ls -la logs/$(date +%Y-%m-%d)/   # ✅ Reportes PDF/Markdown automáticos
 - **Funciones**:
   - Algoritmo inteligente de asignación de ascensores
   - Considera posición actual y destino en tiempo real
-  - Persistencia automática en SQLite
+  - Algoritmo inteligente de asignación en tiempo real
   - Escalabilidad horizontal con Kubernetes
 
 ### 🧪 **Testing Suite** (`tests/`)

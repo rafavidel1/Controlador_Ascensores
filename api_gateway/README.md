@@ -34,10 +34,13 @@ El **API Gateway** es un puente inteligente que traduce automáticamente entre p
 ### ⚡ Prerequisitos (Solo una vez)
 
 ```bash
-# Ubuntu/Debian
-sudo apt-get update
-sudo apt-get install -y build-essential cmake pkg-config git
-sudo apt-get install -y libcjson-dev libssl-dev
+# ✅ NINGÚN PREREQUISITO MANUAL NECESARIO
+# El script build_api_gateway.sh instala TODAS las dependencias automáticamente:
+# - build-essential, cmake, gcc, make, pkg-config, git
+# - libcoap (compilado desde fuente)
+# - OpenSSL, cJSON, json-c
+# - Configuración automática de variables de entorno
+# - Corrección automática de clock skew
 ```
 
 ### 🎯 Compilación Automática (Un Solo Comando)
@@ -133,7 +136,7 @@ sudo apt-get install -y libcjson-dev libssl-dev
 │                                           │      SERVIDOR CENTRAL       │   │
 │                                           │                             │   │
 │                                           │ • Algoritmo inteligente     │   │
-│                                           │ • Persistencia SQLite       │   │
+│                                           │ • Algoritmo Inteligente     │   │
 │                                           │ • Kubernetes Ready          │   │
 │                                           └─────────────────────────────┘   │
 │                                                                             │

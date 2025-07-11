@@ -3,9 +3,9 @@
 [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)](https://github.com/user/repo)
 [![Protocol](https://img.shields.io/badge/protocol-CoAP%2FDTLS--PSK-orange.svg)](https://tools.ietf.org/html/rfc7252)
 [![Kubernetes](https://img.shields.io/badge/deployment-Kubernetes-blue.svg)](https://kubernetes.io/)
-[![SQLite](https://img.shields.io/badge/database-SQLite-green.svg)](https://sqlite.org/)
+[![Algorithm](https://img.shields.io/badge/algorithm-Intelligent-green.svg)](https://en.wikipedia.org/wiki/Elevator_algorithm)
 
-> **Servidor central inteligente para asignación optimizada de ascensores con algoritmo avanzado, persistencia SQLite y despliegue automático en Kubernetes - 100% automatizado**
+> **Servidor central inteligente para asignación optimizada de ascensores con algoritmo avanzado en tiempo real y despliegue automático en Kubernetes - 100% automatizado**
 
 ## 📋 Tabla de Contenidos
 
@@ -28,22 +28,25 @@ El **Servidor Central** es el cerebro del sistema de control de ascensores. Impl
 - **🚀 Despliegue Zero-Config**: `./deploy.sh` - Kubernetes automático
 - **🧠 Algoritmo Inteligente**: Considera posición actual y destino en tiempo real
 - **🔒 Seguridad DTLS-PSK**: Comunicación cifrada con autenticación mutua
-- **📊 Persistencia SQLite**: Base de datos automática con respaldo
+- **📊 Algoritmo en Tiempo Real**: Asignación óptima basada en datos actuales
 - **🐳 Kubernetes Ready**: Escalabilidad horizontal automática
 
 ## 🚀 Inicio Rápido - 100% Automatizado
 
-### ⚡ Prerequisitos (Solo una vez)
+### ⚡ Prerequisitos (100% Autónomos - Sin instalación manual)
 
 ```bash
-# Ubuntu/Debian
-sudo apt-get update
-sudo apt-get install -y build-essential cmake pkg-config git
-sudo apt-get install -y libcjson-dev libssl-dev sqlite3 libsqlite3-dev
+# ✅ NINGÚN PREREQUISITO MANUAL NECESARIO
+# El script build_servidor_central.sh instala TODAS las dependencias automáticamente:
+# - build-essential, cmake, gcc, make, pkg-config, git
+# - libcoap (compilado desde fuente)
+# - OpenSSL, cJSON, json-c, libcurl
+# - Configuración automática de variables de entorno
+# - Corrección automática de clock skew
+# - Algoritmo inteligente en memoria (SIN SQLite)
 
-# OBLIGATORIO: Instalar minikube para despliegue K8s, también docker, verificar repos de instalación
-curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-sudo install minikube-linux-amd64 /usr/local/bin/minikube
+# Para Kubernetes (opcional):
+# El script verifica minikube/kubectl y guía la instalación si es necesario
 
 ### 🎯 Compilación Automática 
 
@@ -92,59 +95,12 @@ kubectl logs -f deployment/servidor-central
 curl -k https://192.168.49.2:5684/status
 ```
 
-## 🏗️ Arquitectura del Servidor
-
-### 🔄 **Flujo de Procesamiento Automático**
-
-```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                              SERVIDOR CENTRAL                               │
-├─────────────────────────────────────────────────────────────────────────────┤
-│                                                                             │
-│  ┌─────────────────┐    CoAP/DTLS-PSK    ┌─────────────────────────────┐   │
-│  │                 │◄──────────────────►│                             │   │
-│  │   API GATEWAYS  │     Puerto 5684     │     SERVIDOR CoAP/DTLS      │   │
-│  │                 │                     │                             │   │
-│  │ • 100 Edificios │                     │ • Validación DTLS-PSK       │   │
-│  │ • 1000 Peticiones│                    │ • Autenticación mutua       │   │
-│  │ • Estado RT     │                     │ • Parsing JSON automático   │   │
-│  │ • Claves PSK    │                     │ • Validación de campos      │   │
-│  └─────────────────┘                     └─────────────────────────────┘   │
-│           │                                           │                     │
-│           │ JSON Requests                            │ Processing          │
-│           ▼                                           ▼                     │
-│  ┌─────────────────┐                     ┌─────────────────────────────┐   │
-│  │   ALGORITMO     │                     │       BASE DE DATOS         │   │
-│  │   INTELIGENTE   │◄──────────────────►│                             │   │
-│  │                 │                     │ • SQLite automático         │   │
-│  │ • Posición RT   │                     │ • Persistencia de tareas    │   │
-│  │ • Optimización  │                     │ • Historial de asignaciones│   │
-│  │ • Eficiencia    │                     │ • Métricas de rendimiento  │   │
-│  │ • Logging       │                     │ • Respaldo automático       │   │
-│  └─────────────────┘                     └─────────────────────────────┘   │
-│           │                                           │                     │
-│           │ Asignaciones                             │ Kubernetes          │
-│           ▼                                           ▼                     │
-│  ┌─────────────────┐                     ┌─────────────────────────────┐   │
-│  │   RESPUESTAS    │                     │       MINIKUBE              │   │
-│  │     JSON        │                     │                             │   │
-│  │                 │                     │ • Auto-scaling              │   │
-│  │ • tarea_id      │                     │ • LoadBalancer              │   │
-│  │ • ascensor_id   │                     │ • Health checks             │   │
-│  │ • piso_destino  │                     │ • Rolling updates           │   │
-│  │ • tiempo_est    │                     │ • Resource limits           │   │
-│  └─────────────────┘                     └─────────────────────────────┘   │
-│                                                                             │
-└─────────────────────────────────────────────────────────────────────────────┘
-```
-
 ### 📊 **Endpoints Automáticos**
 
 | Endpoint | Método | Descripción | Procesamiento |
 |----------|--------|-------------|---------------|
 | `/peticion_piso` | POST | Llamada desde piso | ✅ Algoritmo inteligente automático |
 | `/peticion_cabina` | POST | Solicitud desde cabina | ✅ Optimización de ruta automática |
-| `/status` | GET | Estado del servidor | ✅ Health check automático |
 
 ## 🧠 Algoritmo Inteligente
 
@@ -410,7 +366,7 @@ kubectl exec -it deployment/servidor-central -- netstat -tlnp
 ```bash
 # Configuración personalizada (antes del despliegue)
 export DTLS_PSK_FILE="custom_psk_keys.txt"
-export SQLITE_DB_FILE="custom_database.db"
+export ALGORITHM_MODE="intelligent"  # Modo de algoritmo inteligente
 export COAP_LISTEN_PORT=5685
 
 # Luego desplegar

@@ -143,6 +143,13 @@ build_tests() {
     
     cd "$TEMP_BUILD_DIR"
     
+    # Solucionar clock skew - sincronizar timestamps
+    echo "🔧 Sincronizando timestamps para evitar clock skew..."
+    find . -name 'Makefile*' -o -name '*.make' -o -name '*.cmake' | xargs -r touch
+    
+    # Pequeña pausa para asegurar consistencia de timestamps
+    sleep 1
+    
     # Compilar con información de progreso
     make -j$(nproc) VERBOSE=1
     
