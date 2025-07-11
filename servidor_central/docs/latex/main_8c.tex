@@ -1,118 +1,163 @@
 \doxysection{src/main.c File Reference}
-\label{main_8c}\index{src/main.c@{src/main.c}}
+\hypertarget{main_8c}{}\label{main_8c}\index{src/main.c@{src/main.c}}
 
 
-Servidor Central del Sistema de Control de Ascensores con DTLS-\/\+PSK.  
+Servidor central de control de ascensores con protocolo Co\+AP sobre DTLS.  
 
 
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include $<$errno.\+h$>$}\newline
+{\ttfamily \#include $<$signal.\+h$>$}\newline
+{\ttfamily \#include $<$unistd.\+h$>$}\newline
+{\ttfamily \#include $<$sys/time.\+h$>$}\newline
+{\ttfamily \#include $<$arpa/inet.\+h$>$}\newline
+{\ttfamily \#include $<$time.\+h$>$}\newline
+{\ttfamily \#include $<$math.\+h$>$}\newline
+{\ttfamily \#include $<$limits.\+h$>$}\newline
+{\ttfamily \#include $<$coap3/coap.\+h$>$}\newline
+{\ttfamily \#include $<$cjson/c\+JSON.\+h$>$}\newline
+{\ttfamily \#include $<$openssl/rand.\+h$>$}\newline
+{\ttfamily \#include "{}servidor\+\_\+central/logging.\+h"{}}\newline
+{\ttfamily \#include "{}servidor\+\_\+central/psk\+\_\+validator.\+h"{}}\newline
+Include dependency graph for main.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{main_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{main_8c_a55052ee43a331f59e97c67c0148f68e1}\label{main_8c_a55052ee43a331f59e97c67c0148f68e1} 
+\#define {\bfseries PSK\+\_\+\+SERVER\+\_\+\+HINT}~"{}Elevator\+Central\+Server"{}
+\item 
+\#define \mbox{\hyperlink{main_8c_a6eb895e2bffdc7771f2d72b06737c559}{RESOURCE\+\_\+\+FLOOR\+\_\+\+CALL}}~"{}peticion\+\_\+piso"{}
+\begin{DoxyCompactList}\small\item\em Ruta del recurso Co\+AP para peticiones de piso. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{main_8c_a173403b6552999fe67fb9cfffa92c874}{RESOURCE\+\_\+\+CABIN\+\_\+\+REQUEST}}~"{}peticion\+\_\+cabina"{}
+\begin{DoxyCompactList}\small\item\em Ruta del recurso Co\+AP para peticiones de cabina. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{main_8c_a28d06fc286f28044ed3380969700ff3f}{SERVER\+\_\+\+IP}}~"{}0.\+0.\+0.\+0"{}
+\begin{DoxyCompactList}\small\item\em Dirección IP de escucha del servidor. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{main_8c_ac42367fe5c999ec6650de83e9d72fe8c}{SERVER\+\_\+\+PORT}}~"{}5684"{}
+\begin{DoxyCompactList}\small\item\em Puerto de escucha del servidor Co\+AP DTLS. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-static int \textbf{ session\+\_\+event\+\_\+handler} (coap\+\_\+session\+\_\+t $\ast$session, const coap\+\_\+event\+\_\+t event)
-\begin{DoxyCompactList}\small\item\em Callback para configurar sesiones DTLS con timeouts optimizados. \end{DoxyCompactList}\item 
-static const coap\+\_\+bin\+\_\+const\+\_\+t $\ast$ \textbf{ get\+\_\+psk\+\_\+info} (coap\+\_\+bin\+\_\+const\+\_\+t $\ast$identity, coap\+\_\+session\+\_\+t $\ast$session, void $\ast$arg)
-\begin{DoxyCompactList}\small\item\em Callback PSK personalizado para autenticación DTLS-\/\+PSK. \end{DoxyCompactList}\item 
-void \textbf{ handle\+\_\+sigint} (int signum)
+void \mbox{\hyperlink{main_8c_a83a44dda389e573327d70022c12d354b}{handle\+\_\+sigint}} (int signum)
 \begin{DoxyCompactList}\small\item\em Manejador de señal para SIGINT (Ctrl+C) \end{DoxyCompactList}\item 
-void \textbf{ generate\+\_\+unique\+\_\+task\+\_\+id} (char $\ast$task\+\_\+id\+\_\+out, size\+\_\+t len)
+void \mbox{\hyperlink{main_8c_aa7115e126eb6986fa2e1f6fb95ea839c}{generate\+\_\+unique\+\_\+task\+\_\+id}} (char \texorpdfstring{$\ast$}{*}task\+\_\+id\+\_\+out, size\+\_\+t len)
 \begin{DoxyCompactList}\small\item\em Genera un ID único para una tarea de ascensor. \end{DoxyCompactList}\item 
-static char $\ast$ \textbf{ select\+\_\+optimal\+\_\+elevator} (c\+JSON $\ast$elevadores\+\_\+estado, int piso\+\_\+origen, const char $\ast$direccion\+\_\+llamada)
-\begin{DoxyCompactList}\small\item\em Encuentra el ascensor más cercano para una llamada de piso. \end{DoxyCompactList}\item 
-static void \textbf{ hnd\+\_\+floor\+\_\+call} (coap\+\_\+resource\+\_\+t $\ast$resource, coap\+\_\+session\+\_\+t $\ast$session, const coap\+\_\+pdu\+\_\+t $\ast$request, const coap\+\_\+string\+\_\+t $\ast$query, coap\+\_\+pdu\+\_\+t $\ast$response)
-\begin{DoxyCompactList}\small\item\em Manejador Co\+AP para solicitudes de llamada de piso. \end{DoxyCompactList}\item 
-static void \textbf{ hnd\+\_\+cabin\+\_\+request} (coap\+\_\+resource\+\_\+t $\ast$resource, coap\+\_\+session\+\_\+t $\ast$session, const coap\+\_\+pdu\+\_\+t $\ast$request, const coap\+\_\+string\+\_\+t $\ast$query, coap\+\_\+pdu\+\_\+t $\ast$response)
-\begin{DoxyCompactList}\small\item\em Manejador Co\+AP para solicitudes de cabina. \end{DoxyCompactList}\item 
-int \textbf{ main} (int argc, char $\ast$$\ast$argv)
+int \mbox{\hyperlink{main_8c_a3c04138a5bfe5d72780bb7e82a18e627}{main}} (int argc, char \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}argv)
 \begin{DoxyCompactList}\small\item\em Función principal del Servidor Central de Ascensores. \end{DoxyCompactList}\end{DoxyCompactItemize}
-\doxysubsubsection*{Variables}
-\begin{DoxyCompactItemize}
-\item 
-static int \textbf{ running} = 1
-\begin{DoxyCompactList}\small\item\em Bandera global para controlar el bucle principal del servidor. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
-Servidor Central del Sistema de Control de Ascensores con DTLS-\/\+PSK. 
+Servidor central de control de ascensores con protocolo Co\+AP sobre DTLS. 
 
 \begin{DoxyAuthor}{Author}
-Sistema de Control de Ascensores 
+Sistema de Ascensores 
 \end{DoxyAuthor}
-\begin{DoxyVersion}{Version}
-2.\+1 
-\end{DoxyVersion}
 \begin{DoxyDate}{Date}
-2025
+2024 
 \end{DoxyDate}
-Este archivo implementa el servidor central que gestiona la asignación de tareas a ascensores en el sistema distribuido de control de ascensores. El servidor utiliza Co\+AP sobre DTLS-\/\+PSK para comunicaciones seguras con los API Gateways y proporciona endpoints RESTful para gestionar solicitudes de ascensores.
+\begin{DoxyVersion}{Version}
+2.\+0
+\end{DoxyVersion}
+Este archivo implementa el servidor central que gestiona las solicitudes de ascensores desde múltiples API Gateways usando Co\+AP sobre DTLS con autenticación segura.
 
-{\bfseries{Funcionalidades principales\+:}}
+{\bfseries{Arquitectura del sistema\+:}}
 \begin{DoxyItemize}
-\item {\bfseries{Servidor Co\+AP DTLS}}\+: Configuración de servidor Co\+AP con seguridad DTLS-\/\+PSK
-\item {\bfseries{Gestión de solicitudes}}\+: Procesamiento de peticiones de piso y cabina
-\item {\bfseries{Algoritmos de asignación}}\+: Lógica inteligente para asignar ascensores a tareas
-\item {\bfseries{Generación de IDs únicos}}\+: Creación de identificadores únicos para tareas
-\item {\bfseries{Respuestas JSON}}\+: Envío de respuestas estructuradas a los gateways
-\item {\bfseries{Logging detallado}}\+: Sistema de registro para monitoreo y debugging
-\item {\bfseries{Gestión de sesiones}}\+: Optimización de timeouts y reconexiones DTLS
+\item Servidor Co\+AP-\/\+DTLS que escucha en puerto 5684
+\item Autenticación mutua mediante certificados seguros
+\item Procesamiento stateless de solicitudes de ascensores
+\item Balanceamiento de carga automático entre ascensores
+\item Generación temporal de IDs únicos
+\item Logging detallado para debugging y auditoría
 \end{DoxyItemize}
 
-{\bfseries{Endpoints Co\+AP soportados\+:}}
+{\bfseries{Recursos Co\+AP disponibles\+:}}
 \begin{DoxyItemize}
-\item {\ttfamily POST /peticion\+\_\+piso}\+: Solicitudes de llamada de piso desde botones externos
-\item {\ttfamily POST /peticion\+\_\+cabina}\+: Solicitudes de cabina desde interior de ascensores
+\item {\ttfamily POST /peticion\+\_\+piso}\+: Solicitudes de llamada desde pisos
+\item {\ttfamily POST /peticion\+\_\+cabina}\+: Solicitudes desde cabinas de ascensores
 \end{DoxyItemize}
 
-{\bfseries{Algoritmo de asignación de ascensores\+:}} Utiliza el algoritmo de proximidad inteligente implementado en \doxyref{select\+\_\+optimal\+\_\+elevator()}{p.}{main_8c_accc4b71950f29e6ddc4293d30f7e5ea0}\+:
+{\bfseries{Seguridad\+:}}
 \begin{DoxyItemize}
-\item Filtra ascensores disponibles (disponible=true)
-\item Calcula distancia absoluta desde piso\+\_\+origen a cada ascensor
-\item Selecciona todos los ascensores con distancia mínima
-\item En caso de empate, selecciona aleatoriamente para distribuir carga
-\item Garantiza asignación óptima basada en proximidad geográfica
+\item Cifrado DTLS para todas las comunicaciones
+\item Autenticación mutua con validación de identidades
+\item Timeouts configurables para estabilidad de conexiones
+\item Logging de todos los eventos de seguridad
 \end{DoxyItemize}
 
-{\bfseries{Seguridad DTLS-\/\+PSK\+:}}
-\begin{DoxyItemize}
-\item Autenticación mutua usando claves precompartidas
-\item Cifrado de todas las comunicaciones
-\item Validación de identidades de clientes
-\item Gestión de sesiones con timeouts optimizados
-\item Prevención de ataques de repetición
-\end{DoxyItemize}
+{\bfseries{Funcionamiento\+:}}
+\begin{DoxyEnumerate}
+\item Inicialización del contexto Co\+AP con DTLS
+\item Configuración de callbacks de autenticación
+\item Registro de recursos Co\+AP disponibles
+\item Bucle principal procesando solicitudes
+\item Terminación con liberación de recursos
+\end{DoxyEnumerate}
 
-{\bfseries{Configuración de red\+:}}
-\begin{DoxyItemize}
-\item Puerto\+: 5684 (estándar Co\+AP-\/\+DTLS)
-\item Interfaz\+: 0.\+0.\+0.\+0 (todas las interfaces)
-\item Protocolo\+: UDP con DTLS
-\end{DoxyItemize}
-
-{\bfseries{Gestión de memoria\+:}}
-\begin{DoxyItemize}
-\item Liberación automática de recursos al terminar
-\item Manejo seguro de strings y buffers
-\item Prevención de memory leaks
-\end{DoxyItemize}
-
+\begin{DoxyNote}{Note}
+Requiere libcoap compilado con soporte DTLS/\+Open\+SSL 
+\end{DoxyNote}
 \begin{DoxySeeAlso}{See also}
-\doxyref{servidor\+\_\+central/logging.\+h}{p.}{logging_8h} 
-
-\doxyref{servidor\+\_\+central/dtls\+\_\+common\+\_\+config.\+h}{p.}{dtls__common__config_8h} 
-
-\doxyref{psk\+\_\+validator.\+h}{p.}{psk__validator_8h} 
-
-coap3/coap.\+h 
-
-c\+JSON.\+h 
+\href{https://libcoap.net/doc/reference/4.3.0/}{\texttt{ https\+://libcoap.\+net/doc/reference/4.\+3.\+0/}} 
 \end{DoxySeeAlso}
 
 
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{main_8c_a173403b6552999fe67fb9cfffa92c874}\label{main_8c_a173403b6552999fe67fb9cfffa92c874} 
+\index{main.c@{main.c}!RESOURCE\_CABIN\_REQUEST@{RESOURCE\_CABIN\_REQUEST}}
+\index{RESOURCE\_CABIN\_REQUEST@{RESOURCE\_CABIN\_REQUEST}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{RESOURCE\_CABIN\_REQUEST}{RESOURCE\_CABIN\_REQUEST}}
+{\footnotesize\ttfamily \#define RESOURCE\+\_\+\+CABIN\+\_\+\+REQUEST~"{}peticion\+\_\+cabina"{}}
+
+
+
+Ruta del recurso Co\+AP para peticiones de cabina. 
+
+Define la ruta del endpoint Co\+AP que maneja las solicitudes de cabina (cabin requests) desde el interior de los ascensores. \Hypertarget{main_8c_a6eb895e2bffdc7771f2d72b06737c559}\label{main_8c_a6eb895e2bffdc7771f2d72b06737c559} 
+\index{main.c@{main.c}!RESOURCE\_FLOOR\_CALL@{RESOURCE\_FLOOR\_CALL}}
+\index{RESOURCE\_FLOOR\_CALL@{RESOURCE\_FLOOR\_CALL}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{RESOURCE\_FLOOR\_CALL}{RESOURCE\_FLOOR\_CALL}}
+{\footnotesize\ttfamily \#define RESOURCE\+\_\+\+FLOOR\+\_\+\+CALL~"{}peticion\+\_\+piso"{}}
+
+
+
+Ruta del recurso Co\+AP para peticiones de piso. 
+
+Define la ruta del endpoint Co\+AP que maneja las solicitudes de llamada de piso (floor calls) desde botones externos. \Hypertarget{main_8c_a28d06fc286f28044ed3380969700ff3f}\label{main_8c_a28d06fc286f28044ed3380969700ff3f} 
+\index{main.c@{main.c}!SERVER\_IP@{SERVER\_IP}}
+\index{SERVER\_IP@{SERVER\_IP}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{SERVER\_IP}{SERVER\_IP}}
+{\footnotesize\ttfamily \#define SERVER\+\_\+\+IP~"{}0.\+0.\+0.\+0"{}}
+
+
+
+Dirección IP de escucha del servidor. 
+
+Dirección IP en la que el servidor Co\+AP escuchará conexiones. "{}0.\+0.\+0.\+0"{} indica que escuchará en todas las interfaces disponibles. \Hypertarget{main_8c_ac42367fe5c999ec6650de83e9d72fe8c}\label{main_8c_ac42367fe5c999ec6650de83e9d72fe8c} 
+\index{main.c@{main.c}!SERVER\_PORT@{SERVER\_PORT}}
+\index{SERVER\_PORT@{SERVER\_PORT}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{SERVER\_PORT}{SERVER\_PORT}}
+{\footnotesize\ttfamily \#define SERVER\+\_\+\+PORT~"{}5684"{}}
+
+
+
+Puerto de escucha del servidor Co\+AP DTLS. 
+
+Puerto en el que el servidor Co\+AP con DTLS escuchará conexiones. El puerto 5684 es el puerto estándar para Co\+AP sobre DTLS. 
+
 \doxysubsection{Function Documentation}
-\label{main_8c_aa7115e126eb6986fa2e1f6fb95ea839c} 
+\Hypertarget{main_8c_aa7115e126eb6986fa2e1f6fb95ea839c}\label{main_8c_aa7115e126eb6986fa2e1f6fb95ea839c} 
 \index{main.c@{main.c}!generate\_unique\_task\_id@{generate\_unique\_task\_id}}
 \index{generate\_unique\_task\_id@{generate\_unique\_task\_id}!main.c@{main.c}}
-\doxysubsubsection{generate\_unique\_task\_id()}
-{\footnotesize\ttfamily void generate\+\_\+unique\+\_\+task\+\_\+id (\begin{DoxyParamCaption}\item[{char $\ast$}]{task\+\_\+id\+\_\+out,  }\item[{size\+\_\+t}]{len }\end{DoxyParamCaption})}
+\doxysubsubsection{\texorpdfstring{generate\_unique\_task\_id()}{generate\_unique\_task\_id()}}
+{\footnotesize\ttfamily void generate\+\_\+unique\+\_\+task\+\_\+id (\begin{DoxyParamCaption}\item[{char \texorpdfstring{$\ast$}{*}}]{task\+\_\+id\+\_\+out,  }\item[{size\+\_\+t}]{len }\end{DoxyParamCaption})}
 
 
 
@@ -162,7 +207,7 @@ Esta función genera un identificador único para tareas de ascensor basado en e
 {\bfseries{Uso típico\+:}} 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{\textcolor{keywordtype}{char}\ task\_id[32];}
-\DoxyCodeLine{generate\_unique\_task\_id(task\_id,\ \textcolor{keyword}{sizeof}(task\_id));}
+\DoxyCodeLine{\mbox{\hyperlink{main_8c_aa7115e126eb6986fa2e1f6fb95ea839c}{generate\_unique\_task\_id}}(task\_id,\ \textcolor{keyword}{sizeof}(task\_id));}
 \DoxyCodeLine{\textcolor{comment}{//\ task\_id\ contiene\ "{}T\_1640995200123"{}}}
 
 \end{DoxyCode}
@@ -178,70 +223,10 @@ gettimeofday()
 
 snprintf() 
 \end{DoxySeeAlso}
-\label{main_8c_a621fbdb414850866e6bcb447ff161ee8} 
-\index{main.c@{main.c}!get\_psk\_info@{get\_psk\_info}}
-\index{get\_psk\_info@{get\_psk\_info}!main.c@{main.c}}
-\doxysubsubsection{get\_psk\_info()}
-{\footnotesize\ttfamily static const coap\+\_\+bin\+\_\+const\+\_\+t $\ast$ get\+\_\+psk\+\_\+info (\begin{DoxyParamCaption}\item[{coap\+\_\+bin\+\_\+const\+\_\+t $\ast$}]{identity,  }\item[{coap\+\_\+session\+\_\+t $\ast$}]{session,  }\item[{void $\ast$}]{arg }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
-
-
-
-Callback PSK personalizado para autenticación DTLS-\/\+PSK. 
-
-
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em identity} & Identidad del cliente DTLS \\
-\hline
-\mbox{\texttt{ in}}  & {\em session} & Sesión Co\+AP asociada \\
-\hline
-\mbox{\texttt{ in}}  & {\em arg} & Argumento de usuario (no usado)\\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-Puntero a la clave PSK correspondiente o NULL si no se encuentra
-\end{DoxyReturn}
-Esta función implementa el callback de autenticación PSK para DTLS\+:
-
-{\bfseries{Proceso de autenticación\+:}}
-\begin{DoxyEnumerate}
-\item Recibe la identidad del cliente desde el handshake DTLS
-\item Valida que la identidad siga el patrón "{}\+Gateway\+\_\+\+Client\+\_\+$\ast$"{}
-\item Obtiene la clave PSK determinística basada en la identidad
-\item Retorna la clave para completar el handshake DTLS
-\end{DoxyEnumerate}
-
-{\bfseries{Patrones de identidad aceptados\+:}}
-\begin{DoxyItemize}
-\item "{}\+Gateway\+\_\+\+Client\+\_\+$\ast$"{}\+: Cualquier identidad que empiece con este prefijo
-\item Se rechazan identidades que no sigan el patrón
-\end{DoxyItemize}
-
-{\bfseries{Algoritmo de clave determinística\+:}}
-\begin{DoxyItemize}
-\item Usa \doxyref{psk\+\_\+validator\+\_\+get\+\_\+key\+\_\+for\+\_\+identity()}{p.}{psk__validator_8c_a9cf6c3d9a1ca4ecafc27b4b5cf059d9c} para obtener clave
-\item La misma identidad siempre produce la misma clave
-\item Garantiza consistencia entre servidor y cliente
-\end{DoxyItemize}
-
-{\bfseries{Seguridad\+:}}
-\begin{DoxyItemize}
-\item Validación estricta de patrones de identidad
-\item Logging detallado de intentos de conexión
-\item Prevención de ataques de identidad falsa
-\end{DoxyItemize}
-
-\begin{DoxyNote}{Note}
-Esta función es llamada automáticamente por libcoap durante handshake DTLS 
-\end{DoxyNote}
-\begin{DoxySeeAlso}{See also}
-\doxyref{psk\+\_\+validator\+\_\+get\+\_\+key\+\_\+for\+\_\+identity()}{p.}{psk__validator_8c_a9cf6c3d9a1ca4ecafc27b4b5cf059d9c} 
-
-coap\+\_\+bin\+\_\+const\+\_\+t 
-\end{DoxySeeAlso}
-\label{main_8c_a83a44dda389e573327d70022c12d354b} 
+\Hypertarget{main_8c_a83a44dda389e573327d70022c12d354b}\label{main_8c_a83a44dda389e573327d70022c12d354b} 
 \index{main.c@{main.c}!handle\_sigint@{handle\_sigint}}
 \index{handle\_sigint@{handle\_sigint}!main.c@{main.c}}
-\doxysubsubsection{handle\_sigint()}
+\doxysubsubsection{\texorpdfstring{handle\_sigint()}{handle\_sigint()}}
 {\footnotesize\ttfamily void handle\+\_\+sigint (\begin{DoxyParamCaption}\item[{int}]{signum }\end{DoxyParamCaption})}
 
 
@@ -253,7 +238,7 @@ Manejador de señal para SIGINT (Ctrl+C)
 \mbox{\texttt{ in}}  & {\em signum} & Número de señal recibida (se espera SIGINT = 2)\\
 \hline
 \end{DoxyParams}
-Esta función implementa el manejo elegante de la señal SIGINT\+:
+Esta función implementa el manejo de la señal SIGINT\+:
 
 {\bfseries{Funcionalidad\+:}}
 \begin{DoxyItemize}
@@ -269,7 +254,7 @@ Esta función implementa el manejo elegante de la señal SIGINT\+:
 \item Sistema envía SIGINT al proceso
 \item Esta función establece running = 0
 \item Bucle principal detecta el cambio y termina
-\item Se ejecutan rutinas de limpieza en \doxyref{main()}{p.}{main_8c_a3c04138a5bfe5d72780bb7e82a18e627}
+\item Se ejecutan rutinas de limpieza en \doxylink{main_8c_a3c04138a5bfe5d72780bb7e82a18e627}{main()}
 \end{DoxyEnumerate}
 
 {\bfseries{Seguridad\+:}}
@@ -285,219 +270,15 @@ Esta función debe ser registrada con signal() o sigaction()
 Solo modifica variables globales para evitar problemas de reentrancia 
 \end{DoxyNote}
 \begin{DoxySeeAlso}{See also}
-\doxyref{running}{p.}{main_8c_a2f45113638a0b749a8a205d2cd7fb42b} 
+running 
 
-\doxyref{main()}{p.}{main_8c_a3c04138a5bfe5d72780bb7e82a18e627} 
+\doxylink{main_8c_a3c04138a5bfe5d72780bb7e82a18e627}{main()} 
 \end{DoxySeeAlso}
-\label{main_8c_ad9f6850cb60aa823fb4577f8754aec89} 
-\index{main.c@{main.c}!hnd\_cabin\_request@{hnd\_cabin\_request}}
-\index{hnd\_cabin\_request@{hnd\_cabin\_request}!main.c@{main.c}}
-\doxysubsubsection{hnd\_cabin\_request()}
-{\footnotesize\ttfamily static void hnd\+\_\+cabin\+\_\+request (\begin{DoxyParamCaption}\item[{coap\+\_\+resource\+\_\+t $\ast$}]{resource,  }\item[{coap\+\_\+session\+\_\+t $\ast$}]{session,  }\item[{const coap\+\_\+pdu\+\_\+t $\ast$}]{request,  }\item[{const coap\+\_\+string\+\_\+t $\ast$}]{query,  }\item[{coap\+\_\+pdu\+\_\+t $\ast$}]{response }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
-
-
-
-Manejador Co\+AP para solicitudes de cabina. 
-
-
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em resource} & Recurso Co\+AP que recibió la solicitud \\
-\hline
-\mbox{\texttt{ in}}  & {\em session} & Sesión Co\+AP del cliente que envió la solicitud \\
-\hline
-\mbox{\texttt{ in}}  & {\em request} & PDU de la solicitud Co\+AP recibida \\
-\hline
-\mbox{\texttt{ in}}  & {\em query} & Parámetros de consulta de la URI (no utilizado) \\
-\hline
-\mbox{\texttt{ out}}  & {\em response} & PDU de respuesta Co\+AP a enviar al cliente\\
-\hline
-\end{DoxyParams}
-Esta función procesa las solicitudes de cabina (cabin requests) recibidas desde los API Gateways. Las solicitudes de cabina provienen del interior de los ascensores cuando los usuarios presionan botones de destino.
-
-{\bfseries{Endpoint\+:}} {\ttfamily POST /peticion\+\_\+cabina}
-
-{\bfseries{Formato JSON esperado\+:}} 
-\begin{DoxyCode}{0}
-\DoxyCodeLine{\{}
-\DoxyCodeLine{\ \ "{}id\_edificio"{}:\ "{}E1"{},}
-\DoxyCodeLine{\ \ "{}solicitando\_ascensor\_id"{}:\ "{}E1A1"{},}
-\DoxyCodeLine{\ \ "{}piso\_destino\_solicitud"{}:\ 8,}
-\DoxyCodeLine{\ \ "{}elevadores\_estado"{}:\ [}
-\DoxyCodeLine{\ \ \ \ \{}
-\DoxyCodeLine{\ \ \ \ \ \ "{}id\_ascensor"{}:\ "{}E1A1"{},}
-\DoxyCodeLine{\ \ \ \ \ \ "{}piso\_actual"{}:\ 3,}
-\DoxyCodeLine{\ \ \ \ \ \ "{}estado\_puerta"{}:\ "{}CERRADA"{},}
-\DoxyCodeLine{\ \ \ \ \ \ "{}disponible"{}:\ true,}
-\DoxyCodeLine{\ \ \ \ \ \ "{}tarea\_actual\_id"{}:\ null,}
-\DoxyCodeLine{\ \ \ \ \ \ "{}destino\_actual"{}:\ null}
-\DoxyCodeLine{\ \ \ \ \}}
-\DoxyCodeLine{\ \ ]}
-\DoxyCodeLine{\}}
-
-\end{DoxyCode}
-
-
-{\bfseries{Respuesta JSON de éxito\+:}} 
-\begin{DoxyCode}{0}
-\DoxyCodeLine{\{}
-\DoxyCodeLine{\ \ "{}tarea\_id"{}:\ "{}T\_1640995200456"{},}
-\DoxyCodeLine{\ \ "{}ascensor\_asignado\_id"{}:\ "{}E1A1"{}}
-\DoxyCodeLine{\}}
-
-\end{DoxyCode}
-
-
-{\bfseries{Códigos de respuesta HTTP\+:}}
-\begin{DoxyItemize}
-\item {\ttfamily 200 OK}\+: Asignación exitosa
-\item {\ttfamily 400 Bad Request}\+: JSON inválido o campos faltantes
-\end{DoxyItemize}
-
-{\bfseries{Algoritmo de asignación\+:}} Para solicitudes de cabina, el ascensor asignado es siempre el mismo que realizó la solicitud (auto-\/asignación). Esto es lógico ya que la solicitud proviene del interior del ascensor.
-
-{\bfseries{Validaciones realizadas\+:}}
-\begin{DoxyItemize}
-\item Verificación de formato JSON válido
-\item Validación de campos obligatorios
-\item Comprobación de tipos de datos correctos
-\item Verificación de array de estado de ascensores válido
-\end{DoxyItemize}
-
-{\bfseries{Diferencias con llamadas de piso\+:}}
-\begin{DoxyItemize}
-\item No requiere algoritmo de selección de ascensor
-\item El ascensor solicitante se auto-\/asigna
-\item No necesita verificar disponibilidad de otros ascensores
-\item Proceso más directo y eficiente
-\end{DoxyItemize}
-
-{\bfseries{Gestión de errores\+:}}
-\begin{DoxyItemize}
-\item Logging detallado de errores y warnings
-\item Respuestas JSON con información de error
-\item Liberación automática de memoria en caso de error
-\end{DoxyItemize}
-
-\begin{DoxyNote}{Note}
-Esta función es llamada automáticamente por libcoap 
-
-No requiere algoritmo de selección de ascensor como las llamadas de piso 
-\end{DoxyNote}
-\begin{DoxySeeAlso}{See also}
-\doxyref{generate\+\_\+unique\+\_\+task\+\_\+id()}{p.}{main_8c_aa7115e126eb6986fa2e1f6fb95ea839c} 
-
-RESOURCE\+\_\+\+CABIN\+\_\+\+REQUEST 
-
-c\+JSON\+\_\+\+Parse\+With\+Length() 
-\end{DoxySeeAlso}
-\label{main_8c_a8a4a57e67a69aa2cffe4be09356a41a1} 
-\index{main.c@{main.c}!hnd\_floor\_call@{hnd\_floor\_call}}
-\index{hnd\_floor\_call@{hnd\_floor\_call}!main.c@{main.c}}
-\doxysubsubsection{hnd\_floor\_call()}
-{\footnotesize\ttfamily static void hnd\+\_\+floor\+\_\+call (\begin{DoxyParamCaption}\item[{coap\+\_\+resource\+\_\+t $\ast$}]{resource,  }\item[{coap\+\_\+session\+\_\+t $\ast$}]{session,  }\item[{const coap\+\_\+pdu\+\_\+t $\ast$}]{request,  }\item[{const coap\+\_\+string\+\_\+t $\ast$}]{query,  }\item[{coap\+\_\+pdu\+\_\+t $\ast$}]{response }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
-
-
-
-Manejador Co\+AP para solicitudes de llamada de piso. 
-
-
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em resource} & Recurso Co\+AP que recibió la solicitud \\
-\hline
-\mbox{\texttt{ in}}  & {\em session} & Sesión Co\+AP del cliente que envió la solicitud \\
-\hline
-\mbox{\texttt{ in}}  & {\em request} & PDU de la solicitud Co\+AP recibida \\
-\hline
-\mbox{\texttt{ in}}  & {\em query} & Parámetros de consulta de la URI (no utilizado) \\
-\hline
-\mbox{\texttt{ out}}  & {\em response} & PDU de respuesta Co\+AP a enviar al cliente\\
-\hline
-\end{DoxyParams}
-Esta función procesa las solicitudes de llamada de piso (floor calls) recibidas desde los API Gateways. Implementa el algoritmo de asignación de ascensores para atender llamadas desde botones externos de los edificios.
-
-{\bfseries{Endpoint\+:}} {\ttfamily POST /peticion\+\_\+piso}
-
-{\bfseries{Formato JSON esperado\+:}} 
-\begin{DoxyCode}{0}
-\DoxyCodeLine{\{}
-\DoxyCodeLine{\ \ "{}id\_edificio"{}:\ "{}E1"{},}
-\DoxyCodeLine{\ \ "{}piso\_origen\_llamada"{}:\ 5,}
-\DoxyCodeLine{\ \ "{}direccion\_llamada"{}:\ "{}SUBIENDO"{},}
-\DoxyCodeLine{\ \ "{}elevadores\_estado"{}:\ [}
-\DoxyCodeLine{\ \ \ \ \{}
-\DoxyCodeLine{\ \ \ \ \ \ "{}id\_ascensor"{}:\ "{}E1A1"{},}
-\DoxyCodeLine{\ \ \ \ \ \ "{}piso\_actual"{}:\ 3,}
-\DoxyCodeLine{\ \ \ \ \ \ "{}estado\_puerta"{}:\ "{}CERRADA"{},}
-\DoxyCodeLine{\ \ \ \ \ \ "{}disponible"{}:\ true,}
-\DoxyCodeLine{\ \ \ \ \ \ "{}tarea\_actual\_id"{}:\ null,}
-\DoxyCodeLine{\ \ \ \ \ \ "{}destino\_actual"{}:\ null}
-\DoxyCodeLine{\ \ \ \ \}}
-\DoxyCodeLine{\ \ ]}
-\DoxyCodeLine{\}}
-
-\end{DoxyCode}
-
-
-{\bfseries{Respuesta JSON de éxito\+:}} 
-\begin{DoxyCode}{0}
-\DoxyCodeLine{\{}
-\DoxyCodeLine{\ \ "{}tarea\_id"{}:\ "{}T\_1640995200123"{},}
-\DoxyCodeLine{\ \ "{}ascensor\_asignado\_id"{}:\ "{}E1A1"{}}
-\DoxyCodeLine{\}}
-
-\end{DoxyCode}
-
-
-{\bfseries{Códigos de respuesta HTTP\+:}}
-\begin{DoxyItemize}
-\item {\ttfamily 200 OK}\+: Asignación exitosa
-\item {\ttfamily 400 Bad Request}\+: JSON inválido o campos faltantes
-\item {\ttfamily 503 Service Unavailable}\+: No hay ascensores disponibles
-\end{DoxyItemize}
-
-{\bfseries{Algoritmo de asignación\+:}} Utiliza el algoritmo de proximidad inteligente implementado en \doxyref{select\+\_\+optimal\+\_\+elevator()}{p.}{main_8c_accc4b71950f29e6ddc4293d30f7e5ea0}\+:
-\begin{DoxyItemize}
-\item Filtra ascensores disponibles (disponible=true)
-\item Calcula distancia absoluta desde piso\+\_\+origen a cada ascensor
-\item Selecciona todos los ascensores con distancia mínima
-\item En caso de empate, selecciona aleatoriamente para distribuir carga
-\item Garantiza asignación óptima basada en proximidad
-\end{DoxyItemize}
-
-{\bfseries{Validaciones realizadas\+:}}
-\begin{DoxyItemize}
-\item Verificación de formato JSON válido
-\item Validación de campos obligatorios
-\item Comprobación de tipos de datos correctos
-\item Verificación de disponibilidad de ascensores
-\end{DoxyItemize}
-
-{\bfseries{Gestión de errores\+:}}
-\begin{DoxyItemize}
-\item Logging detallado de errores y warnings
-\item Respuestas JSON con información de error
-\item Liberación automática de memoria en caso de error
-\end{DoxyItemize}
-
-\begin{DoxyNote}{Note}
-Esta función es llamada automáticamente por libcoap 
-
-La memoria del ID del ascensor asignado debe ser liberada por el llamador 
-\end{DoxyNote}
-\begin{DoxySeeAlso}{See also}
-\doxyref{select\+\_\+optimal\+\_\+elevator()}{p.}{main_8c_accc4b71950f29e6ddc4293d30f7e5ea0} 
-
-\doxyref{generate\+\_\+unique\+\_\+task\+\_\+id()}{p.}{main_8c_aa7115e126eb6986fa2e1f6fb95ea839c} 
-
-RESOURCE\+\_\+\+FLOOR\+\_\+\+CALL 
-
-c\+JSON\+\_\+\+Parse\+With\+Length() 
-\end{DoxySeeAlso}
-\label{main_8c_a3c04138a5bfe5d72780bb7e82a18e627} 
+\Hypertarget{main_8c_a3c04138a5bfe5d72780bb7e82a18e627}\label{main_8c_a3c04138a5bfe5d72780bb7e82a18e627} 
 \index{main.c@{main.c}!main@{main}}
 \index{main@{main}!main.c@{main.c}}
-\doxysubsubsection{main()}
-{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$$\ast$}]{argv }\end{DoxyParamCaption})}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{argv }\end{DoxyParamCaption})}
 
 
 
@@ -545,13 +326,12 @@ Esta función implementa el punto de entrada principal del servidor central de c
 \item Validación de configuración de red
 \item Verificación de inicialización de componentes
 \item Logging detallado de errores críticos
-\item Terminación elegante en caso de fallo
+\item Terminación en caso de fallo
 \end{DoxyItemize}
 
-{\bfseries{Terminación elegante\+:}}
+{\bfseries{Terminación\+:}}
 \begin{DoxyItemize}
 \item Respuesta a señal SIGINT (Ctrl+C)
-\item Liberación de recursos de memoria
 \item Cierre de conexiones DTLS
 \item Limpieza de contexto Co\+AP
 \end{DoxyItemize}
@@ -569,155 +349,15 @@ El servidor se ejecuta indefinidamente hasta recibir SIGINT
 Requiere archivo de claves PSK para funcionamiento completo 
 \end{DoxyNote}
 \begin{DoxySeeAlso}{See also}
-\doxyref{handle\+\_\+sigint()}{p.}{main_8c_a83a44dda389e573327d70022c12d354b} 
+\doxylink{main_8c_a83a44dda389e573327d70022c12d354b}{handle\+\_\+sigint()} 
 
-\doxyref{session\+\_\+event\+\_\+handler()}{p.}{main_8c_acab7a6032b51f15d6a5757d72869f63d} 
+session\+\_\+event\+\_\+handler() 
 
-\doxyref{get\+\_\+psk\+\_\+info()}{p.}{main_8c_a621fbdb414850866e6bcb447ff161ee8} 
+get\+\_\+psk\+\_\+info() 
 
-\doxyref{psk\+\_\+validator\+\_\+init()}{p.}{psk__validator_8c_af84bfa633858d22629eeb419e53a30c1} 
+\doxylink{psk__validator_8c_af84bfa633858d22629eeb419e53a30c1}{psk\+\_\+validator\+\_\+init()} 
 
-\doxyref{hnd\+\_\+floor\+\_\+call()}{p.}{main_8c_a8a4a57e67a69aa2cffe4be09356a41a1} 
+hnd\+\_\+floor\+\_\+call() 
 
-\doxyref{hnd\+\_\+cabin\+\_\+request()}{p.}{main_8c_ad9f6850cb60aa823fb4577f8754aec89} 
-\end{DoxySeeAlso}
-\label{main_8c_accc4b71950f29e6ddc4293d30f7e5ea0} 
-\index{main.c@{main.c}!select\_optimal\_elevator@{select\_optimal\_elevator}}
-\index{select\_optimal\_elevator@{select\_optimal\_elevator}!main.c@{main.c}}
-\doxysubsubsection{select\_optimal\_elevator()}
-{\footnotesize\ttfamily static char $\ast$ select\+\_\+optimal\+\_\+elevator (\begin{DoxyParamCaption}\item[{c\+JSON $\ast$}]{elevadores\+\_\+estado,  }\item[{int}]{piso\+\_\+origen,  }\item[{const char $\ast$}]{direccion\+\_\+llamada }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
-
-
-
-Encuentra el ascensor más cercano para una llamada de piso. 
-
-
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em elevadores\+\_\+estado} & Array JSON con el estado de todos los ascensores \\
-\hline
-\mbox{\texttt{ in}}  & {\em piso\+\_\+origen} & Piso desde donde se realiza la llamada \\
-\hline
-\mbox{\texttt{ in}}  & {\em direccion\+\_\+llamada} & Dirección solicitada ("{}up"{} o "{}down"{})\\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-ID del ascensor asignado (debe liberarse con free()) o NULL si no hay ascensores disponibles
-\end{DoxyReturn}
-Esta función implementa un algoritmo de asignación inteligente que selecciona el ascensor más cercano al piso de origen de la llamada. Utiliza un algoritmo de proximidad optimizado para minimizar el tiempo de espera.
-
-{\bfseries{Algoritmo de selección\+:}}
-\begin{DoxyEnumerate}
-\item {\bfseries{Filtrado inicial}}\+: Solo considera ascensores disponibles (disponible == true)
-\item {\bfseries{Cálculo de distancia}}\+: Distancia absoluta entre piso\+\_\+actual y piso\+\_\+origen
-\item {\bfseries{Búsqueda de mínimos}}\+: Encuentra la distancia mínima entre todos los candidatos
-\item {\bfseries{Resolución de empates}}\+: Si hay múltiples ascensores con distancia mínima, selecciona aleatoriamente
-\end{DoxyEnumerate}
-
-{\bfseries{Criterios de disponibilidad\+:}}
-\begin{DoxyItemize}
-\item Campo "{}disponible"{} debe ser true
-\item Campo "{}id\+\_\+ascensor"{} debe ser string válido
-\item Campo "{}piso\+\_\+actual"{} debe ser número válido
-\end{DoxyItemize}
-
-{\bfseries{Ejemplo de funcionamiento\+:}} 
-\begin{DoxyCode}{0}
-\DoxyCodeLine{Ascensores\ en\ pisos:\ [3,\ 6,\ 8,\ 10]}
-\DoxyCodeLine{Llamada\ desde\ piso:\ 0}
-\DoxyCodeLine{Distancias\ calculadas:\ [3,\ 6,\ 8,\ 10]}
-\DoxyCodeLine{Resultado:\ Selecciona\ ascensor\ en\ piso\ 3\ (distancia\ mínima\ =\ 3)}
-
-\end{DoxyCode}
-
-
-{\bfseries{Gestión de memoria\+:}}
-\begin{DoxyItemize}
-\item Asigna memoria dinámicamente para el ID del ascensor seleccionado
-\item El llamador debe liberar la memoria con free()
-\item En caso de error, retorna NULL sin asignar memoria
-\end{DoxyItemize}
-
-{\bfseries{Optimizaciones\+:}}
-\begin{DoxyItemize}
-\item Búsqueda en dos pasadas para eficiencia
-\item Uso de arrays temporales para candidatos
-\item Liberación automática de memoria no utilizada
-\end{DoxyItemize}
-
-\begin{DoxyNote}{Note}
-La función es thread-\/safe para lecturas concurrentes 
-
-El parámetro direccion\+\_\+llamada no se usa actualmente pero se mantiene para futuras mejoras 
-\end{DoxyNote}
-\begin{DoxySeeAlso}{See also}
-\doxyref{hnd\+\_\+floor\+\_\+call()}{p.}{main_8c_a8a4a57e67a69aa2cffe4be09356a41a1} 
-
-c\+JSON\+\_\+\+Is\+Array() 
-
-c\+JSON\+\_\+\+Get\+Array\+Size() 
-\end{DoxySeeAlso}
-\label{main_8c_acab7a6032b51f15d6a5757d72869f63d} 
-\index{main.c@{main.c}!session\_event\_handler@{session\_event\_handler}}
-\index{session\_event\_handler@{session\_event\_handler}!main.c@{main.c}}
-\doxysubsubsection{session\_event\_handler()}
-{\footnotesize\ttfamily static int session\+\_\+event\+\_\+handler (\begin{DoxyParamCaption}\item[{coap\+\_\+session\+\_\+t $\ast$}]{session,  }\item[{const coap\+\_\+event\+\_\+t}]{event }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
-
-
-
-Callback para configurar sesiones DTLS con timeouts optimizados. 
-
-
-\begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em session} & Sesión Co\+AP que se está configurando \\
-\hline
-\mbox{\texttt{ in}}  & {\em event} & Tipo de evento DTLS/\+Co\+AP\\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-0 en todos los casos (éxito)
-\end{DoxyReturn}
-Esta función maneja eventos de sesión DTLS y configura parámetros optimizados para mejorar la estabilidad de las conexiones\+:
-
-{\bfseries{Eventos manejados\+:}}
-\begin{DoxyItemize}
-\item COAP\+\_\+\+EVENT\+\_\+\+SERVER\+\_\+\+SESSION\+\_\+\+NEW\+: Configura timeouts para nueva sesión
-\item COAP\+\_\+\+EVENT\+\_\+\+DTLS\+\_\+\+CLOSED\+: Registra cierre de sesión DTLS
-\item COAP\+\_\+\+EVENT\+\_\+\+DTLS\+\_\+\+ERROR\+: Registra errores DTLS
-\item COAP\+\_\+\+EVENT\+\_\+\+SERVER\+\_\+\+SESSION\+\_\+\+DEL\+: Registra eliminación de sesión
-\end{DoxyItemize}
-
-{\bfseries{Configuración de timeouts\+:}}
-\begin{DoxyItemize}
-\item ACK timeout\+: 5 segundos
-\item Random factor\+: 1.\+5 (para evitar colisiones)
-\item Max retransmit\+: 4 intentos
-\end{DoxyItemize}
-
-\begin{DoxyNote}{Note}
-Esta función es llamada automáticamente por libcoap 
-\end{DoxyNote}
-\begin{DoxySeeAlso}{See also}
-coap\+\_\+session\+\_\+set\+\_\+ack\+\_\+timeout() 
-
-coap\+\_\+session\+\_\+set\+\_\+ack\+\_\+random\+\_\+factor() 
-
-coap\+\_\+session\+\_\+set\+\_\+max\+\_\+retransmit() 
-\end{DoxySeeAlso}
-
-
-\doxysubsection{Variable Documentation}
-\label{main_8c_a2f45113638a0b749a8a205d2cd7fb42b} 
-\index{main.c@{main.c}!running@{running}}
-\index{running@{running}!main.c@{main.c}}
-\doxysubsubsection{running}
-{\footnotesize\ttfamily int running = 1\hspace{0.3cm}{\ttfamily [static]}}
-
-
-
-Bandera global para controlar el bucle principal del servidor. 
-
-Esta variable se establece a 0 por el manejador de señal SIGINT para indicar que el servidor debe terminar de manera elegante.
-
-\begin{DoxySeeAlso}{See also}
-\doxyref{handle\+\_\+sigint()}{p.}{main_8c_a83a44dda389e573327d70022c12d354b} 
+hnd\+\_\+cabin\+\_\+request() 
 \end{DoxySeeAlso}

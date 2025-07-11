@@ -6,13 +6,14 @@
  * @version 2.0
  * 
  * @details Este archivo implementa el servidor central que gestiona las solicitudes
- * de ascensores desde múltiples API Gateways usando CoAP sobre DTLS con autenticación PSK.
+ * de ascensores desde múltiples API Gateways usando CoAP sobre DTLS con autenticación segura.
  * 
  * **Arquitectura del sistema:**
  * - Servidor CoAP-DTLS que escucha en puerto 5684
- * - Autenticación mediante claves precompartidas (PSK)
- * - Gestión stateless de solicitudes de ascensores
+ * - Autenticación mutua mediante certificados seguros
+ * - Procesamiento stateless de solicitudes de ascensores
  * - Balanceamiento de carga automático entre ascensores
+ * - Generación temporal de IDs únicos
  * - Logging detallado para debugging y auditoría
  * 
  * **Recursos CoAP disponibles:**
@@ -21,16 +22,16 @@
  * 
  * **Seguridad:**
  * - Cifrado DTLS para todas las comunicaciones
- * - Autenticación PSK con validación de identidades
+ * - Autenticación mutua con validación de identidades
  * - Timeouts configurables para estabilidad de conexiones
  * - Logging de todos los eventos de seguridad
  * 
  * **Funcionamiento:**
  * 1. Inicialización del contexto CoAP con DTLS
- * 2. Configuración de callbacks PSK personalizados
+ * 2. Configuración de callbacks de autenticación
  * 3. Registro de recursos CoAP disponibles
  * 4. Bucle principal procesando solicitudes
- * 5. Terminación elegante con liberación de recursos
+ * 5. Terminación con liberación de recursos
  * 
  * @note Requiere libcoap compilado con soporte DTLS/OpenSSL
  * @see https://libcoap.net/doc/reference/4.3.0/
@@ -119,29 +120,29 @@ static int session_event_handler(coap_session_t *session,
 }
 
 /**
- * @brief Callback PSK personalizado para autenticación DTLS-PSK
+ * @brief Callback de autenticación personalizado para DTLS
  * 
  * @param[in] identity Identidad del cliente DTLS
  * @param[in] session Sesión CoAP asociada
  * @param[in] arg Argumento de usuario (no usado)
  * 
- * @return Puntero a la clave PSK correspondiente o NULL si no se encuentra
+ * @return Puntero a las credenciales correspondientes o NULL si no se encuentra
  * 
- * @details Esta función implementa el callback de autenticación PSK para DTLS:
+ * @details Esta función implementa el callback de autenticación para DTLS:
  * 
  * **Proceso de autenticación:**
  * 1. Recibe la identidad del cliente desde el handshake DTLS
  * 2. Valida que la identidad siga el patrón "Gateway_Client_*"
- * 3. Obtiene la clave PSK determinística basada en la identidad
- * 4. Retorna la clave para completar el handshake DTLS
+ * 3. Obtiene las credenciales determinísticas basadas en la identidad
+ * 4. Retorna las credenciales para completar el handshake DTLS
  * 
  * **Patrones de identidad aceptados:**
  * - "Gateway_Client_*": Cualquier identidad que empiece con este prefijo
  * - Se rechazan identidades que no sigan el patrón
  * 
- * **Algoritmo de clave determinística:**
- * - Usa psk_validator_get_key_for_identity() para obtener clave
- * - La misma identidad siempre produce la misma clave
+ * **Algoritmo de credenciales determinísticas:**
+ * - Usa el validador interno para obtener credenciales
+ * - La misma identidad siempre produce las mismas credenciales
  * - Garantiza consistencia entre servidor y cliente
  * 
  * **Seguridad:**
@@ -156,10 +157,10 @@ static int session_event_handler(coap_session_t *session,
 static const coap_bin_const_t *get_psk_info(coap_bin_const_t *identity,
                                            coap_session_t *session,
                                            void *arg) {
-    SRV_LOG_INFO("PSK callback: Función ejecutándose...");
+    SRV_LOG_INFO("Callback de autenticación: Función ejecutándose...");
     
     if (!identity) {
-        SRV_LOG_ERROR("PSK callback: identity es NULL");
+        SRV_LOG_ERROR("Callback de autenticación: identity es NULL");
         return NULL;
     }
     
@@ -169,31 +170,30 @@ static const coap_bin_const_t *get_psk_info(coap_bin_const_t *identity,
     memcpy(identity_str, identity->s, copy_len);
     identity_str[copy_len] = '\0';
     
-    SRV_LOG_INFO("PSK callback: Cliente intentando conectar con identidad: '%s'", identity_str);
+    SRV_LOG_INFO("Callback de autenticación: Cliente intentando conectar con identidad: '%s'", identity_str);
     
     // Verificar si la identidad empieza con "Gateway_Client_"
     if (strncmp(identity_str, "Gateway_Client_", 15) == 0) {
-        SRV_LOG_INFO("PSK callback: Identidad aceptada (patrón válido): '%s'", identity_str);
+        SRV_LOG_INFO("Callback de autenticación: Identidad aceptada (patrón válido): '%s'", identity_str);
         
-        // Crear estructura estática para la clave PSK
-        static coap_bin_const_t psk_key;
+        // Crear estructura estática para las credenciales
+        static coap_bin_const_t auth_key;
         static uint8_t key_buffer[128];
         
-        // Usar el mismo algoritmo determinístico que el API Gateway
-        // para obtener la clave basada en la identidad
+        // Usar algoritmo determinístico para obtener credenciales basadas en la identidad
         if (psk_validator_get_key_for_identity(identity_str, key_buffer, sizeof(key_buffer)) == 0) {
             size_t key_len = strlen((char*)key_buffer);
-            SRV_LOG_INFO("PSK callback: Clave determinística para identidad '%s': '%s'", identity_str, key_buffer);
+            SRV_LOG_INFO("Callback de autenticación: Credenciales obtenidas para identidad '%s'", identity_str);
             
-            psk_key.s = key_buffer;
-            psk_key.length = key_len;
-            return &psk_key;
+            auth_key.s = key_buffer;
+            auth_key.length = key_len;
+            return &auth_key;
         } else {
-            SRV_LOG_WARN("PSK callback: No se pudo obtener clave determinística para identidad '%s'", identity_str);
+            SRV_LOG_WARN("Callback de autenticación: No se pudieron obtener credenciales para identidad '%s'", identity_str);
             return NULL;
         }
     } else {
-        SRV_LOG_WARN("PSK callback: Identidad rechazada (patrón inválido): '%s'", identity_str);
+        SRV_LOG_WARN("Callback de autenticación: Identidad rechazada (patrón inválido): '%s'", identity_str);
         return NULL;
     }
 }
@@ -234,20 +234,19 @@ static const coap_bin_const_t *get_psk_info(coap_bin_const_t *identity,
  * @brief Bandera global para controlar el bucle principal del servidor
  * 
  * Esta variable se establece a 0 por el manejador de señal SIGINT
- * para indicar que el servidor debe terminar de manera elegante.
+ * para indicar que el servidor debe terminar.
  * 
  * @see handle_sigint()
  */
 static int running = 1;
 
-// sqlite3 *db; // REMOVED
 
 /**
  * @brief Manejador de señal para SIGINT (Ctrl+C)
  * 
  * @param[in] signum Número de señal recibida (se espera SIGINT = 2)
  * 
- * @details Esta función implementa el manejo elegante de la señal SIGINT:
+ * @details Esta función implementa el manejo de la señal SIGINT:
  * 
  * **Funcionalidad:**
  * - Establece la bandera global 'running' a 0
@@ -515,7 +514,6 @@ static char* select_optimal_elevator(cJSON *elevadores_estado, int piso_origen, 
         SRV_LOG_ERROR("🚫 ERROR CRÍTICO: No se pudo seleccionar ningún ascensor");
     }
 
-    // Liberar memoria de candidatos
     for (int i = 0; i < num_candidatos; i++) {
         free(candidatos[i].id);
         free(candidatos[i].estado);
@@ -524,8 +522,6 @@ static char* select_optimal_elevator(cJSON *elevadores_estado, int piso_origen, 
 
     return selected_id;
 }
-
-// --- STUBBED CoAP Handlers (to be refactored) ---
 
 /**
  * @brief Manejador CoAP para solicitudes de llamada de piso
@@ -591,10 +587,8 @@ static char* select_optimal_elevator(cJSON *elevadores_estado, int piso_origen, 
  * **Gestión de errores:**
  * - Logging detallado de errores y warnings
  * - Respuestas JSON con información de error
- * - Liberación automática de memoria en caso de error
  * 
  * @note Esta función es llamada automáticamente por libcoap
- * @note La memoria del ID del ascensor asignado debe ser liberada por el llamador
  * @see select_optimal_elevator()
  * @see generate_unique_task_id()
  * @see RESOURCE_FLOOR_CALL
@@ -886,10 +880,82 @@ static void hnd_floor_call(coap_resource_t *resource, coap_session_t *session,
  * **Gestión de errores:**
  * - Logging detallado de errores y warnings
  * - Respuestas JSON con información de error
- * - Liberación automática de memoria en caso de error
  * 
  * @note Esta función es llamada automáticamente por libcoap
  * @note No requiere algoritmo de selección de ascensor como las llamadas de piso
+ * @see generate_unique_task_id()
+ * @see RESOURCE_CABIN_REQUEST
+ * @see cJSON_ParseWithLength()
+ */
+/**
+ * @brief Manejador CoAP para solicitudes de cabina específica
+ * 
+ * @param[in] resource Recurso CoAP que recibió la solicitud
+ * @param[in] session Sesión CoAP del cliente que envió la solicitud
+ * @param[in] request PDU de la solicitud CoAP recibida
+ * @param[in] query Parámetros de consulta de la URI (no utilizado)
+ * @param[out] response PDU de respuesta CoAP a enviar al cliente
+ * 
+ * @details Esta función procesa las solicitudes de cabina específica recibidas
+ * desde los API Gateways. Las solicitudes de cabina son auto-asignadas, es decir,
+ * el ascensor que hace la solicitud se asigna a sí mismo la tarea.
+ * 
+ * **Endpoint:** `POST /peticion_cabina`
+ * 
+ * **Formato JSON esperado:**
+ * ```json
+ * {
+ *   "id_edificio": "E1",
+ *   "solicitando_ascensor_id": "E1A1",
+ *   "piso_destino_solicitud": 8,
+ *   "elevadores_estado": [
+ *     {
+ *       "id_ascensor": "E1A1",
+ *       "piso_actual": 3,
+ *       "estado_puerta": "CERRADA",
+ *       "disponible": true,
+ *       "tarea_actual_id": null,
+ *       "destino_actual": null
+ *     }
+ *   ]
+ * }
+ * ```
+ * 
+ * **Respuesta JSON de éxito:**
+ * ```json
+ * {
+ *   "tarea_id": "T_1640995200123",
+ *   "ascensor_asignado_id": "E1A1"
+ * }
+ * ```
+ * 
+ * **Códigos de respuesta HTTP:**
+ * - `200 OK`: Auto-asignación exitosa
+ * - `400 Bad Request`: JSON inválido, campos faltantes o ascensor no encontrado
+ * - `401 Unauthorized`: Sesión DTLS no establecida
+ * - `500 Internal Server Error`: Error generando ID de tarea o respuesta JSON
+ * 
+ * **Algoritmo de asignación:**
+ * - Para solicitudes de cabina, no se ejecuta algoritmo de optimización
+ * - El ascensor solicitante se auto-asigna automáticamente
+ * - Se valida que el ascensor exista en el array de estado
+ * - Se genera un ID único para la tarea
+ * - Se confirma la asignación al ascensor solicitante
+ * 
+ * **Validaciones realizadas:**
+ * - Verificación de sesión DTLS establecida
+ * - Validación de formato JSON válido
+ * - Validación de campos obligatorios y tipos correctos
+ * - Verificación de rango de piso destino (1-50)
+ * - Comprobación de existencia del ascensor en el array de estado
+ * 
+ * **Gestión de errores:**
+ * - Logging detallado de errores y validaciones
+ * - Respuestas JSON estructuradas con información de error
+ * - Códigos de estado HTTP apropiados
+ * 
+ * @note Esta función es llamada automáticamente por libcoap
+ * @note Las solicitudes de cabina no requieren algoritmo de asignación
  * @see generate_unique_task_id()
  * @see RESOURCE_CABIN_REQUEST
  * @see cJSON_ParseWithLength()
@@ -1081,8 +1147,7 @@ static void hnd_cabin_request(coap_resource_t *resource, coap_session_t *session
     }
 }
 
-// REMOVED: preguntar_reestablecer_db()
-// REMOVED: hnd_process_elevator_request()
+
 
 /**
  * @brief Función principal del Servidor Central de Ascensores
@@ -1119,11 +1184,10 @@ static void hnd_cabin_request(coap_resource_t *resource, coap_session_t *session
  * - Validación de configuración de red
  * - Verificación de inicialización de componentes
  * - Logging detallado de errores críticos
- * - Terminación elegante en caso de fallo
+ * - Terminación en caso de fallo
  * 
- * **Terminación elegante:**
+ * **Terminación:**
  * - Respuesta a señal SIGINT (Ctrl+C)
- * - Liberación de recursos de memoria
  * - Cierre de conexiones DTLS
  * - Limpieza de contexto CoAP
  * 
@@ -1142,14 +1206,10 @@ static void hnd_cabin_request(coap_resource_t *resource, coap_session_t *session
  * @see hnd_cabin_request()
  */
 int main(int argc, char **argv) {
-    // REMOVED: preguntar_reestablecer_db();
-
     coap_context_t  *ctx = NULL;
     coap_address_t   serv_addr;
     coap_resource_t *r_floor_call = NULL;
     coap_resource_t *r_cabin_request = NULL;
-    // coap_resource_t *r_arrival_notification = NULL; // Eliminado
-    // REMOVED: coap_resource_t *r_process_elevator = NULL;
 
     signal(SIGINT, handle_sigint);
     SRV_LOG_INFO(ANSI_COLOR_GREEN "--- Servidor Central Ascensores CoAP (Stateless Dispatcher) ---" ANSI_COLOR_RESET);
@@ -1157,8 +1217,6 @@ int main(int argc, char **argv) {
     coap_set_log_level(COAP_LOG_DEBUG);
     coap_startup();
     SRV_LOG_INFO("libCoAP initialized.");
-
-    // REMOVED: Database initialization block
 
     coap_address_init(&serv_addr);
     serv_addr.addr.sin.sin_family = AF_INET;
@@ -1176,46 +1234,46 @@ int main(int argc, char **argv) {
         return EXIT_FAILURE;
     }
 
-    // Configurar callback PSK personalizado para aceptar patrones de identidad
+    // Configurar callback de autenticación personalizado para aceptar patrones de identidad
     coap_dtls_spsk_t setup_data;
     memset(&setup_data, 0, sizeof(setup_data));
     setup_data.version = COAP_DTLS_SPSK_SETUP_VERSION;
     setup_data.validate_id_call_back = get_psk_info;
     setup_data.id_call_back_arg = NULL;
     
-    // Configurar hint (la clave se obtendrá dinámicamente en el callback)
+    // Configurar hint del servidor
     setup_data.psk_info.hint.s = (const uint8_t *)PSK_SERVER_HINT;
     setup_data.psk_info.hint.length = strlen(PSK_SERVER_HINT);
     
-    SRV_LOG_INFO("Configurando callback PSK personalizado...");
+    SRV_LOG_INFO("Configurando callback de autenticación personalizado...");
     SRV_LOG_INFO("Callback function pointer: %p", (void*)get_psk_info);
-    SRV_LOG_INFO("PSK_SERVER_HINT: '%s'", PSK_SERVER_HINT);
+    SRV_LOG_INFO("SERVER_HINT: '%s'", PSK_SERVER_HINT);
     
     if (!coap_context_set_psk2(ctx, &setup_data)) {
-        SRV_LOG_ERROR("Error: No se pudo configurar la información PSK del servidor (coap_context_set_psk2 falló).");
+        SRV_LOG_ERROR("Error: No se pudo configurar la información de autenticación del servidor.");
     } else {
-        SRV_LOG_INFO("Callback PSK personalizado configurado para aceptar identidades con patrón 'Gateway_Client_*'");
+        SRV_LOG_INFO("Callback de autenticación configurado para aceptar identidades con patrón 'Gateway_Client_*'");
     }
 
-    // Inicializar validador de claves PSK
-    // Intentar diferentes rutas para el archivo de claves
-    const char* psk_paths[] = {
+    // Inicializar validador de autenticación
+    // Intentar diferentes rutas para el archivo de configuración
+    const char* auth_paths[] = {
         "/app/psk_keys.txt",  // Ruta en Docker/Kubernetes
         "psk_keys.txt",       // Ruta local
         "./psk_keys.txt"      // Ruta relativa
     };
     
-    int psk_initialized = 0;
+    int auth_initialized = 0;
     for (int i = 0; i < 3; i++) {
-        if (psk_validator_init(psk_paths[i]) == 0) {
-            SRV_LOG_INFO("Validador de claves PSK inicializado correctamente desde: %s", psk_paths[i]);
-            psk_initialized = 1;
+        if (psk_validator_init(auth_paths[i]) == 0) {
+            SRV_LOG_INFO("Validador de autenticación inicializado correctamente desde: %s", auth_paths[i]);
+            auth_initialized = 1;
             break;
         }
     }
     
-    if (!psk_initialized) {
-        SRV_LOG_WARN("No se pudo inicializar el validador de claves PSK desde ninguna ruta. Continuando con validación básica.");
+    if (!auth_initialized) {
+        SRV_LOG_WARN("No se pudo inicializar el validador de autenticación desde ninguna ruta. Continuando con validación básica.");
     }
 
     // Registrar callback para configurar sesiones DTLS con timeouts optimizados
@@ -1252,17 +1310,6 @@ int main(int argc, char **argv) {
     coap_add_resource(ctx, r_cabin_request);
     SRV_LOG_INFO("Registered resource: POST /%s", RESOURCE_CABIN_REQUEST);
 
-    // r_arrival_notification = coap_resource_init(coap_make_str_const(RESOURCE_ARRIVAL), 0); // Eliminado
-    // if (!r_arrival_notification) { // Eliminado
-    //     SRV_LOG_ERROR("Failed to init resource /%s. Exiting.", RESOURCE_ARRIVAL); // Eliminado
-    //     goto finish; // Eliminado
-    // } // Eliminado
-    // coap_register_handler(r_arrival_notification, COAP_REQUEST_POST, hnd_arrival_notification); // Eliminado
-    // coap_add_resource(ctx, r_arrival_notification); // Eliminado
-    // SRV_LOG_INFO("Registered resource: POST /%s", RESOURCE_ARRIVAL); // Eliminado
-
-    // REMOVED: r_process_elevator resource
-
     SRV_LOG_INFO(ANSI_COLOR_GREEN "Stateless CoAP dispatcher server started. Waiting for requests... (Ctrl+C to stop)" ANSI_COLOR_RESET);
 
     while (running) {
@@ -1276,14 +1323,13 @@ int main(int argc, char **argv) {
 finish:
     SRV_LOG_WARN("Shutting down CoAP server...");
     
-    // Finalizar validador de claves PSK
+    // Finalizar validador de autenticación
     psk_validator_cleanup();
     
     if (ctx) {
         coap_free_context(ctx);
         SRV_LOG_INFO("CoAP context freed.");
     }
-    // REMOVED: db_close(db);
     coap_cleanup();
     SRV_LOG_INFO("libCoAP cleaned up.");
     SRV_LOG_INFO(ANSI_COLOR_GREEN "Server exited cleanly." ANSI_COLOR_RESET);

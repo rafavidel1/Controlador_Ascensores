@@ -1,0 +1,81 @@
+\begin{theindex}
+
+  \item {capacity}
+    \subitem {psk\_valid\_keys\_t}, \hyperpage{5}
+  \item {count}
+    \subitem {psk\_valid\_keys\_t}, \hyperpage{5}
+
+  \indexspace
+
+  \item {generate\_unique\_task\_id}
+    \subitem {main.c}, \hyperpage{10}
+
+  \indexspace
+
+  \item {handle\_sigint}
+    \subitem {main.c}, \hyperpage{11}
+
+  \indexspace
+
+  \item {keys}
+    \subitem {psk\_valid\_keys\_t}, \hyperpage{5}
+
+  \indexspace
+
+  \item {main}
+    \subitem {main.c}, \hyperpage{12}
+  \item {main.c}
+    \subitem {generate\_unique\_task\_id}, \hyperpage{10}
+    \subitem {handle\_sigint}, \hyperpage{11}
+    \subitem {main}, \hyperpage{12}
+    \subitem {RESOURCE\_CABIN\_REQUEST}, \hyperpage{9}
+    \subitem {RESOURCE\_FLOOR\_CALL}, \hyperpage{9}
+    \subitem {SERVER\_IP}, \hyperpage{9}
+    \subitem {SERVER\_PORT}, \hyperpage{9}
+
+  \indexspace
+
+  \item {psk\_valid\_keys\_t}, \hyperpage{5}
+    \subitem {capacity}, \hyperpage{5}
+    \subitem {count}, \hyperpage{5}
+    \subitem {keys}, \hyperpage{5}
+  \item {psk\_validator.c}
+    \subitem {psk\_validator\_check\_key}, \hyperpage{15}
+    \subitem {psk\_validator\_cleanup}, \hyperpage{16}
+    \subitem {psk\_validator\_get\_key\_by\_index}, \hyperpage{16}
+    \subitem {psk\_validator\_get\_key\_count}, \hyperpage{17}
+    \subitem {psk\_validator\_get\_key\_for\_identity}, \hyperpage{17}
+    \subitem {psk\_validator\_init}, \hyperpage{18}
+    \subitem {psk\_validator\_is\_initialized}, \hyperpage{19}
+  \item {psk\_validator\_check\_key}
+    \subitem {psk\_validator.c}, \hyperpage{15}
+  \item {psk\_validator\_cleanup}
+    \subitem {psk\_validator.c}, \hyperpage{16}
+  \item {psk\_validator\_get\_key\_by\_index}
+    \subitem {psk\_validator.c}, \hyperpage{16}
+  \item {psk\_validator\_get\_key\_count}
+    \subitem {psk\_validator.c}, \hyperpage{17}
+  \item {psk\_validator\_get\_key\_for\_identity}
+    \subitem {psk\_validator.c}, \hyperpage{17}
+  \item {psk\_validator\_init}
+    \subitem {psk\_validator.c}, \hyperpage{18}
+  \item {psk\_validator\_is\_initialized}
+    \subitem {psk\_validator.c}, \hyperpage{19}
+
+  \indexspace
+
+  \item {RESOURCE\_CABIN\_REQUEST}
+    \subitem {main.c}, \hyperpage{9}
+  \item {RESOURCE\_FLOOR\_CALL}
+    \subitem {main.c}, \hyperpage{9}
+
+  \indexspace
+
+  \item {SERVER\_IP}
+    \subitem {main.c}, \hyperpage{9}
+  \item {SERVER\_PORT}
+    \subitem {main.c}, \hyperpage{9}
+  \item {src/main.c}, \hyperpage{7}
+  \item {src/psk\_validator.c}, \hyperpage{14}
+
+\end{theindex}

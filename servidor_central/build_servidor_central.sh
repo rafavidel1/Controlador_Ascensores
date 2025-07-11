@@ -5,7 +5,6 @@
 # =============================
 # 100% Autónomo - Instala todas las dependencias automáticamente
 # Sin prerrequisitos manuales - Zero configuration
-# NO incluye SQLite - Solo algoritmo inteligente en memoria
 
 # Colores para la salida
 GREEN='\033[0;32m'
@@ -115,7 +114,6 @@ install_libcoap() {
 # Función principal de verificación e instalación de dependencias
 install_all_dependencies() {
     log_message $BLUE "🚀 === INSTALACIÓN AUTOMÁTICA DE DEPENDENCIAS ==="
-    log_message $YELLOW "ℹ️  Nota: Este servidor NO usa SQLite - Solo algoritmo inteligente en memoria"
     
     # 1. Verificar e instalar dependencias básicas
     if ! command_exists cmake || ! command_exists make || ! command_exists pkg-config || ! command_exists gcc; then
@@ -174,7 +172,7 @@ install_all_dependencies() {
     fi
     
     log_message $GREEN "🎉 === TODAS LAS DEPENDENCIAS INSTALADAS CORRECTAMENTE ==="
-    log_message $GREEN "✅ Algoritmo inteligente en memoria - Sin base de datos"
+    log_message $GREEN "✅ Algoritmo inteligente"
 }
 
 # Función para compilar el proyecto
@@ -273,7 +271,7 @@ check_minikube() {
 main() {
     log_message $BLUE "🌟 === SERVIDOR CENTRAL BUILD SCRIPT - 100% AUTÓNOMO ==="
     log_message $BLUE "🔧 Sin prerrequisitos manuales - Instalación automática de dependencias"
-    log_message $BLUE "🧠 Algoritmo inteligente en memoria - Sin base de datos SQLite"
+    log_message $BLUE "🧠 Algoritmo inteligente"
     
     # Verificar que estamos en el directorio correcto
     if [ ! -f "CMakeLists.txt" ]; then

@@ -15,6 +15,51 @@
 
 extern elevator_group_state_t managed_elevator_group;
 
+/**
+ * @brief Carga los datos de simulación desde un archivo JSON
+ * @param archivo_json Ruta al archivo JSON con la configuración de simulación
+ * @param datos Puntero a la estructura donde se almacenarán los datos cargados
+ * @return true si se cargaron correctamente, false en caso de error
+ * 
+ * Esta función lee y parsea un archivo JSON que contiene la configuración
+ * de simulación de ascensores, incluyendo edificios y peticiones.
+ * 
+ * **Estructura JSON esperada:**
+ * ```json
+ * {
+ *   "edificios": [
+ *     {
+ *       "id_edificio": "E1",
+ *       "peticiones": [
+ *         {
+ *           "tipo": "llamada_piso",
+ *           "piso_origen": 3,
+ *           "direccion": "up"
+ *         },
+ *         {
+ *           "tipo": "solicitud_cabina",
+ *           "indice_ascensor": 0,
+ *           "piso_destino": 5
+ *         }
+ *       ]
+ *     }
+ *   ]
+ * }
+ * ```
+ * 
+ * **Operaciones realizadas:**
+ * - Apertura y lectura del archivo JSON
+ * - Parsing y validación de la estructura JSON
+ * - Asignación de memoria para edificios y peticiones
+ * - Validación de tipos de peticiones y parámetros
+ * - Inicialización de estructuras de datos
+ * 
+ * En caso de error, libera automáticamente toda la memoria asignada.
+ * 
+ * @see liberar_datos_simulacion()
+ * @see datos_simulacion_t
+ * @see edificio_simulacion_t
+ */
 bool cargar_datos_simulacion(const char *archivo_json, datos_simulacion_t *datos) {
     if (!archivo_json || !datos) {
         printf("[SIMULATION] Error: Parámetros nulos\n");
@@ -208,6 +253,24 @@ bool cargar_datos_simulacion(const char *archivo_json, datos_simulacion_t *datos
     return true;
 }
 
+/**
+ * @brief Libera la memoria asignada para los datos de simulación
+ * @param datos Puntero a la estructura de datos de simulación a liberar
+ * 
+ * Esta función libera toda la memoria asignada dinámicamente para
+ * los datos de simulación, incluyendo arrays de edificios y peticiones.
+ * 
+ * **Operaciones realizadas:**
+ * - Libera memoria de peticiones para cada edificio
+ * - Libera memoria del array de edificios
+ * - Resetea los contadores y punteros
+ * - Inicializa la estructura a cero
+ * 
+ * La función es segura para llamar múltiples veces o con punteros NULL.
+ * 
+ * @see cargar_datos_simulacion()
+ * @see datos_simulacion_t
+ */
 void liberar_datos_simulacion(datos_simulacion_t *datos) {
     if (!datos) return;
 
@@ -223,6 +286,27 @@ void liberar_datos_simulacion(datos_simulacion_t *datos) {
     memset(datos, 0, sizeof(datos_simulacion_t));
 }
 
+/**
+ * @brief Selecciona un edificio aleatorio de los datos de simulación
+ * @param datos Puntero a los datos de simulación cargados
+ * @return Puntero al edificio seleccionado, o NULL si no hay edificios
+ * 
+ * Esta función selecciona aleatoriamente un edificio de los disponibles
+ * en los datos de simulación cargados. Utiliza la función rand() para
+ * la selección aleatoria.
+ * 
+ * **Comportamiento:**
+ * - Verifica que existan edificios disponibles
+ * - Genera un índice aleatorio válido
+ * - Retorna el puntero al edificio seleccionado
+ * - Registra la selección en el sistema de logging
+ * 
+ * @note Se debe llamar a srand() antes de usar esta función para
+ *       garantizar aleatoriedad real.
+ * 
+ * @see datos_simulacion_t
+ * @see edificio_simulacion_t
+ */
 edificio_simulacion_t* seleccionar_edificio_aleatorio(datos_simulacion_t *datos) {
     if (!datos || !datos->datos_cargados || datos->num_edificios <= 0) {
         printf("[SIMULATION] Error: No hay datos para selección aleatoria\n");
@@ -244,6 +328,24 @@ edificio_simulacion_t* seleccionar_edificio_aleatorio(datos_simulacion_t *datos)
     return edificio_seleccionado;
 }
 
+/**
+ * @brief Convierte una cadena de dirección a valor numérico
+ * @param direccion_str Cadena que representa la dirección ("up", "down", etc.)
+ * @return Valor numérico correspondiente a la dirección
+ * 
+ * Esta función convierte cadenas de texto que representan direcciones
+ * de movimiento a valores numéricos utilizados en frames CAN.
+ * 
+ * **Conversiones soportadas:**
+ * - "up" → 0 (MOVING_UP)
+ * - "down" → 1 (MOVING_DOWN)
+ * - Otros valores → 0 (por defecto)
+ * 
+ * La función es insensible a mayúsculas y minúsculas.
+ * 
+ * @see movement_direction_enum_t
+ * @see simulated_can_frame_t
+ */
 int convertir_direccion_string(const char *direccion_str) {
     if (!direccion_str) return MOVING_UP;
     
@@ -256,6 +358,31 @@ int convertir_direccion_string(const char *direccion_str) {
     return MOVING_UP;
 }
 
+/**
+ * @brief Ejecuta las peticiones de un edificio específico
+ * @param edificio Puntero al edificio cuyas peticiones se van a ejecutar
+ * @param ctx Contexto CoAP para el procesamiento de frames CAN
+ * @return Número de peticiones procesadas exitosamente
+ * 
+ * Esta función ejecuta secuencialmente todas las peticiones de un edificio,
+ * convirtiéndolas a frames CAN simulados y procesándolas a través del
+ * puente CAN-CoAP.
+ * 
+ * **Tipos de peticiones soportadas:**
+ * - **Llamada de piso**: Genera frame CAN 0x100 con piso origen y dirección
+ * - **Solicitud de cabina**: Genera frame CAN 0x200 con ascensor y destino
+ * 
+ * **Operaciones realizadas:**
+ * - Actualiza el grupo de ascensores con el ID del edificio
+ * - Procesa cada petición según su tipo
+ * - Crea frames CAN simulados apropiados
+ * - Envía frames al puente CAN-CoAP para procesamiento
+ * - Registra estadísticas de peticiones procesadas
+ * 
+ * @see peticion_simulacion_t
+ * @see simulated_can_frame_t
+ * @see ag_can_bridge_process_incoming_frame()
+ */
 int ejecutar_peticiones_edificio(edificio_simulacion_t *edificio, coap_context_t *ctx) {
     // Esta función no se usará directamente, la lógica estará en mi_simulador_ascensor.c
     return 0;

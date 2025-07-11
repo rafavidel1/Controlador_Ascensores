@@ -1,41 +1,49 @@
 \doxysection{src/psk\+\_\+validator.c File Reference}
-\label{psk__validator_8c}\index{src/psk\_validator.c@{src/psk\_validator.c}}
+\hypertarget{psk__validator_8c}{}\label{psk__validator_8c}\index{src/psk\_validator.c@{src/psk\_validator.c}}
 
 
-Implementación del validador de claves PSK para autenticación DTLS.  
+Implementación del validador de credenciales para autenticación DTLS.  
 
 
-\doxysubsubsection*{Data Structures}
+{\ttfamily \#include "{}servidor\+\_\+central/psk\+\_\+validator.\+h"{}}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+Include dependency graph for psk\+\_\+validator.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{psk__validator_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
-struct \textbf{ psk\+\_\+valid\+\_\+keys\+\_\+t}
-\begin{DoxyCompactList}\small\item\em Estructura para almacenar las claves PSK válidas. \end{DoxyCompactList}\end{DoxyCompactItemize}
+struct \mbox{\hyperlink{structpsk__valid__keys__t}{psk\+\_\+valid\+\_\+keys\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Estructura para almacenar las credenciales válidas. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-int \textbf{ psk\+\_\+validator\+\_\+init} (const char $\ast$keys\+\_\+file\+\_\+path)
-\begin{DoxyCompactList}\small\item\em Inicializa el validador de claves PSK. \end{DoxyCompactList}\item 
-int \textbf{ psk\+\_\+validator\+\_\+check\+\_\+key} (const char $\ast$key, size\+\_\+t key\+\_\+len)
-\begin{DoxyCompactList}\small\item\em Valida si una clave PSK está en la lista de claves válidas. \end{DoxyCompactList}\item 
-int \textbf{ psk\+\_\+validator\+\_\+get\+\_\+key\+\_\+for\+\_\+identity} (const char $\ast$identity, uint8\+\_\+t $\ast$key\+\_\+buffer, size\+\_\+t buffer\+\_\+size)
-\begin{DoxyCompactList}\small\item\em Obtiene una clave PSK válida para una identidad específica. \end{DoxyCompactList}\item 
-int \textbf{ psk\+\_\+validator\+\_\+get\+\_\+key\+\_\+by\+\_\+index} (int index, uint8\+\_\+t $\ast$key\+\_\+buffer, size\+\_\+t buffer\+\_\+size)
-\begin{DoxyCompactList}\small\item\em Obtiene una clave PSK por índice específico. \end{DoxyCompactList}\item 
-void \textbf{ psk\+\_\+validator\+\_\+cleanup} (void)
-\begin{DoxyCompactList}\small\item\em Libera los recursos del validador de claves PSK. \end{DoxyCompactList}\item 
-int \textbf{ psk\+\_\+validator\+\_\+get\+\_\+key\+\_\+count} (void)
-\begin{DoxyCompactList}\small\item\em Obtiene el número total de claves PSK disponibles. \end{DoxyCompactList}\item 
-int \textbf{ psk\+\_\+validator\+\_\+is\+\_\+initialized} (void)
+int \mbox{\hyperlink{psk__validator_8c_af84bfa633858d22629eeb419e53a30c1}{psk\+\_\+validator\+\_\+init}} (const char \texorpdfstring{$\ast$}{*}keys\+\_\+file\+\_\+path)
+\begin{DoxyCompactList}\small\item\em Inicializa el validador de credenciales. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{psk__validator_8c_a27dde0ae78aff86e6e10e2fa34c04380}{psk\+\_\+validator\+\_\+check\+\_\+key}} (const char \texorpdfstring{$\ast$}{*}key, size\+\_\+t key\+\_\+len)
+\begin{DoxyCompactList}\small\item\em Valida si unas credenciales están en la lista de credenciales válidas. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{psk__validator_8c_a9cf6c3d9a1ca4ecafc27b4b5cf059d9c}{psk\+\_\+validator\+\_\+get\+\_\+key\+\_\+for\+\_\+identity}} (const char \texorpdfstring{$\ast$}{*}identity, uint8\+\_\+t \texorpdfstring{$\ast$}{*}key\+\_\+buffer, size\+\_\+t buffer\+\_\+size)
+\begin{DoxyCompactList}\small\item\em Obtiene credenciales válidas para una identidad específica. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{psk__validator_8c_a51ef499b334e697efea613cdece4e89d}{psk\+\_\+validator\+\_\+get\+\_\+key\+\_\+by\+\_\+index}} (int index, uint8\+\_\+t \texorpdfstring{$\ast$}{*}key\+\_\+buffer, size\+\_\+t buffer\+\_\+size)
+\begin{DoxyCompactList}\small\item\em Obtiene credenciales por índice específico. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{psk__validator_8c_aec3fccc28ea8546380cd0c4efaacf603}{psk\+\_\+validator\+\_\+cleanup}} (void)
+\begin{DoxyCompactList}\small\item\em Libera los recursos del validador de credenciales. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{psk__validator_8c_a97f71f7909e6e6b3f737e7ca9d88734d}{psk\+\_\+validator\+\_\+get\+\_\+key\+\_\+count}} (void)
+\begin{DoxyCompactList}\small\item\em Obtiene el número total de credenciales disponibles. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{psk__validator_8c_a500c8cc88b4792e167d32feb4a0404ef}{psk\+\_\+validator\+\_\+is\+\_\+initialized}} (void)
 \begin{DoxyCompactList}\small\item\em Verifica si el validador está inicializado. \end{DoxyCompactList}\end{DoxyCompactItemize}
-\doxysubsubsection*{Variables}
-\begin{DoxyCompactItemize}
-\item 
-static \textbf{ psk\+\_\+valid\+\_\+keys\+\_\+t} \textbf{ g\+\_\+valid\+\_\+keys} = \{NULL, 0, 0\}
-\begin{DoxyCompactList}\small\item\em Variable global que almacena las claves PSK válidas. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
-Implementación del validador de claves PSK para autenticación DTLS. 
+Implementación del validador de credenciales para autenticación DTLS. 
 
 \begin{DoxyAuthor}{Author}
 Sistema de Control de Ascensores 
@@ -46,66 +54,66 @@ Sistema de Control de Ascensores
 \begin{DoxyDate}{Date}
 2025
 \end{DoxyDate}
-Este archivo implementa el sistema de validación de claves PSK utilizado en la autenticación DTLS-\/\+PSK del servidor central. El sistema carga claves desde un archivo pre-\/generado y proporciona funciones para validar y obtener claves de forma determinística basada en la identidad del cliente.
+Este archivo implementa el sistema de validación de credenciales utilizado en la autenticación DTLS del servidor central. El sistema carga credenciales desde un archivo de configuración y proporciona funciones para validar y obtener credenciales de forma determinística basada en la identidad del cliente.
 
 \begin{DoxySeeAlso}{See also}
-\doxyref{psk\+\_\+validator.\+h}{p.}{psk__validator_8h} 
+psk\+\_\+validator.\+h 
 
-\doxyref{dtls\+\_\+common\+\_\+config.\+h}{p.}{dtls__common__config_8h} 
+dtls\+\_\+common\+\_\+config.\+h 
 \end{DoxySeeAlso}
 
 
 \doxysubsection{Function Documentation}
-\label{psk__validator_8c_a27dde0ae78aff86e6e10e2fa34c04380} 
+\Hypertarget{psk__validator_8c_a27dde0ae78aff86e6e10e2fa34c04380}\label{psk__validator_8c_a27dde0ae78aff86e6e10e2fa34c04380} 
 \index{psk\_validator.c@{psk\_validator.c}!psk\_validator\_check\_key@{psk\_validator\_check\_key}}
 \index{psk\_validator\_check\_key@{psk\_validator\_check\_key}!psk\_validator.c@{psk\_validator.c}}
-\doxysubsubsection{psk\_validator\_check\_key()}
-{\footnotesize\ttfamily int psk\+\_\+validator\+\_\+check\+\_\+key (\begin{DoxyParamCaption}\item[{const char $\ast$}]{key,  }\item[{size\+\_\+t}]{key\+\_\+len }\end{DoxyParamCaption})}
+\doxysubsubsection{\texorpdfstring{psk\_validator\_check\_key()}{psk\_validator\_check\_key()}}
+{\footnotesize\ttfamily int psk\+\_\+validator\+\_\+check\+\_\+key (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{key,  }\item[{size\+\_\+t}]{key\+\_\+len }\end{DoxyParamCaption})}
 
 
 
-Valida si una clave PSK está en la lista de claves válidas. 
+Valida si unas credenciales están en la lista de credenciales válidas. 
 
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em key} & Clave PSK a validar \\
+\mbox{\texttt{ in}}  & {\em key} & Credenciales a validar \\
 \hline
-\mbox{\texttt{ in}}  & {\em key\+\_\+len} & Longitud de la clave en bytes\\
+\mbox{\texttt{ in}}  & {\em key\+\_\+len} & Longitud de las credenciales en bytes\\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-1 si la clave es válida, 0 si no lo es
+1 si las credenciales son válidas, 0 si no lo son
 \end{DoxyReturn}
-Esta función valida una clave PSK contra la lista de claves válidas\+:
+Esta función valida unas credenciales contra la lista de credenciales válidas\+:
 \begin{DoxyItemize}
-\item Verifica que haya claves cargadas en memoria
-\item Compara la clave proporcionada con cada clave almacenada
+\item Verifica que haya credenciales cargadas en memoria
+\item Compara las credenciales proporcionadas con cada credencial almacenada
 \item Utiliza comparación exacta de longitud y contenido
 \item Retorna el resultado de la validación
 \end{DoxyItemize}
 
 \begin{DoxyNote}{Note}
-La búsqueda es lineal O(n) donde n es el número de claves 
+La búsqueda es lineal O(n) donde n es el número de credenciales 
 
 La función es thread-\/safe para lecturas concurrentes 
 \end{DoxyNote}
 \begin{DoxySeeAlso}{See also}
-\doxyref{psk\+\_\+validator\+\_\+get\+\_\+key\+\_\+for\+\_\+identity}{p.}{psk__validator_8c_a9cf6c3d9a1ca4ecafc27b4b5cf059d9c} 
+\doxylink{psk__validator_8c_a9cf6c3d9a1ca4ecafc27b4b5cf059d9c}{psk\+\_\+validator\+\_\+get\+\_\+key\+\_\+for\+\_\+identity} 
 \end{DoxySeeAlso}
-\label{psk__validator_8c_aec3fccc28ea8546380cd0c4efaacf603} 
+\Hypertarget{psk__validator_8c_aec3fccc28ea8546380cd0c4efaacf603}\label{psk__validator_8c_aec3fccc28ea8546380cd0c4efaacf603} 
 \index{psk\_validator.c@{psk\_validator.c}!psk\_validator\_cleanup@{psk\_validator\_cleanup}}
 \index{psk\_validator\_cleanup@{psk\_validator\_cleanup}!psk\_validator.c@{psk\_validator.c}}
-\doxysubsubsection{psk\_validator\_cleanup()}
+\doxysubsubsection{\texorpdfstring{psk\_validator\_cleanup()}{psk\_validator\_cleanup()}}
 {\footnotesize\ttfamily void psk\+\_\+validator\+\_\+cleanup (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
 
 
 
-Libera los recursos del validador de claves PSK. 
+Libera los recursos del validador de credenciales. 
 
 Esta función limpia todos los recursos asociados al validador\+:
 \begin{DoxyItemize}
-\item Libera cada clave individual del array
-\item Libera el array de punteros a claves
+\item Libera cada credencial individual del array
+\item Libera el array de punteros a credenciales
 \item Resetea los contadores y punteros
 \item Prepara el validador para una nueva inicialización
 \end{DoxyItemize}
@@ -116,23 +124,23 @@ Debe ser llamada al finalizar para evitar memory leaks
 Es seguro llamar esta función múltiples veces 
 \end{DoxyNote}
 \begin{DoxySeeAlso}{See also}
-\doxyref{psk\+\_\+validator\+\_\+init}{p.}{psk__validator_8c_af84bfa633858d22629eeb419e53a30c1} 
+\doxylink{psk__validator_8c_af84bfa633858d22629eeb419e53a30c1}{psk\+\_\+validator\+\_\+init} 
 \end{DoxySeeAlso}
-\label{psk__validator_8c_a51ef499b334e697efea613cdece4e89d} 
+\Hypertarget{psk__validator_8c_a51ef499b334e697efea613cdece4e89d}\label{psk__validator_8c_a51ef499b334e697efea613cdece4e89d} 
 \index{psk\_validator.c@{psk\_validator.c}!psk\_validator\_get\_key\_by\_index@{psk\_validator\_get\_key\_by\_index}}
 \index{psk\_validator\_get\_key\_by\_index@{psk\_validator\_get\_key\_by\_index}!psk\_validator.c@{psk\_validator.c}}
-\doxysubsubsection{psk\_validator\_get\_key\_by\_index()}
-{\footnotesize\ttfamily int psk\+\_\+validator\+\_\+get\+\_\+key\+\_\+by\+\_\+index (\begin{DoxyParamCaption}\item[{int}]{index,  }\item[{uint8\+\_\+t $\ast$}]{key\+\_\+buffer,  }\item[{size\+\_\+t}]{buffer\+\_\+size }\end{DoxyParamCaption})}
+\doxysubsubsection{\texorpdfstring{psk\_validator\_get\_key\_by\_index()}{psk\_validator\_get\_key\_by\_index()}}
+{\footnotesize\ttfamily int psk\+\_\+validator\+\_\+get\+\_\+key\+\_\+by\+\_\+index (\begin{DoxyParamCaption}\item[{int}]{index,  }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{key\+\_\+buffer,  }\item[{size\+\_\+t}]{buffer\+\_\+size }\end{DoxyParamCaption})}
 
 
 
-Obtiene una clave PSK por índice específico. 
+Obtiene credenciales por índice específico. 
 
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em index} & Índice de la clave en el archivo (0-\/based) \\
+\mbox{\texttt{ in}}  & {\em index} & Índice de las credenciales en el archivo (0-\/based) \\
 \hline
-\mbox{\texttt{ out}}  & {\em key\+\_\+buffer} & Buffer donde se almacenará la clave \\
+\mbox{\texttt{ out}}  & {\em key\+\_\+buffer} & Buffer donde se almacenarán las credenciales \\
 \hline
 \mbox{\texttt{ in}}  & {\em buffer\+\_\+size} & Tamaño del buffer en bytes\\
 \hline
@@ -140,11 +148,11 @@ Obtiene una clave PSK por índice específico.
 \begin{DoxyReturn}{Returns}
 0 si se obtuvo correctamente, -\/1 en caso de error
 \end{DoxyReturn}
-Esta función obtiene una clave PSK por su posición en el array\+:
+Esta función obtiene credenciales por su posición en el array\+:
 \begin{DoxyItemize}
 \item Valida que el índice esté dentro del rango válido
-\item Obtiene la clave del array de claves cargadas
-\item Copia la clave al buffer proporcionado
+\item Obtiene las credenciales del array de credenciales cargadas
+\item Copia las credenciales al buffer proporcionado
 \item Verifica que el buffer tenga espacio suficiente
 \end{DoxyItemize}
 
@@ -152,41 +160,41 @@ Esta función obtiene una clave PSK por su posición en el array\+:
 El índice debe estar entre 0 y count-\/1 
 \end{DoxyNote}
 \begin{DoxySeeAlso}{See also}
-\doxyref{psk\+\_\+validator\+\_\+get\+\_\+key\+\_\+for\+\_\+identity}{p.}{psk__validator_8c_a9cf6c3d9a1ca4ecafc27b4b5cf059d9c} 
+\doxylink{psk__validator_8c_a9cf6c3d9a1ca4ecafc27b4b5cf059d9c}{psk\+\_\+validator\+\_\+get\+\_\+key\+\_\+for\+\_\+identity} 
 \end{DoxySeeAlso}
-\label{psk__validator_8c_a97f71f7909e6e6b3f737e7ca9d88734d} 
+\Hypertarget{psk__validator_8c_a97f71f7909e6e6b3f737e7ca9d88734d}\label{psk__validator_8c_a97f71f7909e6e6b3f737e7ca9d88734d} 
 \index{psk\_validator.c@{psk\_validator.c}!psk\_validator\_get\_key\_count@{psk\_validator\_get\_key\_count}}
 \index{psk\_validator\_get\_key\_count@{psk\_validator\_get\_key\_count}!psk\_validator.c@{psk\_validator.c}}
-\doxysubsubsection{psk\_validator\_get\_key\_count()}
+\doxysubsubsection{\texorpdfstring{psk\_validator\_get\_key\_count()}{psk\_validator\_get\_key\_count()}}
 {\footnotesize\ttfamily int psk\+\_\+validator\+\_\+get\+\_\+key\+\_\+count (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
 
 
 
-Obtiene el número total de claves PSK disponibles. 
+Obtiene el número total de credenciales disponibles. 
 
 \begin{DoxyReturn}{Returns}
-Número de claves PSK en el archivo
+Número de credenciales en el archivo
 \end{DoxyReturn}
-Esta función retorna el número total de claves PSK que han sido cargadas desde el archivo de claves.
+Esta función retorna el número total de credenciales que han sido cargadas desde el archivo de configuración.
 
 \begin{DoxyNote}{Note}
 Solo es válida después de llamar a psk\+\_\+validator\+\_\+init 
 \end{DoxyNote}
-\label{psk__validator_8c_a9cf6c3d9a1ca4ecafc27b4b5cf059d9c} 
+\Hypertarget{psk__validator_8c_a9cf6c3d9a1ca4ecafc27b4b5cf059d9c}\label{psk__validator_8c_a9cf6c3d9a1ca4ecafc27b4b5cf059d9c} 
 \index{psk\_validator.c@{psk\_validator.c}!psk\_validator\_get\_key\_for\_identity@{psk\_validator\_get\_key\_for\_identity}}
 \index{psk\_validator\_get\_key\_for\_identity@{psk\_validator\_get\_key\_for\_identity}!psk\_validator.c@{psk\_validator.c}}
-\doxysubsubsection{psk\_validator\_get\_key\_for\_identity()}
-{\footnotesize\ttfamily int psk\+\_\+validator\+\_\+get\+\_\+key\+\_\+for\+\_\+identity (\begin{DoxyParamCaption}\item[{const char $\ast$}]{identity,  }\item[{uint8\+\_\+t $\ast$}]{key\+\_\+buffer,  }\item[{size\+\_\+t}]{buffer\+\_\+size }\end{DoxyParamCaption})}
+\doxysubsubsection{\texorpdfstring{psk\_validator\_get\_key\_for\_identity()}{psk\_validator\_get\_key\_for\_identity()}}
+{\footnotesize\ttfamily int psk\+\_\+validator\+\_\+get\+\_\+key\+\_\+for\+\_\+identity (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{identity,  }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{key\+\_\+buffer,  }\item[{size\+\_\+t}]{buffer\+\_\+size }\end{DoxyParamCaption})}
 
 
 
-Obtiene una clave PSK válida para una identidad específica. 
+Obtiene credenciales válidas para una identidad específica. 
 
 
 \begin{DoxyParams}[1]{Parameters}
 \mbox{\texttt{ in}}  & {\em identity} & Identidad del cliente \\
 \hline
-\mbox{\texttt{ out}}  & {\em key\+\_\+buffer} & Buffer donde se almacenará la clave \\
+\mbox{\texttt{ out}}  & {\em key\+\_\+buffer} & Buffer donde se almacenarán las credenciales \\
 \hline
 \mbox{\texttt{ in}}  & {\em buffer\+\_\+size} & Tamaño del buffer en bytes\\
 \hline
@@ -194,61 +202,61 @@ Obtiene una clave PSK válida para una identidad específica.
 \begin{DoxyReturn}{Returns}
 0 si se obtuvo correctamente, -\/1 en caso de error
 \end{DoxyReturn}
-Esta función obtiene la clave PSK correspondiente a una identidad\+:
+Esta función obtiene las credenciales correspondientes a una identidad\+:
 \begin{DoxyItemize}
 \item Calcula un hash determinístico de la identidad
-\item Usa el hash como índice para seleccionar una clave
-\item Copia la clave seleccionada al buffer proporcionado
+\item Usa el hash como índice para seleccionar unas credenciales
+\item Copia las credenciales seleccionadas al buffer proporcionado
 \item Verifica que el buffer tenga espacio suficiente
 \end{DoxyItemize}
 
 \begin{DoxyNote}{Note}
-La selección es determinística\+: misma identidad = misma clave 
+La selección es determinística\+: misma identidad = mismas credenciales 
 
 El algoritmo usa hash simple para distribución uniforme 
 \end{DoxyNote}
 \begin{DoxySeeAlso}{See also}
-\doxyref{psk\+\_\+validator\+\_\+check\+\_\+key}{p.}{psk__validator_8c_a27dde0ae78aff86e6e10e2fa34c04380} 
+\doxylink{psk__validator_8c_a27dde0ae78aff86e6e10e2fa34c04380}{psk\+\_\+validator\+\_\+check\+\_\+key} 
 \end{DoxySeeAlso}
-\label{psk__validator_8c_af84bfa633858d22629eeb419e53a30c1} 
+\Hypertarget{psk__validator_8c_af84bfa633858d22629eeb419e53a30c1}\label{psk__validator_8c_af84bfa633858d22629eeb419e53a30c1} 
 \index{psk\_validator.c@{psk\_validator.c}!psk\_validator\_init@{psk\_validator\_init}}
 \index{psk\_validator\_init@{psk\_validator\_init}!psk\_validator.c@{psk\_validator.c}}
-\doxysubsubsection{psk\_validator\_init()}
-{\footnotesize\ttfamily int psk\+\_\+validator\+\_\+init (\begin{DoxyParamCaption}\item[{const char $\ast$}]{keys\+\_\+file\+\_\+path }\end{DoxyParamCaption})}
+\doxysubsubsection{\texorpdfstring{psk\_validator\_init()}{psk\_validator\_init()}}
+{\footnotesize\ttfamily int psk\+\_\+validator\+\_\+init (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{keys\+\_\+file\+\_\+path }\end{DoxyParamCaption})}
 
 
 
-Inicializa el validador de claves PSK. 
+Inicializa el validador de credenciales. 
 
 
 \begin{DoxyParams}[1]{Parameters}
-\mbox{\texttt{ in}}  & {\em keys\+\_\+file\+\_\+path} & Ruta al archivo de claves PSK\\
+\mbox{\texttt{ in}}  & {\em keys\+\_\+file\+\_\+path} & Ruta al archivo de configuración de autenticación\\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 0 si se inicializó correctamente, -\/1 en caso de error
 \end{DoxyReturn}
-Esta función inicializa el sistema de validación de claves PSK\+:
+Esta función inicializa el sistema de validación de credenciales\+:
 \begin{DoxyItemize}
-\item Abre el archivo de claves PSK especificado
+\item Abre el archivo de configuración especificado
 \item Cuenta el número de líneas en el archivo
-\item Asigna memoria dinámica para almacenar las claves
-\item Lee todas las claves del archivo y las almacena en memoria
+\item Asigna memoria dinámica para almacenar las credenciales
+\item Lee todas las credenciales del archivo y las almacena en memoria
 \item Cierra el archivo después de la carga
 \end{DoxyItemize}
 
 \begin{DoxyNote}{Note}
-El archivo de claves debe contener una clave por línea 
+El archivo debe contener una credencial por línea 
 
 La función maneja automáticamente la memoria dinámica 
 \end{DoxyNote}
 \begin{DoxySeeAlso}{See also}
-\doxyref{psk\+\_\+validator\+\_\+cleanup}{p.}{psk__validator_8c_aec3fccc28ea8546380cd0c4efaacf603} 
+\doxylink{psk__validator_8c_aec3fccc28ea8546380cd0c4efaacf603}{psk\+\_\+validator\+\_\+cleanup} 
 \end{DoxySeeAlso}
-\label{psk__validator_8c_a500c8cc88b4792e167d32feb4a0404ef} 
+\Hypertarget{psk__validator_8c_a500c8cc88b4792e167d32feb4a0404ef}\label{psk__validator_8c_a500c8cc88b4792e167d32feb4a0404ef} 
 \index{psk\_validator.c@{psk\_validator.c}!psk\_validator\_is\_initialized@{psk\_validator\_is\_initialized}}
 \index{psk\_validator\_is\_initialized@{psk\_validator\_is\_initialized}!psk\_validator.c@{psk\_validator.c}}
-\doxysubsubsection{psk\_validator\_is\_initialized()}
+\doxysubsubsection{\texorpdfstring{psk\_validator\_is\_initialized()}{psk\_validator\_is\_initialized()}}
 {\footnotesize\ttfamily int psk\+\_\+validator\+\_\+is\+\_\+initialized (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
 
 
@@ -258,22 +266,8 @@ Verifica si el validador está inicializado.
 \begin{DoxyReturn}{Returns}
 1 si está inicializado, 0 en caso contrario
 \end{DoxyReturn}
-Esta función verifica si el validador de claves PSK ha sido inicializado correctamente y está listo para su uso.
+Esta función verifica si el validador de credenciales ha sido inicializado correctamente y está listo para su uso.
 
 \begin{DoxyNote}{Note}
 Útil para verificar el estado antes de usar otras funciones 
 \end{DoxyNote}
-
-
-\doxysubsection{Variable Documentation}
-\label{psk__validator_8c_ad66bf50eb2b5694992e46ac70a398a36} 
-\index{psk\_validator.c@{psk\_validator.c}!g\_valid\_keys@{g\_valid\_keys}}
-\index{g\_valid\_keys@{g\_valid\_keys}!psk\_validator.c@{psk\_validator.c}}
-\doxysubsubsection{g\_valid\_keys}
-{\footnotesize\ttfamily \textbf{ psk\+\_\+valid\+\_\+keys\+\_\+t} g\+\_\+valid\+\_\+keys = \{NULL, 0, 0\}\hspace{0.3cm}{\ttfamily [static]}}
-
-
-
-Variable global que almacena las claves PSK válidas. 
-
-Esta variable global mantiene el estado del validador de claves PSK. Contiene todas las claves cargadas desde el archivo de configuración. 

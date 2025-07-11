@@ -1,0 +1,139 @@
+\doxysection{src/api\+\_\+handlers.h File Reference}
+\hypertarget{api__handlers_8h}{}\label{api__handlers_8h}\index{src/api\_handlers.h@{src/api\_handlers.h}}
+
+
+Declares Co\+AP handler functions and related data structures for the API Gateway.  
+
+
+{\ttfamily \#include $<$coap3/coap.\+h$>$}\newline
+{\ttfamily \#include "{}api\+\_\+gateway/coap\+\_\+config.\+h"{}}\newline
+{\ttfamily \#include "{}api\+\_\+gateway/elevator\+\_\+state\+\_\+manager.\+h"{}}\newline
+Include dependency graph for api\+\_\+handlers.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{api__handlers_8h__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structapi__request__tracker__t}{api\+\_\+request\+\_\+tracker\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Tracks information from an original client (elevator) request OR a gateway-\/originated request. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{api__handlers_8h_a17e4539046553af2ffabda67ff75cbb0}\label{api__handlers_8h_a17e4539046553af2ffabda67ff75cbb0} 
+enum {\bfseries gw\+\_\+request\+\_\+type\+\_\+t} \{ {\bfseries GW\+\_\+\+REQUEST\+\_\+\+TYPE\+\_\+\+UNKNOWN}
+, {\bfseries GW\+\_\+\+REQUEST\+\_\+\+TYPE\+\_\+\+FLOOR\+\_\+\+CALL}
+, {\bfseries GW\+\_\+\+REQUEST\+\_\+\+TYPE\+\_\+\+CABIN\+\_\+\+REQUEST}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{api__handlers_8h_a7fd01dcda5b603f45f20d97c84d9260b}{handle\+\_\+sigint\+\_\+gw}} (int signum)
+\begin{DoxyCompactList}\small\item\em Signal handler for SIGINT (Ctrl+C) to allow graceful shutdown. \end{DoxyCompactList}\item 
+coap\+\_\+response\+\_\+t \mbox{\hyperlink{api__handlers_8h_aba27754223447346d8049fc61efcd6f8}{hnd\+\_\+central\+\_\+server\+\_\+response\+\_\+gw}} (coap\+\_\+session\+\_\+t \texorpdfstring{$\ast$}{*}session\+\_\+to\+\_\+central, const coap\+\_\+pdu\+\_\+t \texorpdfstring{$\ast$}{*}sent\+\_\+to\+\_\+central, const coap\+\_\+pdu\+\_\+t \texorpdfstring{$\ast$}{*}received\+\_\+from\+\_\+central, const coap\+\_\+mid\+\_\+t mid\+\_\+to\+\_\+central)
+\begin{DoxyCompactList}\small\item\em Handles responses received from the Central Server. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Declares Co\+AP handler functions and related data structures for the API Gateway. 
+
+This file provides the interface for the Co\+AP NACK/response handler for client requests made by the gateway. 
+
+\doxysubsection{Function Documentation}
+\Hypertarget{api__handlers_8h_a7fd01dcda5b603f45f20d97c84d9260b}\label{api__handlers_8h_a7fd01dcda5b603f45f20d97c84d9260b} 
+\index{api\_handlers.h@{api\_handlers.h}!handle\_sigint\_gw@{handle\_sigint\_gw}}
+\index{handle\_sigint\_gw@{handle\_sigint\_gw}!api\_handlers.h@{api\_handlers.h}}
+\doxysubsubsection{\texorpdfstring{handle\_sigint\_gw()}{handle\_sigint\_gw()}}
+{\footnotesize\ttfamily void handle\+\_\+sigint\+\_\+gw (\begin{DoxyParamCaption}\item[{int}]{signum }\end{DoxyParamCaption})}
+
+
+
+Signal handler for SIGINT (Ctrl+C) to allow graceful shutdown. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em signum} & The signal number (unused).\\
+\hline
+\end{DoxyParams}
+Signal handler for SIGINT (Ctrl+C) to allow graceful shutdown.
+
+
+\begin{DoxyParams}{Parameters}
+{\em signum} & Número de señal recibida (se espera SIGINT). No utilizado.\\
+\hline
+\end{DoxyParams}
+Establece la bandera quit\+\_\+main\+\_\+loop a 1 para señalar al bucle principal de eventos que debe terminar, permitiendo una terminación elegante del API Gateway.
+
+Esta función es registrada como manejador de SIGINT en \doxylink{main_8c}{main.\+c} y proporciona una forma limpia de cerrar la aplicación. \Hypertarget{api__handlers_8h_aba27754223447346d8049fc61efcd6f8}\label{api__handlers_8h_aba27754223447346d8049fc61efcd6f8} 
+\index{api\_handlers.h@{api\_handlers.h}!hnd\_central\_server\_response\_gw@{hnd\_central\_server\_response\_gw}}
+\index{hnd\_central\_server\_response\_gw@{hnd\_central\_server\_response\_gw}!api\_handlers.h@{api\_handlers.h}}
+\doxysubsubsection{\texorpdfstring{hnd\_central\_server\_response\_gw()}{hnd\_central\_server\_response\_gw()}}
+{\footnotesize\ttfamily coap\+\_\+response\+\_\+t hnd\+\_\+central\+\_\+server\+\_\+response\+\_\+gw (\begin{DoxyParamCaption}\item[{coap\+\_\+session\+\_\+t \texorpdfstring{$\ast$}{*}}]{session\+\_\+from\+\_\+server,  }\item[{const coap\+\_\+pdu\+\_\+t \texorpdfstring{$\ast$}{*}}]{sent\+\_\+to\+\_\+central,  }\item[{const coap\+\_\+pdu\+\_\+t \texorpdfstring{$\ast$}{*}}]{received\+\_\+from\+\_\+central,  }\item[{const coap\+\_\+mid\+\_\+t}]{mid\+\_\+from\+\_\+server }\end{DoxyParamCaption})}
+
+
+
+Handles responses received from the Central Server. 
+
+This function is registered as a Co\+AP NACK/response handler for requests made by the API Gateway (acting as a client) to the Central Server. It processes the Central Server\textquotesingle{}s response and forwards it to the original elevator client (if applicable) or updates internal state (e.\+g. for CAN originated).
+
+
+\begin{DoxyParams}{Parameters}
+{\em session\+\_\+to\+\_\+central} & The Co\+AP session between the API Gateway and the Central Server. \\
+\hline
+{\em sent\+\_\+to\+\_\+central} & The PDU that the API Gateway sent to the Central Server (can be NULL). \\
+\hline
+{\em received\+\_\+from\+\_\+central} & The PDU received from the Central Server. \\
+\hline
+{\em mid\+\_\+to\+\_\+central} & The Co\+AP Message ID of the exchange with the Central Server. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+COAP\+\_\+\+RESPONSE\+\_\+\+OK to indicate the response was handled.
+\end{DoxyReturn}
+Handles responses received from the Central Server.
+
+
+\begin{DoxyParams}{Parameters}
+{\em session\+\_\+from\+\_\+server} & Sesión Co\+AP desde la cual se recibió la respuesta \\
+\hline
+{\em sent\+\_\+to\+\_\+central} & PDU que fue enviado al servidor central \\
+\hline
+{\em received\+\_\+from\+\_\+central} & PDU recibido del servidor central \\
+\hline
+{\em mid\+\_\+from\+\_\+server} & Message ID de la respuesta del servidor \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+COAP\+\_\+\+RESPONSE\+\_\+\+OK si la respuesta se procesó correctamente
+\end{DoxyReturn}
+Esta función procesa las respuestas recibidas del servidor central para solicitudes de asignación de ascensores. Realiza las siguientes operaciones\+:
+
+
+\begin{DoxyEnumerate}
+\item {\bfseries{Validación}}\+: Verifica que se recibió un PDU válido
+\item {\bfseries{Parsing JSON}}\+: Extrae y parsea el payload JSON de la respuesta
+\item {\bfseries{Correlación}}\+: Encuentra el tracker original usando el token
+\item {\bfseries{Procesamiento}}\+: Extrae información de asignación (ascensor\+\_\+asignado\+\_\+id, tarea\+\_\+id)
+\item {\bfseries{Notificación CAN}}\+: Envía respuesta al controlador CAN correspondiente
+\item {\bfseries{Limpieza}}\+: Libera recursos del tracker y memoria asociada
+\end{DoxyEnumerate}
+
+Maneja diferentes códigos de respuesta\+:
+\begin{DoxyItemize}
+\item 2.\+01 Created\+: Asignación exitosa
+\item 4.\+xx Client Error\+: Errores de solicitud
+\item 5.\+xx Server Error\+: Errores del servidor
+\end{DoxyItemize}
+
+\begin{DoxySeeAlso}{See also}
+add\+\_\+central\+\_\+request\+\_\+tracker() 
+
+find\+\_\+and\+\_\+remove\+\_\+central\+\_\+request\+\_\+tracker() 
+
+can\+\_\+bridge.\+h 
+\end{DoxySeeAlso}

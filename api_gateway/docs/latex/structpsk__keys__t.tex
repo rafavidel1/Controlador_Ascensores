@@ -1,37 +1,29 @@
 \doxysection{psk\+\_\+keys\+\_\+t Struct Reference}
-\label{structpsk__keys__t}\index{psk\_keys\_t@{psk\_keys\_t}}
-\doxysubsubsection*{Data Fields}
+\hypertarget{structpsk__keys__t}{}\label{structpsk__keys__t}\index{psk\_keys\_t@{psk\_keys\_t}}
+
+
+Estructura para almacenar las claves PSK.  
+
+
+\doxysubsubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
-char $\ast$$\ast$ \textbf{ keys}
-\item 
-int \textbf{ count}
-\item 
-int \textbf{ capacity}
-\end{DoxyCompactItemize}
+\Hypertarget{structpsk__keys__t_aaaf85aa4b7720d86ee1fcd6a32db4dfa}\label{structpsk__keys__t_aaaf85aa4b7720d86ee1fcd6a32db4dfa} 
+char \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} {\bfseries keys}
+\begin{DoxyCompactList}\small\item\em Array dinámico de strings con las claves PSK. \end{DoxyCompactList}\item 
+\Hypertarget{structpsk__keys__t_a92e2da2d916a7fe6e1f3873ba986ffcc}\label{structpsk__keys__t_a92e2da2d916a7fe6e1f3873ba986ffcc} 
+int {\bfseries count}
+\begin{DoxyCompactList}\small\item\em Número actual de claves cargadas. \end{DoxyCompactList}\item 
+\Hypertarget{structpsk__keys__t_aceb97aba7ce96e62d93786885d58bffb}\label{structpsk__keys__t_aceb97aba7ce96e62d93786885d58bffb} 
+int {\bfseries capacity}
+\begin{DoxyCompactList}\small\item\em Capacidad máxima del array (para futuras expansiones) \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
-\doxysubsection{Field Documentation}
-\label{structpsk__keys__t_aceb97aba7ce96e62d93786885d58bffb} 
-\index{psk\_keys\_t@{psk\_keys\_t}!capacity@{capacity}}
-\index{capacity@{capacity}!psk\_keys\_t@{psk\_keys\_t}}
-\doxysubsubsection{capacity}
-{\footnotesize\ttfamily int psk\+\_\+keys\+\_\+t\+::capacity}
+\doxysubsection{Detailed Description}
+Estructura para almacenar las claves PSK. 
 
-\label{structpsk__keys__t_a92e2da2d916a7fe6e1f3873ba986ffcc} 
-\index{psk\_keys\_t@{psk\_keys\_t}!count@{count}}
-\index{count@{count}!psk\_keys\_t@{psk\_keys\_t}}
-\doxysubsubsection{count}
-{\footnotesize\ttfamily int psk\+\_\+keys\+\_\+t\+::count}
-
-\label{structpsk__keys__t_aaaf85aa4b7720d86ee1fcd6a32db4dfa} 
-\index{psk\_keys\_t@{psk\_keys\_t}!keys@{keys}}
-\index{keys@{keys}!psk\_keys\_t@{psk\_keys\_t}}
-\doxysubsubsection{keys}
-{\footnotesize\ttfamily char$\ast$$\ast$ psk\+\_\+keys\+\_\+t\+::keys}
-
-
+Esta estructura gestiona dinámicamente un array de claves PSK cargadas desde un archivo de configuración. 
 
 The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
-src/\textbf{ psk\+\_\+manager.\+c}\end{DoxyCompactItemize}
+src/\mbox{\hyperlink{psk__manager_8c}{psk\+\_\+manager.\+c}}\end{DoxyCompactItemize}

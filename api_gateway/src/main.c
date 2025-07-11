@@ -8,7 +8,7 @@
  * Este archivo implementa el API Gateway que actúa como intermediario entre
  * los controladores CAN de ascensores y el servidor central. Sus funciones principales:
  * 
- * - **Inicialización CoAP**: Configuración del contexto CoAP con soporte DTLS-PSK
+ * - **Inicialización CoAP**: Configuración del contexto CoAP con soporte DTLS
  * - **Gestión de Recursos**: Registro de endpoints CoAP para recibir solicitudes
  * - **Puente CAN-CoAP**: Transformación de mensajes CAN a solicitudes CoAP
  * - **Gestión de Estado**: Mantenimiento del estado local de ascensores
@@ -157,7 +157,7 @@ coap_context_t  *g_coap_context = NULL;
 /**
  * @brief Sesión DTLS global con el servidor central
  * 
- * Mantiene la conexión segura DTLS-PSK con el servidor central
+ * Mantiene la conexión segura DTLS con el servidor central
  * para el envío de solicitudes de asignación de ascensores.
  * Se reutiliza para múltiples solicitudes para eficiencia.
  */

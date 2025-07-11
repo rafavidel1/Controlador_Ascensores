@@ -1,66 +1,65 @@
 \doxysection{src/execution\+\_\+logger.c File Reference}
-\label{execution__logger_8c}\index{src/execution\_logger.c@{src/execution\_logger.c}}
+\hypertarget{execution__logger_8c}{}\label{execution__logger_8c}\index{src/execution\_logger.c@{src/execution\_logger.c}}
 
 
 Implementación del Sistema de Logging de Ejecuciones.  
 
 
+{\ttfamily \#include "{}api\+\_\+gateway/execution\+\_\+logger.\+h"{}}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include $<$time.\+h$>$}\newline
+{\ttfamily \#include $<$sys/stat.\+h$>$}\newline
+{\ttfamily \#include $<$errno.\+h$>$}\newline
+{\ttfamily \#include $<$unistd.\+h$>$}\newline
+Include dependency graph for execution\+\_\+logger.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{execution__logger_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{execution__logger_8c_a3024ccd4a9af5109d24e6c57565d74a1}\label{execution__logger_8c_a3024ccd4a9af5109d24e6c57565d74a1} 
+\#define {\bfseries \+\_\+\+POSIX\+\_\+\+C\+\_\+\+SOURCE}~199309L
+\end{DoxyCompactItemize}
 \doxysubsubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-static bool \textbf{ create\+\_\+directory} (const char $\ast$path)
-\begin{DoxyCompactList}\small\item\em Crea un directorio recursivamente. \end{DoxyCompactList}\item 
-static void \textbf{ get\+\_\+formatted\+\_\+timestamp} (char $\ast$buffer, size\+\_\+t buffer\+\_\+size, const char $\ast$format)
-\begin{DoxyCompactList}\small\item\em Obtiene el timestamp actual formateado. \end{DoxyCompactList}\item 
-static void \textbf{ write\+\_\+markdown\+\_\+header} (void)
-\begin{DoxyCompactList}\small\item\em Escribe el header del archivo Markdown. \end{DoxyCompactList}\item 
-static void \textbf{ write\+\_\+markdown\+\_\+footer} (void)
-\begin{DoxyCompactList}\small\item\em Escribe el footer del archivo Markdown con estadísticas finales. \end{DoxyCompactList}\item 
-static const char $\ast$ \textbf{ get\+\_\+event\+\_\+label} (\textbf{ log\+\_\+event\+\_\+type\+\_\+t} type)
-\begin{DoxyCompactList}\small\item\em Convierte el tipo de evento a etiqueta de texto profesional. \end{DoxyCompactList}\item 
-bool \textbf{ exec\+\_\+logger\+\_\+init} (void)
+bool \mbox{\hyperlink{execution__logger_8c_a8f17ab3d08e18defbc6bc3894b87ad57}{exec\+\_\+logger\+\_\+init}} (void)
 \begin{DoxyCompactList}\small\item\em Inicializa el sistema de logging de ejecuciones. \end{DoxyCompactList}\item 
-void \textbf{ exec\+\_\+logger\+\_\+finish} (void)
-\begin{DoxyCompactList}\small\item\em Finaliza el sistema de logging y cierra el archivo. \end{DoxyCompactList}\item 
-void \textbf{ exec\+\_\+logger\+\_\+log\+\_\+event} (\textbf{ log\+\_\+event\+\_\+type\+\_\+t} type, const char $\ast$description, const char $\ast$details)
-\begin{DoxyCompactList}\small\item\em Registra un evento en el log. \end{DoxyCompactList}\item 
-void \textbf{ exec\+\_\+logger\+\_\+log\+\_\+simulation\+\_\+start} (const char $\ast$building\+\_\+id, int num\+\_\+requests)
-\begin{DoxyCompactList}\small\item\em Registra el inicio de la simulación. \end{DoxyCompactList}\item 
-void \textbf{ exec\+\_\+logger\+\_\+log\+\_\+simulation\+\_\+end} (int successful\+\_\+requests, int total\+\_\+requests)
-\begin{DoxyCompactList}\small\item\em Registra el fin de la simulación. \end{DoxyCompactList}\item 
-void \textbf{ exec\+\_\+logger\+\_\+log\+\_\+can\+\_\+sent} (unsigned int can\+\_\+id, int dlc, const unsigned char $\ast$data, const char $\ast$description)
-\begin{DoxyCompactList}\small\item\em Registra un frame CAN enviado. \end{DoxyCompactList}\item 
-void \textbf{ exec\+\_\+logger\+\_\+log\+\_\+can\+\_\+received} (unsigned int can\+\_\+id, int dlc, const unsigned char $\ast$data, const char $\ast$description)
-\begin{DoxyCompactList}\small\item\em Registra un frame CAN recibido. \end{DoxyCompactList}\item 
-void \textbf{ exec\+\_\+logger\+\_\+log\+\_\+coap\+\_\+sent} (const char $\ast$method, const char $\ast$uri, const char $\ast$payload)
-\begin{DoxyCompactList}\small\item\em Registra una petición Co\+AP enviada. \end{DoxyCompactList}\item 
-void \textbf{ exec\+\_\+logger\+\_\+log\+\_\+coap\+\_\+received} (const char $\ast$code, const char $\ast$payload)
-\begin{DoxyCompactList}\small\item\em Registra una respuesta Co\+AP recibida. \end{DoxyCompactList}\item 
-void \textbf{ exec\+\_\+logger\+\_\+log\+\_\+task\+\_\+assigned} (const char $\ast$task\+\_\+id, const char $\ast$elevator\+\_\+id, int target\+\_\+floor)
-\begin{DoxyCompactList}\small\item\em Registra la asignación de una tarea. \end{DoxyCompactList}\item 
-void \textbf{ exec\+\_\+logger\+\_\+log\+\_\+elevator\+\_\+moved} (const char $\ast$elevator\+\_\+id, int from\+\_\+floor, int to\+\_\+floor, const char $\ast$direction)
+void \mbox{\hyperlink{execution__logger_8c_ae0868cf99c3976e5054e296a99a865a8}{exec\+\_\+logger\+\_\+finish}} (void)
+\begin{DoxyCompactList}\small\item\em Finaliza el sistema de logging de ejecuciones. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{execution__logger_8c_a0d26263b498931ad084d10c45b1e2280}{exec\+\_\+logger\+\_\+log\+\_\+event}} (log\+\_\+event\+\_\+type\+\_\+t type, const char \texorpdfstring{$\ast$}{*}description, const char \texorpdfstring{$\ast$}{*}details)
+\begin{DoxyCompactList}\small\item\em Registra un evento general en el sistema de logging. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{execution__logger_8c_afe36ef96b0a0346e8f389ddd550d1d62}{exec\+\_\+logger\+\_\+log\+\_\+simulation\+\_\+start}} (const char \texorpdfstring{$\ast$}{*}building\+\_\+id, int num\+\_\+requests)
+\begin{DoxyCompactList}\small\item\em Registra el inicio de una simulación. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{execution__logger_8c_a502b75cee9921726287da66a1973d0c0}{exec\+\_\+logger\+\_\+log\+\_\+simulation\+\_\+end}} (int successful\+\_\+requests, int total\+\_\+requests)
+\begin{DoxyCompactList}\small\item\em Registra el fin de una simulación. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{execution__logger_8c_aa27056e265d9a0470c136c31fbb3e9d0}{exec\+\_\+logger\+\_\+log\+\_\+can\+\_\+sent}} (unsigned int can\+\_\+id, int dlc, const unsigned char \texorpdfstring{$\ast$}{*}data, const char \texorpdfstring{$\ast$}{*}description)
+\begin{DoxyCompactList}\small\item\em Registra el envío de un frame CAN. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{execution__logger_8c_ae52f012f4fc98b850c48a36881f5ef4b}{exec\+\_\+logger\+\_\+log\+\_\+can\+\_\+received}} (unsigned int can\+\_\+id, int dlc, const unsigned char \texorpdfstring{$\ast$}{*}data, const char \texorpdfstring{$\ast$}{*}description)
+\begin{DoxyCompactList}\small\item\em Registra la recepción de un frame CAN. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{execution__logger_8c_a529e2cea53c04d196f94d5165ce2f2da}{exec\+\_\+logger\+\_\+log\+\_\+coap\+\_\+sent}} (const char \texorpdfstring{$\ast$}{*}method, const char \texorpdfstring{$\ast$}{*}uri, const char \texorpdfstring{$\ast$}{*}payload)
+\begin{DoxyCompactList}\small\item\em Registra el envío de un mensaje Co\+AP. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{execution__logger_8c_ad0470fcf53f9a93e9c78e3f663b6606a}{exec\+\_\+logger\+\_\+log\+\_\+coap\+\_\+received}} (const char \texorpdfstring{$\ast$}{*}code, const char \texorpdfstring{$\ast$}{*}payload)
+\begin{DoxyCompactList}\small\item\em Registra la recepción de un mensaje Co\+AP. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{execution__logger_8c_ac545eb869f25dc8a259c8cc8d79012be}{exec\+\_\+logger\+\_\+log\+\_\+task\+\_\+assigned}} (const char \texorpdfstring{$\ast$}{*}task\+\_\+id, const char \texorpdfstring{$\ast$}{*}elevator\+\_\+id, int target\+\_\+floor)
+\begin{DoxyCompactList}\small\item\em Registra la asignación de una tarea a un ascensor. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{execution__logger_8c_ac0d70f4be37b4af70a10aba97fd4f448}{exec\+\_\+logger\+\_\+log\+\_\+elevator\+\_\+moved}} (const char \texorpdfstring{$\ast$}{*}elevator\+\_\+id, int from\+\_\+floor, int to\+\_\+floor, const char \texorpdfstring{$\ast$}{*}direction)
 \begin{DoxyCompactList}\small\item\em Registra el movimiento de un ascensor. \end{DoxyCompactList}\item 
-void \textbf{ exec\+\_\+logger\+\_\+log\+\_\+task\+\_\+completed} (const char $\ast$task\+\_\+id, const char $\ast$elevator\+\_\+id, int final\+\_\+floor)
-\begin{DoxyCompactList}\small\item\em Registra la completación de una tarea. \end{DoxyCompactList}\item 
-void \textbf{ exec\+\_\+logger\+\_\+log\+\_\+error} (const char $\ast$error\+\_\+code, const char $\ast$error\+\_\+message)
+void \mbox{\hyperlink{execution__logger_8c_a22e3151602bf4070c2c7ffa9fe505487}{exec\+\_\+logger\+\_\+log\+\_\+task\+\_\+completed}} (const char \texorpdfstring{$\ast$}{*}task\+\_\+id, const char \texorpdfstring{$\ast$}{*}elevator\+\_\+id, int final\+\_\+floor)
+\begin{DoxyCompactList}\small\item\em Registra la finalización de una tarea de ascensor. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{execution__logger_8c_af6629562e75625c3758a34ef00d93f34}{exec\+\_\+logger\+\_\+log\+\_\+error}} (const char \texorpdfstring{$\ast$}{*}error\+\_\+code, const char \texorpdfstring{$\ast$}{*}error\+\_\+message)
 \begin{DoxyCompactList}\small\item\em Registra un error del sistema. \end{DoxyCompactList}\item 
-const \textbf{ execution\+\_\+stats\+\_\+t} $\ast$ \textbf{ exec\+\_\+logger\+\_\+get\+\_\+stats} (void)
+const execution\+\_\+stats\+\_\+t \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{execution__logger_8c_a5fdd5443b630dc1afbbc2c528b6eae89}{exec\+\_\+logger\+\_\+get\+\_\+stats}} (void)
 \begin{DoxyCompactList}\small\item\em Obtiene las estadísticas actuales de ejecución. \end{DoxyCompactList}\item 
-bool \textbf{ exec\+\_\+logger\+\_\+is\+\_\+active} (void)
-\begin{DoxyCompactList}\small\item\em Verifica si el logger está activo. \end{DoxyCompactList}\end{DoxyCompactItemize}
-\doxysubsubsection*{Variables}
-\begin{DoxyCompactItemize}
-\item 
-static FILE $\ast$ \textbf{ log\+\_\+file} = NULL
-\begin{DoxyCompactList}\small\item\em Archivo de log actual. \end{DoxyCompactList}\item 
-static \textbf{ execution\+\_\+stats\+\_\+t} \textbf{ stats}
-\begin{DoxyCompactList}\small\item\em Estadísticas de ejecución. \end{DoxyCompactList}\item 
-static time\+\_\+t \textbf{ start\+\_\+time}
-\begin{DoxyCompactList}\small\item\em Tiempo de inicio de ejecución. \end{DoxyCompactList}\item 
-static bool \textbf{ logger\+\_\+active} = false
-\begin{DoxyCompactList}\small\item\em Estado del logger. \end{DoxyCompactList}\item 
-static char \textbf{ current\+\_\+log\+\_\+path} [MAX\+\_\+\+LOG\+\_\+\+PATH]
-\begin{DoxyCompactList}\small\item\em Ruta del archivo actual. \end{DoxyCompactList}\end{DoxyCompactItemize}
+bool \mbox{\hyperlink{execution__logger_8c_a5ce893b0367275087161fc41ee3ea01b}{exec\+\_\+logger\+\_\+is\+\_\+active}} (void)
+\begin{DoxyCompactList}\small\item\em Verifica si el sistema de logging está activo. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
@@ -78,57 +77,56 @@ Sistema de Control de Ascensores
 
 
 \doxysubsection{Function Documentation}
-\label{execution__logger_8c_afe09e09b085938028ae7cd93dea9f27e} 
-\index{execution\_logger.c@{execution\_logger.c}!create\_directory@{create\_directory}}
-\index{create\_directory@{create\_directory}!execution\_logger.c@{execution\_logger.c}}
-\doxysubsubsection{create\_directory()}
-{\footnotesize\ttfamily static bool create\+\_\+directory (\begin{DoxyParamCaption}\item[{const char $\ast$}]{path }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
-
-
-
-Crea un directorio recursivamente. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em path} & Ruta del directorio a crear \\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-true si se creó exitosamente, false en caso de error 
-\end{DoxyReturn}
-\label{execution__logger_8c_ae0868cf99c3976e5054e296a99a865a8} 
+\Hypertarget{execution__logger_8c_ae0868cf99c3976e5054e296a99a865a8}\label{execution__logger_8c_ae0868cf99c3976e5054e296a99a865a8} 
 \index{execution\_logger.c@{execution\_logger.c}!exec\_logger\_finish@{exec\_logger\_finish}}
 \index{exec\_logger\_finish@{exec\_logger\_finish}!execution\_logger.c@{execution\_logger.c}}
-\doxysubsubsection{exec\_logger\_finish()}
+\doxysubsubsection{\texorpdfstring{exec\_logger\_finish()}{exec\_logger\_finish()}}
 {\footnotesize\ttfamily void exec\+\_\+logger\+\_\+finish (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
 
 
 
-Finaliza el sistema de logging y cierra el archivo. 
+Finaliza el sistema de logging de ejecuciones. 
 
-Esta función\+:
+Esta función cierra el sistema de logging escribiendo las estadísticas finales y cerrando el archivo de log. También intenta generar un PDF del reporte usando pandoc si está disponible.
+
+{\bfseries{Operaciones realizadas\+:}}
 \begin{DoxyItemize}
-\item Calcula estadísticas finales
-\item Escribe el resumen de ejecución
+\item Calcula la duración total de ejecución
+\item Escribe el footer Markdown con estadísticas finales
 \item Cierra el archivo de log
-\item Limpia recursos 
-\end{DoxyItemize}\label{execution__logger_8c_a5fdd5443b630dc1afbbc2c528b6eae89} 
+\item Intenta generar PDF del reporte
+\item Marca el logger como inactivo
+\end{DoxyItemize}
+
+\begin{DoxySeeAlso}{See also}
+\doxylink{execution__logger_8c_a8f17ab3d08e18defbc6bc3894b87ad57}{exec\+\_\+logger\+\_\+init()} 
+
+\doxylink{execution__logger_8c_a5ce893b0367275087161fc41ee3ea01b}{exec\+\_\+logger\+\_\+is\+\_\+active()} 
+\end{DoxySeeAlso}
+\Hypertarget{execution__logger_8c_a5fdd5443b630dc1afbbc2c528b6eae89}\label{execution__logger_8c_a5fdd5443b630dc1afbbc2c528b6eae89} 
 \index{execution\_logger.c@{execution\_logger.c}!exec\_logger\_get\_stats@{exec\_logger\_get\_stats}}
 \index{exec\_logger\_get\_stats@{exec\_logger\_get\_stats}!execution\_logger.c@{execution\_logger.c}}
-\doxysubsubsection{exec\_logger\_get\_stats()}
-{\footnotesize\ttfamily const \textbf{ execution\+\_\+stats\+\_\+t} $\ast$ exec\+\_\+logger\+\_\+get\+\_\+stats (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+\doxysubsubsection{\texorpdfstring{exec\_logger\_get\_stats()}{exec\_logger\_get\_stats()}}
+{\footnotesize\ttfamily const execution\+\_\+stats\+\_\+t \texorpdfstring{$\ast$}{*} exec\+\_\+logger\+\_\+get\+\_\+stats (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
 
 
 
 Obtiene las estadísticas actuales de ejecución. 
 
 \begin{DoxyReturn}{Returns}
-Puntero a las estadísticas (solo lectura) 
+Puntero a las estadísticas actuales, o NULL si el logger no está activo
 \end{DoxyReturn}
-\label{execution__logger_8c_a8f17ab3d08e18defbc6bc3894b87ad57} 
+Esta función proporciona acceso de solo lectura a las estadísticas actuales del sistema de logging para monitoreo en tiempo real.
+
+\begin{DoxySeeAlso}{See also}
+execution\+\_\+stats\+\_\+t 
+
+\doxylink{execution__logger_8c_a5ce893b0367275087161fc41ee3ea01b}{exec\+\_\+logger\+\_\+is\+\_\+active()} 
+\end{DoxySeeAlso}
+\Hypertarget{execution__logger_8c_a8f17ab3d08e18defbc6bc3894b87ad57}\label{execution__logger_8c_a8f17ab3d08e18defbc6bc3894b87ad57} 
 \index{execution\_logger.c@{execution\_logger.c}!exec\_logger\_init@{exec\_logger\_init}}
 \index{exec\_logger\_init@{exec\_logger\_init}!execution\_logger.c@{execution\_logger.c}}
-\doxysubsubsection{exec\_logger\_init()}
+\doxysubsubsection{\texorpdfstring{exec\_logger\_init()}{exec\_logger\_init()}}
 {\footnotesize\ttfamily bool exec\+\_\+logger\+\_\+init (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
 
 
@@ -138,108 +136,145 @@ Inicializa el sistema de logging de ejecuciones.
 \begin{DoxyReturn}{Returns}
 true si se inicializó correctamente, false en caso de error
 \end{DoxyReturn}
-Esta función\+:
+Esta función inicializa el sistema de logging creando el directorio de logs necesario y abriendo el archivo de registro correspondiente.
+
+{\bfseries{Operaciones realizadas\+:}}
 \begin{DoxyItemize}
-\item Crea las carpetas necesarias por fecha
-\item Genera el nombre del archivo de log
-\item Inicializa las estructuras de estadísticas
-\item Escribe el header del archivo Markdown 
-\end{DoxyItemize}\label{execution__logger_8c_a5ce893b0367275087161fc41ee3ea01b} 
+\item Crea el directorio de logs con timestamp
+\item Abre el archivo de log con timestamp único
+\item Inicializa las estadísticas de ejecución
+\item Escribe el header Markdown del reporte
+\item Marca el logger como activo
+\end{DoxyItemize}
+
+\begin{DoxySeeAlso}{See also}
+\doxylink{execution__logger_8c_ae0868cf99c3976e5054e296a99a865a8}{exec\+\_\+logger\+\_\+finish()} 
+
+\doxylink{execution__logger_8c_a5ce893b0367275087161fc41ee3ea01b}{exec\+\_\+logger\+\_\+is\+\_\+active()} 
+\end{DoxySeeAlso}
+\Hypertarget{execution__logger_8c_a5ce893b0367275087161fc41ee3ea01b}\label{execution__logger_8c_a5ce893b0367275087161fc41ee3ea01b} 
 \index{execution\_logger.c@{execution\_logger.c}!exec\_logger\_is\_active@{exec\_logger\_is\_active}}
 \index{exec\_logger\_is\_active@{exec\_logger\_is\_active}!execution\_logger.c@{execution\_logger.c}}
-\doxysubsubsection{exec\_logger\_is\_active()}
+\doxysubsubsection{\texorpdfstring{exec\_logger\_is\_active()}{exec\_logger\_is\_active()}}
 {\footnotesize\ttfamily bool exec\+\_\+logger\+\_\+is\+\_\+active (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
 
 
 
-Verifica si el logger está activo. 
+Verifica si el sistema de logging está activo. 
 
 \begin{DoxyReturn}{Returns}
-true si está activo, false si no 
+true si el logger está activo, false en caso contrario
 \end{DoxyReturn}
-\label{execution__logger_8c_ae52f012f4fc98b850c48a36881f5ef4b} 
+Esta función permite verificar el estado del sistema de logging antes de intentar registrar eventos.
+
+\begin{DoxySeeAlso}{See also}
+\doxylink{execution__logger_8c_a8f17ab3d08e18defbc6bc3894b87ad57}{exec\+\_\+logger\+\_\+init()} 
+
+\doxylink{execution__logger_8c_ae0868cf99c3976e5054e296a99a865a8}{exec\+\_\+logger\+\_\+finish()} 
+\end{DoxySeeAlso}
+\Hypertarget{execution__logger_8c_ae52f012f4fc98b850c48a36881f5ef4b}\label{execution__logger_8c_ae52f012f4fc98b850c48a36881f5ef4b} 
 \index{execution\_logger.c@{execution\_logger.c}!exec\_logger\_log\_can\_received@{exec\_logger\_log\_can\_received}}
 \index{exec\_logger\_log\_can\_received@{exec\_logger\_log\_can\_received}!execution\_logger.c@{execution\_logger.c}}
-\doxysubsubsection{exec\_logger\_log\_can\_received()}
-{\footnotesize\ttfamily void exec\+\_\+logger\+\_\+log\+\_\+can\+\_\+received (\begin{DoxyParamCaption}\item[{unsigned int}]{can\+\_\+id,  }\item[{int}]{dlc,  }\item[{const unsigned char $\ast$}]{data,  }\item[{const char $\ast$}]{description }\end{DoxyParamCaption})}
+\doxysubsubsection{\texorpdfstring{exec\_logger\_log\_can\_received()}{exec\_logger\_log\_can\_received()}}
+{\footnotesize\ttfamily void exec\+\_\+logger\+\_\+log\+\_\+can\+\_\+received (\begin{DoxyParamCaption}\item[{unsigned int}]{can\+\_\+id,  }\item[{int}]{dlc,  }\item[{const unsigned char \texorpdfstring{$\ast$}{*}}]{data,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{description }\end{DoxyParamCaption})}
 
 
 
-Registra un frame CAN recibido. 
+Registra la recepción de un frame CAN. 
 
 
 \begin{DoxyParams}{Parameters}
-{\em can\+\_\+id} & ID del frame CAN \\
+{\em can\+\_\+id} & ID del frame CAN recibido \\
 \hline
-{\em dlc} & Longitud de datos \\
+{\em dlc} & Data Length Code (número de bytes de datos) \\
 \hline
-{\em data} & Datos del frame \\
+{\em data} & Datos del frame CAN \\
 \hline
-{\em description} & Descripción del evento \\
+{\em description} & Descripción del frame recibido\\
 \hline
 \end{DoxyParams}
-\label{execution__logger_8c_aa27056e265d9a0470c136c31fbb3e9d0} 
+Esta función registra la recepción de frames CAN con formato hexadecimal de los datos para análisis posterior.
+
+\begin{DoxySeeAlso}{See also}
+\doxylink{execution__logger_8c_aa27056e265d9a0470c136c31fbb3e9d0}{exec\+\_\+logger\+\_\+log\+\_\+can\+\_\+sent()} 
+\end{DoxySeeAlso}
+\Hypertarget{execution__logger_8c_aa27056e265d9a0470c136c31fbb3e9d0}\label{execution__logger_8c_aa27056e265d9a0470c136c31fbb3e9d0} 
 \index{execution\_logger.c@{execution\_logger.c}!exec\_logger\_log\_can\_sent@{exec\_logger\_log\_can\_sent}}
 \index{exec\_logger\_log\_can\_sent@{exec\_logger\_log\_can\_sent}!execution\_logger.c@{execution\_logger.c}}
-\doxysubsubsection{exec\_logger\_log\_can\_sent()}
-{\footnotesize\ttfamily void exec\+\_\+logger\+\_\+log\+\_\+can\+\_\+sent (\begin{DoxyParamCaption}\item[{unsigned int}]{can\+\_\+id,  }\item[{int}]{dlc,  }\item[{const unsigned char $\ast$}]{data,  }\item[{const char $\ast$}]{description }\end{DoxyParamCaption})}
+\doxysubsubsection{\texorpdfstring{exec\_logger\_log\_can\_sent()}{exec\_logger\_log\_can\_sent()}}
+{\footnotesize\ttfamily void exec\+\_\+logger\+\_\+log\+\_\+can\+\_\+sent (\begin{DoxyParamCaption}\item[{unsigned int}]{can\+\_\+id,  }\item[{int}]{dlc,  }\item[{const unsigned char \texorpdfstring{$\ast$}{*}}]{data,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{description }\end{DoxyParamCaption})}
 
 
 
-Registra un frame CAN enviado. 
+Registra el envío de un frame CAN. 
 
 
 \begin{DoxyParams}{Parameters}
-{\em can\+\_\+id} & ID del frame CAN \\
+{\em can\+\_\+id} & ID del frame CAN enviado \\
 \hline
-{\em dlc} & Longitud de datos \\
+{\em dlc} & Data Length Code (número de bytes de datos) \\
 \hline
-{\em data} & Datos del frame \\
+{\em data} & Datos del frame CAN \\
 \hline
-{\em description} & Descripción del evento \\
+{\em description} & Descripción del frame enviado\\
 \hline
 \end{DoxyParams}
-\label{execution__logger_8c_ad0470fcf53f9a93e9c78e3f663b6606a} 
+Esta función registra el envío de frames CAN con formato hexadecimal de los datos para análisis posterior.
+
+\begin{DoxySeeAlso}{See also}
+\doxylink{execution__logger_8c_ae52f012f4fc98b850c48a36881f5ef4b}{exec\+\_\+logger\+\_\+log\+\_\+can\+\_\+received()} 
+\end{DoxySeeAlso}
+\Hypertarget{execution__logger_8c_ad0470fcf53f9a93e9c78e3f663b6606a}\label{execution__logger_8c_ad0470fcf53f9a93e9c78e3f663b6606a} 
 \index{execution\_logger.c@{execution\_logger.c}!exec\_logger\_log\_coap\_received@{exec\_logger\_log\_coap\_received}}
 \index{exec\_logger\_log\_coap\_received@{exec\_logger\_log\_coap\_received}!execution\_logger.c@{execution\_logger.c}}
-\doxysubsubsection{exec\_logger\_log\_coap\_received()}
-{\footnotesize\ttfamily void exec\+\_\+logger\+\_\+log\+\_\+coap\+\_\+received (\begin{DoxyParamCaption}\item[{const char $\ast$}]{code,  }\item[{const char $\ast$}]{payload }\end{DoxyParamCaption})}
+\doxysubsubsection{\texorpdfstring{exec\_logger\_log\_coap\_received()}{exec\_logger\_log\_coap\_received()}}
+{\footnotesize\ttfamily void exec\+\_\+logger\+\_\+log\+\_\+coap\+\_\+received (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{code,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{payload }\end{DoxyParamCaption})}
 
 
 
-Registra una respuesta Co\+AP recibida. 
+Registra la recepción de un mensaje Co\+AP. 
 
 
 \begin{DoxyParams}{Parameters}
-{\em code} & Código de respuesta Co\+AP \\
+{\em code} & Código de respuesta Co\+AP (2.\+01, 4.\+04, etc.) \\
 \hline
-{\em payload} & Payload de la respuesta (puede ser NULL) \\
+{\em payload} & Payload del mensaje Co\+AP (puede ser NULL)\\
 \hline
 \end{DoxyParams}
-\label{execution__logger_8c_a529e2cea53c04d196f94d5165ce2f2da} 
+Esta función registra la recepción de mensajes Co\+AP con información del código de respuesta y payload para análisis de tráfico.
+
+\begin{DoxySeeAlso}{See also}
+\doxylink{execution__logger_8c_a529e2cea53c04d196f94d5165ce2f2da}{exec\+\_\+logger\+\_\+log\+\_\+coap\+\_\+sent()} 
+\end{DoxySeeAlso}
+\Hypertarget{execution__logger_8c_a529e2cea53c04d196f94d5165ce2f2da}\label{execution__logger_8c_a529e2cea53c04d196f94d5165ce2f2da} 
 \index{execution\_logger.c@{execution\_logger.c}!exec\_logger\_log\_coap\_sent@{exec\_logger\_log\_coap\_sent}}
 \index{exec\_logger\_log\_coap\_sent@{exec\_logger\_log\_coap\_sent}!execution\_logger.c@{execution\_logger.c}}
-\doxysubsubsection{exec\_logger\_log\_coap\_sent()}
-{\footnotesize\ttfamily void exec\+\_\+logger\+\_\+log\+\_\+coap\+\_\+sent (\begin{DoxyParamCaption}\item[{const char $\ast$}]{method,  }\item[{const char $\ast$}]{uri,  }\item[{const char $\ast$}]{payload }\end{DoxyParamCaption})}
+\doxysubsubsection{\texorpdfstring{exec\_logger\_log\_coap\_sent()}{exec\_logger\_log\_coap\_sent()}}
+{\footnotesize\ttfamily void exec\+\_\+logger\+\_\+log\+\_\+coap\+\_\+sent (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{method,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{uri,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{payload }\end{DoxyParamCaption})}
 
 
 
-Registra una petición Co\+AP enviada. 
+Registra el envío de un mensaje Co\+AP. 
 
 
 \begin{DoxyParams}{Parameters}
-{\em method} & Método Co\+AP (GET, POST, etc.) \\
+{\em method} & Método Co\+AP (GET, POST, PUT, DELETE) \\
 \hline
-{\em uri} & URI del recurso \\
+{\em uri} & URI del recurso Co\+AP \\
 \hline
-{\em payload} & Payload de la petición (puede ser NULL) \\
+{\em payload} & Payload del mensaje Co\+AP (puede ser NULL)\\
 \hline
 \end{DoxyParams}
-\label{execution__logger_8c_ac0d70f4be37b4af70a10aba97fd4f448} 
+Esta función registra el envío de mensajes Co\+AP con información completa del método, URI y payload para análisis de tráfico.
+
+\begin{DoxySeeAlso}{See also}
+\doxylink{execution__logger_8c_ad0470fcf53f9a93e9c78e3f663b6606a}{exec\+\_\+logger\+\_\+log\+\_\+coap\+\_\+received()} 
+\end{DoxySeeAlso}
+\Hypertarget{execution__logger_8c_ac0d70f4be37b4af70a10aba97fd4f448}\label{execution__logger_8c_ac0d70f4be37b4af70a10aba97fd4f448} 
 \index{execution\_logger.c@{execution\_logger.c}!exec\_logger\_log\_elevator\_moved@{exec\_logger\_log\_elevator\_moved}}
 \index{exec\_logger\_log\_elevator\_moved@{exec\_logger\_log\_elevator\_moved}!execution\_logger.c@{execution\_logger.c}}
-\doxysubsubsection{exec\_logger\_log\_elevator\_moved()}
-{\footnotesize\ttfamily void exec\+\_\+logger\+\_\+log\+\_\+elevator\+\_\+moved (\begin{DoxyParamCaption}\item[{const char $\ast$}]{elevator\+\_\+id,  }\item[{int}]{from\+\_\+floor,  }\item[{int}]{to\+\_\+floor,  }\item[{const char $\ast$}]{direction }\end{DoxyParamCaption})}
+\doxysubsubsection{\texorpdfstring{exec\_logger\_log\_elevator\_moved()}{exec\_logger\_log\_elevator\_moved()}}
+{\footnotesize\ttfamily void exec\+\_\+logger\+\_\+log\+\_\+elevator\+\_\+moved (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{elevator\+\_\+id,  }\item[{int}]{from\+\_\+floor,  }\item[{int}]{to\+\_\+floor,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{direction }\end{DoxyParamCaption})}
 
 
 
@@ -247,20 +282,25 @@ Registra el movimiento de un ascensor.
 
 
 \begin{DoxyParams}{Parameters}
-{\em elevator\+\_\+id} & ID del ascensor \\
+{\em elevator\+\_\+id} & ID del ascensor que se movió \\
 \hline
-{\em from\+\_\+floor} & Piso origen \\
+{\em from\+\_\+floor} & Piso de origen del movimiento \\
 \hline
-{\em to\+\_\+floor} & Piso destino \\
+{\em to\+\_\+floor} & Piso de destino del movimiento \\
 \hline
-{\em direction} & Dirección del movimiento \\
+{\em direction} & Dirección del movimiento (UP/\+DOWN)\\
 \hline
 \end{DoxyParams}
-\label{execution__logger_8c_af6629562e75625c3758a34ef00d93f34} 
+Esta función registra los movimientos de ascensores entre pisos para análisis de tráfico y eficiencia del sistema.
+
+\begin{DoxySeeAlso}{See also}
+\doxylink{execution__logger_8c_ac545eb869f25dc8a259c8cc8d79012be}{exec\+\_\+logger\+\_\+log\+\_\+task\+\_\+assigned()} 
+\end{DoxySeeAlso}
+\Hypertarget{execution__logger_8c_af6629562e75625c3758a34ef00d93f34}\label{execution__logger_8c_af6629562e75625c3758a34ef00d93f34} 
 \index{execution\_logger.c@{execution\_logger.c}!exec\_logger\_log\_error@{exec\_logger\_log\_error}}
 \index{exec\_logger\_log\_error@{exec\_logger\_log\_error}!execution\_logger.c@{execution\_logger.c}}
-\doxysubsubsection{exec\_logger\_log\_error()}
-{\footnotesize\ttfamily void exec\+\_\+logger\+\_\+log\+\_\+error (\begin{DoxyParamCaption}\item[{const char $\ast$}]{error\+\_\+code,  }\item[{const char $\ast$}]{error\+\_\+message }\end{DoxyParamCaption})}
+\doxysubsubsection{\texorpdfstring{exec\_logger\_log\_error()}{exec\_logger\_log\_error()}}
+{\footnotesize\ttfamily void exec\+\_\+logger\+\_\+log\+\_\+error (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{error\+\_\+code,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{error\+\_\+message }\end{DoxyParamCaption})}
 
 
 
@@ -268,92 +308,119 @@ Registra un error del sistema.
 
 
 \begin{DoxyParams}{Parameters}
-{\em error\+\_\+code} & Código de error \\
+{\em error\+\_\+code} & Código de error (ej\+: "{}\+COAP\+\_\+001"{}, "{}\+CAN\+\_\+002"{}) \\
 \hline
-{\em error\+\_\+message} & Mensaje de error \\
+{\em error\+\_\+message} & Mensaje descriptivo del error\\
 \hline
 \end{DoxyParams}
-\label{execution__logger_8c_a0d26263b498931ad084d10c45b1e2280} 
+Esta función registra errores del sistema para análisis posterior y incrementa el contador de errores en las estadísticas.
+
+\begin{DoxySeeAlso}{See also}
+\doxylink{execution__logger_8c_a0d26263b498931ad084d10c45b1e2280}{exec\+\_\+logger\+\_\+log\+\_\+event()} 
+\end{DoxySeeAlso}
+\Hypertarget{execution__logger_8c_a0d26263b498931ad084d10c45b1e2280}\label{execution__logger_8c_a0d26263b498931ad084d10c45b1e2280} 
 \index{execution\_logger.c@{execution\_logger.c}!exec\_logger\_log\_event@{exec\_logger\_log\_event}}
 \index{exec\_logger\_log\_event@{exec\_logger\_log\_event}!execution\_logger.c@{execution\_logger.c}}
-\doxysubsubsection{exec\_logger\_log\_event()}
-{\footnotesize\ttfamily void exec\+\_\+logger\+\_\+log\+\_\+event (\begin{DoxyParamCaption}\item[{\textbf{ log\+\_\+event\+\_\+type\+\_\+t}}]{type,  }\item[{const char $\ast$}]{description,  }\item[{const char $\ast$}]{details }\end{DoxyParamCaption})}
+\doxysubsubsection{\texorpdfstring{exec\_logger\_log\_event()}{exec\_logger\_log\_event()}}
+{\footnotesize\ttfamily void exec\+\_\+logger\+\_\+log\+\_\+event (\begin{DoxyParamCaption}\item[{log\+\_\+event\+\_\+type\+\_\+t}]{type,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{description,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{details }\end{DoxyParamCaption})}
 
 
 
-Registra un evento en el log. 
+Registra un evento general en el sistema de logging. 
 
 
 \begin{DoxyParams}{Parameters}
-{\em type} & Tipo de evento \\
+{\em type} & Tipo de evento a registrar \\
 \hline
-{\em description} & Descripción breve del evento \\
+{\em description} & Descripción del evento \\
 \hline
-{\em details} & Detalles adicionales (puede ser NULL) \\
+{\em details} & Detalles adicionales del evento (puede ser NULL)\\
 \hline
 \end{DoxyParams}
-\label{execution__logger_8c_a502b75cee9921726287da66a1973d0c0} 
+Esta función registra eventos generales del sistema con timestamp de alta precisión y formateo consistente.
+
+\begin{DoxySeeAlso}{See also}
+log\+\_\+event\+\_\+type\+\_\+t 
+
+\doxylink{execution__logger_8c_a5ce893b0367275087161fc41ee3ea01b}{exec\+\_\+logger\+\_\+is\+\_\+active()} 
+\end{DoxySeeAlso}
+\Hypertarget{execution__logger_8c_a502b75cee9921726287da66a1973d0c0}\label{execution__logger_8c_a502b75cee9921726287da66a1973d0c0} 
 \index{execution\_logger.c@{execution\_logger.c}!exec\_logger\_log\_simulation\_end@{exec\_logger\_log\_simulation\_end}}
 \index{exec\_logger\_log\_simulation\_end@{exec\_logger\_log\_simulation\_end}!execution\_logger.c@{execution\_logger.c}}
-\doxysubsubsection{exec\_logger\_log\_simulation\_end()}
+\doxysubsubsection{\texorpdfstring{exec\_logger\_log\_simulation\_end()}{exec\_logger\_log\_simulation\_end()}}
 {\footnotesize\ttfamily void exec\+\_\+logger\+\_\+log\+\_\+simulation\+\_\+end (\begin{DoxyParamCaption}\item[{int}]{successful\+\_\+requests,  }\item[{int}]{total\+\_\+requests }\end{DoxyParamCaption})}
 
 
 
-Registra el fin de la simulación. 
+Registra el fin de una simulación. 
 
 
 \begin{DoxyParams}{Parameters}
-{\em successful\+\_\+requests} & Número de peticiones exitosas \\
+{\em successful\+\_\+requests} & Número de peticiones procesadas exitosamente \\
 \hline
-{\em total\+\_\+requests} & Número total de peticiones \\
+{\em total\+\_\+requests} & Número total de peticiones procesadas\\
 \hline
 \end{DoxyParams}
-\label{execution__logger_8c_afe36ef96b0a0346e8f389ddd550d1d62} 
+Esta función registra el final de una simulación de ascensores con estadísticas de éxito y métricas de rendimiento.
+
+\begin{DoxySeeAlso}{See also}
+\doxylink{execution__logger_8c_afe36ef96b0a0346e8f389ddd550d1d62}{exec\+\_\+logger\+\_\+log\+\_\+simulation\+\_\+start()} 
+\end{DoxySeeAlso}
+\Hypertarget{execution__logger_8c_afe36ef96b0a0346e8f389ddd550d1d62}\label{execution__logger_8c_afe36ef96b0a0346e8f389ddd550d1d62} 
 \index{execution\_logger.c@{execution\_logger.c}!exec\_logger\_log\_simulation\_start@{exec\_logger\_log\_simulation\_start}}
 \index{exec\_logger\_log\_simulation\_start@{exec\_logger\_log\_simulation\_start}!execution\_logger.c@{execution\_logger.c}}
-\doxysubsubsection{exec\_logger\_log\_simulation\_start()}
-{\footnotesize\ttfamily void exec\+\_\+logger\+\_\+log\+\_\+simulation\+\_\+start (\begin{DoxyParamCaption}\item[{const char $\ast$}]{building\+\_\+id,  }\item[{int}]{num\+\_\+requests }\end{DoxyParamCaption})}
+\doxysubsubsection{\texorpdfstring{exec\_logger\_log\_simulation\_start()}{exec\_logger\_log\_simulation\_start()}}
+{\footnotesize\ttfamily void exec\+\_\+logger\+\_\+log\+\_\+simulation\+\_\+start (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{building\+\_\+id,  }\item[{int}]{num\+\_\+requests }\end{DoxyParamCaption})}
 
 
 
-Registra el inicio de la simulación. 
+Registra el inicio de una simulación. 
 
 
 \begin{DoxyParams}{Parameters}
-{\em building\+\_\+id} & ID del edificio seleccionado \\
+{\em building\+\_\+id} & ID del edificio simulado \\
 \hline
-{\em num\+\_\+requests} & Número de peticiones a ejecutar \\
+{\em num\+\_\+requests} & Número de peticiones programadas para la simulación\\
 \hline
 \end{DoxyParams}
-\label{execution__logger_8c_ac545eb869f25dc8a259c8cc8d79012be} 
+Esta función registra el inicio de una simulación de ascensores, almacenando información clave para las estadísticas finales.
+
+\begin{DoxySeeAlso}{See also}
+\doxylink{execution__logger_8c_a502b75cee9921726287da66a1973d0c0}{exec\+\_\+logger\+\_\+log\+\_\+simulation\+\_\+end()} 
+\end{DoxySeeAlso}
+\Hypertarget{execution__logger_8c_ac545eb869f25dc8a259c8cc8d79012be}\label{execution__logger_8c_ac545eb869f25dc8a259c8cc8d79012be} 
 \index{execution\_logger.c@{execution\_logger.c}!exec\_logger\_log\_task\_assigned@{exec\_logger\_log\_task\_assigned}}
 \index{exec\_logger\_log\_task\_assigned@{exec\_logger\_log\_task\_assigned}!execution\_logger.c@{execution\_logger.c}}
-\doxysubsubsection{exec\_logger\_log\_task\_assigned()}
-{\footnotesize\ttfamily void exec\+\_\+logger\+\_\+log\+\_\+task\+\_\+assigned (\begin{DoxyParamCaption}\item[{const char $\ast$}]{task\+\_\+id,  }\item[{const char $\ast$}]{elevator\+\_\+id,  }\item[{int}]{target\+\_\+floor }\end{DoxyParamCaption})}
+\doxysubsubsection{\texorpdfstring{exec\_logger\_log\_task\_assigned()}{exec\_logger\_log\_task\_assigned()}}
+{\footnotesize\ttfamily void exec\+\_\+logger\+\_\+log\+\_\+task\+\_\+assigned (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{task\+\_\+id,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{elevator\+\_\+id,  }\item[{int}]{target\+\_\+floor }\end{DoxyParamCaption})}
 
 
 
-Registra la asignación de una tarea. 
+Registra la asignación de una tarea a un ascensor. 
 
 
 \begin{DoxyParams}{Parameters}
-{\em task\+\_\+id} & ID de la tarea \\
+{\em task\+\_\+id} & ID de la tarea asignada \\
 \hline
 {\em elevator\+\_\+id} & ID del ascensor asignado \\
 \hline
-{\em target\+\_\+floor} & Piso destino \\
+{\em target\+\_\+floor} & Piso destino de la tarea\\
 \hline
 \end{DoxyParams}
-\label{execution__logger_8c_a22e3151602bf4070c2c7ffa9fe505487} 
+Esta función registra cuando el servidor central asigna una tarea específica a un ascensor del grupo gestionado por el gateway.
+
+\begin{DoxySeeAlso}{See also}
+\doxylink{execution__logger_8c_a22e3151602bf4070c2c7ffa9fe505487}{exec\+\_\+logger\+\_\+log\+\_\+task\+\_\+completed()} 
+\end{DoxySeeAlso}
+\Hypertarget{execution__logger_8c_a22e3151602bf4070c2c7ffa9fe505487}\label{execution__logger_8c_a22e3151602bf4070c2c7ffa9fe505487} 
 \index{execution\_logger.c@{execution\_logger.c}!exec\_logger\_log\_task\_completed@{exec\_logger\_log\_task\_completed}}
 \index{exec\_logger\_log\_task\_completed@{exec\_logger\_log\_task\_completed}!execution\_logger.c@{execution\_logger.c}}
-\doxysubsubsection{exec\_logger\_log\_task\_completed()}
-{\footnotesize\ttfamily void exec\+\_\+logger\+\_\+log\+\_\+task\+\_\+completed (\begin{DoxyParamCaption}\item[{const char $\ast$}]{task\+\_\+id,  }\item[{const char $\ast$}]{elevator\+\_\+id,  }\item[{int}]{final\+\_\+floor }\end{DoxyParamCaption})}
+\doxysubsubsection{\texorpdfstring{exec\_logger\_log\_task\_completed()}{exec\_logger\_log\_task\_completed()}}
+{\footnotesize\ttfamily void exec\+\_\+logger\+\_\+log\+\_\+task\+\_\+completed (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{task\+\_\+id,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{elevator\+\_\+id,  }\item[{int}]{final\+\_\+floor }\end{DoxyParamCaption})}
 
 
 
-Registra la completación de una tarea. 
+Registra la finalización de una tarea de ascensor. 
 
 
 \begin{DoxyParams}{Parameters}
@@ -361,108 +428,11 @@ Registra la completación de una tarea.
 \hline
 {\em elevator\+\_\+id} & ID del ascensor que completó la tarea \\
 \hline
-{\em final\+\_\+floor} & Piso final donde se completó \\
+{\em final\+\_\+floor} & Piso final donde terminó la tarea\\
 \hline
 \end{DoxyParams}
-\label{execution__logger_8c_a8ed1ff24f2950362e7a8addbef456421} 
-\index{execution\_logger.c@{execution\_logger.c}!get\_event\_label@{get\_event\_label}}
-\index{get\_event\_label@{get\_event\_label}!execution\_logger.c@{execution\_logger.c}}
-\doxysubsubsection{get\_event\_label()}
-{\footnotesize\ttfamily static const char $\ast$ get\+\_\+event\+\_\+label (\begin{DoxyParamCaption}\item[{\textbf{ log\+\_\+event\+\_\+type\+\_\+t}}]{type }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+Esta función registra cuando un ascensor completa exitosamente una tarea asignada, llegando al piso destino.
 
-
-
-Convierte el tipo de evento a etiqueta de texto profesional. 
-
-\label{execution__logger_8c_a2cea881b6cfedf5948d651a0cf39567c} 
-\index{execution\_logger.c@{execution\_logger.c}!get\_formatted\_timestamp@{get\_formatted\_timestamp}}
-\index{get\_formatted\_timestamp@{get\_formatted\_timestamp}!execution\_logger.c@{execution\_logger.c}}
-\doxysubsubsection{get\_formatted\_timestamp()}
-{\footnotesize\ttfamily static void get\+\_\+formatted\+\_\+timestamp (\begin{DoxyParamCaption}\item[{char $\ast$}]{buffer,  }\item[{size\+\_\+t}]{buffer\+\_\+size,  }\item[{const char $\ast$}]{format }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
-
-
-
-Obtiene el timestamp actual formateado. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em buffer} & Buffer donde escribir el timestamp \\
-\hline
-{\em buffer\+\_\+size} & Tamaño del buffer \\
-\hline
-{\em format} & Formato del timestamp \\
-\hline
-\end{DoxyParams}
-\label{execution__logger_8c_a589fa614f2a4645b9193922031cfea0c} 
-\index{execution\_logger.c@{execution\_logger.c}!write\_markdown\_footer@{write\_markdown\_footer}}
-\index{write\_markdown\_footer@{write\_markdown\_footer}!execution\_logger.c@{execution\_logger.c}}
-\doxysubsubsection{write\_markdown\_footer()}
-{\footnotesize\ttfamily static void write\+\_\+markdown\+\_\+footer (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
-
-
-
-Escribe el footer del archivo Markdown con estadísticas finales. 
-
-\label{execution__logger_8c_aa13afab7b82daed8a9456e2cbf63418d} 
-\index{execution\_logger.c@{execution\_logger.c}!write\_markdown\_header@{write\_markdown\_header}}
-\index{write\_markdown\_header@{write\_markdown\_header}!execution\_logger.c@{execution\_logger.c}}
-\doxysubsubsection{write\_markdown\_header()}
-{\footnotesize\ttfamily static void write\+\_\+markdown\+\_\+header (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
-
-
-
-Escribe el header del archivo Markdown. 
-
-
-
-\doxysubsection{Variable Documentation}
-\label{execution__logger_8c_a244aff6fb3109dbf30823dbca39ceeca} 
-\index{execution\_logger.c@{execution\_logger.c}!current\_log\_path@{current\_log\_path}}
-\index{current\_log\_path@{current\_log\_path}!execution\_logger.c@{execution\_logger.c}}
-\doxysubsubsection{current\_log\_path}
-{\footnotesize\ttfamily char current\+\_\+log\+\_\+path[MAX\+\_\+\+LOG\+\_\+\+PATH]\hspace{0.3cm}{\ttfamily [static]}}
-
-
-
-Ruta del archivo actual. 
-
-\label{execution__logger_8c_ab936051f5aaca44c6c3c41dee0d19c36} 
-\index{execution\_logger.c@{execution\_logger.c}!log\_file@{log\_file}}
-\index{log\_file@{log\_file}!execution\_logger.c@{execution\_logger.c}}
-\doxysubsubsection{log\_file}
-{\footnotesize\ttfamily FILE$\ast$ log\+\_\+file = NULL\hspace{0.3cm}{\ttfamily [static]}}
-
-
-
-Archivo de log actual. 
-
-\label{execution__logger_8c_abe140c99a0b3244a642869db54f6b540} 
-\index{execution\_logger.c@{execution\_logger.c}!logger\_active@{logger\_active}}
-\index{logger\_active@{logger\_active}!execution\_logger.c@{execution\_logger.c}}
-\doxysubsubsection{logger\_active}
-{\footnotesize\ttfamily bool logger\+\_\+active = false\hspace{0.3cm}{\ttfamily [static]}}
-
-
-
-Estado del logger. 
-
-\label{execution__logger_8c_ad20e89e0c86aa812dc3a8e2fb7b5777b} 
-\index{execution\_logger.c@{execution\_logger.c}!start\_time@{start\_time}}
-\index{start\_time@{start\_time}!execution\_logger.c@{execution\_logger.c}}
-\doxysubsubsection{start\_time}
-{\footnotesize\ttfamily time\+\_\+t start\+\_\+time\hspace{0.3cm}{\ttfamily [static]}}
-
-
-
-Tiempo de inicio de ejecución. 
-
-\label{execution__logger_8c_a1e38e8d813986acea3047c173bdca7b5} 
-\index{execution\_logger.c@{execution\_logger.c}!stats@{stats}}
-\index{stats@{stats}!execution\_logger.c@{execution\_logger.c}}
-\doxysubsubsection{stats}
-{\footnotesize\ttfamily \textbf{ execution\+\_\+stats\+\_\+t} stats\hspace{0.3cm}{\ttfamily [static]}}
-
-
-
-Estadísticas de ejecución. 
-
+\begin{DoxySeeAlso}{See also}
+\doxylink{execution__logger_8c_ac545eb869f25dc8a259c8cc8d79012be}{exec\+\_\+logger\+\_\+log\+\_\+task\+\_\+assigned()} 
+\end{DoxySeeAlso}

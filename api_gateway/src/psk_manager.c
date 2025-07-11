@@ -12,11 +12,16 @@
 #include <string.h>
 #include <time.h>
 
-// Estructura para almacenar las claves PSK
+/**
+ * @brief Estructura para almacenar las claves PSK
+ * 
+ * Esta estructura gestiona dinámicamente un array de claves PSK
+ * cargadas desde un archivo de configuración.
+ */
 typedef struct {
-    char** keys;
-    int count;
-    int capacity;
+    char** keys;      ///< Array dinámico de strings con las claves PSK
+    int count;        ///< Número actual de claves cargadas
+    int capacity;     ///< Capacidad máxima del array (para futuras expansiones)
 } psk_keys_t;
 
 static psk_keys_t g_psk_keys = {NULL, 0, 0};

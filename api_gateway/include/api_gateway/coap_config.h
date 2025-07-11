@@ -13,7 +13,7 @@
  * - Dirección IP y puerto de escucha del gateway
  * - Rutas de recursos CoAP para diferentes tipos de solicitudes
  * - Configuraciones de timeout y reintentos
- * - Parámetros de conexión DTLS-PSK
+ * - Parámetros de conexión DTLS
  * 
  * **Recursos CoAP definidos:**
  * - `/peticion_piso`: Para solicitudes de llamada de piso

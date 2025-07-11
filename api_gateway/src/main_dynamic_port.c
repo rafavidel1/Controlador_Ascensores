@@ -81,7 +81,26 @@ static int event_handler_gw(coap_session_t *session, coap_event_t event) {
     return 0;
 }
 
-// Función para obtener sesión DTLS (copiada del original)
+/**
+ * @brief Obtiene o crea una sesión DTLS con el servidor central
+ * @param ctx Contexto CoAP a utilizar para la sesión
+ * @return Puntero a la sesión DTLS establecida, o NULL en caso de error
+ * 
+ * Versión simplificada de la función para main_dynamic_port.c.
+ * Implementa un patrón singleton para la gestión de sesiones DTLS
+ * con el servidor central, reutilizando sesiones existentes cuando
+ * están activas y creando nuevas cuando es necesario.
+ * 
+ * **Comportamiento:**
+ * - Verifica si existe una sesión activa y la reutiliza
+ * - Si la sesión no está establecida, la libera y crea una nueva
+ * - Utiliza identidad y clave PSK únicas para cada instancia
+ * - Configura dirección del servidor desde variables de entorno
+ * 
+ * @see coap_config.h
+ * @see generate_unique_identity()
+ * @see generate_unique_psk_key()
+ */
 coap_session_t* get_or_create_central_server_dtls_session(coap_context_t *ctx) {
     if (!ctx) {
         LOG_ERROR_GW("[SessionHelper] Contexto CoAP es NULL.");
@@ -229,7 +248,32 @@ static void simulate_elevator_group_step(coap_context_t *ctx, elevator_group_sta
     }
 }
 
-// Función principal modificada
+/**
+ * @brief Función principal del API Gateway con puerto dinámico
+ * @param argc Número de argumentos de línea de comandos
+ * @param argv Array de argumentos de línea de comandos
+ *             argv[1] (opcional): Puerto de escucha personalizado
+ * @return EXIT_SUCCESS si la ejecución fue exitosa, EXIT_FAILURE en caso de error
+ * 
+ * Versión del API Gateway que permite especificar el puerto de escucha
+ * como parámetro de línea de comandos. Útil para ejecutar múltiples
+ * instancias del gateway en diferentes puertos.
+ * 
+ * **Funcionalidades:**
+ * - Carga de configuración desde gateway.env
+ * - Configuración de puerto dinámico via argumentos
+ * - Inicialización del contexto CoAP y puente CAN
+ * - Gestión de estado de ascensores
+ * - Bucle principal de procesamiento de eventos
+ * - Terminación elegante con SIGINT
+ * 
+ * **Uso:**
+ * - `./main_dynamic_port` - Usa puerto por defecto (5683)
+ * - `./main_dynamic_port 8080` - Usa puerto personalizado (8080)
+ * 
+ * @see main.c
+ * @see get_or_create_central_server_dtls_session()
+ */
 int main(int argc, char *argv[]) {
     if (env_load("gateway.env", true) != 0) {
         printf("API Gateway: Error cargando gateway.env\n");

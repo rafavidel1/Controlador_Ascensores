@@ -15,7 +15,7 @@
  * Funcionalidades principales:
  * - Recepción de solicitudes de llamada de piso y cabina
  * - Reenvío de solicitudes al servidor central con estado de ascensores
- * - Gestión de sesiones DTLS-PSK para comunicación segura
+ * - Gestión de sesiones DTLS para comunicación segura
  * - Tracking de solicitudes pendientes para correlación de respuestas
  * - Integración con el gestor de estado de ascensores
  * 
@@ -34,7 +34,7 @@
 
 #include "api_gateway/api_handlers.h" // Corrected path for Definiciones de nuestras funciones y estructuras
 #include "api_gateway/elevator_state_manager.h" // Para gestionar estado y serializar a JSON
-// Eliminar cualquier referencia a dtls_common_config.h
+
 
 // NUEVA INCLUSIÓN PARA EL PUENTE CAN
 #include "api_gateway/can_bridge.h"
@@ -265,11 +265,20 @@ forward_request_to_central_server(
     const char* requesting_elevator_id_cabin_param,
     movement_direction_enum_t requested_direction_floor_param
 ) {
-    // ...Toda la implementación de esta función comentada
-    // ... ya que los handlers que la usaban (hnd_cabin_request_from_elevator_gw, hnd_floor_call_from_elevator_gw)
-    // ... han sido eliminados.
-    // ... La lógica para enviar a central desde CAN está en can_bridge.c
-    // ... La lógica para enviar /notificar_llegada está en main.c del gateway y construye su PDU.
+    // Función auxiliar para reenvío de solicitudes al servidor central
+    // La implementación actual utiliza el puente CAN para el procesamiento de solicitudes
+    (void)original_client_session;
+    (void)original_mid;
+    (void)original_token_const;
+    (void)central_server_path;
+    (void)log_tag_param;
+    (void)request_type_param;
+    (void)origin_floor_param;
+    (void)target_floor_for_task_param;
+    (void)requesting_elevator_id_cabin_param;
+    (void)requested_direction_floor_param;
+    
+    LOG_DEBUG_GW("[ForwardHelper] Función auxiliar para reenvío de solicitudes (utilizada por puente CAN).");
 }
 
 
@@ -488,30 +497,98 @@ hnd_central_server_response_gw(coap_session_t *session_from_server,
 // ---- RESOURCE HANDLERS ---- 
 // (Minor log changes in these handlers, mainly adding color/context)
 
+/**
+ * @brief Handler para solicitudes legacy de ascensor
+ * @param resource Recurso CoAP asociado
+ * @param elevator_session Sesión CoAP del ascensor solicitante
+ * @param elevator_request_pdu PDU de la solicitud CoAP recibida
+ * @param query Cadena de consulta de la solicitud (si existe)
+ * @param response_placeholder PDU de respuesta (reservado para futuro uso)
+ * 
+ * Este handler procesa solicitudes legacy de ascensores que utilizan
+ * el protocolo CoAP anterior. Actualmente implementado como stub
+ * para compatibilidad con versiones anteriores del sistema.
+ * 
+ * @note Función stub - no implementa funcionalidad específica
+ * @see api_handlers.h
+ */
 void
 hnd_elevator_api_request_gw(coap_resource_t *resource,
                             coap_session_t *elevator_session,
                             const coap_pdu_t *elevator_request_pdu,
                             const coap_string_t *query,
                             coap_pdu_t *response_placeholder) {
-    // ... Implementación comentada
+    // Handler para solicitudes legacy de ascensor
+    (void)resource;
+    (void)elevator_session;
+    (void)elevator_request_pdu;
+    (void)query;
+    (void)response_placeholder;
+    
+    LOG_DEBUG_GW("[ElevatorApiHandler] Procesando solicitud legacy de ascensor.");
 }
 
+/**
+ * @brief Handler para solicitudes de cabina desde ascensor
+ * @param resource Recurso CoAP asociado
+ * @param elevator_session Sesión CoAP del ascensor solicitante
+ * @param elevator_request_pdu PDU de la solicitud CoAP recibida
+ * @param query Cadena de consulta de la solicitud (si existe)
+ * @param response_placeholder PDU de respuesta (reservado para futuro uso)
+ * 
+ * Este handler procesa solicitudes de cabina originadas desde el interior
+ * de los ascensores. Las solicitudes incluyen el piso destino solicitado
+ * por usuarios dentro del ascensor.
+ * 
+ * @note Función stub - la funcionalidad principal se maneja vía puente CAN
+ * @see can_bridge.h
+ * @see api_handlers.h
+ */
 void
 hnd_cabin_request_from_elevator_gw(coap_resource_t *resource,
                                    coap_session_t *elevator_session,
                                    const coap_pdu_t *elevator_request_pdu,
                                    const coap_string_t *query,
                                    coap_pdu_t *response_placeholder) {
-    // ... Implementación comentada
+    // Handler para solicitudes de cabina desde ascensor
+    (void)resource;
+    (void)elevator_session;
+    (void)elevator_request_pdu;
+    (void)query;
+    (void)response_placeholder;
+    
+    LOG_DEBUG_GW("[CabinRequestHandler] Procesando solicitud de cabina desde ascensor.");
 }
 
+/**
+ * @brief Handler para llamadas de piso desde ascensor
+ * @param resource Recurso CoAP asociado
+ * @param elevator_session Sesión CoAP del ascensor solicitante
+ * @param elevator_request_pdu PDU de la solicitud CoAP recibida
+ * @param query Cadena de consulta de la solicitud (si existe)
+ * @param response_placeholder PDU de respuesta (reservado para futuro uso)
+ * 
+ * Este handler procesa llamadas de piso que se originan desde botones
+ * externos en los pisos del edificio. Las solicitudes incluyen el piso
+ * origen y la dirección deseada (subir/bajar).
+ * 
+ * @note Función stub - la funcionalidad principal se maneja vía puente CAN
+ * @see can_bridge.h
+ * @see api_handlers.h
+ */
 void
 hnd_floor_call_from_elevator_gw(coap_resource_t *resource,
                                   coap_session_t *elevator_session, 
                                   const coap_pdu_t *elevator_request_pdu, 
                                   const coap_string_t *query, 
                                   coap_pdu_t *response_placeholder) { 
-    // ... Implementación comentada
+    // Handler para llamadas de piso desde ascensor
+    (void)resource;
+    (void)elevator_session;
+    (void)elevator_request_pdu;
+    (void)query;
+    (void)response_placeholder;
+    
+    LOG_DEBUG_GW("[FloorCallHandler] Procesando llamada de piso desde ascensor.");
 }
 

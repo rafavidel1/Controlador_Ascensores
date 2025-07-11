@@ -13,22 +13,22 @@
 - [🚀 Inicio Rápido - 100% Automatizado](#-inicio-rápido---100-automatizado)
 - [🏗️ Arquitectura del Servidor](#️-arquitectura-del-servidor)
 - [🧠 Algoritmo Inteligente](#-algoritmo-inteligente)
-- [🔒 Seguridad DTLS-PSK](#-seguridad-dtls-psk)
+- [🔒 Seguridad DTLS](#-seguridad-dtls)
 - [🐳 Despliegue en Kubernetes](#-despliegue-en-kubernetes)
-- [📊 Persistencia y Base de Datos](#-persistencia-y-base-de-datos)
+- [📊 Procesamiento Stateless](#-procesamiento-stateless)
 - [🐛 Solución de Problemas](#-solución-de-problemas)
 
 ## 🎯 Descripción General
 
-El **Servidor Central** es el cerebro del sistema de control de ascensores. Implementa un algoritmo inteligente que considera la posición en tiempo real de los ascensores para optimizar asignaciones, con persistencia SQLite y despliegue automático en Kubernetes mediante scripts zero-config.
+El **Servidor Central** es el cerebro del sistema de control de ascensores. Implementa un algoritmo inteligente que considera la posición en tiempo real de los ascensores recibidos en cada payload para optimizar asignaciones, con procesamiento stateless y despliegue automático en Kubernetes mediante scripts zero-config.
 
 ### 🌟 Características Clave
 
 - **⚡ Compilación Automática**: `./build_servidor_central.sh` - Todo en un comando
 - **🚀 Despliegue Zero-Config**: `./deploy.sh` - Kubernetes automático
 - **🧠 Algoritmo Inteligente**: Considera posición actual y destino en tiempo real
-- **🔒 Seguridad DTLS-PSK**: Comunicación cifrada con autenticación mutua
-- **📊 Algoritmo en Tiempo Real**: Asignación óptima basada en datos actuales
+- **🔒 Seguridad DTLS**: Comunicación cifrada con autenticación mutua
+- **📊 Algoritmo Stateless**: Asignación óptima basada en datos recibidos en cada payload
 - **🐳 Kubernetes Ready**: Escalabilidad horizontal automática
 
 ## 🚀 Inicio Rápido - 100% Automatizado
@@ -37,13 +37,7 @@ El **Servidor Central** es el cerebro del sistema de control de ascensores. Impl
 
 ```bash
 # ✅ NINGÚN PREREQUISITO MANUAL NECESARIO
-# El script build_servidor_central.sh instala TODAS las dependencias automáticamente:
-# - build-essential, cmake, gcc, make, pkg-config, git
-# - libcoap (compilado desde fuente)
-# - OpenSSL, cJSON, json-c, libcurl
-# - Configuración automática de variables de entorno
-# - Corrección automática de clock skew
-# - Algoritmo inteligente en memoria (SIN SQLite)
+
 
 # Para Kubernetes (opcional):
 # El script verifica minikube/kubectl y guía la instalación si es necesario
@@ -161,29 +155,13 @@ return score;
 [INFO] Tarea T_1640995200123 asignada a EDI1A2
 ```
 
-## 🔒 Seguridad DTLS-PSK
-
-### 🔐 **Configuración Automática**
-
-```bash
-# Validación automática de PSK
-cat psk_keys.txt | wc -l  # ✅ 15,000 claves
-grep "Gateway_Client_" psk_keys.txt | head -5
-
-# Salida esperada:
-# Gateway_Client_0001 41414141...
-# Gateway_Client_0002 42424242...
-# Gateway_Client_0003 43434343...
-# Gateway_Client_0004 44444444...
-# Gateway_Client_0005 45454545...
-```
+## 🔒 Seguridad DTLS
 
 ### 🛡️ **Autenticación Mutua Automática**
 
 ```bash
 # El servidor valida automáticamente:
 # ✅ Identidad del cliente (Gateway_Client_XXXX)
-# ✅ Clave PSK correspondiente
 # ✅ Estado de la sesión DTLS
 # ✅ Timeouts y reconexiones
 ```
@@ -196,6 +174,30 @@ if (coap_session_get_state(session) != COAP_SESSION_STATE_ESTABLISHED) {
     // Respuesta automática de error 401
     return COAP_RESPONSE_CODE_UNAUTHORIZED;
 }
+```
+
+## 📊 Procesamiento Stateless
+
+### 🎯 **Servidor Completamente Stateless**
+
+El servidor central **NO mantiene ningún estado** entre peticiones:
+
+```bash
+# ✅ Cada petición incluye TODO el estado necesario
+# ✅ No hay base de datos ni persistencia
+# ✅ No hay memoria compartida entre peticiones
+# ✅ Máxima escalabilidad horizontal
+```
+
+### 🔄 **Flujo de Procesamiento**
+
+```bash
+1. 📥 RECIBE payload con estado completo de ascensores
+2. 🧠 EJECUTA algoritmo usando SOLO datos del payload  
+3. 🎯 SELECCIONA ascensor óptimo basado en datos recibidos
+4. 📤 ENVÍA respuesta con asignación
+5. 🧹 LIBERA toda la memoria temporal
+6. 🔄 LISTO para siguiente petición independiente
 ```
 
 ## 🐳 Despliegue en Kubernetes
@@ -215,7 +217,7 @@ if (coap_session_get_state(session) != COAP_SESSION_STATE_ESTABLISHED) {
 # ✅ Verifica despliegue
 ```
 
-### 🔧 **Configuración Automática**
+### 🔧 **Configuración**
 
 ```yaml
 # kustomize/deployment.yaml (aplicado automáticamente)
@@ -247,7 +249,7 @@ spec:
             cpu: "500m"
 ```
 
-### 📊 **Monitoreo Automático**
+### 📊 **Monitoreo**
 
 ```bash
 # Comandos de monitoreo automático
@@ -259,7 +261,7 @@ kubectl top pods -l app=servidor-central     # Uso de recursos
 kubectl get hpa servidor-central-hpa         # Horizontal Pod Autoscaler
 ```
 
-### 🔄 **Scaling Automático**
+### 🔄 **Scaling**
 
 ```yaml
 # kustomize/hpa.yaml (aplicado automáticamente)
@@ -302,6 +304,7 @@ kubectl get nodes
 
 #### Error: "Docker image build failed"
 ```bash
+
 # Solución automática
 ./build_servidor_central.sh  # ✅ Compila primero
 
@@ -317,16 +320,6 @@ sudo kill -9 <PID>
 
 # O usar Kubernetes (recomendado)
 ./deploy.sh  # ✅ Maneja puertos automáticamente
-```
-
-#### Error: "DTLS handshake failed"
-```bash
-# Verificar claves PSK
-ls -la psk_keys.txt
-wc -l psk_keys.txt  # Debe ser 15,000 líneas
-
-# Verificar configuración
-grep "Gateway_Client_" psk_keys.txt | head -5
 ```
 
 ### 📋 **Logs de Diagnóstico**
@@ -357,20 +350,6 @@ kubectl top pods -l app=servidor-central
 
 # Verificar conectividad
 kubectl exec -it deployment/servidor-central -- netstat -tlnp
-```
-
-## 💡 Uso Avanzado
-
-### 🎯 **Variables de Entorno**
-
-```bash
-# Configuración personalizada (antes del despliegue)
-export DTLS_PSK_FILE="custom_psk_keys.txt"
-export ALGORITHM_MODE="intelligent"  # Modo de algoritmo inteligente
-export COAP_LISTEN_PORT=5685
-
-# Luego desplegar
-./deploy.sh  # ✅ Usa configuración personalizada
 ```
 
 ### 📊 **Análisis de Rendimiento**

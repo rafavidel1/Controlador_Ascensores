@@ -1,16 +1,28 @@
 \doxysection{central\+\_\+request\+\_\+entry\+\_\+t Struct Reference}
-\label{structcentral__request__entry__t}\index{central\_request\_entry\_t@{central\_request\_entry\_t}}
+\hypertarget{structcentral__request__entry__t}{}\label{structcentral__request__entry__t}\index{central\_request\_entry\_t@{central\_request\_entry\_t}}
 
 
 Entrada de tracker para solicitudes al servidor central.  
 
 
-\doxysubsubsection*{Data Fields}
+
+
+Collaboration diagram for central\+\_\+request\+\_\+entry\+\_\+t\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=212pt]{structcentral__request__entry__t__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
-coap\+\_\+bin\+\_\+const\+\_\+t \textbf{ token}
+\Hypertarget{structcentral__request__entry__t_a9474ef22121d12f2fb36f5a04a51e13e}\label{structcentral__request__entry__t_a9474ef22121d12f2fb36f5a04a51e13e} 
+coap\+\_\+bin\+\_\+const\+\_\+t {\bfseries token}
 \begin{DoxyCompactList}\small\item\em Token de la solicitud enviada AL SERVIDOR CENTRAL. \end{DoxyCompactList}\item 
-\textbf{ api\+\_\+request\+\_\+tracker\+\_\+t} $\ast$ \textbf{ tracker\+\_\+data}
+\Hypertarget{structcentral__request__entry__t_a57b3f1998fabe30576895678aaaecbf1}\label{structcentral__request__entry__t_a57b3f1998fabe30576895678aaaecbf1} 
+\mbox{\hyperlink{structapi__request__tracker__t}{api\+\_\+request\+\_\+tracker\+\_\+t}} \texorpdfstring{$\ast$}{*} {\bfseries tracker\+\_\+data}
 \begin{DoxyCompactList}\small\item\em Datos del tracker original (sesión del ascensor, token original, etc.) \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
@@ -19,29 +31,6 @@ Entrada de tracker para solicitudes al servidor central.
 
 Estructura que asocia un token de solicitud enviada al servidor central con los datos del tracker original que contiene información de la solicitud inicial del ascensor. 
 
-\doxysubsection{Field Documentation}
-\label{structcentral__request__entry__t_a9474ef22121d12f2fb36f5a04a51e13e} 
-\index{central\_request\_entry\_t@{central\_request\_entry\_t}!token@{token}}
-\index{token@{token}!central\_request\_entry\_t@{central\_request\_entry\_t}}
-\doxysubsubsection{token}
-{\footnotesize\ttfamily coap\+\_\+bin\+\_\+const\+\_\+t central\+\_\+request\+\_\+entry\+\_\+t\+::token}
-
-
-
-Token de la solicitud enviada AL SERVIDOR CENTRAL. 
-
-\label{structcentral__request__entry__t_a57b3f1998fabe30576895678aaaecbf1} 
-\index{central\_request\_entry\_t@{central\_request\_entry\_t}!tracker\_data@{tracker\_data}}
-\index{tracker\_data@{tracker\_data}!central\_request\_entry\_t@{central\_request\_entry\_t}}
-\doxysubsubsection{tracker\_data}
-{\footnotesize\ttfamily \textbf{ api\+\_\+request\+\_\+tracker\+\_\+t}$\ast$ central\+\_\+request\+\_\+entry\+\_\+t\+::tracker\+\_\+data}
-
-
-
-Datos del tracker original (sesión del ascensor, token original, etc.) 
-
-
-
 The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
-src/\textbf{ api\+\_\+handlers.\+c}\end{DoxyCompactItemize}
+src/\mbox{\hyperlink{api__handlers_8c}{api\+\_\+handlers.\+c}}\end{DoxyCompactItemize}

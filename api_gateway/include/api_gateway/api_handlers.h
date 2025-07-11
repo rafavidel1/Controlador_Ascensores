@@ -6,6 +6,12 @@
 #include "api_common_defs.h" // Ensuring this is just the filename
 #include "elevator_state_manager.h" // For movement_direction_enum_t, and gw_request_type_t now moved here
 
+/**
+ * @brief Enumeración de tipos de solicitud del gateway
+ * 
+ * @note Esta enumeración se define en elevator_state_manager.h
+ * @see elevator_state_manager.h
+ */
 // typedef enum gw_request_type_t is MOVED to elevator_state_manager.h
 
 /**
@@ -40,13 +46,37 @@ struct coap_context_t;
 coap_session_t* get_or_create_central_server_dtls_session(struct coap_context_t *ctx);
 
 // --- Signal Handler ---
+/**
+ * @brief Manejador de señal para SIGINT (Ctrl+C)
+ * @param signum Número de señal recibida (se espera SIGINT)
+ * 
+ * Establece la bandera quit_main_loop para señalar al bucle principal
+ * que debe terminar, permitiendo una terminación elegante del gateway.
+ * 
+ * @see quit_main_loop
+ */
 void handle_sigint_gw(int signum);
 
 // --- Response Handler (for responses FROM Central Server TO Gateway) ---
-coap_response_t hnd_central_server_response_gw(coap_session_t *session_to_central,
+/**
+ * @brief Manejador de respuestas del servidor central
+ * @param session_from_server Sesión CoAP desde la cual se recibió la respuesta
+ * @param sent_to_central PDU que fue enviado al servidor central
+ * @param received_from_central PDU recibido del servidor central
+ * @param mid_from_server Message ID de la respuesta del servidor
+ * @return COAP_RESPONSE_OK si la respuesta se procesó correctamente
+ * 
+ * Procesa respuestas del servidor central para solicitudes de asignación
+ * de ascensores, correlacionando respuestas con solicitudes originales
+ * y actualizando el estado local de los ascensores.
+ * 
+ * @see api_request_tracker_t
+ * @see can_origin_tracker_t
+ */
+coap_response_t hnd_central_server_response_gw(coap_session_t *session_from_server,
                                              const coap_pdu_t *sent_to_central,
                                              const coap_pdu_t *received_from_central,
-                                             const coap_mid_t mid_to_central);
+                                             const coap_mid_t mid_from_server);
 
 // --- Resource Handlers (for requests FROM Clients TO Gateway) ---
 
@@ -82,8 +112,7 @@ void hnd_floor_call_from_elevator_gw(coap_resource_t *resource,
                                      const coap_string_t *query, 
                                      coap_pdu_t *response_placeholder);
 
-// Note: hnd_arrival_notification_from_elevator_gw has been removed as the gateway
-// now simulates arrivals and sends its own notifications to the central server.
+
 
 extern volatile sig_atomic_t quit_main_loop; // Defined in main.c
 

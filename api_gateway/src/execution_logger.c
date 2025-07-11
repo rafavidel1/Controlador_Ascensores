@@ -113,7 +113,7 @@ static void write_markdown_header(void) {
     fprintf(log_file, "## Configuración Técnica\n\n");
     fprintf(log_file, "### Protocolos de Comunicación\n\n");
     fprintf(log_file, "- **Protocolo Principal:** CoAP (Constrained Application Protocol)\n");
-    fprintf(log_file, "- **Seguridad:** DTLS-PSK (Datagram Transport Layer Security con Pre-Shared Key)\n");
+    fprintf(log_file, "- **Seguridad:** DTLS (Datagram Transport Layer Security)\n");
     fprintf(log_file, "- **Transporte:** UDP (User Datagram Protocol)\n");
     fprintf(log_file, "- **Puerto de Escucha:** 5683 (Puerto estándar CoAP)\n");
     fprintf(log_file, "- **Servidor Central:** 192.168.49.2:30084 (Minikube Cluster)\n\n");
@@ -195,7 +195,7 @@ static void write_markdown_footer(void) {
         fprintf(log_file, "- Sin errores detectados durante la ejecución\n");
         fprintf(log_file, "- Todas las comunicaciones funcionaron correctamente\n");
         fprintf(log_file, "- Sistema de simulación operativo y estable\n");
-        fprintf(log_file, "- Protocolo DTLS-PSK establecido correctamente\n");
+        fprintf(log_file, "- Protocolo DTLS establecido correctamente\n");
     } else {
         fprintf(log_file, "**ESTADO: EJECUCION CON ADVERTENCIAS**\n\n");
         fprintf(log_file, "- **%d errores** detectados durante la ejecución\n", stats.total_errors);
@@ -242,6 +242,23 @@ static const char* get_event_label(log_event_type_t type) {
 // FUNCIONES PÚBLICAS
 // ============================================================================
 
+/**
+ * @brief Inicializa el sistema de logging de ejecuciones
+ * @return true si se inicializó correctamente, false en caso de error
+ * 
+ * Esta función inicializa el sistema de logging creando el directorio
+ * de logs necesario y abriendo el archivo de registro correspondiente.
+ * 
+ * **Operaciones realizadas:**
+ * - Crea el directorio de logs con timestamp
+ * - Abre el archivo de log con timestamp único
+ * - Inicializa las estadísticas de ejecución
+ * - Escribe el header Markdown del reporte
+ * - Marca el logger como activo
+ * 
+ * @see exec_logger_finish()
+ * @see exec_logger_is_active()
+ */
 bool exec_logger_init(void) {
     // Inicializar estadísticas
     memset(&stats, 0, sizeof(execution_stats_t));
@@ -358,6 +375,23 @@ bool exec_logger_init(void) {
     return true;
 }
 
+/**
+ * @brief Finaliza el sistema de logging de ejecuciones
+ * 
+ * Esta función cierra el sistema de logging escribiendo las estadísticas
+ * finales y cerrando el archivo de log. También intenta generar un PDF
+ * del reporte usando pandoc si está disponible.
+ * 
+ * **Operaciones realizadas:**
+ * - Calcula la duración total de ejecución
+ * - Escribe el footer Markdown con estadísticas finales
+ * - Cierra el archivo de log
+ * - Intenta generar PDF del reporte
+ * - Marca el logger como inactivo
+ * 
+ * @see exec_logger_init()
+ * @see exec_logger_is_active()
+ */
 void exec_logger_finish(void) {
     if (!logger_active || !log_file) return;
     
@@ -426,6 +460,18 @@ void exec_logger_finish(void) {
     }
 }
 
+/**
+ * @brief Registra un evento general en el sistema de logging
+ * @param type Tipo de evento a registrar
+ * @param description Descripción del evento
+ * @param details Detalles adicionales del evento (puede ser NULL)
+ * 
+ * Esta función registra eventos generales del sistema con timestamp
+ * de alta precisión y formateo consistente.
+ * 
+ * @see log_event_type_t
+ * @see exec_logger_is_active()
+ */
 void exec_logger_log_event(log_event_type_t type, const char* description, const char* details) {
     if (!logger_active || !log_file || !description) return;
     
@@ -448,6 +494,16 @@ void exec_logger_log_event(log_event_type_t type, const char* description, const
     fflush(log_file);
 }
 
+/**
+ * @brief Registra el inicio de una simulación
+ * @param building_id ID del edificio simulado
+ * @param num_requests Número de peticiones programadas para la simulación
+ * 
+ * Esta función registra el inicio de una simulación de ascensores,
+ * almacenando información clave para las estadísticas finales.
+ * 
+ * @see exec_logger_log_simulation_end()
+ */
 void exec_logger_log_simulation_start(const char* building_id, int num_requests) {
     if (!logger_active || !building_id) return;
     
@@ -460,6 +516,16 @@ void exec_logger_log_simulation_start(const char* building_id, int num_requests)
     exec_logger_log_event(LOG_EVENT_SIMULATION_START, "Iniciando simulación de ascensores", details);
 }
 
+/**
+ * @brief Registra el fin de una simulación
+ * @param successful_requests Número de peticiones procesadas exitosamente
+ * @param total_requests Número total de peticiones procesadas
+ * 
+ * Esta función registra el final de una simulación de ascensores
+ * con estadísticas de éxito y métricas de rendimiento.
+ * 
+ * @see exec_logger_log_simulation_start()
+ */
 void exec_logger_log_simulation_end(int successful_requests, int total_requests) {
     if (!logger_active) return;
     
@@ -471,6 +537,18 @@ void exec_logger_log_simulation_end(int successful_requests, int total_requests)
     exec_logger_log_event(LOG_EVENT_SIMULATION_END, "Simulación completada", details);
 }
 
+/**
+ * @brief Registra el envío de un frame CAN
+ * @param can_id ID del frame CAN enviado
+ * @param dlc Data Length Code (número de bytes de datos)
+ * @param data Datos del frame CAN
+ * @param description Descripción del frame enviado
+ * 
+ * Esta función registra el envío de frames CAN con formato hexadecimal
+ * de los datos para análisis posterior.
+ * 
+ * @see exec_logger_log_can_received()
+ */
 void exec_logger_log_can_sent(unsigned int can_id, int dlc, const unsigned char* data, const char* description) {
     if (!logger_active) return;
     
@@ -493,6 +571,18 @@ void exec_logger_log_can_sent(unsigned int can_id, int dlc, const unsigned char*
     exec_logger_log_event(LOG_EVENT_CAN_SENT, "Frame CAN enviado", details);
 }
 
+/**
+ * @brief Registra la recepción de un frame CAN
+ * @param can_id ID del frame CAN recibido
+ * @param dlc Data Length Code (número de bytes de datos)
+ * @param data Datos del frame CAN
+ * @param description Descripción del frame recibido
+ * 
+ * Esta función registra la recepción de frames CAN con formato hexadecimal
+ * de los datos para análisis posterior.
+ * 
+ * @see exec_logger_log_can_sent()
+ */
 void exec_logger_log_can_received(unsigned int can_id, int dlc, const unsigned char* data, const char* description) {
     if (!logger_active) return;
     
@@ -515,6 +605,17 @@ void exec_logger_log_can_received(unsigned int can_id, int dlc, const unsigned c
     exec_logger_log_event(LOG_EVENT_CAN_RECEIVED, "Frame CAN recibido", details);
 }
 
+/**
+ * @brief Registra el envío de un mensaje CoAP
+ * @param method Método CoAP (GET, POST, PUT, DELETE)
+ * @param uri URI del recurso CoAP
+ * @param payload Payload del mensaje CoAP (puede ser NULL)
+ * 
+ * Esta función registra el envío de mensajes CoAP con información
+ * completa del método, URI y payload para análisis de tráfico.
+ * 
+ * @see exec_logger_log_coap_received()
+ */
 void exec_logger_log_coap_sent(const char* method, const char* uri, const char* payload) {
     if (!logger_active) return;
     
@@ -529,6 +630,16 @@ void exec_logger_log_coap_sent(const char* method, const char* uri, const char* 
     exec_logger_log_event(LOG_EVENT_COAP_SENT, "Petición CoAP enviada", details);
 }
 
+/**
+ * @brief Registra la recepción de un mensaje CoAP
+ * @param code Código de respuesta CoAP (2.01, 4.04, etc.)
+ * @param payload Payload del mensaje CoAP (puede ser NULL)
+ * 
+ * Esta función registra la recepción de mensajes CoAP con información
+ * del código de respuesta y payload para análisis de tráfico.
+ * 
+ * @see exec_logger_log_coap_sent()
+ */
 void exec_logger_log_coap_received(const char* code, const char* payload) {
     if (!logger_active) return;
     
@@ -542,6 +653,17 @@ void exec_logger_log_coap_received(const char* code, const char* payload) {
     exec_logger_log_event(LOG_EVENT_COAP_RECEIVED, "Respuesta CoAP recibida", details);
 }
 
+/**
+ * @brief Registra la asignación de una tarea a un ascensor
+ * @param task_id ID de la tarea asignada
+ * @param elevator_id ID del ascensor asignado
+ * @param target_floor Piso destino de la tarea
+ * 
+ * Esta función registra cuando el servidor central asigna una tarea
+ * específica a un ascensor del grupo gestionado por el gateway.
+ * 
+ * @see exec_logger_log_task_completed()
+ */
 void exec_logger_log_task_assigned(const char* task_id, const char* elevator_id, int target_floor) {
     if (!logger_active) return;
     
@@ -556,6 +678,18 @@ void exec_logger_log_task_assigned(const char* task_id, const char* elevator_id,
     exec_logger_log_event(LOG_EVENT_TASK_ASSIGNED, "Tarea asignada a ascensor", details);
 }
 
+/**
+ * @brief Registra el movimiento de un ascensor
+ * @param elevator_id ID del ascensor que se movió
+ * @param from_floor Piso de origen del movimiento
+ * @param to_floor Piso de destino del movimiento
+ * @param direction Dirección del movimiento (UP/DOWN)
+ * 
+ * Esta función registra los movimientos de ascensores entre pisos
+ * para análisis de tráfico y eficiencia del sistema.
+ * 
+ * @see exec_logger_log_task_assigned()
+ */
 void exec_logger_log_elevator_moved(const char* elevator_id, int from_floor, int to_floor, const char* direction) {
     if (!logger_active) return;
     
@@ -570,6 +704,17 @@ void exec_logger_log_elevator_moved(const char* elevator_id, int from_floor, int
     exec_logger_log_event(LOG_EVENT_ELEVATOR_MOVED, "Ascensor en movimiento", details);
 }
 
+/**
+ * @brief Registra la finalización de una tarea de ascensor
+ * @param task_id ID de la tarea completada
+ * @param elevator_id ID del ascensor que completó la tarea
+ * @param final_floor Piso final donde terminó la tarea
+ * 
+ * Esta función registra cuando un ascensor completa exitosamente
+ * una tarea asignada, llegando al piso destino.
+ * 
+ * @see exec_logger_log_task_assigned()
+ */
 void exec_logger_log_task_completed(const char* task_id, const char* elevator_id, int final_floor) {
     if (!logger_active) return;
     
@@ -584,6 +729,16 @@ void exec_logger_log_task_completed(const char* task_id, const char* elevator_id
     exec_logger_log_event(LOG_EVENT_TASK_COMPLETED, "Tarea completada", details);
 }
 
+/**
+ * @brief Registra un error del sistema
+ * @param error_code Código de error (ej: "COAP_001", "CAN_002")
+ * @param error_message Mensaje descriptivo del error
+ * 
+ * Esta función registra errores del sistema para análisis posterior
+ * y incrementa el contador de errores en las estadísticas.
+ * 
+ * @see exec_logger_log_event()
+ */
 void exec_logger_log_error(const char* error_code, const char* error_message) {
     if (!logger_active) return;
     
@@ -597,10 +752,30 @@ void exec_logger_log_error(const char* error_code, const char* error_message) {
     exec_logger_log_event(LOG_EVENT_ERROR, "Error del sistema", details);
 }
 
+/**
+ * @brief Obtiene las estadísticas actuales de ejecución
+ * @return Puntero a las estadísticas actuales, o NULL si el logger no está activo
+ * 
+ * Esta función proporciona acceso de solo lectura a las estadísticas
+ * actuales del sistema de logging para monitoreo en tiempo real.
+ * 
+ * @see execution_stats_t
+ * @see exec_logger_is_active()
+ */
 const execution_stats_t* exec_logger_get_stats(void) {
     return &stats;
 }
 
+/**
+ * @brief Verifica si el sistema de logging está activo
+ * @return true si el logger está activo, false en caso contrario
+ * 
+ * Esta función permite verificar el estado del sistema de logging
+ * antes de intentar registrar eventos.
+ * 
+ * @see exec_logger_init()
+ * @see exec_logger_finish()
+ */
 bool exec_logger_is_active(void) {
     return logger_active;
 } 

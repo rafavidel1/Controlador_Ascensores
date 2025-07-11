@@ -1,12 +1,12 @@
 /**
  * @file dtls_common_config.h
- * @brief Configuración común para DTLS-PSK en el servidor central
+ * @brief Configuración común para DTLS en el servidor central
  * @author Sistema de Control de Ascensores
  * @version 2.0
  * @date 2025
  * 
  * @details Este archivo contiene las configuraciones y constantes necesarias
- * para la implementación de DTLS-PSK (Pre-Shared Key) en el servidor central.
+ * para la implementación de DTLS seguro en el servidor central.
  * Define los parámetros de seguridad, timeouts y configuraciones de sesión.
  * 
  * @see server_functions.h
@@ -25,14 +25,14 @@ extern "C" {
 #endif
 
 /**
- * @brief Configuración de seguridad DTLS-PSK
+ * @brief Configuración de seguridad DTLS
  * 
  * @details Esta estructura contiene todos los parámetros necesarios para
- * configurar la seguridad DTLS-PSK del servidor central.
+ * configurar la seguridad DTLS del servidor central.
  */
 typedef struct {
-    char *psk_file;             /**< Ruta al archivo de claves PSK */
-    int psk_timeout;            /**< Timeout de sesión PSK en segundos */
+    char *auth_file;            /**< Ruta al archivo de configuración de autenticación */
+    int auth_timeout;           /**< Timeout de sesión de autenticación en segundos */
     int dtls_mtu;               /**< MTU para DTLS en bytes */
     int retransmit_timeout;     /**< Timeout de retransmisión en segundos */
     int max_connections;        /**< Número máximo de conexiones simultáneas */
@@ -40,18 +40,18 @@ typedef struct {
 } dtls_config_t;
 
 /**
- * @brief Configuración por defecto para DTLS-PSK
+ * @brief Configuración por defecto para DTLS
  * 
  * @details Valores recomendados para un entorno de producción:
- * - Timeout de 30 segundos para sesiones PSK
+ * - Timeout de 30 segundos para sesiones de autenticación
  * - MTU de 1280 bytes (estándar CoAP)
  * - Timeout de retransmisión de 2 segundos
  * - Máximo 100 conexiones simultáneas
  * - Caché de 50 sesiones
  */
 #define DEFAULT_DTLS_CONFIG { \
-    .psk_file = "/app/psk_keys.txt", \
-    .psk_timeout = 30, \
+    .auth_file = "/app/psk_keys.txt", \
+    .auth_timeout = 30, \
     .dtls_mtu = 1280, \
     .retransmit_timeout = 2, \
     .max_connections = 100, \
@@ -59,45 +59,45 @@ typedef struct {
 }
 
 /**
- * @brief Puerto por defecto para DTLS-PSK
+ * @brief Puerto por defecto para DTLS
  * 
  * @details El puerto 5684 es el estándar para CoAP sobre DTLS según RFC 7252
  */
 #define DEFAULT_DTLS_PORT 5684
 
 /**
- * @brief Tamaño máximo de clave PSK
+ * @brief Tamaño máximo de credenciales
  * 
- * @details Las claves PSK pueden tener hasta 128 caracteres según RFC 4279
+ * @details Las credenciales pueden tener hasta 128 caracteres
  */
-#define MAX_PSK_LENGTH 128
+#define MAX_AUTH_LENGTH 128
 
 /**
- * @brief Tamaño máximo de identidad PSK
+ * @brief Tamaño máximo de identidad
  * 
- * @details Las identidades PSK pueden tener hasta 64 caracteres
+ * @details Las identidades pueden tener hasta 64 caracteres
  */
-#define MAX_PSK_IDENTITY_LENGTH 64
+#define MAX_AUTH_IDENTITY_LENGTH 64
 
 /**
- * @brief Número de claves PSK pre-generadas
+ * @brief Número de credenciales disponibles
  * 
- * @details El sistema incluye 15,000 claves únicas para máxima seguridad
+ * @details El sistema incluye múltiples credenciales únicas para máxima seguridad
  */
-#define NUM_PSK_KEYS 15000
+#define NUM_AUTH_CREDENTIALS 15000
 
 /**
- * @brief Inicializa la configuración SSL para DTLS-PSK
+ * @brief Inicializa la configuración SSL para DTLS
  * 
  * @param[out] ssl_ctx Contexto SSL a inicializar
  * @param[in] config Configuración DTLS a aplicar
  * 
  * @return 0 en caso de éxito, -1 en caso de error
  * 
- * @details Esta función configura el contexto SSL para DTLS-PSK:
+ * @details Esta función configura el contexto SSL para DTLS:
  * - Inicializa la biblioteca OpenSSL
  * - Crea el contexto SSL con método DTLS
- * - Configura los parámetros de seguridad PSK
+ * - Configura los parámetros de seguridad
  * - Establece los timeouts y límites de conexión
  * - Configura el caché de sesiones
  * 
@@ -114,7 +114,6 @@ int init_ssl_context(SSL_CTX **ssl_ctx, const dtls_config_t *config);
  * @details Esta función libera todos los recursos asociados al contexto SSL:
  * - Libera el contexto SSL
  * - Limpia el caché de sesiones
- * - Libera memoria dinámica
  * 
  * @note Debe ser llamada al finalizar para evitar memory leaks
  * @see init_ssl_context
@@ -122,7 +121,7 @@ int init_ssl_context(SSL_CTX **ssl_ctx, const dtls_config_t *config);
 void cleanup_ssl_context(SSL_CTX *ssl_ctx);
 
 /**
- * @brief Configura una sesión CoAP con DTLS-PSK
+ * @brief Configura una sesión CoAP con DTLS
  * 
  * @param[in] ctx Contexto CoAP del servidor
  * @param[in] ssl_ctx Contexto SSL configurado
@@ -130,10 +129,10 @@ void cleanup_ssl_context(SSL_CTX *ssl_ctx);
  * 
  * @return 0 en caso de éxito, -1 en caso de error
  * 
- * @details Esta función configura la sesión CoAP para DTLS-PSK:
+ * @details Esta función configura la sesión CoAP para DTLS:
  * - Crea el endpoint de escucha DTLS
  * - Configura los parámetros de sesión
- * - Establece los callbacks de autenticación PSK
+ * - Establece los callbacks de autenticación
  * - Configura los timeouts de sesión
  * 
  * @note Debe ser llamada después de inicializar el contexto SSL
@@ -141,46 +140,46 @@ void cleanup_ssl_context(SSL_CTX *ssl_ctx);
 int setup_dtls_session(coap_context_t *ctx, SSL_CTX *ssl_ctx, int port);
 
 /**
- * @brief Callback para autenticación PSK del servidor
+ * @brief Callback para autenticación del servidor
  * 
  * @param[in] ssl Conexión SSL
  * @param[in] identity Identidad del cliente
- * @param[in] psk Clave PSK del cliente
- * @param[in] max_psk_len Longitud máxima de clave PSK
+ * @param[in] credentials Credenciales del cliente
+ * @param[in] max_credentials_len Longitud máxima de credenciales
  * 
  * @return 1 si la autenticación es exitosa, 0 en caso contrario
  * 
  * @details Este callback es llamado durante el handshake DTLS:
- * - Recibe la identidad y clave PSK del cliente
- * - Valida la clave contra el archivo de claves
+ * - Recibe la identidad y credenciales del cliente
+ * - Valida las credenciales contra el archivo de configuración
  * - Retorna el resultado de la validación
- * - Configura la clave PSK en la sesión SSL
+ * - Configura las credenciales en la sesión SSL
  * 
  * @note Esta función es llamada automáticamente por OpenSSL
- * @see validate_psk
+ * @see validate_psk_key
  */
-int psk_server_callback(SSL *ssl, const char *identity, unsigned char *psk, 
-                       unsigned int max_psk_len);
+int psk_server_callback(SSL *ssl, const char *identity, unsigned char *credentials, 
+                       unsigned int max_credentials_len);
 
 /**
- * @brief Valida una clave PSK contra el archivo de claves
+ * @brief Valida credenciales contra el archivo de configuración
  * 
  * @param[in] identity Identidad del cliente
- * @param[in] psk Clave PSK a validar
- * @param[in] psk_file Ruta al archivo de claves PSK
+ * @param[in] credentials Credenciales a validar
+ * @param[in] auth_file Ruta al archivo de configuración de autenticación
  * 
- * @return 1 si la clave es válida, 0 en caso contrario
+ * @return 1 si las credenciales son válidas, 0 en caso contrario
  * 
- * @details Esta función valida la autenticación PSK:
- * - Lee el archivo de claves PSK
+ * @details Esta función valida la autenticación:
+ * - Lee el archivo de configuración de autenticación
  * - Busca la identidad del cliente
- * - Compara la clave proporcionada con la almacenada
+ * - Compara las credenciales proporcionadas con las almacenadas
  * - Retorna el resultado de la validación
  * 
- * @note El archivo de claves debe contener pares identity:key
+ * @note El archivo debe contener pares identity:credentials
  * @see psk_server_callback
  */
-int validate_psk_key(const char *identity, const char *psk, const char *psk_file);
+int validate_psk_key(const char *identity, const char *credentials, const char *auth_file);
 
 /**
  * @brief Obtiene la configuración DTLS desde variables de entorno
@@ -190,7 +189,7 @@ int validate_psk_key(const char *identity, const char *psk, const char *psk_file
  * @return 0 en caso de éxito, -1 en caso de error
  * 
  * @details Esta función lee la configuración DTLS desde variables de entorno:
- * - DTLS_PSK_FILE: Ruta al archivo de claves PSK
+ * - DTLS_AUTH_FILE: Ruta al archivo de configuración de autenticación
  * - DTLS_TIMEOUT: Timeout de sesión en segundos
  * - DTLS_MTU: MTU para DTLS en bytes
  * - DTLS_RETRANSMIT_TIMEOUT: Timeout de retransmisión

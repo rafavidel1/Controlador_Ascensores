@@ -33,7 +33,7 @@
 #include "api_gateway/can_bridge.h"
 #include "api_gateway/api_handlers.h" // Para api_request_tracker_t, forward_request_to_central_server, get_or_create_central_server_dtls_session
 #include "api_gateway/elevator_state_manager.h" // Para las enums y structs de estado, y elevator_group_to_json_for_server
-// #include "api_gateway/dtls_common_config.h" // <--- ELIMINADO: Migrado a variables de entorno
+
 #include "api_gateway/execution_logger.h" // Sistema de logging de ejecuciones
 
 #include <coap3/coap.h> 
@@ -162,8 +162,8 @@ static void store_can_tracker(coap_bin_const_t token, uint32_t can_id,
     tracker->target_floor_for_task = target_floor;
     tracker->call_reference_floor = ref_floor;
     if (elevator_id_if_cabin) {
-        strncpy(tracker->requesting_elevator_id_if_cabin, elevator_id_if_cabin, atoi(getenv("ID_STRING_MAX_LEN")) -1);
-        tracker->requesting_elevator_id_if_cabin[atoi(getenv("ID_STRING_MAX_LEN")) -1] = '\0';
+        strncpy(tracker->requesting_elevator_id_if_cabin, elevator_id_if_cabin, ID_STRING_MAX_LEN - 1);
+        tracker->requesting_elevator_id_if_cabin[ID_STRING_MAX_LEN - 1] = '\0';
     } else {
         tracker->requesting_elevator_id_if_cabin[0] = '\0';
     }
@@ -575,8 +575,8 @@ forward_can_originated_request_to_central_server(
             break;
         case GW_REQUEST_TYPE_CABIN_REQUEST:
             if (requesting_elevator_id_cabin_param) {
-                strncpy(json_details.requesting_elevator_id_cr, requesting_elevator_id_cabin_param, atoi(getenv("ID_STRING_MAX_LEN")) - 1);
-                json_details.requesting_elevator_id_cr[atoi(getenv("ID_STRING_MAX_LEN"))-1] = '\0';
+                strncpy(json_details.requesting_elevator_id_cr, requesting_elevator_id_cabin_param, ID_STRING_MAX_LEN - 1);
+                json_details.requesting_elevator_id_cr[ID_STRING_MAX_LEN - 1] = '\0';
             }
             json_details.target_floor_cr = target_floor_for_task_param;
             break;
@@ -599,11 +599,11 @@ forward_can_originated_request_to_central_server(
     }
     LOG_DEBUG_GW("[%s] Payload para Servidor Central (Origen CAN ID: 0x%X): %s", log_tag_param, original_can_id, json_payload_str);
 
-    // ---- Sesión con el servidor central (DTLS-PSK) ----
+    // ---- Sesión con el servidor central (DTLS) ----
     // La sesión es global y se obtiene/crea a través de get_or_create_central_server_dtls_session
     coap_session_t *session_to_central = get_or_create_central_server_dtls_session(ctx);
     if (!session_to_central) {
-        LOG_ERROR_GW(ANSI_COLOR_RED "[%s] Error creando/obteniendo sesión DTLS-PSK con servidor central para origen CAN." ANSI_COLOR_RESET "\n", log_tag_param);
+        LOG_ERROR_GW(ANSI_COLOR_RED "[%s] Error creando/obteniendo sesión DTLS con servidor central para origen CAN." ANSI_COLOR_RESET "\n", log_tag_param);
         free(json_payload_str);
         return; // No hay tracker que liberar, y la sesión global se gestiona internamente
     }

@@ -1,11 +1,11 @@
-# 🏢 Sistema de Control de Ascensores - CoAP/DTLS-PSK
+# 🏢 Sistema de Control de Ascensores - CoAP/DTLS
 
 [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)](https://github.com/user/repo)
 [![Version](https://img.shields.io/badge/version-2.0-blue.svg)](https://github.com/user/repo/releases)
 [![Language](https://img.shields.io/badge/language-C-blue.svg)](https://en.wikipedia.org/wiki/C_(programming_language))
 [![Protocol](https://img.shields.io/badge/protocol-CoAP%2FDTLS--PSK-orange.svg)](https://tools.ietf.org/html/rfc7252)
 
-> **Sistema distribuido para la gestión inteligente de ascensores mediante comunicación segura CoAP/DTLS-PSK con compilación y ejecución 100% automatizada**
+> **Sistema distribuido para la gestión inteligente de ascensores mediante comunicación segura CoAP/DTLS con compilación y ejecución 100% automatizada**
 
 ## 📋 Tabla de Contenidos
 
@@ -14,19 +14,19 @@
 - [🚀 Inicio Rápido - 100% Automatizado](#-inicio-rápido---100-automatizado)
 - [📦 Componentes del Sistema](#-componentes-del-sistema)
 - [🧪 Testing Automatizado](#-testing-automatizado)
-- [🔒 Seguridad DTLS-PSK](#-seguridad-dtls-psk)
+- [🔒 Seguridad DTLS](#-seguridad-dtls)
 - [📊 Monitoreo y Logging](#-monitoreo-y-logging)
 - [🐛 Solución de Problemas](#-solución-de-problemas)
 
 ## 🎯 Descripción General
 
-El **Sistema de Control de Ascensores** es una solución distribuida de alta disponibilidad diseñada para la gestión inteligente y eficiente de sistemas de ascensores en edificios modernos. Implementa comunicación segura mediante **CoAP/DTLS-PSK** y proporciona capacidades de monitoreo en tiempo real, análisis de rendimiento y escalabilidad horizontal.
+El **Sistema de Control de Ascensores** es una solución distribuida de alta disponibilidad diseñada para la gestión inteligente y eficiente de sistemas de ascensores en edificios modernos. Implementa comunicación segura mediante **CoAP/DTLS** y proporciona capacidades de monitoreo en tiempo real, análisis de rendimiento y escalabilidad horizontal.
 
 ### 🌟 Características Clave
 
 - **⚡ Compilación Automática**: Scripts automatizados para build completo
 - **🚀 Ejecución Zero-Config**: Configuración automática y ejecución inmediata
-- **🔒 Seguridad DTLS-PSK**: Comunicación cifrada end-to-end
+- **🔒 Seguridad DTLS**: Comunicación cifrada end-to-end
 - **📊 Algoritmo Inteligente**: Asignación optimizada de ascensores con posición en tiempo real
 - **🧪 Testing Completo**: 34 tests unitarios + tests de integración automatizados
 - **📈 Simulación Masiva**: 100 edificios, 1000 peticiones de prueba
@@ -34,22 +34,22 @@ El **Sistema de Control de Ascensores** es una solución distribuida de alta dis
 ## 🏗️ Arquitectura del Sistema
 
 ```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                           SISTEMA DE CONTROL DE ASCENSORES                  │
-├─────────────────────────────────────────────────────────────────────────────┤
-│                                                                             │
-│  ┌─────────────────┐    CoAP/DTLS-PSK    ┌─────────────────────────────┐   │
-│  │                 │◄──────────────────►│                             │   │
+┌────────────────────────────────────────────────────────────────────────────┐
+│                           SISTEMA DE CONTROL DE ASCENSORES                 │
+├────────────────────────────────────────────────────────────────────────────┤
+│                                                                            │
+│  ┌─────────────────┐    CoAP/DTLS        ┌─────────────────────────────┐   │
+│  │                 │ ◄──────────────────►│                             │   │
 │  │   API GATEWAY   │    Puerto 5684      │      SERVIDOR CENTRAL       │   │
 │  │                 │                     │                             │   │
 │  │ • Puerto 5683   │                     │ • Asignación Inteligente    │   │
 │  │ • Puente CAN    │                     │ • Algoritmos de Optimización│   │
-│  │ • Estado Local  │                     │ • Algoritmo Inteligente      │   │
+│  │ • Estado Local  │                     │ • Algoritmo Inteligente     │   │
 │  │ • Simulación    │                     │ • Kubernetes Ready          │   │
 │  └─────────────────┘                     └─────────────────────────────┘   │
-│           │                                           │                     │
-│           │ Frames CAN                               │ Kubernetes          │
-│           ▼                                           ▼                     │
+│           │                                           │                    │
+│           │ Frames CAN                                │ Kubernetes         │
+│           ▼                                           ▼                    │
 │  ┌─────────────────┐                     ┌─────────────────────────────┐   │
 │  │   SIMULADOR     │                     │       MINIKUBE              │   │
 │  │   ASCENSORES    │                     │                             │   │
@@ -58,8 +58,8 @@ El **Sistema de Control de Ascensores** es una solución distribuida de alta dis
 │  │ • 1000 Peticiones│                    │ • LoadBalancer              │   │
 │  │ • Datos JSON    │                     │ • Monitoring                │   │
 │  └─────────────────┘                     └─────────────────────────────┘   │
-│                                                                             │
-└─────────────────────────────────────────────────────────────────────────────┘
+│                                                                            │
+└────────────────────────────────────────────────────────────────────────────┘
 ```
 
 ## 🚀 Inicio Rápido - 100% Automatizado
@@ -68,11 +68,8 @@ El **Sistema de Control de Ascensores** es una solución distribuida de alta dis
 
 ```bash
 # ✅ NINGÚN PREREQUISITO MANUAL NECESARIO
-# Los scripts instalan TODAS las dependencias automáticamente:
-# - build-essential, cmake, gcc, make, pkg-config, git
-# - libcoap (compilado desde fuente)
-# - OpenSSL, cJSON, json-c, libcurl
-# - Configuración automática de variables de entorno
+# Los scripts instalan TODAS las dependencias automáticamente
+
 
 # Solo para Kubernetes (opcional):
 # Los scripts verifican y guían la instalación si es necesario
@@ -82,7 +79,7 @@ El **Sistema de Control de Ascensores** es una solución distribuida de alta dis
 
 ```bash
 # Clonar y compilar 
-git clone <repository-url>
+git clone https://github.com/rafavidel1/Controlador_Ascensores
 cd sistema-control-ascensores
 
 # 1. Compilar API Gateway (incluye libcoap automáticamente)
@@ -100,7 +97,7 @@ cd ../tests
 
 ### 🚀 Ejecución Automatizada
 
-#### Opción 1: Despliegue en Kubernetes 
+#### Despliegue en Kubernetes 
 
 ```bash
 # Despliegue automático en minikube
@@ -112,7 +109,7 @@ cd ../api_gateway
 ./api_gateway                    # ✅ Se conecta al servidor en K8s
 ```
 
-#### Opción 2: Simulación Masiva (Testing)
+#### Simulación Masiva (Testing)
 
 ```bash
 # Ejecutar 100 API Gateways simultáneos
@@ -178,13 +175,7 @@ cd tests
 # ✅ Coverage reports generated automatically
 ```
 
-## 🔒 Seguridad DTLS-PSK
-
-### 🔐 **Configuración Automática**
-- **Claves PSK**: 15,000 claves pre-generadas en `psk_keys.txt`
-- **Identidades**: Formato automático `Gateway_Client_XXXX`
-- **Algoritmo**: Clave determinística basada en identidad del cliente
-- **Timeouts**: Configuración automática para evitar timeouts
+## 🔒 Seguridad DTLS
 
 ### 🛡️ **Autenticación Mutua**
 - El servidor valida la identidad del cliente

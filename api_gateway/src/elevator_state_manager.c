@@ -122,17 +122,17 @@ void init_elevator_group(elevator_group_state_t *group, const char* edificio_id_
     }
 
     memset(group, 0, sizeof(elevator_group_state_t)); // Limpiar toda la estructura
-    strncpy(group->edificio_id_str_grupo, edificio_id_str, atoi(getenv("ID_STRING_MAX_LEN")) -1);
-    group->edificio_id_str_grupo[atoi(getenv("ID_STRING_MAX_LEN")) -1] = '\0'; // Asegurar null-termination
+    strncpy(group->edificio_id_str_grupo, edificio_id_str, ID_STRING_MAX_LEN - 1);
+    group->edificio_id_str_grupo[ID_STRING_MAX_LEN - 1] = '\0'; // Asegurar null-termination
     group->num_elevadores_en_grupo = num_elevadores;
 
     LOG_INFO_GW("StateMgr: Inicializando %d ascensores para edificio '%s', %d pisos.", num_elevadores, edificio_id_str, num_pisos);
 
     for (int i = 0; i < num_elevadores; ++i) {
         elevator_status_t *elevator = &group->ascensores[i];
-        snprintf(elevator->ascensor_id, atoi(getenv("ID_STRING_MAX_LEN")), "%sA%d", edificio_id_str, i + 1);
-        strncpy(elevator->id_edificio_str, edificio_id_str, atoi(getenv("ID_STRING_MAX_LEN")) - 1);
-        elevator->id_edificio_str[atoi(getenv("ID_STRING_MAX_LEN")) - 1] = '\0';
+        snprintf(elevator->ascensor_id, ID_STRING_MAX_LEN, "%sA%d", edificio_id_str, i + 1);
+        strncpy(elevator->id_edificio_str, edificio_id_str, ID_STRING_MAX_LEN - 1);
+        elevator->id_edificio_str[ID_STRING_MAX_LEN - 1] = '\0';
         
         elevator->piso_actual = 0; // Todos empiezan en planta baja (piso 0)
         elevator->estado_puerta_enum = DOOR_CLOSED;
@@ -149,6 +149,29 @@ void init_elevator_group(elevator_group_state_t *group, const char* edificio_id_
     }
 }
 
+/**
+ * @brief Serializa el estado del grupo de ascensores a JSON para el servidor central
+ * @param group Puntero al estado del grupo de ascensores
+ * @param request_type El tipo de la solicitud original que motiva este payload
+ * @param details Puntero a estructura con detalles específicos de la solicitud (puede ser NULL)
+ * @return Puntero a objeto cJSON que representa el payload, o NULL en caso de error
+ * 
+ * Esta función convierte el estado completo del grupo de ascensores y los
+ * detalles de la solicitud específica a un objeto JSON formateado como
+ * espera el servidor central para procesamiento de asignaciones.
+ * 
+ * **JSON generado incluye:**
+ * - ID del edificio
+ * - Detalles específicos de la solicitud (piso origen, destino, etc.)
+ * - Array con estado de todos los ascensores del grupo
+ * - Para cada ascensor: ID, piso actual, estado puertas, disponibilidad
+ * 
+ * El llamador es responsable de liberar el objeto cJSON con cJSON_Delete().
+ * 
+ * @see gw_request_type_t
+ * @see api_request_details_for_json_t
+ * @see elevator_group_state_t
+ */
 cJSON* elevator_group_to_json_for_server(const elevator_group_state_t *group, 
                                            gw_request_type_t request_type, 
                                            const api_request_details_for_json_t* details) {
@@ -231,6 +254,31 @@ cJSON* elevator_group_to_json_for_server(const elevator_group_state_t *group,
     return root;
 }
 
+/**
+ * @brief Actualiza el estado de un ascensor tras recibir asignación de tarea
+ * @param group Puntero al grupo de ascensores
+ * @param elevator_id_to_update ID del ascensor a actualizar
+ * @param task_id El nuevo ID de tarea asignado
+ * @param target_floor El piso destino para esta tarea
+ * @param current_request_floor El piso donde se originó la solicitud
+ * 
+ * Esta función actualiza el estado de un ascensor específico después de
+ * recibir una asignación de tarea del servidor central. Realiza:
+ * 
+ * **Operaciones realizadas:**
+ * - Busca el ascensor por ID en el grupo
+ * - Asigna la nueva tarea y piso destino
+ * - Marca el ascensor como ocupado
+ * - Determina y actualiza la dirección de movimiento
+ * - Registra la asignación en el sistema de logging
+ * 
+ * La dirección de movimiento se calcula comparando el piso actual
+ * del ascensor con el piso destino de la tarea.
+ * 
+ * @see elevator_group_state_t
+ * @see elevator_status_t
+ * @see exec_logger_log_task_assigned()
+ */
 void assign_task_to_elevator(elevator_group_state_t *group, const char* elevator_id_to_update, const char* task_id, int target_floor, int current_request_floor) {
     if (!group || !elevator_id_to_update || !task_id) {
         LOG_ERROR_GW("StateMgr: assign_task - Argumentos inválidos (NULL group, elevator_id o task_id).");
@@ -241,8 +289,8 @@ void assign_task_to_elevator(elevator_group_state_t *group, const char* elevator
     for (int i = 0; i < group->num_elevadores_en_grupo; ++i) {
         elevator_status_t *elevator = &group->ascensores[i];
         if (strcmp(elevator->ascensor_id, elevator_id_to_update) == 0) {
-                    strncpy(elevator->tarea_actual_id, task_id, atoi(getenv("TASK_ID_MAX_LEN")) - 1);
-        elevator->tarea_actual_id[atoi(getenv("TASK_ID_MAX_LEN")) - 1] = '\0';
+            strncpy(elevator->tarea_actual_id, task_id, TASK_ID_MAX_LEN - 1);
+            elevator->tarea_actual_id[TASK_ID_MAX_LEN - 1] = '\0';
             elevator->destino_actual = target_floor;
             elevator->ocupado = true;
 

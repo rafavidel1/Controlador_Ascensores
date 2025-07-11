@@ -1,47 +1,68 @@
 \doxysection{src/api\+\_\+handlers.c File Reference}
-\label{api__handlers_8c}\index{src/api\_handlers.c@{src/api\_handlers.c}}
+\hypertarget{api__handlers_8c}{}\label{api__handlers_8c}\index{src/api\_handlers.c@{src/api\_handlers.c}}
 
 
 Implementación de manejadores Co\+AP para el API Gateway.  
 
 
-\doxysubsubsection*{Data Structures}
+{\ttfamily \#include $<$coap3/coap.\+h$>$}\newline
+{\ttfamily \#include $<$coap3/coap\+\_\+pdu.\+h$>$}\newline
+{\ttfamily \#include $<$coap3/coap\+\_\+option.\+h$>$}\newline
+{\ttfamily \#include $<$coap3/coap\+\_\+uri.\+h$>$}\newline
+{\ttfamily \#include $<$coap3/coap\+\_\+session.\+h$>$}\newline
+{\ttfamily \#include $<$coap3/coap\+\_\+net.\+h$>$}\newline
+{\ttfamily \#include "{}api\+\_\+gateway/api\+\_\+handlers.\+h"{}}\newline
+{\ttfamily \#include "{}api\+\_\+gateway/elevator\+\_\+state\+\_\+manager.\+h"{}}\newline
+{\ttfamily \#include "{}api\+\_\+gateway/can\+\_\+bridge.\+h"{}}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include $<$signal.\+h$>$}\newline
+{\ttfamily \#include $<$sys/socket.\+h$>$}\newline
+{\ttfamily \#include $<$netinet/in.\+h$>$}\newline
+{\ttfamily \#include $<$arpa/inet.\+h$>$}\newline
+{\ttfamily \#include $<$ctype.\+h$>$}\newline
+{\ttfamily \#include "{}api\+\_\+gateway/execution\+\_\+logger.\+h"{}}\newline
+Include dependency graph for api\+\_\+handlers.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{api__handlers_8c__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
-struct \textbf{ central\+\_\+request\+\_\+entry\+\_\+t}
+struct \mbox{\hyperlink{structcentral__request__entry__t}{central\+\_\+request\+\_\+entry\+\_\+t}}
 \begin{DoxyCompactList}\small\item\em Entrada de tracker para solicitudes al servidor central. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{api__handlers_8c_ad04b8fe3b47e88c03be3934bf64b3a8a}{MAX\+\_\+\+PENDING\+\_\+\+REQUESTS\+\_\+\+TO\+\_\+\+CENTRAL}}~32
+\begin{DoxyCompactList}\small\item\em Número máximo de solicitudes pendientes al servidor central. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-void \textbf{ handle\+\_\+sigint\+\_\+gw} (int signum)
+void \mbox{\hyperlink{api__handlers_8c_a7fd01dcda5b603f45f20d97c84d9260b}{handle\+\_\+sigint\+\_\+gw}} (int signum)
 \begin{DoxyCompactList}\small\item\em Manejador de señal para SIGINT (Ctrl+C) \end{DoxyCompactList}\item 
-static void \textbf{ add\+\_\+central\+\_\+request\+\_\+tracker} (coap\+\_\+bin\+\_\+const\+\_\+t token\+\_\+to\+\_\+central, \textbf{ api\+\_\+request\+\_\+tracker\+\_\+t} $\ast$tracker)
-\begin{DoxyCompactList}\small\item\em Añade un tracker a la lista de solicitudes pendientes. \end{DoxyCompactList}\item 
-static \textbf{ api\+\_\+request\+\_\+tracker\+\_\+t} $\ast$ \textbf{ find\+\_\+and\+\_\+remove\+\_\+central\+\_\+request\+\_\+tracker} (coap\+\_\+bin\+\_\+const\+\_\+t received\+\_\+token)
-\begin{DoxyCompactList}\small\item\em Encuentra y remueve un tracker de la lista de solicitudes pendientes. \end{DoxyCompactList}\item 
-static void \textbf{ forward\+\_\+request\+\_\+to\+\_\+central\+\_\+server} (coap\+\_\+session\+\_\+t $\ast$original\+\_\+client\+\_\+session, coap\+\_\+mid\+\_\+t original\+\_\+mid, coap\+\_\+bin\+\_\+const\+\_\+t original\+\_\+token\+\_\+const, const char $\ast$central\+\_\+server\+\_\+path, const char $\ast$log\+\_\+tag\+\_\+param, \textbf{ gw\+\_\+request\+\_\+type\+\_\+t} request\+\_\+type\+\_\+param, int origin\+\_\+floor\+\_\+param, int target\+\_\+floor\+\_\+for\+\_\+task\+\_\+param, const char $\ast$requesting\+\_\+elevator\+\_\+id\+\_\+cabin\+\_\+param, \textbf{ movement\+\_\+direction\+\_\+enum\+\_\+t} requested\+\_\+direction\+\_\+floor\+\_\+param)
-\begin{DoxyCompactList}\small\item\em Constructs and sends a Co\+AP request to the central server with the gateway\textquotesingle{}s elevator group state. \end{DoxyCompactList}\item 
-coap\+\_\+response\+\_\+t \textbf{ hnd\+\_\+central\+\_\+server\+\_\+response\+\_\+gw} (coap\+\_\+session\+\_\+t $\ast$session\+\_\+from\+\_\+server, const coap\+\_\+pdu\+\_\+t $\ast$sent\+\_\+to\+\_\+central, const coap\+\_\+pdu\+\_\+t $\ast$received\+\_\+from\+\_\+central, const coap\+\_\+mid\+\_\+t mid\+\_\+from\+\_\+server)
+coap\+\_\+response\+\_\+t \mbox{\hyperlink{api__handlers_8c_a53890892a78846765f23427df89fc0af}{hnd\+\_\+central\+\_\+server\+\_\+response\+\_\+gw}} (coap\+\_\+session\+\_\+t \texorpdfstring{$\ast$}{*}session\+\_\+from\+\_\+server, const coap\+\_\+pdu\+\_\+t \texorpdfstring{$\ast$}{*}sent\+\_\+to\+\_\+central, const coap\+\_\+pdu\+\_\+t \texorpdfstring{$\ast$}{*}received\+\_\+from\+\_\+central, const coap\+\_\+mid\+\_\+t mid\+\_\+from\+\_\+server)
 \begin{DoxyCompactList}\small\item\em Manejador de respuestas del servidor central. \end{DoxyCompactList}\item 
-void \textbf{ hnd\+\_\+elevator\+\_\+api\+\_\+request\+\_\+gw} (coap\+\_\+resource\+\_\+t $\ast$resource, coap\+\_\+session\+\_\+t $\ast$elevator\+\_\+session, const coap\+\_\+pdu\+\_\+t $\ast$elevator\+\_\+request\+\_\+pdu, const coap\+\_\+string\+\_\+t $\ast$query, coap\+\_\+pdu\+\_\+t $\ast$response\+\_\+placeholder)
-\begin{DoxyCompactList}\small\item\em Handler for legacy elevator API requests (e.\+g., /peticion\+\_\+ascensor). Currently logs and discards such requests. \end{DoxyCompactList}\item 
-void \textbf{ hnd\+\_\+cabin\+\_\+request\+\_\+from\+\_\+elevator\+\_\+gw} (coap\+\_\+resource\+\_\+t $\ast$resource, coap\+\_\+session\+\_\+t $\ast$elevator\+\_\+session, const coap\+\_\+pdu\+\_\+t $\ast$elevator\+\_\+request\+\_\+pdu, const coap\+\_\+string\+\_\+t $\ast$query, coap\+\_\+pdu\+\_\+t $\ast$response\+\_\+placeholder)
-\begin{DoxyCompactList}\small\item\em Handler for cabin requests from elevator clients. Path\+: GW\+\_\+\+CABIN\+\_\+\+REQUEST\+\_\+\+PATH (e.\+g., /solicitud\+\_\+cabina\+\_\+gw) Parses query params\+: elevator\+\_\+id, target\+\_\+floor. \end{DoxyCompactList}\item 
-void \textbf{ hnd\+\_\+floor\+\_\+call\+\_\+from\+\_\+elevator\+\_\+gw} (coap\+\_\+resource\+\_\+t $\ast$resource, coap\+\_\+session\+\_\+t $\ast$elevator\+\_\+session, const coap\+\_\+pdu\+\_\+t $\ast$elevator\+\_\+request\+\_\+pdu, const coap\+\_\+string\+\_\+t $\ast$query, coap\+\_\+pdu\+\_\+t $\ast$response\+\_\+placeholder)
-\begin{DoxyCompactList}\small\item\em Handler for floor calls from elevator clients/external. Path\+: GW\+\_\+\+FLOOR\+\_\+\+CALL\+\_\+\+PATH (e.\+g., /llamada\+\_\+piso\+\_\+gw) Parses query params\+: floor, dir (UP/\+DOWN) \end{DoxyCompactList}\end{DoxyCompactItemize}
+void \mbox{\hyperlink{api__handlers_8c_af5a21d636796fd0fe682efedb9420894}{hnd\+\_\+elevator\+\_\+api\+\_\+request\+\_\+gw}} (coap\+\_\+resource\+\_\+t \texorpdfstring{$\ast$}{*}resource, coap\+\_\+session\+\_\+t \texorpdfstring{$\ast$}{*}elevator\+\_\+session, const coap\+\_\+pdu\+\_\+t \texorpdfstring{$\ast$}{*}elevator\+\_\+request\+\_\+pdu, const coap\+\_\+string\+\_\+t \texorpdfstring{$\ast$}{*}query, coap\+\_\+pdu\+\_\+t \texorpdfstring{$\ast$}{*}response\+\_\+placeholder)
+\begin{DoxyCompactList}\small\item\em Handler para solicitudes legacy de ascensor. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{api__handlers_8c_a053f34293ce0f5e920e378b1cd18789e}{hnd\+\_\+cabin\+\_\+request\+\_\+from\+\_\+elevator\+\_\+gw}} (coap\+\_\+resource\+\_\+t \texorpdfstring{$\ast$}{*}resource, coap\+\_\+session\+\_\+t \texorpdfstring{$\ast$}{*}elevator\+\_\+session, const coap\+\_\+pdu\+\_\+t \texorpdfstring{$\ast$}{*}elevator\+\_\+request\+\_\+pdu, const coap\+\_\+string\+\_\+t \texorpdfstring{$\ast$}{*}query, coap\+\_\+pdu\+\_\+t \texorpdfstring{$\ast$}{*}response\+\_\+placeholder)
+\begin{DoxyCompactList}\small\item\em Handler para solicitudes de cabina desde ascensor. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{api__handlers_8c_aadcce191828355c65cabd0862f5f5b4a}{hnd\+\_\+floor\+\_\+call\+\_\+from\+\_\+elevator\+\_\+gw}} (coap\+\_\+resource\+\_\+t \texorpdfstring{$\ast$}{*}resource, coap\+\_\+session\+\_\+t \texorpdfstring{$\ast$}{*}elevator\+\_\+session, const coap\+\_\+pdu\+\_\+t \texorpdfstring{$\ast$}{*}elevator\+\_\+request\+\_\+pdu, const coap\+\_\+string\+\_\+t \texorpdfstring{$\ast$}{*}query, coap\+\_\+pdu\+\_\+t \texorpdfstring{$\ast$}{*}response\+\_\+placeholder)
+\begin{DoxyCompactList}\small\item\em Handler para llamadas de piso desde ascensor. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Variables}
 \begin{DoxyCompactItemize}
 \item 
-volatile sig\+\_\+atomic\+\_\+t \textbf{ quit\+\_\+main\+\_\+loop}
+volatile sig\+\_\+atomic\+\_\+t \mbox{\hyperlink{api__handlers_8c_a8a485bed3bbf69f7556aa3167043d7e2}{quit\+\_\+main\+\_\+loop}}
 \begin{DoxyCompactList}\small\item\em Bandera para indicar si el bucle principal debe terminar. \end{DoxyCompactList}\item 
-\textbf{ elevator\+\_\+group\+\_\+state\+\_\+t} \textbf{ managed\+\_\+elevator\+\_\+group}
+elevator\+\_\+group\+\_\+state\+\_\+t \mbox{\hyperlink{api__handlers_8c_a2e69b946477ed035db425886fe261a13}{managed\+\_\+elevator\+\_\+group}}
 \begin{DoxyCompactList}\small\item\em Estado del grupo de ascensores gestionado por este gateway. \end{DoxyCompactList}\item 
-coap\+\_\+session\+\_\+t $\ast$ \textbf{ g\+\_\+dtls\+\_\+session\+\_\+to\+\_\+central\+\_\+server}
-\begin{DoxyCompactList}\small\item\em Sesión DTLS global con el servidor central. \end{DoxyCompactList}\item 
-static \textbf{ central\+\_\+request\+\_\+entry\+\_\+t} \textbf{ pending\+\_\+central\+\_\+requests} [MAX\+\_\+\+PENDING\+\_\+\+REQUESTS\+\_\+\+TO\+\_\+\+CENTRAL]
-\begin{DoxyCompactList}\small\item\em Array de solicitudes pendientes al servidor central. \end{DoxyCompactList}\item 
-static int \textbf{ num\+\_\+pending\+\_\+central\+\_\+requests} = 0
-\begin{DoxyCompactList}\small\item\em Número actual de solicitudes pendientes al servidor central. \end{DoxyCompactList}\end{DoxyCompactItemize}
+coap\+\_\+session\+\_\+t \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{api__handlers_8c_abe546e2cc7517fb0f6e0218ca1e3ff10}{g\+\_\+dtls\+\_\+session\+\_\+to\+\_\+central\+\_\+server}}
+\begin{DoxyCompactList}\small\item\em Sesión DTLS global con el servidor central. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
@@ -69,114 +90,40 @@ Funcionalidades principales\+:
 \begin{DoxyItemize}
 \item Recepción de solicitudes de llamada de piso y cabina
 \item Reenvío de solicitudes al servidor central con estado de ascensores
-\item Gestión de sesiones DTLS-\/\+PSK para comunicación segura
+\item Gestión de sesiones DTLS para comunicación segura
 \item Tracking de solicitudes pendientes para correlación de respuestas
 \item Integración con el gestor de estado de ascensores
 \end{DoxyItemize}
 
 \begin{DoxySeeAlso}{See also}
-api\+\_\+handlers.\+h 
+\doxylink{api__handlers_8h}{api\+\_\+handlers.\+h} 
 
-\doxyref{elevator\+\_\+state\+\_\+manager.\+h}{p.}{elevator__state__manager_8h} 
+elevator\+\_\+state\+\_\+manager.\+h 
 
-\doxyref{can\+\_\+bridge.\+h}{p.}{can__bridge_8h} 
+can\+\_\+bridge.\+h 
 
-\doxyref{coap\+\_\+config.\+h}{p.}{coap__config_8h} 
+coap\+\_\+config.\+h 
 \end{DoxySeeAlso}
 
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{api__handlers_8c_ad04b8fe3b47e88c03be3934bf64b3a8a}\label{api__handlers_8c_ad04b8fe3b47e88c03be3934bf64b3a8a} 
+\index{api\_handlers.c@{api\_handlers.c}!MAX\_PENDING\_REQUESTS\_TO\_CENTRAL@{MAX\_PENDING\_REQUESTS\_TO\_CENTRAL}}
+\index{MAX\_PENDING\_REQUESTS\_TO\_CENTRAL@{MAX\_PENDING\_REQUESTS\_TO\_CENTRAL}!api\_handlers.c@{api\_handlers.c}}
+\doxysubsubsection{\texorpdfstring{MAX\_PENDING\_REQUESTS\_TO\_CENTRAL}{MAX\_PENDING\_REQUESTS\_TO\_CENTRAL}}
+{\footnotesize\ttfamily \#define MAX\+\_\+\+PENDING\+\_\+\+REQUESTS\+\_\+\+TO\+\_\+\+CENTRAL~32}
+
+
+
+Número máximo de solicitudes pendientes al servidor central. 
+
+Define el límite de solicitudes que pueden estar pendientes de respuesta del servidor central simultáneamente. Ajustar según la capacidad del sistema. 
 
 \doxysubsection{Function Documentation}
-\label{api__handlers_8c_a7292f2cbff08db77c70629ddbac256dc} 
-\index{api\_handlers.c@{api\_handlers.c}!add\_central\_request\_tracker@{add\_central\_request\_tracker}}
-\index{add\_central\_request\_tracker@{add\_central\_request\_tracker}!api\_handlers.c@{api\_handlers.c}}
-\doxysubsubsection{add\_central\_request\_tracker()}
-{\footnotesize\ttfamily static void add\+\_\+central\+\_\+request\+\_\+tracker (\begin{DoxyParamCaption}\item[{coap\+\_\+bin\+\_\+const\+\_\+t}]{token\+\_\+to\+\_\+central,  }\item[{\textbf{ api\+\_\+request\+\_\+tracker\+\_\+t} $\ast$}]{tracker }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
-
-
-
-Añade un tracker a la lista de solicitudes pendientes. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em token\+\_\+to\+\_\+central} & Token de la solicitud enviada al servidor central \\
-\hline
-{\em tracker} & Datos del tracker original a asociar\\
-\hline
-\end{DoxyParams}
-Esta función almacena la asociación entre un token de solicitud al servidor central y el tracker original que contiene información de la solicitud del ascensor. Crea una copia del token para evitar problemas de memoria.
-
-Si no hay espacio disponible o hay errores de memoria, libera automáticamente el tracker para evitar fugas de memoria.
-
-\begin{DoxySeeAlso}{See also}
-\doxyref{find\+\_\+and\+\_\+remove\+\_\+central\+\_\+request\+\_\+tracker()}{p.}{api__handlers_8c_a5f19bc5f95b0869d7b25b596f6767877} 
-\end{DoxySeeAlso}
-\label{api__handlers_8c_a5f19bc5f95b0869d7b25b596f6767877} 
-\index{api\_handlers.c@{api\_handlers.c}!find\_and\_remove\_central\_request\_tracker@{find\_and\_remove\_central\_request\_tracker}}
-\index{find\_and\_remove\_central\_request\_tracker@{find\_and\_remove\_central\_request\_tracker}!api\_handlers.c@{api\_handlers.c}}
-\doxysubsubsection{find\_and\_remove\_central\_request\_tracker()}
-{\footnotesize\ttfamily static \textbf{ api\+\_\+request\+\_\+tracker\+\_\+t} $\ast$ find\+\_\+and\+\_\+remove\+\_\+central\+\_\+request\+\_\+tracker (\begin{DoxyParamCaption}\item[{coap\+\_\+bin\+\_\+const\+\_\+t}]{received\+\_\+token }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
-
-
-
-Encuentra y remueve un tracker de la lista de solicitudes pendientes. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em received\+\_\+token} & Token recibido en la respuesta del servidor central \\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-Puntero al tracker encontrado, o NULL si no se encuentra
-\end{DoxyReturn}
-Esta función busca en la lista de solicitudes pendientes un tracker que corresponda al token recibido en una respuesta del servidor central. Si lo encuentra, lo remueve de la lista y libera la memoria del token copiado.
-
-La función compacta el array después de remover una entrada para mantener la integridad de la estructura de datos. Es responsabilidad del llamador liberar la memoria del tracker retornado.
-
-\begin{DoxyNote}{Note}
-En un entorno multihilo, esta función requeriría sincronización 
-\end{DoxyNote}
-\begin{DoxySeeAlso}{See also}
-\doxyref{add\+\_\+central\+\_\+request\+\_\+tracker()}{p.}{api__handlers_8c_a7292f2cbff08db77c70629ddbac256dc} 
-\end{DoxySeeAlso}
-\label{api__handlers_8c_aca6581a83ceb75ede9bbb92d8536b528} 
-\index{api\_handlers.c@{api\_handlers.c}!forward\_request\_to\_central\_server@{forward\_request\_to\_central\_server}}
-\index{forward\_request\_to\_central\_server@{forward\_request\_to\_central\_server}!api\_handlers.c@{api\_handlers.c}}
-\doxysubsubsection{forward\_request\_to\_central\_server()}
-{\footnotesize\ttfamily static void forward\+\_\+request\+\_\+to\+\_\+central\+\_\+server (\begin{DoxyParamCaption}\item[{coap\+\_\+session\+\_\+t $\ast$}]{original\+\_\+client\+\_\+session,  }\item[{coap\+\_\+mid\+\_\+t}]{original\+\_\+mid,  }\item[{coap\+\_\+bin\+\_\+const\+\_\+t}]{original\+\_\+token\+\_\+const,  }\item[{const char $\ast$}]{central\+\_\+server\+\_\+path,  }\item[{const char $\ast$}]{log\+\_\+tag\+\_\+param,  }\item[{\textbf{ gw\+\_\+request\+\_\+type\+\_\+t}}]{request\+\_\+type\+\_\+param,  }\item[{int}]{origin\+\_\+floor\+\_\+param,  }\item[{int}]{target\+\_\+floor\+\_\+for\+\_\+task\+\_\+param,  }\item[{const char $\ast$}]{requesting\+\_\+elevator\+\_\+id\+\_\+cabin\+\_\+param,  }\item[{\textbf{ movement\+\_\+direction\+\_\+enum\+\_\+t}}]{requested\+\_\+direction\+\_\+floor\+\_\+param }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
-
-
-
-Constructs and sends a Co\+AP request to the central server with the gateway\textquotesingle{}s elevator group state. 
-
-This function populates an \doxyref{api\+\_\+request\+\_\+tracker\+\_\+t}{p.}{structapi__request__tracker__t} with details of the intended operation (floor call, cabin request), serializes the current state of the managed elevator group to JSON, and sends this as a Co\+AP request to the specified path on the central server.
-
-
-\begin{DoxyParams}{Parameters}
-{\em original\+\_\+client\+\_\+session} & The Co\+AP session from which the original request came (can be NULL if internally generated). \\
-\hline
-{\em original\+\_\+mid} & The Co\+AP MID from the original request (if applicable). \\
-\hline
-{\em original\+\_\+token\+\_\+const} & The Co\+AP token from the original request (if applicable, will be duplicated). \\
-\hline
-{\em central\+\_\+server\+\_\+path} & The target Co\+AP resource path on the central server. \\
-\hline
-{\em log\+\_\+tag\+\_\+param} & A string tag for logging (e.\+g., "{}\+Floor\+Call\+GW"{}, will be duplicated). \\
-\hline
-{\em request\+\_\+type\+\_\+param} & The type of request being made (e.\+g., GW\+\_\+\+REQUEST\+\_\+\+TYPE\+\_\+\+FLOOR\+\_\+\+CALL). \\
-\hline
-{\em origin\+\_\+floor\+\_\+param} & Floor of origin for a floor call. \\
-\hline
-{\em target\+\_\+floor\+\_\+for\+\_\+task\+\_\+param} & The target floor for the task to be assigned by the server. \\
-\hline
-{\em requesting\+\_\+elevator\+\_\+id\+\_\+cabin\+\_\+param} & ID of the elevator making a cabin request (can be NULL). \\
-\hline
-{\em requested\+\_\+direction\+\_\+floor\+\_\+param} & Direction for a floor call. \\
-\hline
-\end{DoxyParams}
-\label{api__handlers_8c_a7fd01dcda5b603f45f20d97c84d9260b} 
+\Hypertarget{api__handlers_8c_a7fd01dcda5b603f45f20d97c84d9260b}\label{api__handlers_8c_a7fd01dcda5b603f45f20d97c84d9260b} 
 \index{api\_handlers.c@{api\_handlers.c}!handle\_sigint\_gw@{handle\_sigint\_gw}}
 \index{handle\_sigint\_gw@{handle\_sigint\_gw}!api\_handlers.c@{api\_handlers.c}}
-\doxysubsubsection{handle\_sigint\_gw()}
+\doxysubsubsection{\texorpdfstring{handle\_sigint\_gw()}{handle\_sigint\_gw()}}
 {\footnotesize\ttfamily void handle\+\_\+sigint\+\_\+gw (\begin{DoxyParamCaption}\item[{int}]{signum }\end{DoxyParamCaption})}
 
 
@@ -192,21 +139,44 @@ Signal handler for SIGINT (Ctrl+C) to allow graceful shutdown.
 \end{DoxyParams}
 Establece la bandera quit\+\_\+main\+\_\+loop a 1 para señalar al bucle principal de eventos que debe terminar, permitiendo una terminación elegante del API Gateway.
 
-Esta función es registrada como manejador de SIGINT en \doxyref{main.\+c}{p.}{main_8c} y proporciona una forma limpia de cerrar la aplicación. \label{api__handlers_8c_a053f34293ce0f5e920e378b1cd18789e} 
+Esta función es registrada como manejador de SIGINT en \doxylink{main_8c}{main.\+c} y proporciona una forma limpia de cerrar la aplicación. \Hypertarget{api__handlers_8c_a053f34293ce0f5e920e378b1cd18789e}\label{api__handlers_8c_a053f34293ce0f5e920e378b1cd18789e} 
 \index{api\_handlers.c@{api\_handlers.c}!hnd\_cabin\_request\_from\_elevator\_gw@{hnd\_cabin\_request\_from\_elevator\_gw}}
 \index{hnd\_cabin\_request\_from\_elevator\_gw@{hnd\_cabin\_request\_from\_elevator\_gw}!api\_handlers.c@{api\_handlers.c}}
-\doxysubsubsection{hnd\_cabin\_request\_from\_elevator\_gw()}
-{\footnotesize\ttfamily void hnd\+\_\+cabin\+\_\+request\+\_\+from\+\_\+elevator\+\_\+gw (\begin{DoxyParamCaption}\item[{coap\+\_\+resource\+\_\+t $\ast$}]{resource,  }\item[{coap\+\_\+session\+\_\+t $\ast$}]{elevator\+\_\+session,  }\item[{const coap\+\_\+pdu\+\_\+t $\ast$}]{elevator\+\_\+request\+\_\+pdu,  }\item[{const coap\+\_\+string\+\_\+t $\ast$}]{query,  }\item[{coap\+\_\+pdu\+\_\+t $\ast$}]{response\+\_\+placeholder }\end{DoxyParamCaption})}
+\doxysubsubsection{\texorpdfstring{hnd\_cabin\_request\_from\_elevator\_gw()}{hnd\_cabin\_request\_from\_elevator\_gw()}}
+{\footnotesize\ttfamily void hnd\+\_\+cabin\+\_\+request\+\_\+from\+\_\+elevator\+\_\+gw (\begin{DoxyParamCaption}\item[{coap\+\_\+resource\+\_\+t \texorpdfstring{$\ast$}{*}}]{resource,  }\item[{coap\+\_\+session\+\_\+t \texorpdfstring{$\ast$}{*}}]{elevator\+\_\+session,  }\item[{const coap\+\_\+pdu\+\_\+t \texorpdfstring{$\ast$}{*}}]{elevator\+\_\+request\+\_\+pdu,  }\item[{const coap\+\_\+string\+\_\+t \texorpdfstring{$\ast$}{*}}]{query,  }\item[{coap\+\_\+pdu\+\_\+t \texorpdfstring{$\ast$}{*}}]{response\+\_\+placeholder }\end{DoxyParamCaption})}
 
 
 
-Handler for cabin requests from elevator clients. Path\+: GW\+\_\+\+CABIN\+\_\+\+REQUEST\+\_\+\+PATH (e.\+g., /solicitud\+\_\+cabina\+\_\+gw) Parses query params\+: elevator\+\_\+id, target\+\_\+floor. 
+Handler para solicitudes de cabina desde ascensor. 
 
-\label{api__handlers_8c_a53890892a78846765f23427df89fc0af} 
+
+\begin{DoxyParams}{Parameters}
+{\em resource} & Recurso Co\+AP asociado \\
+\hline
+{\em elevator\+\_\+session} & Sesión Co\+AP del ascensor solicitante \\
+\hline
+{\em elevator\+\_\+request\+\_\+pdu} & PDU de la solicitud Co\+AP recibida \\
+\hline
+{\em query} & Cadena de consulta de la solicitud (si existe) \\
+\hline
+{\em response\+\_\+placeholder} & PDU de respuesta (reservado para futuro uso)\\
+\hline
+\end{DoxyParams}
+Este handler procesa solicitudes de cabina originadas desde el interior de los ascensores. Las solicitudes incluyen el piso destino solicitado por usuarios dentro del ascensor.
+
+\begin{DoxyNote}{Note}
+Función stub -\/ la funcionalidad principal se maneja vía puente CAN 
+\end{DoxyNote}
+\begin{DoxySeeAlso}{See also}
+can\+\_\+bridge.\+h 
+
+\doxylink{api__handlers_8h}{api\+\_\+handlers.\+h} 
+\end{DoxySeeAlso}
+\Hypertarget{api__handlers_8c_a53890892a78846765f23427df89fc0af}\label{api__handlers_8c_a53890892a78846765f23427df89fc0af} 
 \index{api\_handlers.c@{api\_handlers.c}!hnd\_central\_server\_response\_gw@{hnd\_central\_server\_response\_gw}}
 \index{hnd\_central\_server\_response\_gw@{hnd\_central\_server\_response\_gw}!api\_handlers.c@{api\_handlers.c}}
-\doxysubsubsection{hnd\_central\_server\_response\_gw()}
-{\footnotesize\ttfamily coap\+\_\+response\+\_\+t hnd\+\_\+central\+\_\+server\+\_\+response\+\_\+gw (\begin{DoxyParamCaption}\item[{coap\+\_\+session\+\_\+t $\ast$}]{session\+\_\+from\+\_\+server,  }\item[{const coap\+\_\+pdu\+\_\+t $\ast$}]{sent\+\_\+to\+\_\+central,  }\item[{const coap\+\_\+pdu\+\_\+t $\ast$}]{received\+\_\+from\+\_\+central,  }\item[{const coap\+\_\+mid\+\_\+t}]{mid\+\_\+from\+\_\+server }\end{DoxyParamCaption})}
+\doxysubsubsection{\texorpdfstring{hnd\_central\_server\_response\_gw()}{hnd\_central\_server\_response\_gw()}}
+{\footnotesize\ttfamily coap\+\_\+response\+\_\+t hnd\+\_\+central\+\_\+server\+\_\+response\+\_\+gw (\begin{DoxyParamCaption}\item[{coap\+\_\+session\+\_\+t \texorpdfstring{$\ast$}{*}}]{session\+\_\+from\+\_\+server,  }\item[{const coap\+\_\+pdu\+\_\+t \texorpdfstring{$\ast$}{*}}]{sent\+\_\+to\+\_\+central,  }\item[{const coap\+\_\+pdu\+\_\+t \texorpdfstring{$\ast$}{*}}]{received\+\_\+from\+\_\+central,  }\item[{const coap\+\_\+mid\+\_\+t}]{mid\+\_\+from\+\_\+server }\end{DoxyParamCaption})}
 
 
 
@@ -248,117 +218,141 @@ Maneja diferentes códigos de respuesta\+:
 \end{DoxyItemize}
 
 \begin{DoxySeeAlso}{See also}
-\doxyref{add\+\_\+central\+\_\+request\+\_\+tracker()}{p.}{api__handlers_8c_a7292f2cbff08db77c70629ddbac256dc} 
+add\+\_\+central\+\_\+request\+\_\+tracker() 
 
-\doxyref{find\+\_\+and\+\_\+remove\+\_\+central\+\_\+request\+\_\+tracker()}{p.}{api__handlers_8c_a5f19bc5f95b0869d7b25b596f6767877} 
+find\+\_\+and\+\_\+remove\+\_\+central\+\_\+request\+\_\+tracker() 
 
-\doxyref{can\+\_\+bridge.\+h}{p.}{can__bridge_8h} 
+can\+\_\+bridge.\+h 
 \end{DoxySeeAlso}
-\label{api__handlers_8c_af5a21d636796fd0fe682efedb9420894} 
+\Hypertarget{api__handlers_8c_af5a21d636796fd0fe682efedb9420894}\label{api__handlers_8c_af5a21d636796fd0fe682efedb9420894} 
 \index{api\_handlers.c@{api\_handlers.c}!hnd\_elevator\_api\_request\_gw@{hnd\_elevator\_api\_request\_gw}}
 \index{hnd\_elevator\_api\_request\_gw@{hnd\_elevator\_api\_request\_gw}!api\_handlers.c@{api\_handlers.c}}
-\doxysubsubsection{hnd\_elevator\_api\_request\_gw()}
-{\footnotesize\ttfamily void hnd\+\_\+elevator\+\_\+api\+\_\+request\+\_\+gw (\begin{DoxyParamCaption}\item[{coap\+\_\+resource\+\_\+t $\ast$}]{resource,  }\item[{coap\+\_\+session\+\_\+t $\ast$}]{elevator\+\_\+session,  }\item[{const coap\+\_\+pdu\+\_\+t $\ast$}]{elevator\+\_\+request\+\_\+pdu,  }\item[{const coap\+\_\+string\+\_\+t $\ast$}]{query,  }\item[{coap\+\_\+pdu\+\_\+t $\ast$}]{response\+\_\+placeholder }\end{DoxyParamCaption})}
+\doxysubsubsection{\texorpdfstring{hnd\_elevator\_api\_request\_gw()}{hnd\_elevator\_api\_request\_gw()}}
+{\footnotesize\ttfamily void hnd\+\_\+elevator\+\_\+api\+\_\+request\+\_\+gw (\begin{DoxyParamCaption}\item[{coap\+\_\+resource\+\_\+t \texorpdfstring{$\ast$}{*}}]{resource,  }\item[{coap\+\_\+session\+\_\+t \texorpdfstring{$\ast$}{*}}]{elevator\+\_\+session,  }\item[{const coap\+\_\+pdu\+\_\+t \texorpdfstring{$\ast$}{*}}]{elevator\+\_\+request\+\_\+pdu,  }\item[{const coap\+\_\+string\+\_\+t \texorpdfstring{$\ast$}{*}}]{query,  }\item[{coap\+\_\+pdu\+\_\+t \texorpdfstring{$\ast$}{*}}]{response\+\_\+placeholder }\end{DoxyParamCaption})}
 
 
 
-Handler for legacy elevator API requests (e.\+g., /peticion\+\_\+ascensor). Currently logs and discards such requests. 
+Handler para solicitudes legacy de ascensor. 
 
-\label{api__handlers_8c_aadcce191828355c65cabd0862f5f5b4a} 
+
+\begin{DoxyParams}{Parameters}
+{\em resource} & Recurso Co\+AP asociado \\
+\hline
+{\em elevator\+\_\+session} & Sesión Co\+AP del ascensor solicitante \\
+\hline
+{\em elevator\+\_\+request\+\_\+pdu} & PDU de la solicitud Co\+AP recibida \\
+\hline
+{\em query} & Cadena de consulta de la solicitud (si existe) \\
+\hline
+{\em response\+\_\+placeholder} & PDU de respuesta (reservado para futuro uso)\\
+\hline
+\end{DoxyParams}
+Este handler procesa solicitudes legacy de ascensores que utilizan el protocolo Co\+AP anterior. Actualmente implementado como stub para compatibilidad con versiones anteriores del sistema.
+
+\begin{DoxyNote}{Note}
+Función stub -\/ no implementa funcionalidad específica 
+\end{DoxyNote}
+\begin{DoxySeeAlso}{See also}
+\doxylink{api__handlers_8h}{api\+\_\+handlers.\+h} 
+\end{DoxySeeAlso}
+\Hypertarget{api__handlers_8c_aadcce191828355c65cabd0862f5f5b4a}\label{api__handlers_8c_aadcce191828355c65cabd0862f5f5b4a} 
 \index{api\_handlers.c@{api\_handlers.c}!hnd\_floor\_call\_from\_elevator\_gw@{hnd\_floor\_call\_from\_elevator\_gw}}
 \index{hnd\_floor\_call\_from\_elevator\_gw@{hnd\_floor\_call\_from\_elevator\_gw}!api\_handlers.c@{api\_handlers.c}}
-\doxysubsubsection{hnd\_floor\_call\_from\_elevator\_gw()}
-{\footnotesize\ttfamily void hnd\+\_\+floor\+\_\+call\+\_\+from\+\_\+elevator\+\_\+gw (\begin{DoxyParamCaption}\item[{coap\+\_\+resource\+\_\+t $\ast$}]{resource,  }\item[{coap\+\_\+session\+\_\+t $\ast$}]{elevator\+\_\+session,  }\item[{const coap\+\_\+pdu\+\_\+t $\ast$}]{elevator\+\_\+request\+\_\+pdu,  }\item[{const coap\+\_\+string\+\_\+t $\ast$}]{query,  }\item[{coap\+\_\+pdu\+\_\+t $\ast$}]{response\+\_\+placeholder }\end{DoxyParamCaption})}
+\doxysubsubsection{\texorpdfstring{hnd\_floor\_call\_from\_elevator\_gw()}{hnd\_floor\_call\_from\_elevator\_gw()}}
+{\footnotesize\ttfamily void hnd\+\_\+floor\+\_\+call\+\_\+from\+\_\+elevator\+\_\+gw (\begin{DoxyParamCaption}\item[{coap\+\_\+resource\+\_\+t \texorpdfstring{$\ast$}{*}}]{resource,  }\item[{coap\+\_\+session\+\_\+t \texorpdfstring{$\ast$}{*}}]{elevator\+\_\+session,  }\item[{const coap\+\_\+pdu\+\_\+t \texorpdfstring{$\ast$}{*}}]{elevator\+\_\+request\+\_\+pdu,  }\item[{const coap\+\_\+string\+\_\+t \texorpdfstring{$\ast$}{*}}]{query,  }\item[{coap\+\_\+pdu\+\_\+t \texorpdfstring{$\ast$}{*}}]{response\+\_\+placeholder }\end{DoxyParamCaption})}
 
 
 
-Handler for floor calls from elevator clients/external. Path\+: GW\+\_\+\+FLOOR\+\_\+\+CALL\+\_\+\+PATH (e.\+g., /llamada\+\_\+piso\+\_\+gw) Parses query params\+: floor, dir (UP/\+DOWN) 
+Handler para llamadas de piso desde ascensor. 
 
+
+\begin{DoxyParams}{Parameters}
+{\em resource} & Recurso Co\+AP asociado \\
+\hline
+{\em elevator\+\_\+session} & Sesión Co\+AP del ascensor solicitante \\
+\hline
+{\em elevator\+\_\+request\+\_\+pdu} & PDU de la solicitud Co\+AP recibida \\
+\hline
+{\em query} & Cadena de consulta de la solicitud (si existe) \\
+\hline
+{\em response\+\_\+placeholder} & PDU de respuesta (reservado para futuro uso)\\
+\hline
+\end{DoxyParams}
+Este handler procesa llamadas de piso que se originan desde botones externos en los pisos del edificio. Las solicitudes incluyen el piso origen y la dirección deseada (subir/bajar).
+
+\begin{DoxyNote}{Note}
+Función stub -\/ la funcionalidad principal se maneja vía puente CAN 
+\end{DoxyNote}
+\begin{DoxySeeAlso}{See also}
+can\+\_\+bridge.\+h 
+
+\doxylink{api__handlers_8h}{api\+\_\+handlers.\+h} 
+\end{DoxySeeAlso}
 
 
 \doxysubsection{Variable Documentation}
-\label{api__handlers_8c_abe546e2cc7517fb0f6e0218ca1e3ff10} 
+\Hypertarget{api__handlers_8c_abe546e2cc7517fb0f6e0218ca1e3ff10}\label{api__handlers_8c_abe546e2cc7517fb0f6e0218ca1e3ff10} 
 \index{api\_handlers.c@{api\_handlers.c}!g\_dtls\_session\_to\_central\_server@{g\_dtls\_session\_to\_central\_server}}
 \index{g\_dtls\_session\_to\_central\_server@{g\_dtls\_session\_to\_central\_server}!api\_handlers.c@{api\_handlers.c}}
-\doxysubsubsection{g\_dtls\_session\_to\_central\_server}
-{\footnotesize\ttfamily coap\+\_\+session\+\_\+t$\ast$ g\+\_\+dtls\+\_\+session\+\_\+to\+\_\+central\+\_\+server\hspace{0.3cm}{\ttfamily [extern]}}
+\doxysubsubsection{\texorpdfstring{g\_dtls\_session\_to\_central\_server}{g\_dtls\_session\_to\_central\_server}}
+{\footnotesize\ttfamily coap\+\_\+session\+\_\+t\texorpdfstring{$\ast$}{*} g\+\_\+dtls\+\_\+session\+\_\+to\+\_\+central\+\_\+server\hspace{0.3cm}{\ttfamily [extern]}}
 
 
 
 Sesión DTLS global con el servidor central. 
 
-Declaración externa de la sesión DTLS definida en \doxyref{main.\+c}{p.}{main_8c}. Se utiliza para enviar solicitudes al servidor central de manera eficiente reutilizando la misma conexión segura.
+Declaración externa de la sesión DTLS definida en \doxylink{main_8c}{main.\+c}. Se utiliza para enviar solicitudes al servidor central de manera eficiente reutilizando la misma conexión segura.
 
 \begin{DoxySeeAlso}{See also}
-\doxyref{main.\+c}{p.}{main_8c} 
+\doxylink{main_8c}{main.\+c} 
 
-\doxyref{get\+\_\+or\+\_\+create\+\_\+central\+\_\+server\+\_\+dtls\+\_\+session()}{p.}{main_8c_a7910799dc4997ea7ff42bb0339134d94}
+\doxylink{main_8c_a7910799dc4997ea7ff42bb0339134d94}{get\+\_\+or\+\_\+create\+\_\+central\+\_\+server\+\_\+dtls\+\_\+session()}
 \end{DoxySeeAlso}
-Mantiene la conexión segura DTLS-\/\+PSK con el servidor central para el envío de solicitudes de asignación de ascensores. Se reutiliza para múltiples solicitudes para eficiencia. \label{api__handlers_8c_a2e69b946477ed035db425886fe261a13} 
+Mantiene la conexión segura DTLS con el servidor central para el envío de solicitudes de asignación de ascensores. Se reutiliza para múltiples solicitudes para eficiencia. \Hypertarget{api__handlers_8c_a2e69b946477ed035db425886fe261a13}\label{api__handlers_8c_a2e69b946477ed035db425886fe261a13} 
 \index{api\_handlers.c@{api\_handlers.c}!managed\_elevator\_group@{managed\_elevator\_group}}
 \index{managed\_elevator\_group@{managed\_elevator\_group}!api\_handlers.c@{api\_handlers.c}}
-\doxysubsubsection{managed\_elevator\_group}
-{\footnotesize\ttfamily \textbf{ elevator\+\_\+group\+\_\+state\+\_\+t} managed\+\_\+elevator\+\_\+group\hspace{0.3cm}{\ttfamily [extern]}}
+\doxysubsubsection{\texorpdfstring{managed\_elevator\_group}{managed\_elevator\_group}}
+{\footnotesize\ttfamily elevator\+\_\+group\+\_\+state\+\_\+t managed\+\_\+elevator\+\_\+group\hspace{0.3cm}{\ttfamily [extern]}}
 
 
 
 Estado del grupo de ascensores gestionado por este gateway. 
 
-Declaración externa para acceder al estado del grupo de ascensores gestionado en \doxyref{main.\+c}{p.}{main_8c}. Contiene información completa de todos los ascensores del edificio.
+Declaración externa para acceder al estado del grupo de ascensores gestionado en \doxylink{main_8c}{main.\+c}. Contiene información completa de todos los ascensores del edificio.
 
 \begin{DoxySeeAlso}{See also}
-\doxyref{elevator\+\_\+group\+\_\+state\+\_\+t}{p.}{structelevator__group__state__t} 
+elevator\+\_\+group\+\_\+state\+\_\+t 
 
-\doxyref{main.\+c}{p.}{main_8c}
+\doxylink{main_8c}{main.\+c}
 \end{DoxySeeAlso}
 Estado del grupo de ascensores gestionado por este gateway.
 
 Contiene el estado completo de todos los ascensores del edificio gestionado por este API Gateway, incluyendo posiciones actuales, tareas asignadas, estados de puertas y disponibilidad.
 
 \begin{DoxySeeAlso}{See also}
-\doxyref{elevator\+\_\+group\+\_\+state\+\_\+t}{p.}{structelevator__group__state__t} 
+elevator\+\_\+group\+\_\+state\+\_\+t 
 
-\doxyref{elevator\+\_\+state\+\_\+manager.\+h}{p.}{elevator__state__manager_8h} 
+elevator\+\_\+state\+\_\+manager.\+h 
 \end{DoxySeeAlso}
-\label{api__handlers_8c_a76b99a49711fa510460f784f46154891} 
-\index{api\_handlers.c@{api\_handlers.c}!num\_pending\_central\_requests@{num\_pending\_central\_requests}}
-\index{num\_pending\_central\_requests@{num\_pending\_central\_requests}!api\_handlers.c@{api\_handlers.c}}
-\doxysubsubsection{num\_pending\_central\_requests}
-{\footnotesize\ttfamily int num\+\_\+pending\+\_\+central\+\_\+requests = 0\hspace{0.3cm}{\ttfamily [static]}}
-
-
-
-Número actual de solicitudes pendientes al servidor central. 
-
-Contador que mantiene el número de entradas activas en el array pending\+\_\+central\+\_\+requests. Para un entorno multihilo, se necesitaría un mutex. \label{api__handlers_8c_a50087f66f2f272d8c1e54ff6a023a1be} 
-\index{api\_handlers.c@{api\_handlers.c}!pending\_central\_requests@{pending\_central\_requests}}
-\index{pending\_central\_requests@{pending\_central\_requests}!api\_handlers.c@{api\_handlers.c}}
-\doxysubsubsection{pending\_central\_requests}
-{\footnotesize\ttfamily \textbf{ central\+\_\+request\+\_\+entry\+\_\+t} pending\+\_\+central\+\_\+requests[MAX\+\_\+\+PENDING\+\_\+\+REQUESTS\+\_\+\+TO\+\_\+\+CENTRAL]\hspace{0.3cm}{\ttfamily [static]}}
-
-
-
-Array de solicitudes pendientes al servidor central. 
-
-Almacena todas las solicitudes que han sido enviadas al servidor central y están esperando respuesta. Se utiliza para correlacionar respuestas con las solicitudes originales de los ascensores. \label{api__handlers_8c_a8a485bed3bbf69f7556aa3167043d7e2} 
+\Hypertarget{api__handlers_8c_a8a485bed3bbf69f7556aa3167043d7e2}\label{api__handlers_8c_a8a485bed3bbf69f7556aa3167043d7e2} 
 \index{api\_handlers.c@{api\_handlers.c}!quit\_main\_loop@{quit\_main\_loop}}
 \index{quit\_main\_loop@{quit\_main\_loop}!api\_handlers.c@{api\_handlers.c}}
-\doxysubsubsection{quit\_main\_loop}
+\doxysubsubsection{\texorpdfstring{quit\_main\_loop}{quit\_main\_loop}}
 {\footnotesize\ttfamily volatile sig\+\_\+atomic\+\_\+t quit\+\_\+main\+\_\+loop\hspace{0.3cm}{\ttfamily [extern]}}
 
 
 
 Bandera para indicar si el bucle principal debe terminar. 
 
-Esta variable se declara como extern en api\+\_\+handlers.\+h y se define en \doxyref{main.\+c}{p.}{main_8c}. Es establecida por el manejador de señal (handle\+\_\+sigint\+\_\+gw) para detener el bucle principal de eventos.
+Esta variable se declara como extern en \doxylink{api__handlers_8h}{api\+\_\+handlers.\+h} y se define en \doxylink{main_8c}{main.\+c}. Es establecida por el manejador de señal (handle\+\_\+sigint\+\_\+gw) para detener el bucle principal de eventos.
 
 \begin{DoxySeeAlso}{See also}
-\doxyref{handle\+\_\+sigint\+\_\+gw()}{p.}{api__handlers_8c_a7fd01dcda5b603f45f20d97c84d9260b}
+\doxylink{api__handlers_8c_a7fd01dcda5b603f45f20d97c84d9260b}{handle\+\_\+sigint\+\_\+gw()}
 \end{DoxySeeAlso}
 Bandera para indicar si el bucle principal debe terminar.
 
 Esta bandera se establece a 1 por el manejador de señal SIGINT (handle\+\_\+sigint\+\_\+gw) para indicar que la aplicación debe terminar de manera elegante.
 
 \begin{DoxySeeAlso}{See also}
-\doxyref{handle\+\_\+sigint\+\_\+gw()}{p.}{api__handlers_8c_a7fd01dcda5b603f45f20d97c84d9260b} 
+\doxylink{api__handlers_8c_a7fd01dcda5b603f45f20d97c84d9260b}{handle\+\_\+sigint\+\_\+gw()} 
 \end{DoxySeeAlso}

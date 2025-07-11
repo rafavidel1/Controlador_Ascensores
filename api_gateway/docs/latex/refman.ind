@@ -1,0 +1,314 @@
+\begin{theindex}
+
+  \item {ag\_can\_bridge\_init}
+    \subitem {can\_bridge.c}, \hyperpage{22}
+  \item {ag\_can\_bridge\_process\_incoming\_frame}
+    \subitem {can\_bridge.c}, \hyperpage{22}
+  \item {ag\_can\_bridge\_register\_send\_callback}
+    \subitem {can\_bridge.c}, \hyperpage{23}
+  \item {api\_handlers.c}
+    \subitem {g\_dtls\_session\_to\_central\_server}, \hyperpage{14}
+    \subitem {handle\_sigint\_gw}, \hyperpage{11}
+    \subitem {hnd\_cabin\_request\_from\_elevator\_gw}, \hyperpage{12}
+    \subitem {hnd\_central\_server\_response\_gw}, \hyperpage{12}
+    \subitem {hnd\_elevator\_api\_request\_gw}, \hyperpage{13}
+    \subitem {hnd\_floor\_call\_from\_elevator\_gw}, \hyperpage{14}
+    \subitem {managed\_elevator\_group}, \hyperpage{15}
+    \subitem {MAX\_PENDING\_REQUESTS\_TO\_CENTRAL}, \hyperpage{11}
+    \subitem {quit\_main\_loop}, \hyperpage{15}
+  \item {api\_handlers.h}
+    \subitem {handle\_sigint\_gw}, \hyperpage{16}
+    \subitem {hnd\_central\_server\_response\_gw}, \hyperpage{17}
+  \item {api\_request\_tracker\_t}, \hyperpage{5}
+    \subitem {log\_tag}, \hyperpage{5}
+    \subitem {origin\_floor}, \hyperpage{5}
+    \subitem {original\_elevator\_session}, \hyperpage{6}
+    \subitem {original\_mid}, \hyperpage{6}
+    \subitem {original\_token}, \hyperpage{6}
+    \subitem {request\_type}, \hyperpage{6}
+    \subitem {requested\_direction\_floor}, \hyperpage{6}
+    \subitem {requesting\_elevator\_id\_cabin}, \hyperpage{6}
+    \subitem {target\_floor\_for\_task}, \hyperpage{6}
+  \item {assign\_task\_to\_elevator}
+    \subitem {elevator\_state\_manager.c}, \hyperpage{27}
+
+  \indexspace
+
+  \item {can\_bridge.c}
+    \subitem {ag\_can\_bridge\_init}, \hyperpage{22}
+    \subitem {ag\_can\_bridge\_process\_incoming\_frame}, 
+		\hyperpage{22}
+    \subitem {ag\_can\_bridge\_register\_send\_callback}, 
+		\hyperpage{23}
+    \subitem {CAN\_MAX\_DATA\_LEN}, \hyperpage{21}
+    \subitem {find\_can\_tracker}, \hyperpage{24}
+    \subitem {managed\_elevator\_group}, \hyperpage{24}
+    \subitem {MAX\_CAN\_ORIGIN\_TRACKERS}, \hyperpage{21}
+  \item {CAN\_MAX\_DATA\_LEN}
+    \subitem {can\_bridge.c}, \hyperpage{21}
+  \item {cargar\_datos\_simulacion}
+    \subitem {simulation\_loader.c}, \hyperpage{63}
+  \item {central\_request\_entry\_t}, \hyperpage{7}
+  \item {convertir\_direccion\_string}
+    \subitem {simulation\_loader.c}, \hyperpage{64}
+
+  \indexspace
+
+  \item {door\_state\_to\_string}
+    \subitem {elevator\_state\_manager.c}, \hyperpage{27}
+
+  \indexspace
+
+  \item {ejecutar\_peticiones\_edificio}
+    \subitem {simulation\_loader.c}, \hyperpage{65}
+  \item {elevator\_group\_to\_json\_for\_server}
+    \subitem {elevator\_state\_manager.c}, \hyperpage{28}
+  \item {elevator\_state\_manager.c}
+    \subitem {assign\_task\_to\_elevator}, \hyperpage{27}
+    \subitem {door\_state\_to\_string}, \hyperpage{27}
+    \subitem {elevator\_group\_to\_json\_for\_server}, \hyperpage{28}
+    \subitem {init\_elevator\_group}, \hyperpage{29}
+    \subitem {movement\_direction\_to\_string}, \hyperpage{29}
+  \item {exec\_logger\_finish}
+    \subitem {execution\_logger.c}, \hyperpage{32}
+  \item {exec\_logger\_get\_stats}
+    \subitem {execution\_logger.c}, \hyperpage{32}
+  \item {exec\_logger\_init}
+    \subitem {execution\_logger.c}, \hyperpage{32}
+  \item {exec\_logger\_is\_active}
+    \subitem {execution\_logger.c}, \hyperpage{33}
+  \item {exec\_logger\_log\_can\_received}
+    \subitem {execution\_logger.c}, \hyperpage{33}
+  \item {exec\_logger\_log\_can\_sent}
+    \subitem {execution\_logger.c}, \hyperpage{34}
+  \item {exec\_logger\_log\_coap\_received}
+    \subitem {execution\_logger.c}, \hyperpage{34}
+  \item {exec\_logger\_log\_coap\_sent}
+    \subitem {execution\_logger.c}, \hyperpage{35}
+  \item {exec\_logger\_log\_elevator\_moved}
+    \subitem {execution\_logger.c}, \hyperpage{35}
+  \item {exec\_logger\_log\_error}
+    \subitem {execution\_logger.c}, \hyperpage{36}
+  \item {exec\_logger\_log\_event}
+    \subitem {execution\_logger.c}, \hyperpage{36}
+  \item {exec\_logger\_log\_simulation\_end}
+    \subitem {execution\_logger.c}, \hyperpage{36}
+  \item {exec\_logger\_log\_simulation\_start}
+    \subitem {execution\_logger.c}, \hyperpage{37}
+  \item {exec\_logger\_log\_task\_assigned}
+    \subitem {execution\_logger.c}, \hyperpage{37}
+  \item {exec\_logger\_log\_task\_completed}
+    \subitem {execution\_logger.c}, \hyperpage{38}
+  \item {execution\_logger.c}
+    \subitem {exec\_logger\_finish}, \hyperpage{32}
+    \subitem {exec\_logger\_get\_stats}, \hyperpage{32}
+    \subitem {exec\_logger\_init}, \hyperpage{32}
+    \subitem {exec\_logger\_is\_active}, \hyperpage{33}
+    \subitem {exec\_logger\_log\_can\_received}, \hyperpage{33}
+    \subitem {exec\_logger\_log\_can\_sent}, \hyperpage{34}
+    \subitem {exec\_logger\_log\_coap\_received}, \hyperpage{34}
+    \subitem {exec\_logger\_log\_coap\_sent}, \hyperpage{35}
+    \subitem {exec\_logger\_log\_elevator\_moved}, \hyperpage{35}
+    \subitem {exec\_logger\_log\_error}, \hyperpage{36}
+    \subitem {exec\_logger\_log\_event}, \hyperpage{36}
+    \subitem {exec\_logger\_log\_simulation\_end}, \hyperpage{36}
+    \subitem {exec\_logger\_log\_simulation\_start}, \hyperpage{37}
+    \subitem {exec\_logger\_log\_task\_assigned}, \hyperpage{37}
+    \subitem {exec\_logger\_log\_task\_completed}, \hyperpage{38}
+
+  \indexspace
+
+  \item {find\_can\_tracker}
+    \subitem {can\_bridge.c}, \hyperpage{24}
+
+  \indexspace
+
+  \item {g\_coap\_context}
+    \subitem {main.c}, \hyperpage{43}
+    \subitem {main\_dynamic\_port.c}, \hyperpage{48}
+    \subitem {mi\_simulador\_ascensor.c}, \hyperpage{55}
+  \item {g\_dtls\_session\_to\_central\_server}
+    \subitem {api\_handlers.c}, \hyperpage{14}
+    \subitem {main.c}, \hyperpage{43}
+    \subitem {main\_dynamic\_port.c}, \hyperpage{48}
+  \item {get\_or\_create\_central\_server\_dtls\_session}
+    \subitem {main.c}, \hyperpage{40}
+    \subitem {main\_dynamic\_port.c}, \hyperpage{45}
+
+  \indexspace
+
+  \item {handle\_sigint\_gw}
+    \subitem {api\_handlers.c}, \hyperpage{11}
+    \subitem {api\_handlers.h}, \hyperpage{16}
+  \item {hnd\_cabin\_request\_from\_elevator\_gw}
+    \subitem {api\_handlers.c}, \hyperpage{12}
+  \item {hnd\_central\_server\_response\_gw}
+    \subitem {api\_handlers.c}, \hyperpage{12}
+    \subitem {api\_handlers.h}, \hyperpage{17}
+  \item {hnd\_elevator\_api\_request\_gw}
+    \subitem {api\_handlers.c}, \hyperpage{13}
+  \item {hnd\_floor\_call\_from\_elevator\_gw}
+    \subitem {api\_handlers.c}, \hyperpage{14}
+
+  \indexspace
+
+  \item {inicializar\_mi\_simulacion\_ascensor}
+    \subitem {main.c}, \hyperpage{41}
+    \subitem {main\_dynamic\_port.c}, \hyperpage{46}
+    \subitem {mi\_simulador\_ascensor.c}, \hyperpage{52}
+  \item {init\_elevator\_group}
+    \subitem {elevator\_state\_manager.c}, \hyperpage{29}
+
+  \indexspace
+
+  \item {liberar\_datos\_simulacion}
+    \subitem {simulation\_loader.c}, \hyperpage{66}
+  \item {log\_tag}
+    \subitem {api\_request\_tracker\_t}, \hyperpage{5}
+
+  \indexspace
+
+  \item {main}
+    \subitem {main.c}, \hyperpage{41}
+    \subitem {main\_dynamic\_port.c}, \hyperpage{46}
+  \item {main.c}
+    \subitem {g\_coap\_context}, \hyperpage{43}
+    \subitem {g\_dtls\_session\_to\_central\_server}, \hyperpage{43}
+    \subitem {get\_or\_create\_central\_server\_dtls\_session}, 
+		\hyperpage{40}
+    \subitem {inicializar\_mi\_simulacion\_ascensor}, \hyperpage{41}
+    \subitem {main}, \hyperpage{41}
+    \subitem {managed\_elevator\_group}, \hyperpage{43}
+    \subitem {procesar\_siguiente\_peticion\_simulacion}, 
+		\hyperpage{42}
+    \subitem {quit\_main\_loop}, \hyperpage{44}
+    \subitem {simular\_eventos\_ascensor}, \hyperpage{42}
+  \item {main\_dynamic\_port.c}
+    \subitem {g\_coap\_context}, \hyperpage{48}
+    \subitem {g\_dtls\_session\_to\_central\_server}, \hyperpage{48}
+    \subitem {get\_or\_create\_central\_server\_dtls\_session}, 
+		\hyperpage{45}
+    \subitem {inicializar\_mi\_simulacion\_ascensor}, \hyperpage{46}
+    \subitem {main}, \hyperpage{46}
+    \subitem {managed\_elevator\_group}, \hyperpage{48}
+    \subitem {quit\_main\_loop}, \hyperpage{49}
+    \subitem {simular\_eventos\_ascensor}, \hyperpage{47}
+  \item {managed\_elevator\_group}
+    \subitem {api\_handlers.c}, \hyperpage{15}
+    \subitem {can\_bridge.c}, \hyperpage{24}
+    \subitem {main.c}, \hyperpage{43}
+    \subitem {main\_dynamic\_port.c}, \hyperpage{48}
+    \subitem {mi\_simulador\_ascensor.c}, \hyperpage{55}
+    \subitem {simulation\_loader.c}, \hyperpage{67}
+  \item {MAX\_CAN\_ORIGIN\_TRACKERS}
+    \subitem {can\_bridge.c}, \hyperpage{21}
+  \item {MAX\_PENDING\_REQUESTS\_TO\_CENTRAL}
+    \subitem {api\_handlers.c}, \hyperpage{11}
+  \item {mi\_simulador\_ascensor.c}
+    \subitem {g\_coap\_context}, \hyperpage{55}
+    \subitem {inicializar\_mi\_simulacion\_ascensor}, \hyperpage{52}
+    \subitem {managed\_elevator\_group}, \hyperpage{55}
+    \subitem {mi\_simulador\_recibe\_can\_gw}, \hyperpage{52}
+    \subitem {procesar\_siguiente\_peticion\_simulacion}, 
+		\hyperpage{53}
+    \subitem {simular\_eventos\_ascensor}, \hyperpage{53}
+    \subitem {simular\_llamada\_de\_piso\_via\_can}, \hyperpage{53}
+    \subitem {simular\_solicitud\_cabina\_via\_can}, \hyperpage{54}
+  \item {mi\_simulador\_recibe\_can\_gw}
+    \subitem {mi\_simulador\_ascensor.c}, \hyperpage{52}
+  \item {movement\_direction\_to\_string}
+    \subitem {elevator\_state\_manager.c}, \hyperpage{29}
+
+  \indexspace
+
+  \item {origin\_floor}
+    \subitem {api\_request\_tracker\_t}, \hyperpage{5}
+  \item {original\_elevator\_session}
+    \subitem {api\_request\_tracker\_t}, \hyperpage{6}
+  \item {original\_mid}
+    \subitem {api\_request\_tracker\_t}, \hyperpage{6}
+  \item {original\_token}
+    \subitem {api\_request\_tracker\_t}, \hyperpage{6}
+
+  \indexspace
+
+  \item {procesar\_siguiente\_peticion\_simulacion}
+    \subitem {main.c}, \hyperpage{42}
+    \subitem {mi\_simulador\_ascensor.c}, \hyperpage{53}
+  \item {psk\_keys\_t}, \hyperpage{8}
+  \item {psk\_manager.c}
+    \subitem {psk\_manager\_get\_deterministic\_key}, \hyperpage{58}
+    \subitem {psk\_manager\_get\_first\_key}, \hyperpage{58}
+    \subitem {psk\_manager\_get\_random\_key}, \hyperpage{58}
+    \subitem {psk\_manager\_init}, \hyperpage{59}
+  \item {psk\_manager.h}
+    \subitem {psk\_manager\_get\_deterministic\_key}, \hyperpage{60}
+    \subitem {psk\_manager\_get\_first\_key}, \hyperpage{61}
+    \subitem {psk\_manager\_get\_random\_key}, \hyperpage{61}
+    \subitem {psk\_manager\_init}, \hyperpage{61}
+  \item {psk\_manager\_get\_deterministic\_key}
+    \subitem {psk\_manager.c}, \hyperpage{58}
+    \subitem {psk\_manager.h}, \hyperpage{60}
+  \item {psk\_manager\_get\_first\_key}
+    \subitem {psk\_manager.c}, \hyperpage{58}
+    \subitem {psk\_manager.h}, \hyperpage{61}
+  \item {psk\_manager\_get\_random\_key}
+    \subitem {psk\_manager.c}, \hyperpage{58}
+    \subitem {psk\_manager.h}, \hyperpage{61}
+  \item {psk\_manager\_init}
+    \subitem {psk\_manager.c}, \hyperpage{59}
+    \subitem {psk\_manager.h}, \hyperpage{61}
+
+  \indexspace
+
+  \item {quit\_main\_loop}
+    \subitem {api\_handlers.c}, \hyperpage{15}
+    \subitem {main.c}, \hyperpage{44}
+    \subitem {main\_dynamic\_port.c}, \hyperpage{49}
+
+  \indexspace
+
+  \item {request\_type}
+    \subitem {api\_request\_tracker\_t}, \hyperpage{6}
+  \item {requested\_direction\_floor}
+    \subitem {api\_request\_tracker\_t}, \hyperpage{6}
+  \item {requesting\_elevator\_id\_cabin}
+    \subitem {api\_request\_tracker\_t}, \hyperpage{6}
+
+  \indexspace
+
+  \item {seleccionar\_edificio\_aleatorio}
+    \subitem {simulation\_loader.c}, \hyperpage{66}
+  \item {simular\_eventos\_ascensor}
+    \subitem {main.c}, \hyperpage{42}
+    \subitem {main\_dynamic\_port.c}, \hyperpage{47}
+    \subitem {mi\_simulador\_ascensor.c}, \hyperpage{53}
+  \item {simular\_llamada\_de\_piso\_via\_can}
+    \subitem {mi\_simulador\_ascensor.c}, \hyperpage{53}
+  \item {simular\_solicitud\_cabina\_via\_can}
+    \subitem {mi\_simulador\_ascensor.c}, \hyperpage{54}
+  \item {simulation\_loader.c}
+    \subitem {cargar\_datos\_simulacion}, \hyperpage{63}
+    \subitem {convertir\_direccion\_string}, \hyperpage{64}
+    \subitem {ejecutar\_peticiones\_edificio}, \hyperpage{65}
+    \subitem {liberar\_datos\_simulacion}, \hyperpage{66}
+    \subitem {managed\_elevator\_group}, \hyperpage{67}
+    \subitem {seleccionar\_edificio\_aleatorio}, \hyperpage{66}
+  \item {src/api\_handlers.c}, \hyperpage{9}
+  \item {src/api\_handlers.h}, \hyperpage{16}, \hyperpage{18}
+  \item {src/can\_bridge.c}, \hyperpage{19}
+  \item {src/elevator\_state\_manager.c}, \hyperpage{25}
+  \item {src/execution\_logger.c}, \hyperpage{30}
+  \item {src/main.c}, \hyperpage{38}
+  \item {src/main\_dynamic\_port.c}, \hyperpage{44}
+  \item {src/mi\_simulador\_ascensor.c}, \hyperpage{50}
+  \item {src/psk\_manager.c}, \hyperpage{57}
+  \item {src/psk\_manager.h}, \hyperpage{59}, \hyperpage{62}
+  \item {src/simulation\_loader.c}, \hyperpage{62}
+
+  \indexspace
+
+  \item {target\_floor\_for\_task}
+    \subitem {api\_request\_tracker\_t}, \hyperpage{6}
+
+\end{theindex}

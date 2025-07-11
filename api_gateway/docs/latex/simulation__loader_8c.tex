@@ -1,27 +1,42 @@
 \doxysection{src/simulation\+\_\+loader.c File Reference}
-\label{simulation__loader_8c}\index{src/simulation\_loader.c@{src/simulation\_loader.c}}
+\hypertarget{simulation__loader_8c}{}\label{simulation__loader_8c}\index{src/simulation\_loader.c@{src/simulation\_loader.c}}
 
 
 Implementación del Sistema de Carga y Ejecución de Simulaciones.  
 
 
+{\ttfamily \#include "{}api\+\_\+gateway/simulation\+\_\+loader.\+h"{}}\newline
+{\ttfamily \#include "{}api\+\_\+gateway/elevator\+\_\+state\+\_\+manager.\+h"{}}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include $<$time.\+h$>$}\newline
+{\ttfamily \#include $<$errno.\+h$>$}\newline
+Include dependency graph for simulation\+\_\+loader.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{simulation__loader_8c__incl}
+\end{center}
+\end{figure}
 \doxysubsubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-bool \textbf{ cargar\+\_\+datos\+\_\+simulacion} (const char $\ast$archivo\+\_\+json, \textbf{ datos\+\_\+simulacion\+\_\+t} $\ast$datos)
+bool \mbox{\hyperlink{simulation__loader_8c_a189a79642cdf0001b3a29062e4180af3}{cargar\+\_\+datos\+\_\+simulacion}} (const char \texorpdfstring{$\ast$}{*}archivo\+\_\+json, datos\+\_\+simulacion\+\_\+t \texorpdfstring{$\ast$}{*}datos)
 \begin{DoxyCompactList}\small\item\em Carga los datos de simulación desde un archivo JSON. \end{DoxyCompactList}\item 
-void \textbf{ liberar\+\_\+datos\+\_\+simulacion} (\textbf{ datos\+\_\+simulacion\+\_\+t} $\ast$datos)
-\begin{DoxyCompactList}\small\item\em Libera la memoria utilizada por los datos de simulación. \end{DoxyCompactList}\item 
-\textbf{ edificio\+\_\+simulacion\+\_\+t} $\ast$ \textbf{ seleccionar\+\_\+edificio\+\_\+aleatorio} (\textbf{ datos\+\_\+simulacion\+\_\+t} $\ast$datos)
-\begin{DoxyCompactList}\small\item\em Selecciona un edificio aleatorio de los datos cargados. \end{DoxyCompactList}\item 
-int \textbf{ convertir\+\_\+direccion\+\_\+string} (const char $\ast$direccion\+\_\+str)
-\begin{DoxyCompactList}\small\item\em Convierte una cadena de dirección a enum. \end{DoxyCompactList}\item 
-int \textbf{ ejecutar\+\_\+peticiones\+\_\+edificio} (\textbf{ edificio\+\_\+simulacion\+\_\+t} $\ast$edificio, coap\+\_\+context\+\_\+t $\ast$ctx)
-\begin{DoxyCompactList}\small\item\em Ejecuta todas las peticiones de un edificio. \end{DoxyCompactList}\end{DoxyCompactItemize}
+void \mbox{\hyperlink{simulation__loader_8c_ac117e5c59e59401d320840125a9d6e1a}{liberar\+\_\+datos\+\_\+simulacion}} (datos\+\_\+simulacion\+\_\+t \texorpdfstring{$\ast$}{*}datos)
+\begin{DoxyCompactList}\small\item\em Libera la memoria asignada para los datos de simulación. \end{DoxyCompactList}\item 
+edificio\+\_\+simulacion\+\_\+t \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{simulation__loader_8c_a87620ad51d06f241a3106a36c40ac787}{seleccionar\+\_\+edificio\+\_\+aleatorio}} (datos\+\_\+simulacion\+\_\+t \texorpdfstring{$\ast$}{*}datos)
+\begin{DoxyCompactList}\small\item\em Selecciona un edificio aleatorio de los datos de simulación. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{simulation__loader_8c_a044d62cee9ad0a09b369ba217a3f04cc}{convertir\+\_\+direccion\+\_\+string}} (const char \texorpdfstring{$\ast$}{*}direccion\+\_\+str)
+\begin{DoxyCompactList}\small\item\em Convierte una cadena de dirección a valor numérico. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{simulation__loader_8c_a5d1879571222c772ec4e7346f2f930df}{ejecutar\+\_\+peticiones\+\_\+edificio}} (edificio\+\_\+simulacion\+\_\+t \texorpdfstring{$\ast$}{*}edificio, coap\+\_\+context\+\_\+t \texorpdfstring{$\ast$}{*}ctx)
+\begin{DoxyCompactList}\small\item\em Ejecuta las peticiones de un edificio específico. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Variables}
 \begin{DoxyCompactItemize}
 \item 
-\textbf{ elevator\+\_\+group\+\_\+state\+\_\+t} \textbf{ managed\+\_\+elevator\+\_\+group}
+elevator\+\_\+group\+\_\+state\+\_\+t \mbox{\hyperlink{simulation__loader_8c_a2e69b946477ed035db425886fe261a13}{managed\+\_\+elevator\+\_\+group}}
 \begin{DoxyCompactList}\small\item\em Estado global del grupo de ascensores gestionado por este gateway. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
@@ -39,12 +54,226 @@ Sistema de Control de Ascensores
 \end{DoxyVersion}
 
 
+\doxysubsection{Function Documentation}
+\Hypertarget{simulation__loader_8c_a189a79642cdf0001b3a29062e4180af3}\label{simulation__loader_8c_a189a79642cdf0001b3a29062e4180af3} 
+\index{simulation\_loader.c@{simulation\_loader.c}!cargar\_datos\_simulacion@{cargar\_datos\_simulacion}}
+\index{cargar\_datos\_simulacion@{cargar\_datos\_simulacion}!simulation\_loader.c@{simulation\_loader.c}}
+\doxysubsubsection{\texorpdfstring{cargar\_datos\_simulacion()}{cargar\_datos\_simulacion()}}
+{\footnotesize\ttfamily bool cargar\+\_\+datos\+\_\+simulacion (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{archivo\+\_\+json,  }\item[{datos\+\_\+simulacion\+\_\+t \texorpdfstring{$\ast$}{*}}]{datos }\end{DoxyParamCaption})}
+
+
+
+Carga los datos de simulación desde un archivo JSON. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em archivo\+\_\+json} & Ruta al archivo JSON con la configuración de simulación \\
+\hline
+{\em datos} & Puntero a la estructura donde se almacenarán los datos cargados \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true si se cargaron correctamente, false en caso de error
+\end{DoxyReturn}
+Esta función lee y parsea un archivo JSON que contiene la configuración de simulación de ascensores, incluyendo edificios y peticiones.
+
+{\bfseries{Estructura JSON esperada\+:}} 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{\ \ "{}edificios"{}:\ [}
+\DoxyCodeLine{\ \ \ \ \{}
+\DoxyCodeLine{\ \ \ \ \ \ "{}id\_edificio"{}:\ "{}E1"{},}
+\DoxyCodeLine{\ \ \ \ \ \ "{}peticiones"{}:\ [}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ "{}tipo"{}:\ "{}llamada\_piso"{},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ "{}piso\_origen"{}:\ 3,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ "{}direccion"{}:\ "{}up"{}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ "{}tipo"{}:\ "{}solicitud\_cabina"{},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ "{}indice\_ascensor"{}:\ 0,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ "{}piso\_destino"{}:\ 5}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\ \ \ \ \ \ ]}
+\DoxyCodeLine{\ \ \ \ \}}
+\DoxyCodeLine{\ \ ]}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+{\bfseries{Operaciones realizadas\+:}}
+\begin{DoxyItemize}
+\item Apertura y lectura del archivo JSON
+\item Parsing y validación de la estructura JSON
+\item Asignación de memoria para edificios y peticiones
+\item Validación de tipos de peticiones y parámetros
+\item Inicialización de estructuras de datos
+\end{DoxyItemize}
+
+En caso de error, libera automáticamente toda la memoria asignada.
+
+\begin{DoxySeeAlso}{See also}
+\doxylink{simulation__loader_8c_ac117e5c59e59401d320840125a9d6e1a}{liberar\+\_\+datos\+\_\+simulacion()} 
+
+datos\+\_\+simulacion\+\_\+t 
+
+edificio\+\_\+simulacion\+\_\+t 
+\end{DoxySeeAlso}
+\Hypertarget{simulation__loader_8c_a044d62cee9ad0a09b369ba217a3f04cc}\label{simulation__loader_8c_a044d62cee9ad0a09b369ba217a3f04cc} 
+\index{simulation\_loader.c@{simulation\_loader.c}!convertir\_direccion\_string@{convertir\_direccion\_string}}
+\index{convertir\_direccion\_string@{convertir\_direccion\_string}!simulation\_loader.c@{simulation\_loader.c}}
+\doxysubsubsection{\texorpdfstring{convertir\_direccion\_string()}{convertir\_direccion\_string()}}
+{\footnotesize\ttfamily int convertir\+\_\+direccion\+\_\+string (\begin{DoxyParamCaption}\item[{const char \texorpdfstring{$\ast$}{*}}]{direccion\+\_\+str }\end{DoxyParamCaption})}
+
+
+
+Convierte una cadena de dirección a valor numérico. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em direccion\+\_\+str} & Cadena que representa la dirección ("{}up"{}, "{}down"{}, etc.) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Valor numérico correspondiente a la dirección
+\end{DoxyReturn}
+Esta función convierte cadenas de texto que representan direcciones de movimiento a valores numéricos utilizados en frames CAN.
+
+{\bfseries{Conversiones soportadas\+:}}
+\begin{DoxyItemize}
+\item "{}up"{} → 0 (MOVING\+\_\+\+UP)
+\item "{}down"{} → 1 (MOVING\+\_\+\+DOWN)
+\item Otros valores → 0 (por defecto)
+\end{DoxyItemize}
+
+La función es insensible a mayúsculas y minúsculas.
+
+\begin{DoxySeeAlso}{See also}
+movement\+\_\+direction\+\_\+enum\+\_\+t 
+
+simulated\+\_\+can\+\_\+frame\+\_\+t 
+\end{DoxySeeAlso}
+\Hypertarget{simulation__loader_8c_a5d1879571222c772ec4e7346f2f930df}\label{simulation__loader_8c_a5d1879571222c772ec4e7346f2f930df} 
+\index{simulation\_loader.c@{simulation\_loader.c}!ejecutar\_peticiones\_edificio@{ejecutar\_peticiones\_edificio}}
+\index{ejecutar\_peticiones\_edificio@{ejecutar\_peticiones\_edificio}!simulation\_loader.c@{simulation\_loader.c}}
+\doxysubsubsection{\texorpdfstring{ejecutar\_peticiones\_edificio()}{ejecutar\_peticiones\_edificio()}}
+{\footnotesize\ttfamily int ejecutar\+\_\+peticiones\+\_\+edificio (\begin{DoxyParamCaption}\item[{edificio\+\_\+simulacion\+\_\+t \texorpdfstring{$\ast$}{*}}]{edificio,  }\item[{coap\+\_\+context\+\_\+t \texorpdfstring{$\ast$}{*}}]{ctx }\end{DoxyParamCaption})}
+
+
+
+Ejecuta las peticiones de un edificio específico. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em edificio} & Puntero al edificio cuyas peticiones se van a ejecutar \\
+\hline
+{\em ctx} & Contexto Co\+AP para el procesamiento de frames CAN \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Número de peticiones procesadas exitosamente
+\end{DoxyReturn}
+Esta función ejecuta secuencialmente todas las peticiones de un edificio, convirtiéndolas a frames CAN simulados y procesándolas a través del puente CAN-\/\+Co\+AP.
+
+{\bfseries{Tipos de peticiones soportadas\+:}}
+\begin{DoxyItemize}
+\item {\bfseries{Llamada de piso}}\+: Genera frame CAN 0x100 con piso origen y dirección
+\item {\bfseries{Solicitud de cabina}}\+: Genera frame CAN 0x200 con ascensor y destino
+\end{DoxyItemize}
+
+{\bfseries{Operaciones realizadas\+:}}
+\begin{DoxyItemize}
+\item Actualiza el grupo de ascensores con el ID del edificio
+\item Procesa cada petición según su tipo
+\item Crea frames CAN simulados apropiados
+\item Envía frames al puente CAN-\/\+Co\+AP para procesamiento
+\item Registra estadísticas de peticiones procesadas
+\end{DoxyItemize}
+
+\begin{DoxySeeAlso}{See also}
+peticion\+\_\+simulacion\+\_\+t 
+
+simulated\+\_\+can\+\_\+frame\+\_\+t 
+
+\doxylink{can__bridge_8c_aacea58e11d63ec4a2601d1b225af2af7}{ag\+\_\+can\+\_\+bridge\+\_\+process\+\_\+incoming\+\_\+frame()} 
+\end{DoxySeeAlso}
+\Hypertarget{simulation__loader_8c_ac117e5c59e59401d320840125a9d6e1a}\label{simulation__loader_8c_ac117e5c59e59401d320840125a9d6e1a} 
+\index{simulation\_loader.c@{simulation\_loader.c}!liberar\_datos\_simulacion@{liberar\_datos\_simulacion}}
+\index{liberar\_datos\_simulacion@{liberar\_datos\_simulacion}!simulation\_loader.c@{simulation\_loader.c}}
+\doxysubsubsection{\texorpdfstring{liberar\_datos\_simulacion()}{liberar\_datos\_simulacion()}}
+{\footnotesize\ttfamily void liberar\+\_\+datos\+\_\+simulacion (\begin{DoxyParamCaption}\item[{datos\+\_\+simulacion\+\_\+t \texorpdfstring{$\ast$}{*}}]{datos }\end{DoxyParamCaption})}
+
+
+
+Libera la memoria asignada para los datos de simulación. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em datos} & Puntero a la estructura de datos de simulación a liberar\\
+\hline
+\end{DoxyParams}
+Esta función libera toda la memoria asignada dinámicamente para los datos de simulación, incluyendo arrays de edificios y peticiones.
+
+{\bfseries{Operaciones realizadas\+:}}
+\begin{DoxyItemize}
+\item Libera memoria de peticiones para cada edificio
+\item Libera memoria del array de edificios
+\item Resetea los contadores y punteros
+\item Inicializa la estructura a cero
+\end{DoxyItemize}
+
+La función es segura para llamar múltiples veces o con punteros NULL.
+
+\begin{DoxySeeAlso}{See also}
+\doxylink{simulation__loader_8c_a189a79642cdf0001b3a29062e4180af3}{cargar\+\_\+datos\+\_\+simulacion()} 
+
+datos\+\_\+simulacion\+\_\+t 
+\end{DoxySeeAlso}
+\Hypertarget{simulation__loader_8c_a87620ad51d06f241a3106a36c40ac787}\label{simulation__loader_8c_a87620ad51d06f241a3106a36c40ac787} 
+\index{simulation\_loader.c@{simulation\_loader.c}!seleccionar\_edificio\_aleatorio@{seleccionar\_edificio\_aleatorio}}
+\index{seleccionar\_edificio\_aleatorio@{seleccionar\_edificio\_aleatorio}!simulation\_loader.c@{simulation\_loader.c}}
+\doxysubsubsection{\texorpdfstring{seleccionar\_edificio\_aleatorio()}{seleccionar\_edificio\_aleatorio()}}
+{\footnotesize\ttfamily edificio\+\_\+simulacion\+\_\+t \texorpdfstring{$\ast$}{*} seleccionar\+\_\+edificio\+\_\+aleatorio (\begin{DoxyParamCaption}\item[{datos\+\_\+simulacion\+\_\+t \texorpdfstring{$\ast$}{*}}]{datos }\end{DoxyParamCaption})}
+
+
+
+Selecciona un edificio aleatorio de los datos de simulación. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em datos} & Puntero a los datos de simulación cargados \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Puntero al edificio seleccionado, o NULL si no hay edificios
+\end{DoxyReturn}
+Esta función selecciona aleatoriamente un edificio de los disponibles en los datos de simulación cargados. Utiliza la función rand() para la selección aleatoria.
+
+{\bfseries{Comportamiento\+:}}
+\begin{DoxyItemize}
+\item Verifica que existan edificios disponibles
+\item Genera un índice aleatorio válido
+\item Retorna el puntero al edificio seleccionado
+\item Registra la selección en el sistema de logging
+\end{DoxyItemize}
+
+\begin{DoxyNote}{Note}
+Se debe llamar a srand() antes de usar esta función para garantizar aleatoriedad real.
+\end{DoxyNote}
+\begin{DoxySeeAlso}{See also}
+datos\+\_\+simulacion\+\_\+t 
+
+edificio\+\_\+simulacion\+\_\+t 
+\end{DoxySeeAlso}
+
+
 \doxysubsection{Variable Documentation}
-\label{simulation__loader_8c_a2e69b946477ed035db425886fe261a13} 
+\Hypertarget{simulation__loader_8c_a2e69b946477ed035db425886fe261a13}\label{simulation__loader_8c_a2e69b946477ed035db425886fe261a13} 
 \index{simulation\_loader.c@{simulation\_loader.c}!managed\_elevator\_group@{managed\_elevator\_group}}
 \index{managed\_elevator\_group@{managed\_elevator\_group}!simulation\_loader.c@{simulation\_loader.c}}
-\doxysubsubsection{managed\_elevator\_group}
-{\footnotesize\ttfamily \textbf{ elevator\+\_\+group\+\_\+state\+\_\+t} managed\+\_\+elevator\+\_\+group\hspace{0.3cm}{\ttfamily [extern]}}
+\doxysubsubsection{\texorpdfstring{managed\_elevator\_group}{managed\_elevator\_group}}
+{\footnotesize\ttfamily elevator\+\_\+group\+\_\+state\+\_\+t managed\+\_\+elevator\+\_\+group\hspace{0.3cm}{\ttfamily [extern]}}
 
 
 
@@ -59,9 +288,9 @@ Estado del grupo de ascensores gestionado por este gateway.
 Contiene el estado completo de todos los ascensores del edificio gestionado por este API Gateway, incluyendo posiciones actuales, tareas asignadas, estados de puertas y disponibilidad.
 
 \begin{DoxySeeAlso}{See also}
-\doxyref{elevator\+\_\+group\+\_\+state\+\_\+t}{p.}{structelevator__group__state__t} 
+elevator\+\_\+group\+\_\+state\+\_\+t 
 
-\doxyref{elevator\+\_\+state\+\_\+manager.\+h}{p.}{elevator__state__manager_8h}
+elevator\+\_\+state\+\_\+manager.\+h
 \end{DoxySeeAlso}
 Estado global del grupo de ascensores gestionado por este gateway.
 
@@ -69,19 +298,19 @@ Grupo de ascensores gestionado.
 
 Estado del grupo de ascensores gestionado.
 
-Declaración externa para acceder al estado del grupo de ascensores gestionado en \doxyref{main.\+c}{p.}{main_8c}. Contiene información completa de todos los ascensores del edificio.
+Declaración externa para acceder al estado del grupo de ascensores gestionado en \doxylink{main_8c}{main.\+c}. Contiene información completa de todos los ascensores del edificio.
 
 \begin{DoxySeeAlso}{See also}
-\doxyref{elevator\+\_\+group\+\_\+state\+\_\+t}{p.}{structelevator__group__state__t} 
+elevator\+\_\+group\+\_\+state\+\_\+t 
 
-\doxyref{main.\+c}{p.}{main_8c}
+\doxylink{main_8c}{main.\+c}
 \end{DoxySeeAlso}
 Estado del grupo de ascensores gestionado por este gateway.
 
 Contiene el estado completo de todos los ascensores del edificio gestionado por este API Gateway, incluyendo posiciones actuales, tareas asignadas, estados de puertas y disponibilidad.
 
 \begin{DoxySeeAlso}{See also}
-\doxyref{elevator\+\_\+group\+\_\+state\+\_\+t}{p.}{structelevator__group__state__t} 
+elevator\+\_\+group\+\_\+state\+\_\+t 
 
-\doxyref{elevator\+\_\+state\+\_\+manager.\+h}{p.}{elevator__state__manager_8h} 
+elevator\+\_\+state\+\_\+manager.\+h 
 \end{DoxySeeAlso}

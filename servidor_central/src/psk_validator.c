@@ -1,14 +1,14 @@
 /**
  * @file psk_validator.c
- * @brief Implementación del validador de claves PSK para autenticación DTLS
+ * @brief Implementación del validador de credenciales para autenticación DTLS
  * @author Sistema de Control de Ascensores
  * @version 2.0
  * @date 2025
  * 
- * @details Este archivo implementa el sistema de validación de claves PSK
- * utilizado en la autenticación DTLS-PSK del servidor central. El sistema
- * carga claves desde un archivo pre-generado y proporciona funciones para
- * validar y obtener claves de forma determinística basada en la identidad
+ * @details Este archivo implementa el sistema de validación de credenciales
+ * utilizado en la autenticación DTLS del servidor central. El sistema
+ * carga credenciales desde un archivo de configuración y proporciona funciones para
+ * validar y obtener credenciales de forma determinística basada en la identidad
  * del cliente.
  * 
  * @see psk_validator.h
@@ -22,48 +22,48 @@
 #include <stdint.h>
 
 /**
- * @brief Estructura para almacenar las claves PSK válidas
+ * @brief Estructura para almacenar las credenciales válidas
  * 
- * @details Esta estructura mantiene en memoria todas las claves PSK válidas
- * cargadas desde el archivo de claves. Utiliza un array dinámico para
- * almacenar las claves como strings.
+ * @details Esta estructura tiene todas las credenciales válidas
+ * cargadas desde el archivo de configuración. Utiliza un array dinámico para
+ * almacenar las credenciales como strings.
  */
 typedef struct {
-    char** keys;        /**< Array de punteros a claves PSK */
-    int count;          /**< Número actual de claves cargadas */
+    char** keys;        /**< Array de punteros a credenciales */
+    int count;          /**< Número actual de credenciales cargadas */
     int capacity;       /**< Capacidad total del array */
 } psk_valid_keys_t;
 
 /**
- * @brief Variable global que almacena las claves PSK válidas
+ * @brief Variable global que almacena las credenciales válidas
  * 
- * @details Esta variable global mantiene el estado del validador de claves PSK.
- * Contiene todas las claves cargadas desde el archivo de configuración.
+ * @details Esta variable global mantiene el estado del validador de credenciales.
+ * Contiene todas las credenciales cargadas desde el archivo de configuración.
  */
 static psk_valid_keys_t g_valid_keys = {NULL, 0, 0};
 
 /**
- * @brief Inicializa el validador de claves PSK
+ * @brief Inicializa el validador de credenciales
  * 
- * @param[in] keys_file_path Ruta al archivo de claves PSK
+ * @param[in] keys_file_path Ruta al archivo de configuración de autenticación
  * 
  * @return 0 si se inicializó correctamente, -1 en caso de error
  * 
- * @details Esta función inicializa el sistema de validación de claves PSK:
- * - Abre el archivo de claves PSK especificado
+ * @details Esta función inicializa el sistema de validación de credenciales:
+ * - Abre el archivo de configuración especificado
  * - Cuenta el número de líneas en el archivo
- * - Asigna memoria dinámica para almacenar las claves
- * - Lee todas las claves del archivo y las almacena en memoria
+ * - Asigna memoria dinámica para almacenar las credenciales
+ * - Lee todas las credenciales del archivo y las almacena en memoria
  * - Cierra el archivo después de la carga
  * 
- * @note El archivo de claves debe contener una clave por línea
+ * @note El archivo debe contener una credencial por línea
  * @note La función maneja automáticamente la memoria dinámica
  * @see psk_validator_cleanup
  */
 int psk_validator_init(const char* keys_file_path) {
     FILE* file = fopen(keys_file_path, "r");
     if (!file) {
-        fprintf(stderr, "Error: No se pudo abrir el archivo de claves PSK: %s\n", keys_file_path);
+        fprintf(stderr, "Error: No se pudo abrir el archivo de configuración de autenticación: %s\n", keys_file_path);
         return -1;
     }
     
@@ -78,7 +78,7 @@ int psk_validator_init(const char* keys_file_path) {
     g_valid_keys.capacity = line_count;
     g_valid_keys.keys = malloc(line_count * sizeof(char*));
     if (!g_valid_keys.keys) {
-        fprintf(stderr, "Error: No se pudo asignar memoria para las claves PSK válidas\n");
+        fprintf(stderr, "Error: No se pudo asignar memoria para las credenciales válidas\n");
         fclose(file);
         return -1;
     }
@@ -86,7 +86,7 @@ int psk_validator_init(const char* keys_file_path) {
     // Volver al inicio del archivo
     rewind(file);
     
-    // Leer claves
+    // Leer credenciales
     int index = 0;
     while (fgets(buffer, sizeof(buffer), file) && index < line_count) {
         // Remover salto de línea
@@ -95,10 +95,10 @@ int psk_validator_init(const char* keys_file_path) {
             buffer[len-1] = '\0';
         }
         
-        // Asignar memoria para la clave
+        // Asignar memoria para la credencial
         g_valid_keys.keys[index] = strdup(buffer);
         if (!g_valid_keys.keys[index]) {
-            fprintf(stderr, "Error: No se pudo asignar memoria para la clave válida %d\n", index);
+            fprintf(stderr, "Error: No se pudo asignar memoria para la credencial válida %d\n", index);
             fclose(file);
             return -1;
         }
@@ -108,67 +108,67 @@ int psk_validator_init(const char* keys_file_path) {
     g_valid_keys.count = index;
     fclose(file);
     
-    printf("PSK Validator: Cargadas %d claves válidas desde %s\n", g_valid_keys.count, keys_file_path);
+    printf("Validador de credenciales: Cargadas %d credenciales válidas desde %s\n", g_valid_keys.count, keys_file_path);
     return 0;
 }
 
 /**
- * @brief Valida si una clave PSK está en la lista de claves válidas
+ * @brief Valida si unas credenciales están en la lista de credenciales válidas
  * 
- * @param[in] key Clave PSK a validar
- * @param[in] key_len Longitud de la clave en bytes
+ * @param[in] key Credenciales a validar
+ * @param[in] key_len Longitud de las credenciales en bytes
  * 
- * @return 1 si la clave es válida, 0 si no lo es
+ * @return 1 si las credenciales son válidas, 0 si no lo son
  * 
- * @details Esta función valida una clave PSK contra la lista de claves válidas:
- * - Verifica que haya claves cargadas en memoria
- * - Compara la clave proporcionada con cada clave almacenada
+ * @details Esta función valida unas credenciales contra la lista de credenciales válidas:
+ * - Verifica que haya credenciales cargadas en memoria
+ * - Compara las credenciales proporcionadas con cada credencial almacenada
  * - Utiliza comparación exacta de longitud y contenido
  * - Retorna el resultado de la validación
  * 
- * @note La búsqueda es lineal O(n) donde n es el número de claves
+ * @note La búsqueda es lineal O(n) donde n es el número de credenciales
  * @note La función es thread-safe para lecturas concurrentes
  * @see psk_validator_get_key_for_identity
  */
 int psk_validator_check_key(const char* key, size_t key_len) {
     if (g_valid_keys.count == 0) {
-        fprintf(stderr, "Error: No hay claves PSK válidas cargadas\n");
+        fprintf(stderr, "Error: No hay credenciales válidas cargadas\n");
         return 0;
     }
     
-    // Buscar la clave en la lista de claves válidas
+    // Buscar las credenciales en la lista de credenciales válidas
     for (int i = 0; i < g_valid_keys.count; i++) {
         if (strlen(g_valid_keys.keys[i]) == key_len && 
             strncmp(g_valid_keys.keys[i], key, key_len) == 0) {
-            return 1; // Clave válida encontrada
+            return 1; // Credenciales válidas encontradas
         }
     }
     
-    return 0; // Clave no encontrada
+    return 0; // Credenciales no encontradas
 }
 
 /**
- * @brief Obtiene una clave PSK válida para una identidad específica
+ * @brief Obtiene credenciales válidas para una identidad específica
  * 
  * @param[in] identity Identidad del cliente
- * @param[out] key_buffer Buffer donde se almacenará la clave
+ * @param[out] key_buffer Buffer donde se almacenarán las credenciales
  * @param[in] buffer_size Tamaño del buffer en bytes
  * 
  * @return 0 si se obtuvo correctamente, -1 en caso de error
  * 
- * @details Esta función obtiene la clave PSK correspondiente a una identidad:
+ * @details Esta función obtiene las credenciales correspondientes a una identidad:
  * - Calcula un hash determinístico de la identidad
- * - Usa el hash como índice para seleccionar una clave
- * - Copia la clave seleccionada al buffer proporcionado
+ * - Usa el hash como índice para seleccionar unas credenciales
+ * - Copia las credenciales seleccionadas al buffer proporcionado
  * - Verifica que el buffer tenga espacio suficiente
  * 
- * @note La selección es determinística: misma identidad = misma clave
+ * @note La selección es determinística: misma identidad = mismas credenciales
  * @note El algoritmo usa hash simple para distribución uniforme
  * @see psk_validator_check_key
  */
 int psk_validator_get_key_for_identity(const char* identity, uint8_t* key_buffer, size_t buffer_size) {
     if (g_valid_keys.count == 0) {
-        fprintf(stderr, "Error: No hay claves PSK válidas cargadas\n");
+        fprintf(stderr, "Error: No hay credenciales válidas cargadas\n");
         return -1;
     }
     
@@ -178,14 +178,14 @@ int psk_validator_get_key_for_identity(const char* identity, uint8_t* key_buffer
         seed = seed * 31 + identity[i];
     }
     
-    // Seleccionar clave basada en el hash de la identidad
+    // Seleccionar credenciales basadas en el hash de la identidad
     int selected_index = seed % g_valid_keys.count;
     const char* selected_key = g_valid_keys.keys[selected_index];
     
-    // Copiar clave al buffer
+    // Copiar credenciales al buffer
     size_t key_len = strlen(selected_key);
     if (key_len >= buffer_size) {
-        fprintf(stderr, "Error: Buffer insuficiente para la clave PSK\n");
+        fprintf(stderr, "Error: Buffer insuficiente para las credenciales\n");
         return -1;
     }
     
@@ -196,18 +196,18 @@ int psk_validator_get_key_for_identity(const char* identity, uint8_t* key_buffer
 }
 
 /**
- * @brief Obtiene una clave PSK por índice específico
+ * @brief Obtiene credenciales por índice específico
  * 
- * @param[in] index Índice de la clave en el archivo (0-based)
- * @param[out] key_buffer Buffer donde se almacenará la clave
+ * @param[in] index Índice de las credenciales en el archivo (0-based)
+ * @param[out] key_buffer Buffer donde se almacenarán las credenciales
  * @param[in] buffer_size Tamaño del buffer en bytes
  * 
  * @return 0 si se obtuvo correctamente, -1 en caso de error
  * 
- * @details Esta función obtiene una clave PSK por su posición en el array:
+ * @details Esta función obtiene credenciales por su posición en el array:
  * - Valida que el índice esté dentro del rango válido
- * - Obtiene la clave del array de claves cargadas
- * - Copia la clave al buffer proporcionado
+ * - Obtiene las credenciales del array de credenciales cargadas
+ * - Copia las credenciales al buffer proporcionado
  * - Verifica que el buffer tenga espacio suficiente
  * 
  * @note El índice debe estar entre 0 y count-1
@@ -215,12 +215,12 @@ int psk_validator_get_key_for_identity(const char* identity, uint8_t* key_buffer
  */
 int psk_validator_get_key_by_index(int index, uint8_t* key_buffer, size_t buffer_size) {
     if (g_valid_keys.count == 0) {
-        fprintf(stderr, "Error: No hay claves PSK válidas cargadas\n");
+        fprintf(stderr, "Error: No hay credenciales válidas cargadas\n");
         return -1;
     }
     
     if (index < 0 || index >= g_valid_keys.count) {
-        fprintf(stderr, "Error: Índice de clave PSK fuera de rango: %d\n", index);
+        fprintf(stderr, "Error: Índice de credenciales fuera de rango: %d\n", index);
         return -1;
     }
     
@@ -228,7 +228,7 @@ int psk_validator_get_key_by_index(int index, uint8_t* key_buffer, size_t buffer
     size_t key_len = strlen(selected_key);
     
     if (key_len >= buffer_size) {
-        fprintf(stderr, "Error: Buffer insuficiente para la clave PSK\n");
+        fprintf(stderr, "Error: Buffer insuficiente para las credenciales\n");
         return -1;
     }
     
@@ -239,11 +239,11 @@ int psk_validator_get_key_by_index(int index, uint8_t* key_buffer, size_t buffer
 }
 
 /**
- * @brief Libera los recursos del validador de claves PSK
+ * @brief Libera los recursos del validador de credenciales
  * 
  * @details Esta función limpia todos los recursos asociados al validador:
- * - Libera cada clave individual del array
- * - Libera el array de punteros a claves
+ * - Libera cada credencial individual del array
+ * - Libera el array de punteros a credenciales
  * - Resetea los contadores y punteros
  * - Prepara el validador para una nueva inicialización
  * 
@@ -264,12 +264,12 @@ void psk_validator_cleanup(void) {
 }
 
 /**
- * @brief Obtiene el número total de claves PSK disponibles
+ * @brief Obtiene el número total de credenciales disponibles
  * 
- * @return Número de claves PSK en el archivo
+ * @return Número de credenciales en el archivo
  * 
- * @details Esta función retorna el número total de claves PSK que han sido
- * cargadas desde el archivo de claves.
+ * @details Esta función retorna el número total de credenciales que han sido
+ * cargadas desde el archivo de configuración.
  * 
  * @note Solo es válida después de llamar a psk_validator_init
  */
@@ -282,7 +282,7 @@ int psk_validator_get_key_count(void) {
  * 
  * @return 1 si está inicializado, 0 en caso contrario
  * 
- * @details Esta función verifica si el validador de claves PSK ha sido
+ * @details Esta función verifica si el validador de credenciales ha sido
  * inicializado correctamente y está listo para su uso.
  * 
  * @note Útil para verificar el estado antes de usar otras funciones

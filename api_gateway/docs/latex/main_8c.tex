@@ -1,42 +1,64 @@
 \doxysection{src/main.c File Reference}
-\label{main_8c}\index{src/main.c@{src/main.c}}
+\hypertarget{main_8c}{}\label{main_8c}\index{src/main.c@{src/main.c}}
 
 
 Punto de entrada principal del API Gateway del Sistema de Control de Ascensores.  
 
 
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include $<$signal.\+h$>$}\newline
+{\ttfamily \#include $<$errno.\+h$>$}\newline
+{\ttfamily \#include $<$sys/socket.\+h$>$}\newline
+{\ttfamily \#include $<$netinet/in.\+h$>$}\newline
+{\ttfamily \#include $<$arpa/inet.\+h$>$}\newline
+{\ttfamily \#include $<$time.\+h$>$}\newline
+{\ttfamily \#include $<$stdbool.\+h$>$}\newline
+{\ttfamily \#include $<$coap3/coap.\+h$>$}\newline
+{\ttfamily \#include $<$coap3/coap\+\_\+address.\+h$>$}\newline
+{\ttfamily \#include $<$coap3/coap\+\_\+event.\+h$>$}\newline
+{\ttfamily \#include "{}api\+\_\+gateway/api\+\_\+handlers.\+h"{}}\newline
+{\ttfamily \#include "{}api\+\_\+gateway/elevator\+\_\+state\+\_\+manager.\+h"{}}\newline
+{\ttfamily \#include "{}api\+\_\+gateway/can\+\_\+bridge.\+h"{}}\newline
+{\ttfamily \#include $<$c\+JSON.\+h$>$}\newline
+{\ttfamily \#include "{}api\+\_\+gateway/logging\+\_\+gw.\+h"{}}\newline
+{\ttfamily \#include "{}dotenv.\+h"{}}\newline
+{\ttfamily \#include $<$unistd.\+h$>$}\newline
+{\ttfamily \#include "{}psk\+\_\+manager.\+h"{}}\newline
+{\ttfamily \#include "{}api\+\_\+gateway/execution\+\_\+logger.\+h"{}}\newline
+Include dependency graph for main.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{main_8c__incl}
+\end{center}
+\end{figure}
 \doxysubsubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-static char $\ast$ \textbf{ generate\+\_\+unique\+\_\+identity} ()
-\item 
-static char $\ast$ \textbf{ generate\+\_\+unique\+\_\+psk\+\_\+key} ()
-\item 
-static void \textbf{ simulate\+\_\+elevator\+\_\+group\+\_\+step} (coap\+\_\+context\+\_\+t $\ast$ctx, \textbf{ elevator\+\_\+group\+\_\+state\+\_\+t} $\ast$group)
-\begin{DoxyCompactList}\small\item\em Simula un paso de movimiento para todos los ascensores del grupo. \end{DoxyCompactList}\item 
-void \textbf{ inicializar\+\_\+mi\+\_\+simulacion\+\_\+ascensor} (void)
+void \mbox{\hyperlink{main_8c_acfc4758bf8842f413c4d9e1c5ce6053d}{inicializar\+\_\+mi\+\_\+simulacion\+\_\+ascensor}} (void)
 \begin{DoxyCompactList}\small\item\em Inicializa el simulador de ascensores. \end{DoxyCompactList}\item 
-void \textbf{ simular\+\_\+eventos\+\_\+ascensor} (void)
-\begin{DoxyCompactList}\small\item\em Ejecuta una secuencia de eventos simulados de ascensor desde JSON. \end{DoxyCompactList}\item 
-static int \textbf{ event\+\_\+handler\+\_\+gw} (coap\+\_\+session\+\_\+t $\ast$session, coap\+\_\+event\+\_\+t event)
-\begin{DoxyCompactList}\small\item\em Manejador de eventos Co\+AP para sesiones DTLS. \end{DoxyCompactList}\item 
-coap\+\_\+session\+\_\+t $\ast$ \textbf{ get\+\_\+or\+\_\+create\+\_\+central\+\_\+server\+\_\+dtls\+\_\+session} (coap\+\_\+context\+\_\+t $\ast$ctx)
+void \mbox{\hyperlink{main_8c_a5c86f739de835826e9fa6dd607c52ec9}{simular\+\_\+eventos\+\_\+ascensor}} (void)
+\begin{DoxyCompactList}\small\item\em Ejecuta una secuencia de eventos simulados de ascensor desde JSON de forma no-\/bloqueante. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{main_8c_a4a5671b859ec369365a41ed5e9d2084d}{procesar\+\_\+siguiente\+\_\+peticion\+\_\+simulacion}} (void)
+\begin{DoxyCompactList}\small\item\em Procesa la siguiente petición de la simulación no-\/bloqueante. \end{DoxyCompactList}\item 
+coap\+\_\+session\+\_\+t \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{main_8c_a7910799dc4997ea7ff42bb0339134d94}{get\+\_\+or\+\_\+create\+\_\+central\+\_\+server\+\_\+dtls\+\_\+session}} (coap\+\_\+context\+\_\+t \texorpdfstring{$\ast$}{*}ctx)
 \begin{DoxyCompactList}\small\item\em Obtiene o crea una sesión DTLS con el servidor central. \end{DoxyCompactList}\item 
-int \textbf{ main} (int argc, char $\ast$argv[$\,$])
+int \mbox{\hyperlink{main_8c_a0ddf1224851353fc92bfbff6f499fa97}{main}} (int argc, char \texorpdfstring{$\ast$}{*}argv\mbox{[}$\,$\mbox{]})
 \begin{DoxyCompactList}\small\item\em Main function for the API Gateway. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Variables}
 \begin{DoxyCompactItemize}
 \item 
-volatile sig\+\_\+atomic\+\_\+t \textbf{ quit\+\_\+main\+\_\+loop} = 0
+volatile sig\+\_\+atomic\+\_\+t \mbox{\hyperlink{main_8c_a8a485bed3bbf69f7556aa3167043d7e2}{quit\+\_\+main\+\_\+loop}} = 0
 \begin{DoxyCompactList}\small\item\em Bandera global para controlar el bucle principal de la aplicación. \end{DoxyCompactList}\item 
-\textbf{ elevator\+\_\+group\+\_\+state\+\_\+t} \textbf{ managed\+\_\+elevator\+\_\+group}
+elevator\+\_\+group\+\_\+state\+\_\+t \mbox{\hyperlink{main_8c_a2e69b946477ed035db425886fe261a13}{managed\+\_\+elevator\+\_\+group}}
 \begin{DoxyCompactList}\small\item\em Estado global del grupo de ascensores gestionado por este gateway. \end{DoxyCompactList}\item 
-coap\+\_\+context\+\_\+t $\ast$ \textbf{ g\+\_\+coap\+\_\+context} = NULL
+coap\+\_\+context\+\_\+t \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{main_8c_abc8b9aeba00fbf6aeb7c811c034f383c}{g\+\_\+coap\+\_\+context}} = NULL
 \begin{DoxyCompactList}\small\item\em Contexto Co\+AP global para la simulación y gestión de sesiones. \end{DoxyCompactList}\item 
-coap\+\_\+session\+\_\+t $\ast$ \textbf{ g\+\_\+dtls\+\_\+session\+\_\+to\+\_\+central\+\_\+server} = NULL
-\begin{DoxyCompactList}\small\item\em Sesión DTLS global con el servidor central. \end{DoxyCompactList}\item 
-static coap\+\_\+context\+\_\+t $\ast$ \textbf{ g\+\_\+coap\+\_\+context\+\_\+for\+\_\+session\+\_\+mgnt} = NULL
-\begin{DoxyCompactList}\small\item\em Contexto Co\+AP para la gestión de sesiones DTLS. \end{DoxyCompactList}\end{DoxyCompactItemize}
+coap\+\_\+session\+\_\+t \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{main_8c_abe546e2cc7517fb0f6e0218ca1e3ff10}{g\+\_\+dtls\+\_\+session\+\_\+to\+\_\+central\+\_\+server}} = NULL
+\begin{DoxyCompactList}\small\item\em Sesión DTLS global con el servidor central. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
@@ -55,7 +77,7 @@ Este archivo implementa el API Gateway que actúa como intermediario entre los c
 
 
 \begin{DoxyItemize}
-\item {\bfseries{Inicialización Co\+AP}}\+: Configuración del contexto Co\+AP con soporte DTLS-\/\+PSK
+\item {\bfseries{Inicialización Co\+AP}}\+: Configuración del contexto Co\+AP con soporte DTLS
 \item {\bfseries{Gestión de Recursos}}\+: Registro de endpoints Co\+AP para recibir solicitudes
 \item {\bfseries{Puente CAN-\/\+Co\+AP}}\+: Transformación de mensajes CAN a solicitudes Co\+AP
 \item {\bfseries{Gestión de Estado}}\+: Mantenimiento del estado local de ascensores
@@ -71,62 +93,22 @@ El gateway procesa dos tipos principales de solicitudes\+:
 \end{DoxyItemize}
 
 \begin{DoxySeeAlso}{See also}
-api\+\_\+handlers.\+h 
+\doxylink{api__handlers_8h}{api\+\_\+handlers.\+h} 
 
-\doxyref{elevator\+\_\+state\+\_\+manager.\+h}{p.}{elevator__state__manager_8h} 
+elevator\+\_\+state\+\_\+manager.\+h 
 
-\doxyref{can\+\_\+bridge.\+h}{p.}{can__bridge_8h} 
+can\+\_\+bridge.\+h 
 
-\doxyref{coap\+\_\+config.\+h}{p.}{coap__config_8h} 
+coap\+\_\+config.\+h 
 \end{DoxySeeAlso}
 
 
 \doxysubsection{Function Documentation}
-\label{main_8c_a4d72c24b61707ff5f39a4123ca8cd833} 
-\index{main.c@{main.c}!event\_handler\_gw@{event\_handler\_gw}}
-\index{event\_handler\_gw@{event\_handler\_gw}!main.c@{main.c}}
-\doxysubsubsection{event\_handler\_gw()}
-{\footnotesize\ttfamily static int event\+\_\+handler\+\_\+gw (\begin{DoxyParamCaption}\item[{coap\+\_\+session\+\_\+t $\ast$}]{session,  }\item[{coap\+\_\+event\+\_\+t}]{event }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
-
-
-
-Manejador de eventos Co\+AP para sesiones DTLS. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em session} & Sesión Co\+AP que generó el evento \\
-\hline
-{\em event} & Tipo de evento ocurrido \\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-0 si el evento se procesó correctamente
-\end{DoxyReturn}
-Esta función maneja eventos relacionados con sesiones DTLS, especialmente cierres de conexión y errores. Limpia automáticamente la sesión global cuando se detecta que se ha cerrado o ha fallado.
-
-Eventos manejados\+:
-\begin{DoxyItemize}
-\item COAP\+\_\+\+EVENT\+\_\+\+DTLS\+\_\+\+CLOSED\+: Sesión DTLS cerrada
-\item COAP\+\_\+\+EVENT\+\_\+\+DTLS\+\_\+\+ERROR\+: Error en sesión DTLS
-\item COAP\+\_\+\+EVENT\+\_\+\+SESSION\+\_\+\+CLOSED\+: Sesión cerrada
-\item COAP\+\_\+\+EVENT\+\_\+\+SESSION\+\_\+\+FAILED\+: Sesión falló 
-\end{DoxyItemize}\label{main_8c_aaab19c59907fdd4643b33b5056420f9b} 
-\index{main.c@{main.c}!generate\_unique\_identity@{generate\_unique\_identity}}
-\index{generate\_unique\_identity@{generate\_unique\_identity}!main.c@{main.c}}
-\doxysubsubsection{generate\_unique\_identity()}
-{\footnotesize\ttfamily static char $\ast$ generate\+\_\+unique\+\_\+identity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
-
-\label{main_8c_a7deba370f74d01d89ecd93cb376b1873} 
-\index{main.c@{main.c}!generate\_unique\_psk\_key@{generate\_unique\_psk\_key}}
-\index{generate\_unique\_psk\_key@{generate\_unique\_psk\_key}!main.c@{main.c}}
-\doxysubsubsection{generate\_unique\_psk\_key()}
-{\footnotesize\ttfamily static char $\ast$ generate\+\_\+unique\+\_\+psk\+\_\+key (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
-
-\label{main_8c_a7910799dc4997ea7ff42bb0339134d94} 
+\Hypertarget{main_8c_a7910799dc4997ea7ff42bb0339134d94}\label{main_8c_a7910799dc4997ea7ff42bb0339134d94} 
 \index{main.c@{main.c}!get\_or\_create\_central\_server\_dtls\_session@{get\_or\_create\_central\_server\_dtls\_session}}
 \index{get\_or\_create\_central\_server\_dtls\_session@{get\_or\_create\_central\_server\_dtls\_session}!main.c@{main.c}}
-\doxysubsubsection{get\_or\_create\_central\_server\_dtls\_session()}
-{\footnotesize\ttfamily coap\+\_\+session\+\_\+t $\ast$ get\+\_\+or\+\_\+create\+\_\+central\+\_\+server\+\_\+dtls\+\_\+session (\begin{DoxyParamCaption}\item[{coap\+\_\+context\+\_\+t $\ast$}]{ctx }\end{DoxyParamCaption})}
+\doxysubsubsection{\texorpdfstring{get\_or\_create\_central\_server\_dtls\_session()}{get\_or\_create\_central\_server\_dtls\_session()}}
+{\footnotesize\ttfamily coap\+\_\+session\+\_\+t \texorpdfstring{$\ast$}{*} get\+\_\+or\+\_\+create\+\_\+central\+\_\+server\+\_\+dtls\+\_\+session (\begin{DoxyParamCaption}\item[{coap\+\_\+context\+\_\+t \texorpdfstring{$\ast$}{*}}]{ctx }\end{DoxyParamCaption})}
 
 
 
@@ -160,14 +142,14 @@ La función utiliza las siguientes configuraciones\+:
 \end{DoxyItemize}
 
 \begin{DoxySeeAlso}{See also}
-\doxyref{event\+\_\+handler\+\_\+gw()}{p.}{main_8c_a4d72c24b61707ff5f39a4123ca8cd833} 
+event\+\_\+handler\+\_\+gw() 
 
-\doxyref{coap\+\_\+config.\+h}{p.}{coap__config_8h} 
+coap\+\_\+config.\+h 
 \end{DoxySeeAlso}
-\label{main_8c_acfc4758bf8842f413c4d9e1c5ce6053d} 
+\Hypertarget{main_8c_acfc4758bf8842f413c4d9e1c5ce6053d}\label{main_8c_acfc4758bf8842f413c4d9e1c5ce6053d} 
 \index{main.c@{main.c}!inicializar\_mi\_simulacion\_ascensor@{inicializar\_mi\_simulacion\_ascensor}}
 \index{inicializar\_mi\_simulacion\_ascensor@{inicializar\_mi\_simulacion\_ascensor}!main.c@{main.c}}
-\doxysubsubsection{inicializar\_mi\_simulacion\_ascensor()}
+\doxysubsubsection{\texorpdfstring{inicializar\_mi\_simulacion\_ascensor()}{inicializar\_mi\_simulacion\_ascensor()}}
 {\footnotesize\ttfamily void inicializar\+\_\+mi\+\_\+simulacion\+\_\+ascensor (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
 
 
@@ -185,17 +167,17 @@ Esta función configura el simulador registrando el callback de respuesta CAN en
 \end{DoxyItemize}
 
 \begin{DoxySeeAlso}{See also}
-\doxyref{ag\+\_\+can\+\_\+bridge\+\_\+register\+\_\+send\+\_\+callback()}{p.}{can__bridge_8c_a82b3383904e65573e79b59f4b7c5ef15} 
+\doxylink{can__bridge_8c_a82b3383904e65573e79b59f4b7c5ef15}{ag\+\_\+can\+\_\+bridge\+\_\+register\+\_\+send\+\_\+callback()} 
 
-\doxyref{cargar\+\_\+datos\+\_\+simulacion()}{p.}{group__simulation__functions_ga189a79642cdf0001b3a29062e4180af3} 
+\doxylink{simulation__loader_8c_a189a79642cdf0001b3a29062e4180af3}{cargar\+\_\+datos\+\_\+simulacion()} 
 
-\doxyref{mi\+\_\+simulador\+\_\+recibe\+\_\+can\+\_\+gw()}{p.}{mi__simulador__ascensor_8c_adfcf33ff0806b77c246bbd870b029566} 
+\doxylink{mi__simulador__ascensor_8c_adfcf33ff0806b77c246bbd870b029566}{mi\+\_\+simulador\+\_\+recibe\+\_\+can\+\_\+gw()} 
 \end{DoxySeeAlso}
-\label{main_8c_a0ddf1224851353fc92bfbff6f499fa97} 
+\Hypertarget{main_8c_a0ddf1224851353fc92bfbff6f499fa97}\label{main_8c_a0ddf1224851353fc92bfbff6f499fa97} 
 \index{main.c@{main.c}!main@{main}}
 \index{main@{main}!main.c@{main.c}}
-\doxysubsubsection{main()}
-{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$}]{argv[$\,$] }\end{DoxyParamCaption})}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char \texorpdfstring{$\ast$}{*}}]{argv\mbox{[}$\,$\mbox{]} }\end{DoxyParamCaption})}
 
 
 
@@ -207,103 +189,69 @@ Initializes libcoap, sets up the Co\+AP server endpoint for listening to elevato
 \begin{DoxyParams}{Parameters}
 {\em argc} & Número de argumentos de línea de comandos \\
 \hline
-{\em argv} & Array de argumentos de línea de comandos argv[1] (opcional)\+: Puerto de escucha (por defecto usa GW\+\_\+\+LISTEN\+\_\+\+PORT)\\
+{\em argv} & Array de argumentos de línea de comandos argv\mbox{[}1\mbox{]} (opcional)\+: Puerto de escucha (por defecto usa GW\+\_\+\+LISTEN\+\_\+\+PORT)\\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 EXIT\+\_\+\+SUCCESS on successful execution and shutdown, EXIT\+\_\+\+FAILURE on error. 
 \end{DoxyReturn}
-\label{main_8c_a5c86f739de835826e9fa6dd607c52ec9} 
+\Hypertarget{main_8c_a4a5671b859ec369365a41ed5e9d2084d}\label{main_8c_a4a5671b859ec369365a41ed5e9d2084d} 
+\index{main.c@{main.c}!procesar\_siguiente\_peticion\_simulacion@{procesar\_siguiente\_peticion\_simulacion}}
+\index{procesar\_siguiente\_peticion\_simulacion@{procesar\_siguiente\_peticion\_simulacion}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{procesar\_siguiente\_peticion\_simulacion()}{procesar\_siguiente\_peticion\_simulacion()}}
+{\footnotesize\ttfamily bool procesar\+\_\+siguiente\+\_\+peticion\+\_\+simulacion (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+
+
+Procesa la siguiente petición de la simulación no-\/bloqueante. 
+
+Esta función debe llamarse desde el main loop para ejecutar las peticiones de forma incremental, permitiendo que el simulador de movimiento funcione en paralelo.
+
+\begin{DoxyReturn}{Returns}
+true si la simulación continúa, false si ha terminado 
+\end{DoxyReturn}
+\Hypertarget{main_8c_a5c86f739de835826e9fa6dd607c52ec9}\label{main_8c_a5c86f739de835826e9fa6dd607c52ec9} 
 \index{main.c@{main.c}!simular\_eventos\_ascensor@{simular\_eventos\_ascensor}}
 \index{simular\_eventos\_ascensor@{simular\_eventos\_ascensor}!main.c@{main.c}}
-\doxysubsubsection{simular\_eventos\_ascensor()}
+\doxysubsubsection{\texorpdfstring{simular\_eventos\_ascensor()}{simular\_eventos\_ascensor()}}
 {\footnotesize\ttfamily void simular\+\_\+eventos\+\_\+ascensor (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
 
 
 
-Ejecuta una secuencia de eventos simulados de ascensor desde JSON. 
+Ejecuta una secuencia de eventos simulados de ascensor desde JSON de forma no-\/bloqueante. 
 
-Esta función reemplaza la simulación hardcodeada anterior. Ahora carga datos de simulación desde un archivo JSON, selecciona un edificio aleatorio y ejecuta todas sus peticiones secuencialmente.
+Esta función reemplaza la simulación bloqueante anterior. Ahora la simulación se ejecuta de forma incremental, permitiendo que el main loop procese I/O y ejecute la simulación de movimiento entre peticiones.
+
+{\bfseries{Cambios principales\+:}}
+\begin{DoxyItemize}
+\item Simulación no-\/bloqueante (una petición por llamada)
+\item Control regresa al main loop para permitir movimiento de ascensores
+\item Intervalo configurable entre peticiones
+\item Estado global para rastrear progreso
+\end{DoxyItemize}
 
 {\bfseries{Proceso de simulación\+:}}
 \begin{DoxyEnumerate}
-\item Verifica si hay datos de simulación cargados
-\item Selecciona un edificio aleatorio de los 100 disponibles
-\item Configura el ID del edificio en el sistema
-\item Ejecuta las 10 peticiones del edificio secuencialmente
-\item Procesa I/O Co\+AP entre cada petición
+\item Inicialización\+: selecciona edificio y configura estado
+\item Ejecución incremental\+: una petición por llamada
+\item El main loop ejecuta tanto I/O como simulación de movimiento
+\item Finalización automática al completar todas las peticiones
 \end{DoxyEnumerate}
 
-{\bfseries{Fallback\+:}} Si no se pueden cargar los datos JSON, ejecuta la simulación básica de 2 peticiones hardcodeadas como antes.
-
-{\bfseries{Características\+:}}
-\begin{DoxyItemize}
-\item Procesamiento de I/O Co\+AP entre eventos
-\item Logging detallado de cada paso
-\item Sincronización para evitar condiciones de carrera
-\item Configuración automática del ID de edificio
-\end{DoxyItemize}
-
+\begin{DoxyNote}{Note}
+Esta función debe llamarse desde el main loop para ser no-\/bloqueante 
+\end{DoxyNote}
 \begin{DoxySeeAlso}{See also}
-\doxyref{cargar\+\_\+datos\+\_\+simulacion()}{p.}{group__simulation__functions_ga189a79642cdf0001b3a29062e4180af3} 
-
-\doxyref{seleccionar\+\_\+edificio\+\_\+aleatorio()}{p.}{group__simulation__functions_ga87620ad51d06f241a3106a36c40ac787} 
-
-\doxyref{simular\+\_\+llamada\+\_\+de\+\_\+piso\+\_\+via\+\_\+can()}{p.}{mi__simulador__ascensor_8c_ad2f8184c447385d5155da6a8d87e6c16} 
-
-\doxyref{simular\+\_\+solicitud\+\_\+cabina\+\_\+via\+\_\+can()}{p.}{mi__simulador__ascensor_8c_a75bd27a88662d9e2ac061e5285fc7ecb} 
-
-coap\+\_\+io\+\_\+process() 
-\end{DoxySeeAlso}
-\label{main_8c_af318206d98c90d1ed8b33a0f564ad219} 
-\index{main.c@{main.c}!simulate\_elevator\_group\_step@{simulate\_elevator\_group\_step}}
-\index{simulate\_elevator\_group\_step@{simulate\_elevator\_group\_step}!main.c@{main.c}}
-\doxysubsubsection{simulate\_elevator\_group\_step()}
-{\footnotesize\ttfamily static void simulate\+\_\+elevator\+\_\+group\+\_\+step (\begin{DoxyParamCaption}\item[{coap\+\_\+context\+\_\+t $\ast$}]{ctx,  }\item[{\textbf{ elevator\+\_\+group\+\_\+state\+\_\+t} $\ast$}]{group }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
-
-
-
-Simula un paso de movimiento para todos los ascensores del grupo. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em ctx} & Contexto Co\+AP para logging y operaciones \\
-\hline
-{\em group} & Grupo de ascensores a simular\\
-\hline
-\end{DoxyParams}
-Esta función implementa la lógica de simulación de movimiento de ascensores. Se ejecuta periódicamente para actualizar el estado de todos los ascensores que tienen tareas asignadas.
-
-Funcionalidades implementadas\+:
-\begin{DoxyItemize}
-\item {\bfseries{Cierre de puertas}}\+: Cierra puertas antes del movimiento
-\item {\bfseries{Determinación de dirección}}\+: Calcula dirección basada en destino
-\item {\bfseries{Simulación de movimiento}}\+: Mueve ascensores piso por piso
-\item {\bfseries{Detección de llegada}}\+: Detecta cuando un ascensor llega a su destino
-\item {\bfseries{Completado de tareas}}\+: Notifica llegadas y libera ascensores
-\end{DoxyItemize}
-
-La simulación maneja los siguientes estados\+:
-\begin{DoxyItemize}
-\item Ascensores ocupados con destino válido
-\item Movimiento hacia arriba (MOVING\+\_\+\+UP)
-\item Movimiento hacia abajo (MOVING\+\_\+\+DOWN)
-\item Llegada a destino y liberación
-\end{DoxyItemize}
-
-\begin{DoxySeeAlso}{See also}
-\doxyref{elevator\+\_\+group\+\_\+state\+\_\+t}{p.}{structelevator__group__state__t} 
-
-\doxyref{elevator\+\_\+status\+\_\+t}{p.}{structelevator__status__t} 
+simulate\+\_\+elevator\+\_\+group\+\_\+step() -\/ se ejecuta en paralelo 
 \end{DoxySeeAlso}
 
 
 \doxysubsection{Variable Documentation}
-\label{main_8c_abc8b9aeba00fbf6aeb7c811c034f383c} 
+\Hypertarget{main_8c_abc8b9aeba00fbf6aeb7c811c034f383c}\label{main_8c_abc8b9aeba00fbf6aeb7c811c034f383c} 
 \index{main.c@{main.c}!g\_coap\_context@{g\_coap\_context}}
 \index{g\_coap\_context@{g\_coap\_context}!main.c@{main.c}}
-\doxysubsubsection{g\_coap\_context}
-{\footnotesize\ttfamily coap\+\_\+context\+\_\+t$\ast$ g\+\_\+coap\+\_\+context = NULL}
+\doxysubsubsection{\texorpdfstring{g\_coap\_context}{g\_coap\_context}}
+{\footnotesize\ttfamily coap\+\_\+context\+\_\+t\texorpdfstring{$\ast$}{*} g\+\_\+coap\+\_\+context = NULL}
 
 
 
@@ -311,31 +259,21 @@ Contexto Co\+AP global para la simulación y gestión de sesiones.
 
 Contexto Co\+AP global del API Gateway.
 
-Contexto principal utilizado para todas las operaciones Co\+AP, incluyendo la simulación de ascensores y la gestión de sesiones DTLS. \label{main_8c_a003791cd6468260e13e2f2fd719e9fe4} 
-\index{main.c@{main.c}!g\_coap\_context\_for\_session\_mgnt@{g\_coap\_context\_for\_session\_mgnt}}
-\index{g\_coap\_context\_for\_session\_mgnt@{g\_coap\_context\_for\_session\_mgnt}!main.c@{main.c}}
-\doxysubsubsection{g\_coap\_context\_for\_session\_mgnt}
-{\footnotesize\ttfamily coap\+\_\+context\+\_\+t$\ast$ g\+\_\+coap\+\_\+context\+\_\+for\+\_\+session\+\_\+mgnt = NULL\hspace{0.3cm}{\ttfamily [static]}}
-
-
-
-Contexto Co\+AP para la gestión de sesiones DTLS. 
-
-Contexto específico utilizado para el manejo de eventos de sesiones DTLS con el servidor central. \label{main_8c_abe546e2cc7517fb0f6e0218ca1e3ff10} 
+Contexto principal utilizado para todas las operaciones Co\+AP, incluyendo la simulación de ascensores y la gestión de sesiones DTLS. \Hypertarget{main_8c_abe546e2cc7517fb0f6e0218ca1e3ff10}\label{main_8c_abe546e2cc7517fb0f6e0218ca1e3ff10} 
 \index{main.c@{main.c}!g\_dtls\_session\_to\_central\_server@{g\_dtls\_session\_to\_central\_server}}
 \index{g\_dtls\_session\_to\_central\_server@{g\_dtls\_session\_to\_central\_server}!main.c@{main.c}}
-\doxysubsubsection{g\_dtls\_session\_to\_central\_server}
-{\footnotesize\ttfamily coap\+\_\+session\+\_\+t$\ast$ g\+\_\+dtls\+\_\+session\+\_\+to\+\_\+central\+\_\+server = NULL}
+\doxysubsubsection{\texorpdfstring{g\_dtls\_session\_to\_central\_server}{g\_dtls\_session\_to\_central\_server}}
+{\footnotesize\ttfamily coap\+\_\+session\+\_\+t\texorpdfstring{$\ast$}{*} g\+\_\+dtls\+\_\+session\+\_\+to\+\_\+central\+\_\+server = NULL}
 
 
 
 Sesión DTLS global con el servidor central. 
 
-Mantiene la conexión segura DTLS-\/\+PSK con el servidor central para el envío de solicitudes de asignación de ascensores. Se reutiliza para múltiples solicitudes para eficiencia. \label{main_8c_a2e69b946477ed035db425886fe261a13} 
+Mantiene la conexión segura DTLS con el servidor central para el envío de solicitudes de asignación de ascensores. Se reutiliza para múltiples solicitudes para eficiencia. \Hypertarget{main_8c_a2e69b946477ed035db425886fe261a13}\label{main_8c_a2e69b946477ed035db425886fe261a13} 
 \index{main.c@{main.c}!managed\_elevator\_group@{managed\_elevator\_group}}
 \index{managed\_elevator\_group@{managed\_elevator\_group}!main.c@{main.c}}
-\doxysubsubsection{managed\_elevator\_group}
-{\footnotesize\ttfamily \textbf{ elevator\+\_\+group\+\_\+state\+\_\+t} managed\+\_\+elevator\+\_\+group}
+\doxysubsubsection{\texorpdfstring{managed\_elevator\_group}{managed\_elevator\_group}}
+{\footnotesize\ttfamily elevator\+\_\+group\+\_\+state\+\_\+t managed\+\_\+elevator\+\_\+group}
 
 
 
@@ -350,14 +288,14 @@ Estado del grupo de ascensores gestionado por este gateway.
 Contiene el estado completo de todos los ascensores del edificio gestionado por este API Gateway, incluyendo posiciones actuales, tareas asignadas, estados de puertas y disponibilidad.
 
 \begin{DoxySeeAlso}{See also}
-\doxyref{elevator\+\_\+group\+\_\+state\+\_\+t}{p.}{structelevator__group__state__t} 
+elevator\+\_\+group\+\_\+state\+\_\+t 
 
-\doxyref{elevator\+\_\+state\+\_\+manager.\+h}{p.}{elevator__state__manager_8h} 
+elevator\+\_\+state\+\_\+manager.\+h 
 \end{DoxySeeAlso}
-\label{main_8c_a8a485bed3bbf69f7556aa3167043d7e2} 
+\Hypertarget{main_8c_a8a485bed3bbf69f7556aa3167043d7e2}\label{main_8c_a8a485bed3bbf69f7556aa3167043d7e2} 
 \index{main.c@{main.c}!quit\_main\_loop@{quit\_main\_loop}}
 \index{quit\_main\_loop@{quit\_main\_loop}!main.c@{main.c}}
-\doxysubsubsection{quit\_main\_loop}
+\doxysubsubsection{\texorpdfstring{quit\_main\_loop}{quit\_main\_loop}}
 {\footnotesize\ttfamily volatile sig\+\_\+atomic\+\_\+t quit\+\_\+main\+\_\+loop = 0}
 
 
@@ -369,5 +307,5 @@ Bandera para indicar si el bucle principal debe terminar.
 Esta bandera se establece a 1 por el manejador de señal SIGINT (handle\+\_\+sigint\+\_\+gw) para indicar que la aplicación debe terminar de manera elegante.
 
 \begin{DoxySeeAlso}{See also}
-\doxyref{handle\+\_\+sigint\+\_\+gw()}{p.}{api__handlers_8c_a7fd01dcda5b603f45f20d97c84d9260b} 
+\doxylink{api__handlers_8c_a7fd01dcda5b603f45f20d97c84d9260b}{handle\+\_\+sigint\+\_\+gw()} 
 \end{DoxySeeAlso}

@@ -1,22 +1,36 @@
 \doxysection{src/elevator\+\_\+state\+\_\+manager.c File Reference}
-\label{elevator__state__manager_8c}\index{src/elevator\_state\_manager.c@{src/elevator\_state\_manager.c}}
+\hypertarget{elevator__state__manager_8c}{}\label{elevator__state__manager_8c}\index{src/elevator\_state\_manager.c@{src/elevator\_state\_manager.c}}
 
 
 Implementación del Gestor de Estado de Ascensores del API Gateway.  
 
 
+{\ttfamily \#include "{}api\+\_\+gateway/elevator\+\_\+state\+\_\+manager.\+h"{}}\newline
+{\ttfamily \#include "{}api\+\_\+gateway/execution\+\_\+logger.\+h"{}}\newline
+{\ttfamily \#include "{}api\+\_\+gateway/logging\+\_\+gw.\+h"{}}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+Include dependency graph for elevator\+\_\+state\+\_\+manager.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{elevator__state__manager_8c__incl}
+\end{center}
+\end{figure}
 \doxysubsubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-const char $\ast$ \textbf{ door\+\_\+state\+\_\+to\+\_\+string} (\textbf{ door\+\_\+state\+\_\+enum\+\_\+t} state)
+const char \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{elevator__state__manager_8c_aa035ebf813e4df0e747c251865f217db}{door\+\_\+state\+\_\+to\+\_\+string}} (door\+\_\+state\+\_\+enum\+\_\+t state)
 \begin{DoxyCompactList}\small\item\em Convierte un estado de puerta a su representación en string. \end{DoxyCompactList}\item 
-const char $\ast$ \textbf{ movement\+\_\+direction\+\_\+to\+\_\+string} (\textbf{ movement\+\_\+direction\+\_\+enum\+\_\+t} direction)
+const char \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{elevator__state__manager_8c_a9f8c127c735277e87e71a52ba68d2e56}{movement\+\_\+direction\+\_\+to\+\_\+string}} (movement\+\_\+direction\+\_\+enum\+\_\+t direction)
 \begin{DoxyCompactList}\small\item\em Convierte una dirección de movimiento a su representación en string. \end{DoxyCompactList}\item 
-void \textbf{ init\+\_\+elevator\+\_\+group} (\textbf{ elevator\+\_\+group\+\_\+state\+\_\+t} $\ast$group, const char $\ast$edificio\+\_\+id\+\_\+str, int num\+\_\+elevadores, int num\+\_\+pisos)
+void \mbox{\hyperlink{elevator__state__manager_8c_ad1f96394c1b8256e78409c71a912eea1}{init\+\_\+elevator\+\_\+group}} (elevator\+\_\+group\+\_\+state\+\_\+t \texorpdfstring{$\ast$}{*}group, const char \texorpdfstring{$\ast$}{*}edificio\+\_\+id\+\_\+str, int num\+\_\+elevadores, int num\+\_\+pisos)
 \begin{DoxyCompactList}\small\item\em Inicializa un grupo de ascensores con configuración específica. \end{DoxyCompactList}\item 
-c\+JSON $\ast$ \textbf{ elevator\+\_\+group\+\_\+to\+\_\+json\+\_\+for\+\_\+server} (const \textbf{ elevator\+\_\+group\+\_\+state\+\_\+t} $\ast$group, \textbf{ gw\+\_\+request\+\_\+type\+\_\+t} request\+\_\+type, const \textbf{ api\+\_\+request\+\_\+details\+\_\+for\+\_\+json\+\_\+t} $\ast$details)
+c\+JSON \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{elevator__state__manager_8c_ab9cb3524ec8747ce92dc01657dbb7a5a}{elevator\+\_\+group\+\_\+to\+\_\+json\+\_\+for\+\_\+server}} (const elevator\+\_\+group\+\_\+state\+\_\+t \texorpdfstring{$\ast$}{*}group, gw\+\_\+request\+\_\+type\+\_\+t request\+\_\+type, const api\+\_\+request\+\_\+details\+\_\+for\+\_\+json\+\_\+t \texorpdfstring{$\ast$}{*}details)
 \begin{DoxyCompactList}\small\item\em Serializa el estado del grupo de ascensores a JSON para el servidor central. \end{DoxyCompactList}\item 
-void \textbf{ assign\+\_\+task\+\_\+to\+\_\+elevator} (\textbf{ elevator\+\_\+group\+\_\+state\+\_\+t} $\ast$group, const char $\ast$elevator\+\_\+id\+\_\+to\+\_\+update, const char $\ast$task\+\_\+id, int target\+\_\+floor, int current\+\_\+request\+\_\+floor)
+void \mbox{\hyperlink{elevator__state__manager_8c_a7a4e6bf1bb74d59a17c1d77689d93ccc}{assign\+\_\+task\+\_\+to\+\_\+elevator}} (elevator\+\_\+group\+\_\+state\+\_\+t \texorpdfstring{$\ast$}{*}group, const char \texorpdfstring{$\ast$}{*}elevator\+\_\+id\+\_\+to\+\_\+update, const char \texorpdfstring{$\ast$}{*}task\+\_\+id, int target\+\_\+floor, int current\+\_\+request\+\_\+floor)
 \begin{DoxyCompactList}\small\item\em Actualiza el estado de un ascensor tras recibir asignación de tarea. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
@@ -55,20 +69,20 @@ El gestor mantiene información completa de cada ascensor incluyendo\+:
 \end{DoxyItemize}
 
 \begin{DoxySeeAlso}{See also}
-\doxyref{elevator\+\_\+state\+\_\+manager.\+h}{p.}{elevator__state__manager_8h} 
+elevator\+\_\+state\+\_\+manager.\+h 
 
-\doxyref{api\+\_\+common\+\_\+defs.\+h}{p.}{api__common__defs_8h} 
+api\+\_\+common\+\_\+defs.\+h 
 
-api\+\_\+handlers.\+h 
+\doxylink{api__handlers_8h}{api\+\_\+handlers.\+h} 
 \end{DoxySeeAlso}
 
 
 \doxysubsection{Function Documentation}
-\label{elevator__state__manager_8c_a7a4e6bf1bb74d59a17c1d77689d93ccc} 
+\Hypertarget{elevator__state__manager_8c_a7a4e6bf1bb74d59a17c1d77689d93ccc}\label{elevator__state__manager_8c_a7a4e6bf1bb74d59a17c1d77689d93ccc} 
 \index{elevator\_state\_manager.c@{elevator\_state\_manager.c}!assign\_task\_to\_elevator@{assign\_task\_to\_elevator}}
 \index{assign\_task\_to\_elevator@{assign\_task\_to\_elevator}!elevator\_state\_manager.c@{elevator\_state\_manager.c}}
-\doxysubsubsection{assign\_task\_to\_elevator()}
-{\footnotesize\ttfamily void assign\+\_\+task\+\_\+to\+\_\+elevator (\begin{DoxyParamCaption}\item[{\textbf{ elevator\+\_\+group\+\_\+state\+\_\+t} $\ast$}]{group,  }\item[{const char $\ast$}]{elevator\+\_\+id\+\_\+to\+\_\+update,  }\item[{const char $\ast$}]{task\+\_\+id,  }\item[{int}]{target\+\_\+floor,  }\item[{int}]{current\+\_\+request\+\_\+floor }\end{DoxyParamCaption})}
+\doxysubsubsection{\texorpdfstring{assign\_task\_to\_elevator()}{assign\_task\_to\_elevator()}}
+{\footnotesize\ttfamily void assign\+\_\+task\+\_\+to\+\_\+elevator (\begin{DoxyParamCaption}\item[{elevator\+\_\+group\+\_\+state\+\_\+t \texorpdfstring{$\ast$}{*}}]{group,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{elevator\+\_\+id\+\_\+to\+\_\+update,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{task\+\_\+id,  }\item[{int}]{target\+\_\+floor,  }\item[{int}]{current\+\_\+request\+\_\+floor }\end{DoxyParamCaption})}
 
 
 
@@ -87,16 +101,31 @@ Actualiza el estado de un ascensor tras recibir asignación de tarea.
 {\em current\+\_\+request\+\_\+floor} & El piso donde se originó la solicitud\\
 \hline
 \end{DoxyParams}
-Esta función actualiza el estado de un ascensor específico después de recibir una asignación de tarea del servidor central. Establece la tarea, destino, dirección de movimiento y marca el ascensor como ocupado.
+Esta función actualiza el estado de un ascensor específico después de recibir una asignación de tarea del servidor central. Realiza\+:
+
+{\bfseries{Operaciones realizadas\+:}}
+\begin{DoxyItemize}
+\item Busca el ascensor por ID en el grupo
+\item Asigna la nueva tarea y piso destino
+\item Marca el ascensor como ocupado
+\item Determina y actualiza la dirección de movimiento
+\item Registra la asignación en el sistema de logging
+\end{DoxyItemize}
+
+La dirección de movimiento se calcula comparando el piso actual del ascensor con el piso destino de la tarea.
 
 \begin{DoxySeeAlso}{See also}
-\doxyref{elevator\+\_\+status\+\_\+t}{p.}{structelevator__status__t} 
+elevator\+\_\+group\+\_\+state\+\_\+t 
+
+elevator\+\_\+status\+\_\+t 
+
+\doxylink{execution__logger_8c_ac545eb869f25dc8a259c8cc8d79012be}{exec\+\_\+logger\+\_\+log\+\_\+task\+\_\+assigned()} 
 \end{DoxySeeAlso}
-\label{elevator__state__manager_8c_aa035ebf813e4df0e747c251865f217db} 
+\Hypertarget{elevator__state__manager_8c_aa035ebf813e4df0e747c251865f217db}\label{elevator__state__manager_8c_aa035ebf813e4df0e747c251865f217db} 
 \index{elevator\_state\_manager.c@{elevator\_state\_manager.c}!door\_state\_to\_string@{door\_state\_to\_string}}
 \index{door\_state\_to\_string@{door\_state\_to\_string}!elevator\_state\_manager.c@{elevator\_state\_manager.c}}
-\doxysubsubsection{door\_state\_to\_string()}
-{\footnotesize\ttfamily const char $\ast$ door\+\_\+state\+\_\+to\+\_\+string (\begin{DoxyParamCaption}\item[{\textbf{ door\+\_\+state\+\_\+enum\+\_\+t}}]{state }\end{DoxyParamCaption})}
+\doxysubsubsection{\texorpdfstring{door\_state\_to\_string()}{door\_state\_to\_string()}}
+{\footnotesize\ttfamily const char \texorpdfstring{$\ast$}{*} door\+\_\+state\+\_\+to\+\_\+string (\begin{DoxyParamCaption}\item[{door\+\_\+state\+\_\+enum\+\_\+t}]{state }\end{DoxyParamCaption})}
 
 
 
@@ -120,11 +149,11 @@ Estados soportados\+:
 \item DOOR\+\_\+\+OPENING\+: "{}\+ABRIENDO"{}
 \item DOOR\+\_\+\+CLOSING\+: "{}\+CERRANDO"{}
 \item Otros\+: "{}\+DESCONOCIDO"{} 
-\end{DoxyItemize}\label{elevator__state__manager_8c_ab9cb3524ec8747ce92dc01657dbb7a5a} 
+\end{DoxyItemize}\Hypertarget{elevator__state__manager_8c_ab9cb3524ec8747ce92dc01657dbb7a5a}\label{elevator__state__manager_8c_ab9cb3524ec8747ce92dc01657dbb7a5a} 
 \index{elevator\_state\_manager.c@{elevator\_state\_manager.c}!elevator\_group\_to\_json\_for\_server@{elevator\_group\_to\_json\_for\_server}}
 \index{elevator\_group\_to\_json\_for\_server@{elevator\_group\_to\_json\_for\_server}!elevator\_state\_manager.c@{elevator\_state\_manager.c}}
-\doxysubsubsection{elevator\_group\_to\_json\_for\_server()}
-{\footnotesize\ttfamily c\+JSON $\ast$ elevator\+\_\+group\+\_\+to\+\_\+json\+\_\+for\+\_\+server (\begin{DoxyParamCaption}\item[{const \textbf{ elevator\+\_\+group\+\_\+state\+\_\+t} $\ast$}]{group,  }\item[{\textbf{ gw\+\_\+request\+\_\+type\+\_\+t}}]{request\+\_\+type,  }\item[{const \textbf{ api\+\_\+request\+\_\+details\+\_\+for\+\_\+json\+\_\+t} $\ast$}]{details }\end{DoxyParamCaption})}
+\doxysubsubsection{\texorpdfstring{elevator\_group\_to\_json\_for\_server()}{elevator\_group\_to\_json\_for\_server()}}
+{\footnotesize\ttfamily c\+JSON \texorpdfstring{$\ast$}{*} elevator\+\_\+group\+\_\+to\+\_\+json\+\_\+for\+\_\+server (\begin{DoxyParamCaption}\item[{const elevator\+\_\+group\+\_\+state\+\_\+t \texorpdfstring{$\ast$}{*}}]{group,  }\item[{gw\+\_\+request\+\_\+type\+\_\+t}]{request\+\_\+type,  }\item[{const api\+\_\+request\+\_\+details\+\_\+for\+\_\+json\+\_\+t \texorpdfstring{$\ast$}{*}}]{details }\end{DoxyParamCaption})}
 
 
 
@@ -144,24 +173,32 @@ Puntero a objeto c\+JSON que representa el payload, o NULL en caso de error
 \end{DoxyReturn}
 Esta función convierte el estado completo del grupo de ascensores y los detalles de la solicitud específica a un objeto JSON formateado como espera el servidor central para procesamiento de asignaciones.
 
+{\bfseries{JSON generado incluye\+:}}
+\begin{DoxyItemize}
+\item ID del edificio
+\item Detalles específicos de la solicitud (piso origen, destino, etc.)
+\item Array con estado de todos los ascensores del grupo
+\item Para cada ascensor\+: ID, piso actual, estado puertas, disponibilidad
+\end{DoxyItemize}
+
 El llamador es responsable de liberar el objeto c\+JSON con c\+JSON\+\_\+\+Delete().
 
 \begin{DoxySeeAlso}{See also}
-\doxyref{gw\+\_\+request\+\_\+type\+\_\+t}{p.}{elevator__state__manager_8h_a17e4539046553af2ffabda67ff75cbb0} 
+gw\+\_\+request\+\_\+type\+\_\+t 
 
-\doxyref{api\+\_\+request\+\_\+details\+\_\+for\+\_\+json\+\_\+t}{p.}{structapi__request__details__for__json__t} 
+api\+\_\+request\+\_\+details\+\_\+for\+\_\+json\+\_\+t 
+
+elevator\+\_\+group\+\_\+state\+\_\+t 
 \end{DoxySeeAlso}
-\label{elevator__state__manager_8c_ad1f96394c1b8256e78409c71a912eea1} 
+\Hypertarget{elevator__state__manager_8c_ad1f96394c1b8256e78409c71a912eea1}\label{elevator__state__manager_8c_ad1f96394c1b8256e78409c71a912eea1} 
 \index{elevator\_state\_manager.c@{elevator\_state\_manager.c}!init\_elevator\_group@{init\_elevator\_group}}
 \index{init\_elevator\_group@{init\_elevator\_group}!elevator\_state\_manager.c@{elevator\_state\_manager.c}}
-\doxysubsubsection{init\_elevator\_group()}
-{\footnotesize\ttfamily void init\+\_\+elevator\+\_\+group (\begin{DoxyParamCaption}\item[{\textbf{ elevator\+\_\+group\+\_\+state\+\_\+t} $\ast$}]{group,  }\item[{const char $\ast$}]{edificio\+\_\+id\+\_\+str,  }\item[{int}]{num\+\_\+elevadores,  }\item[{int}]{num\+\_\+pisos }\end{DoxyParamCaption})}
+\doxysubsubsection{\texorpdfstring{init\_elevator\_group()}{init\_elevator\_group()}}
+{\footnotesize\ttfamily void init\+\_\+elevator\+\_\+group (\begin{DoxyParamCaption}\item[{elevator\+\_\+group\+\_\+state\+\_\+t \texorpdfstring{$\ast$}{*}}]{group,  }\item[{const char \texorpdfstring{$\ast$}{*}}]{edificio\+\_\+id\+\_\+str,  }\item[{int}]{num\+\_\+elevadores,  }\item[{int}]{num\+\_\+pisos }\end{DoxyParamCaption})}
 
 
 
 Inicializa un grupo de ascensores con configuración específica. 
-
-Inicializa el estado de un grupo de ascensores.
 
 
 \begin{DoxyParams}{Parameters}
@@ -195,15 +232,15 @@ Esta función inicializa completamente un grupo de ascensores con la configuraci
 El número de ascensores debe estar entre 1 y MAX\+\_\+\+ELEVATORS\+\_\+\+PER\+\_\+\+GATEWAY 
 \end{DoxyNote}
 \begin{DoxySeeAlso}{See also}
-\doxyref{elevator\+\_\+group\+\_\+state\+\_\+t}{p.}{structelevator__group__state__t} 
+elevator\+\_\+group\+\_\+state\+\_\+t 
 
-\doxyref{elevator\+\_\+status\+\_\+t}{p.}{structelevator__status__t} 
+elevator\+\_\+status\+\_\+t 
 \end{DoxySeeAlso}
-\label{elevator__state__manager_8c_a9f8c127c735277e87e71a52ba68d2e56} 
+\Hypertarget{elevator__state__manager_8c_a9f8c127c735277e87e71a52ba68d2e56}\label{elevator__state__manager_8c_a9f8c127c735277e87e71a52ba68d2e56} 
 \index{elevator\_state\_manager.c@{elevator\_state\_manager.c}!movement\_direction\_to\_string@{movement\_direction\_to\_string}}
 \index{movement\_direction\_to\_string@{movement\_direction\_to\_string}!elevator\_state\_manager.c@{elevator\_state\_manager.c}}
-\doxysubsubsection{movement\_direction\_to\_string()}
-{\footnotesize\ttfamily const char $\ast$ movement\+\_\+direction\+\_\+to\+\_\+string (\begin{DoxyParamCaption}\item[{\textbf{ movement\+\_\+direction\+\_\+enum\+\_\+t}}]{direction }\end{DoxyParamCaption})}
+\doxysubsubsection{\texorpdfstring{movement\_direction\_to\_string()}{movement\_direction\_to\_string()}}
+{\footnotesize\ttfamily const char \texorpdfstring{$\ast$}{*} movement\+\_\+direction\+\_\+to\+\_\+string (\begin{DoxyParamCaption}\item[{movement\+\_\+direction\+\_\+enum\+\_\+t}]{direction }\end{DoxyParamCaption})}
 
 
 

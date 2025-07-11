@@ -1,44 +1,60 @@
 \doxysection{src/main\+\_\+dynamic\+\_\+port.c File Reference}
-\label{main__dynamic__port_8c}\index{src/main\_dynamic\_port.c@{src/main\_dynamic\_port.c}}
+\hypertarget{main__dynamic__port_8c}{}\label{main__dynamic__port_8c}\index{src/main\_dynamic\_port.c@{src/main\_dynamic\_port.c}}
 
 
 Versión del API Gateway que acepta puerto como parámetro.  
 
 
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include $<$signal.\+h$>$}\newline
+{\ttfamily \#include $<$errno.\+h$>$}\newline
+{\ttfamily \#include $<$sys/socket.\+h$>$}\newline
+{\ttfamily \#include $<$netinet/in.\+h$>$}\newline
+{\ttfamily \#include $<$arpa/inet.\+h$>$}\newline
+{\ttfamily \#include $<$time.\+h$>$}\newline
+{\ttfamily \#include $<$coap3/coap.\+h$>$}\newline
+{\ttfamily \#include $<$coap3/coap\+\_\+address.\+h$>$}\newline
+{\ttfamily \#include $<$coap3/coap\+\_\+event.\+h$>$}\newline
+{\ttfamily \#include "{}api\+\_\+gateway/api\+\_\+handlers.\+h"{}}\newline
+{\ttfamily \#include "{}api\+\_\+gateway/elevator\+\_\+state\+\_\+manager.\+h"{}}\newline
+{\ttfamily \#include "{}api\+\_\+gateway/can\+\_\+bridge.\+h"{}}\newline
+{\ttfamily \#include $<$c\+JSON.\+h$>$}\newline
+{\ttfamily \#include "{}api\+\_\+gateway/logging\+\_\+gw.\+h"{}}\newline
+{\ttfamily \#include "{}api\+\_\+gateway/execution\+\_\+logger.\+h"{}}\newline
+{\ttfamily \#include "{}dotenv.\+h"{}}\newline
+{\ttfamily \#include $<$unistd.\+h$>$}\newline
+Include dependency graph for main\+\_\+dynamic\+\_\+port.\+c\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{main__dynamic__port_8c__incl}
+\end{center}
+\end{figure}
 \doxysubsubsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-static char $\ast$ \textbf{ generate\+\_\+unique\+\_\+identity} ()
-\item 
-static char $\ast$ \textbf{ generate\+\_\+unique\+\_\+psk\+\_\+key} ()
-\item 
-static void \textbf{ simulate\+\_\+elevator\+\_\+group\+\_\+step} (coap\+\_\+context\+\_\+t $\ast$ctx, \textbf{ elevator\+\_\+group\+\_\+state\+\_\+t} $\ast$group)
-\item 
-void \textbf{ inicializar\+\_\+mi\+\_\+simulacion\+\_\+ascensor} (void)
+void \mbox{\hyperlink{main__dynamic__port_8c_acfc4758bf8842f413c4d9e1c5ce6053d}{inicializar\+\_\+mi\+\_\+simulacion\+\_\+ascensor}} (void)
 \begin{DoxyCompactList}\small\item\em Inicializa el simulador de ascensores. \end{DoxyCompactList}\item 
-void \textbf{ simular\+\_\+eventos\+\_\+ascensor} (void)
-\begin{DoxyCompactList}\small\item\em Ejecuta una secuencia de eventos simulados de ascensor desde JSON. \end{DoxyCompactList}\item 
-static int \textbf{ event\+\_\+handler\+\_\+gw} (coap\+\_\+session\+\_\+t $\ast$session, coap\+\_\+event\+\_\+t event)
-\item 
-coap\+\_\+session\+\_\+t $\ast$ \textbf{ get\+\_\+or\+\_\+create\+\_\+central\+\_\+server\+\_\+dtls\+\_\+session} (coap\+\_\+context\+\_\+t $\ast$ctx)
+void \mbox{\hyperlink{main__dynamic__port_8c_a5c86f739de835826e9fa6dd607c52ec9}{simular\+\_\+eventos\+\_\+ascensor}} (void)
+\begin{DoxyCompactList}\small\item\em Ejecuta una secuencia de eventos simulados de ascensor desde JSON de forma no-\/bloqueante. \end{DoxyCompactList}\item 
+coap\+\_\+session\+\_\+t \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{main__dynamic__port_8c_a7910799dc4997ea7ff42bb0339134d94}{get\+\_\+or\+\_\+create\+\_\+central\+\_\+server\+\_\+dtls\+\_\+session}} (coap\+\_\+context\+\_\+t \texorpdfstring{$\ast$}{*}ctx)
 \begin{DoxyCompactList}\small\item\em Obtiene o crea una sesión DTLS con el servidor central. \end{DoxyCompactList}\item 
-int \textbf{ main} (int argc, char $\ast$argv[$\,$])
-\end{DoxyCompactItemize}
+int \mbox{\hyperlink{main__dynamic__port_8c_a0ddf1224851353fc92bfbff6f499fa97}{main}} (int argc, char \texorpdfstring{$\ast$}{*}argv\mbox{[}$\,$\mbox{]})
+\begin{DoxyCompactList}\small\item\em Función principal del API Gateway con puerto dinámico. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Variables}
 \begin{DoxyCompactItemize}
 \item 
-volatile sig\+\_\+atomic\+\_\+t \textbf{ quit\+\_\+main\+\_\+loop} = 0
+volatile sig\+\_\+atomic\+\_\+t \mbox{\hyperlink{main__dynamic__port_8c_a8a485bed3bbf69f7556aa3167043d7e2}{quit\+\_\+main\+\_\+loop}} = 0
 \begin{DoxyCompactList}\small\item\em Bandera para indicar si el bucle principal debe terminar. \end{DoxyCompactList}\item 
-\textbf{ elevator\+\_\+group\+\_\+state\+\_\+t} \textbf{ managed\+\_\+elevator\+\_\+group}
+elevator\+\_\+group\+\_\+state\+\_\+t \mbox{\hyperlink{main__dynamic__port_8c_a2e69b946477ed035db425886fe261a13}{managed\+\_\+elevator\+\_\+group}}
 \begin{DoxyCompactList}\small\item\em Estado del grupo de ascensores gestionado por este gateway. \end{DoxyCompactList}\item 
-coap\+\_\+context\+\_\+t $\ast$ \textbf{ g\+\_\+coap\+\_\+context} = NULL
+coap\+\_\+context\+\_\+t \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{main__dynamic__port_8c_abc8b9aeba00fbf6aeb7c811c034f383c}{g\+\_\+coap\+\_\+context}} = NULL
 \begin{DoxyCompactList}\small\item\em Contexto Co\+AP global del API Gateway. \end{DoxyCompactList}\item 
-coap\+\_\+session\+\_\+t $\ast$ \textbf{ g\+\_\+dtls\+\_\+session\+\_\+to\+\_\+central\+\_\+server} = NULL
-\begin{DoxyCompactList}\small\item\em Sesión DTLS global con el servidor central. \end{DoxyCompactList}\item 
-static coap\+\_\+context\+\_\+t $\ast$ \textbf{ g\+\_\+coap\+\_\+context\+\_\+for\+\_\+session\+\_\+mgnt} = NULL
-\item 
-static int \textbf{ dynamic\+\_\+listen\+\_\+port} = 5683
-\end{DoxyCompactItemize}
+coap\+\_\+session\+\_\+t \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{main__dynamic__port_8c_abe546e2cc7517fb0f6e0218ca1e3ff10}{g\+\_\+dtls\+\_\+session\+\_\+to\+\_\+central\+\_\+server}} = NULL
+\begin{DoxyCompactList}\small\item\em Sesión DTLS global con el servidor central. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
@@ -46,32 +62,14 @@ Versión del API Gateway que acepta puerto como parámetro.
 
 Esta versión permite ejecutar múltiples instancias del API Gateway cada una escuchando en un puerto diferente para pruebas de carga.
 
-Uso\+: ./api\+\_\+gateway\+\_\+dynamic [puerto\+\_\+escucha] Si no se especifica puerto, usa 5683 por defecto. 
+Uso\+: ./api\+\_\+gateway\+\_\+dynamic \mbox{[}puerto\+\_\+escucha\mbox{]} Si no se especifica puerto, usa 5683 por defecto. 
 
 \doxysubsection{Function Documentation}
-\label{main__dynamic__port_8c_a4d72c24b61707ff5f39a4123ca8cd833} 
-\index{main\_dynamic\_port.c@{main\_dynamic\_port.c}!event\_handler\_gw@{event\_handler\_gw}}
-\index{event\_handler\_gw@{event\_handler\_gw}!main\_dynamic\_port.c@{main\_dynamic\_port.c}}
-\doxysubsubsection{event\_handler\_gw()}
-{\footnotesize\ttfamily static int event\+\_\+handler\+\_\+gw (\begin{DoxyParamCaption}\item[{coap\+\_\+session\+\_\+t $\ast$}]{session,  }\item[{coap\+\_\+event\+\_\+t}]{event }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
-
-\label{main__dynamic__port_8c_aaab19c59907fdd4643b33b5056420f9b} 
-\index{main\_dynamic\_port.c@{main\_dynamic\_port.c}!generate\_unique\_identity@{generate\_unique\_identity}}
-\index{generate\_unique\_identity@{generate\_unique\_identity}!main\_dynamic\_port.c@{main\_dynamic\_port.c}}
-\doxysubsubsection{generate\_unique\_identity()}
-{\footnotesize\ttfamily static char $\ast$ generate\+\_\+unique\+\_\+identity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
-
-\label{main__dynamic__port_8c_a7deba370f74d01d89ecd93cb376b1873} 
-\index{main\_dynamic\_port.c@{main\_dynamic\_port.c}!generate\_unique\_psk\_key@{generate\_unique\_psk\_key}}
-\index{generate\_unique\_psk\_key@{generate\_unique\_psk\_key}!main\_dynamic\_port.c@{main\_dynamic\_port.c}}
-\doxysubsubsection{generate\_unique\_psk\_key()}
-{\footnotesize\ttfamily static char $\ast$ generate\+\_\+unique\+\_\+psk\+\_\+key (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
-
-\label{main__dynamic__port_8c_a7910799dc4997ea7ff42bb0339134d94} 
+\Hypertarget{main__dynamic__port_8c_a7910799dc4997ea7ff42bb0339134d94}\label{main__dynamic__port_8c_a7910799dc4997ea7ff42bb0339134d94} 
 \index{main\_dynamic\_port.c@{main\_dynamic\_port.c}!get\_or\_create\_central\_server\_dtls\_session@{get\_or\_create\_central\_server\_dtls\_session}}
 \index{get\_or\_create\_central\_server\_dtls\_session@{get\_or\_create\_central\_server\_dtls\_session}!main\_dynamic\_port.c@{main\_dynamic\_port.c}}
-\doxysubsubsection{get\_or\_create\_central\_server\_dtls\_session()}
-{\footnotesize\ttfamily coap\+\_\+session\+\_\+t $\ast$ get\+\_\+or\+\_\+create\+\_\+central\+\_\+server\+\_\+dtls\+\_\+session (\begin{DoxyParamCaption}\item[{coap\+\_\+context\+\_\+t $\ast$}]{ctx }\end{DoxyParamCaption})}
+\doxysubsubsection{\texorpdfstring{get\_or\_create\_central\_server\_dtls\_session()}{get\_or\_create\_central\_server\_dtls\_session()}}
+{\footnotesize\ttfamily coap\+\_\+session\+\_\+t \texorpdfstring{$\ast$}{*} get\+\_\+or\+\_\+create\+\_\+central\+\_\+server\+\_\+dtls\+\_\+session (\begin{DoxyParamCaption}\item[{coap\+\_\+context\+\_\+t \texorpdfstring{$\ast$}{*}}]{ctx }\end{DoxyParamCaption})}
 
 
 
@@ -85,34 +83,27 @@ Obtiene o crea una sesión DTLS con el servidor central.
 \begin{DoxyReturn}{Returns}
 Puntero a la sesión DTLS establecida, o NULL en caso de error
 \end{DoxyReturn}
-Esta función implementa un patrón singleton para la gestión de sesiones DTLS con el servidor central. Reutiliza sesiones existentes cuando están activas y crea nuevas sesiones cuando es necesario.
+Versión simplificada de la función para \doxylink{main__dynamic__port_8c}{main\+\_\+dynamic\+\_\+port.\+c}. Implementa un patrón singleton para la gestión de sesiones DTLS con el servidor central, reutilizando sesiones existentes cuando están activas y creando nuevas cuando es necesario.
 
-Comportamiento\+:
-\begin{DoxyEnumerate}
-\item Si existe una sesión activa y establecida, la reutiliza
-\item Si la sesión existe pero no está establecida, la libera y crea una nueva
-\item Si no existe sesión, crea una nueva con configuración DTLS-\/\+PSK
-\item Registra el manejador de eventos para gestión automática de la sesión
-\end{DoxyEnumerate}
-
-La función utiliza las siguientes configuraciones\+:
+{\bfseries{Comportamiento\+:}}
 \begin{DoxyItemize}
-\item IP del servidor\+: CENTRAL\+\_\+\+SERVER\+\_\+\+IP
-\item Puerto del servidor\+: CENTRAL\+\_\+\+SERVER\+\_\+\+PORT ~\newline
-
-\item Identidad PSK\+: IDENTITY\+\_\+\+TO\+\_\+\+PRESENT\+\_\+\+TO\+\_\+\+SERVER
-\item Clave PSK\+: KEY\+\_\+\+FOR\+\_\+\+SERVER
+\item Verifica si existe una sesión activa y la reutiliza
+\item Si la sesión no está establecida, la libera y crea una nueva
+\item Utiliza identidad y clave PSK únicas para cada instancia
+\item Configura dirección del servidor desde variables de entorno
 \end{DoxyItemize}
 
 \begin{DoxySeeAlso}{See also}
-\doxyref{event\+\_\+handler\+\_\+gw()}{p.}{main_8c_a4d72c24b61707ff5f39a4123ca8cd833} 
+coap\+\_\+config.\+h 
 
-\doxyref{coap\+\_\+config.\+h}{p.}{coap__config_8h} 
+generate\+\_\+unique\+\_\+identity() 
+
+generate\+\_\+unique\+\_\+psk\+\_\+key() 
 \end{DoxySeeAlso}
-\label{main__dynamic__port_8c_acfc4758bf8842f413c4d9e1c5ce6053d} 
+\Hypertarget{main__dynamic__port_8c_acfc4758bf8842f413c4d9e1c5ce6053d}\label{main__dynamic__port_8c_acfc4758bf8842f413c4d9e1c5ce6053d} 
 \index{main\_dynamic\_port.c@{main\_dynamic\_port.c}!inicializar\_mi\_simulacion\_ascensor@{inicializar\_mi\_simulacion\_ascensor}}
 \index{inicializar\_mi\_simulacion\_ascensor@{inicializar\_mi\_simulacion\_ascensor}!main\_dynamic\_port.c@{main\_dynamic\_port.c}}
-\doxysubsubsection{inicializar\_mi\_simulacion\_ascensor()}
+\doxysubsubsection{\texorpdfstring{inicializar\_mi\_simulacion\_ascensor()}{inicializar\_mi\_simulacion\_ascensor()}}
 {\footnotesize\ttfamily void inicializar\+\_\+mi\+\_\+simulacion\+\_\+ascensor (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
 
 
@@ -130,120 +121,131 @@ Esta función configura el simulador registrando el callback de respuesta CAN en
 \end{DoxyItemize}
 
 \begin{DoxySeeAlso}{See also}
-\doxyref{ag\+\_\+can\+\_\+bridge\+\_\+register\+\_\+send\+\_\+callback()}{p.}{can__bridge_8c_a82b3383904e65573e79b59f4b7c5ef15} 
+\doxylink{can__bridge_8c_a82b3383904e65573e79b59f4b7c5ef15}{ag\+\_\+can\+\_\+bridge\+\_\+register\+\_\+send\+\_\+callback()} 
 
-\doxyref{cargar\+\_\+datos\+\_\+simulacion()}{p.}{group__simulation__functions_ga189a79642cdf0001b3a29062e4180af3} 
+\doxylink{simulation__loader_8c_a189a79642cdf0001b3a29062e4180af3}{cargar\+\_\+datos\+\_\+simulacion()} 
 
-\doxyref{mi\+\_\+simulador\+\_\+recibe\+\_\+can\+\_\+gw()}{p.}{mi__simulador__ascensor_8c_adfcf33ff0806b77c246bbd870b029566} 
+\doxylink{mi__simulador__ascensor_8c_adfcf33ff0806b77c246bbd870b029566}{mi\+\_\+simulador\+\_\+recibe\+\_\+can\+\_\+gw()} 
 \end{DoxySeeAlso}
-\label{main__dynamic__port_8c_a0ddf1224851353fc92bfbff6f499fa97} 
+\Hypertarget{main__dynamic__port_8c_a0ddf1224851353fc92bfbff6f499fa97}\label{main__dynamic__port_8c_a0ddf1224851353fc92bfbff6f499fa97} 
 \index{main\_dynamic\_port.c@{main\_dynamic\_port.c}!main@{main}}
 \index{main@{main}!main\_dynamic\_port.c@{main\_dynamic\_port.c}}
-\doxysubsubsection{main()}
-{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$}]{argv[$\,$] }\end{DoxyParamCaption})}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char \texorpdfstring{$\ast$}{*}}]{argv\mbox{[}$\,$\mbox{]} }\end{DoxyParamCaption})}
 
-\label{main__dynamic__port_8c_a5c86f739de835826e9fa6dd607c52ec9} 
+
+
+Función principal del API Gateway con puerto dinámico. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em argc} & Número de argumentos de línea de comandos \\
+\hline
+{\em argv} & Array de argumentos de línea de comandos argv\mbox{[}1\mbox{]} (opcional)\+: Puerto de escucha personalizado \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+EXIT\+\_\+\+SUCCESS si la ejecución fue exitosa, EXIT\+\_\+\+FAILURE en caso de error
+\end{DoxyReturn}
+Versión del API Gateway que permite especificar el puerto de escucha como parámetro de línea de comandos. Útil para ejecutar múltiples instancias del gateway en diferentes puertos.
+
+{\bfseries{Funcionalidades\+:}}
+\begin{DoxyItemize}
+\item Carga de configuración desde gateway.\+env
+\item Configuración de puerto dinámico via argumentos
+\item Inicialización del contexto Co\+AP y puente CAN
+\item Gestión de estado de ascensores
+\item Bucle principal de procesamiento de eventos
+\item Terminación elegante con SIGINT
+\end{DoxyItemize}
+
+{\bfseries{Uso\+:}}
+\begin{DoxyItemize}
+\item {\ttfamily ./main\+\_\+dynamic\+\_\+port} -\/ Usa puerto por defecto (5683)
+\item {\ttfamily ./main\+\_\+dynamic\+\_\+port 8080} -\/ Usa puerto personalizado (8080)
+\end{DoxyItemize}
+
+\begin{DoxySeeAlso}{See also}
+\doxylink{main_8c}{main.\+c} 
+
+\doxylink{main__dynamic__port_8c_a7910799dc4997ea7ff42bb0339134d94}{get\+\_\+or\+\_\+create\+\_\+central\+\_\+server\+\_\+dtls\+\_\+session()} 
+\end{DoxySeeAlso}
+\Hypertarget{main__dynamic__port_8c_a5c86f739de835826e9fa6dd607c52ec9}\label{main__dynamic__port_8c_a5c86f739de835826e9fa6dd607c52ec9} 
 \index{main\_dynamic\_port.c@{main\_dynamic\_port.c}!simular\_eventos\_ascensor@{simular\_eventos\_ascensor}}
 \index{simular\_eventos\_ascensor@{simular\_eventos\_ascensor}!main\_dynamic\_port.c@{main\_dynamic\_port.c}}
-\doxysubsubsection{simular\_eventos\_ascensor()}
+\doxysubsubsection{\texorpdfstring{simular\_eventos\_ascensor()}{simular\_eventos\_ascensor()}}
 {\footnotesize\ttfamily void simular\+\_\+eventos\+\_\+ascensor (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
 
 
 
-Ejecuta una secuencia de eventos simulados de ascensor desde JSON. 
+Ejecuta una secuencia de eventos simulados de ascensor desde JSON de forma no-\/bloqueante. 
 
-Esta función reemplaza la simulación hardcodeada anterior. Ahora carga datos de simulación desde un archivo JSON, selecciona un edificio aleatorio y ejecuta todas sus peticiones secuencialmente.
+Esta función reemplaza la simulación bloqueante anterior. Ahora la simulación se ejecuta de forma incremental, permitiendo que el main loop procese I/O y ejecute la simulación de movimiento entre peticiones.
+
+{\bfseries{Cambios principales\+:}}
+\begin{DoxyItemize}
+\item Simulación no-\/bloqueante (una petición por llamada)
+\item Control regresa al main loop para permitir movimiento de ascensores
+\item Intervalo configurable entre peticiones
+\item Estado global para rastrear progreso
+\end{DoxyItemize}
 
 {\bfseries{Proceso de simulación\+:}}
 \begin{DoxyEnumerate}
-\item Verifica si hay datos de simulación cargados
-\item Selecciona un edificio aleatorio de los 100 disponibles
-\item Configura el ID del edificio en el sistema
-\item Ejecuta las 10 peticiones del edificio secuencialmente
-\item Procesa I/O Co\+AP entre cada petición
+\item Inicialización\+: selecciona edificio y configura estado
+\item Ejecución incremental\+: una petición por llamada
+\item El main loop ejecuta tanto I/O como simulación de movimiento
+\item Finalización automática al completar todas las peticiones
 \end{DoxyEnumerate}
 
-{\bfseries{Fallback\+:}} Si no se pueden cargar los datos JSON, ejecuta la simulación básica de 2 peticiones hardcodeadas como antes.
-
-{\bfseries{Características\+:}}
-\begin{DoxyItemize}
-\item Procesamiento de I/O Co\+AP entre eventos
-\item Logging detallado de cada paso
-\item Sincronización para evitar condiciones de carrera
-\item Configuración automática del ID de edificio
-\end{DoxyItemize}
-
+\begin{DoxyNote}{Note}
+Esta función debe llamarse desde el main loop para ser no-\/bloqueante 
+\end{DoxyNote}
 \begin{DoxySeeAlso}{See also}
-\doxyref{cargar\+\_\+datos\+\_\+simulacion()}{p.}{group__simulation__functions_ga189a79642cdf0001b3a29062e4180af3} 
-
-\doxyref{seleccionar\+\_\+edificio\+\_\+aleatorio()}{p.}{group__simulation__functions_ga87620ad51d06f241a3106a36c40ac787} 
-
-\doxyref{simular\+\_\+llamada\+\_\+de\+\_\+piso\+\_\+via\+\_\+can()}{p.}{mi__simulador__ascensor_8c_ad2f8184c447385d5155da6a8d87e6c16} 
-
-\doxyref{simular\+\_\+solicitud\+\_\+cabina\+\_\+via\+\_\+can()}{p.}{mi__simulador__ascensor_8c_a75bd27a88662d9e2ac061e5285fc7ecb} 
-
-coap\+\_\+io\+\_\+process() 
+simulate\+\_\+elevator\+\_\+group\+\_\+step() -\/ se ejecuta en paralelo 
 \end{DoxySeeAlso}
-\label{main__dynamic__port_8c_af318206d98c90d1ed8b33a0f564ad219} 
-\index{main\_dynamic\_port.c@{main\_dynamic\_port.c}!simulate\_elevator\_group\_step@{simulate\_elevator\_group\_step}}
-\index{simulate\_elevator\_group\_step@{simulate\_elevator\_group\_step}!main\_dynamic\_port.c@{main\_dynamic\_port.c}}
-\doxysubsubsection{simulate\_elevator\_group\_step()}
-{\footnotesize\ttfamily static void simulate\+\_\+elevator\+\_\+group\+\_\+step (\begin{DoxyParamCaption}\item[{coap\+\_\+context\+\_\+t $\ast$}]{ctx,  }\item[{\textbf{ elevator\+\_\+group\+\_\+state\+\_\+t} $\ast$}]{group }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
-
 
 
 \doxysubsection{Variable Documentation}
-\label{main__dynamic__port_8c_ab6cd46cca3fa91be58b4b7488c899731} 
-\index{main\_dynamic\_port.c@{main\_dynamic\_port.c}!dynamic\_listen\_port@{dynamic\_listen\_port}}
-\index{dynamic\_listen\_port@{dynamic\_listen\_port}!main\_dynamic\_port.c@{main\_dynamic\_port.c}}
-\doxysubsubsection{dynamic\_listen\_port}
-{\footnotesize\ttfamily int dynamic\+\_\+listen\+\_\+port = 5683\hspace{0.3cm}{\ttfamily [static]}}
-
-\label{main__dynamic__port_8c_abc8b9aeba00fbf6aeb7c811c034f383c} 
+\Hypertarget{main__dynamic__port_8c_abc8b9aeba00fbf6aeb7c811c034f383c}\label{main__dynamic__port_8c_abc8b9aeba00fbf6aeb7c811c034f383c} 
 \index{main\_dynamic\_port.c@{main\_dynamic\_port.c}!g\_coap\_context@{g\_coap\_context}}
 \index{g\_coap\_context@{g\_coap\_context}!main\_dynamic\_port.c@{main\_dynamic\_port.c}}
-\doxysubsubsection{g\_coap\_context}
-{\footnotesize\ttfamily coap\+\_\+context\+\_\+t$\ast$ g\+\_\+coap\+\_\+context = NULL}
+\doxysubsubsection{\texorpdfstring{g\_coap\_context}{g\_coap\_context}}
+{\footnotesize\ttfamily coap\+\_\+context\+\_\+t\texorpdfstring{$\ast$}{*} g\+\_\+coap\+\_\+context = NULL}
 
 
 
 Contexto Co\+AP global del API Gateway. 
 
-Referencia externa al contexto Co\+AP principal definido en \doxyref{main.\+c}{p.}{main_8c} del API Gateway. Utilizado para procesar eventos Co\+AP y enviar solicitudes al servidor central.
+Referencia externa al contexto Co\+AP principal definido en \doxylink{main_8c}{main.\+c} del API Gateway. Utilizado para procesar eventos Co\+AP y enviar solicitudes al servidor central.
 
 \begin{DoxySeeAlso}{See also}
 api\+\_\+gateway/main.\+c
 \end{DoxySeeAlso}
 Contexto Co\+AP global del API Gateway.
 
-Contexto principal utilizado para todas las operaciones Co\+AP, incluyendo la simulación de ascensores y la gestión de sesiones DTLS. \label{main__dynamic__port_8c_a003791cd6468260e13e2f2fd719e9fe4} 
-\index{main\_dynamic\_port.c@{main\_dynamic\_port.c}!g\_coap\_context\_for\_session\_mgnt@{g\_coap\_context\_for\_session\_mgnt}}
-\index{g\_coap\_context\_for\_session\_mgnt@{g\_coap\_context\_for\_session\_mgnt}!main\_dynamic\_port.c@{main\_dynamic\_port.c}}
-\doxysubsubsection{g\_coap\_context\_for\_session\_mgnt}
-{\footnotesize\ttfamily coap\+\_\+context\+\_\+t$\ast$ g\+\_\+coap\+\_\+context\+\_\+for\+\_\+session\+\_\+mgnt = NULL\hspace{0.3cm}{\ttfamily [static]}}
-
-\label{main__dynamic__port_8c_abe546e2cc7517fb0f6e0218ca1e3ff10} 
+Contexto principal utilizado para todas las operaciones Co\+AP, incluyendo la simulación de ascensores y la gestión de sesiones DTLS. \Hypertarget{main__dynamic__port_8c_abe546e2cc7517fb0f6e0218ca1e3ff10}\label{main__dynamic__port_8c_abe546e2cc7517fb0f6e0218ca1e3ff10} 
 \index{main\_dynamic\_port.c@{main\_dynamic\_port.c}!g\_dtls\_session\_to\_central\_server@{g\_dtls\_session\_to\_central\_server}}
 \index{g\_dtls\_session\_to\_central\_server@{g\_dtls\_session\_to\_central\_server}!main\_dynamic\_port.c@{main\_dynamic\_port.c}}
-\doxysubsubsection{g\_dtls\_session\_to\_central\_server}
-{\footnotesize\ttfamily coap\+\_\+session\+\_\+t$\ast$ g\+\_\+dtls\+\_\+session\+\_\+to\+\_\+central\+\_\+server = NULL}
+\doxysubsubsection{\texorpdfstring{g\_dtls\_session\_to\_central\_server}{g\_dtls\_session\_to\_central\_server}}
+{\footnotesize\ttfamily coap\+\_\+session\+\_\+t\texorpdfstring{$\ast$}{*} g\+\_\+dtls\+\_\+session\+\_\+to\+\_\+central\+\_\+server = NULL}
 
 
 
 Sesión DTLS global con el servidor central. 
 
-Declaración externa de la sesión DTLS definida en \doxyref{main.\+c}{p.}{main_8c}. Se utiliza para enviar solicitudes al servidor central de manera eficiente reutilizando la misma conexión segura.
+Declaración externa de la sesión DTLS definida en \doxylink{main_8c}{main.\+c}. Se utiliza para enviar solicitudes al servidor central de manera eficiente reutilizando la misma conexión segura.
 
 \begin{DoxySeeAlso}{See also}
-\doxyref{main.\+c}{p.}{main_8c} 
+\doxylink{main_8c}{main.\+c} 
 
-\doxyref{get\+\_\+or\+\_\+create\+\_\+central\+\_\+server\+\_\+dtls\+\_\+session()}{p.}{main_8c_a7910799dc4997ea7ff42bb0339134d94}
+\doxylink{main_8c_a7910799dc4997ea7ff42bb0339134d94}{get\+\_\+or\+\_\+create\+\_\+central\+\_\+server\+\_\+dtls\+\_\+session()}
 \end{DoxySeeAlso}
-Mantiene la conexión segura DTLS-\/\+PSK con el servidor central para el envío de solicitudes de asignación de ascensores. Se reutiliza para múltiples solicitudes para eficiencia. \label{main__dynamic__port_8c_a2e69b946477ed035db425886fe261a13} 
+Mantiene la conexión segura DTLS con el servidor central para el envío de solicitudes de asignación de ascensores. Se reutiliza para múltiples solicitudes para eficiencia. \Hypertarget{main__dynamic__port_8c_a2e69b946477ed035db425886fe261a13}\label{main__dynamic__port_8c_a2e69b946477ed035db425886fe261a13} 
 \index{main\_dynamic\_port.c@{main\_dynamic\_port.c}!managed\_elevator\_group@{managed\_elevator\_group}}
 \index{managed\_elevator\_group@{managed\_elevator\_group}!main\_dynamic\_port.c@{main\_dynamic\_port.c}}
-\doxysubsubsection{managed\_elevator\_group}
-{\footnotesize\ttfamily \textbf{ elevator\+\_\+group\+\_\+state\+\_\+t} managed\+\_\+elevator\+\_\+group}
+\doxysubsubsection{\texorpdfstring{managed\_elevator\_group}{managed\_elevator\_group}}
+{\footnotesize\ttfamily elevator\+\_\+group\+\_\+state\+\_\+t managed\+\_\+elevator\+\_\+group}
 
 
 
@@ -255,43 +257,41 @@ Grupo de ascensores gestionado.
 
 Estado del grupo de ascensores gestionado.
 
-Declaración externa para acceder al estado del grupo de ascensores gestionado en \doxyref{main.\+c}{p.}{main_8c}. Contiene información completa de todos los ascensores del edificio.
+Declaración externa para acceder al estado del grupo de ascensores gestionado en \doxylink{main_8c}{main.\+c}. Contiene información completa de todos los ascensores del edificio.
 
 \begin{DoxySeeAlso}{See also}
-\doxyref{elevator\+\_\+group\+\_\+state\+\_\+t}{p.}{structelevator__group__state__t} 
+elevator\+\_\+group\+\_\+state\+\_\+t 
 
-\doxyref{main.\+c}{p.}{main_8c}
+\doxylink{main_8c}{main.\+c}
 \end{DoxySeeAlso}
 Estado del grupo de ascensores gestionado por este gateway.
 
 Contiene el estado completo de todos los ascensores del edificio gestionado por este API Gateway, incluyendo posiciones actuales, tareas asignadas, estados de puertas y disponibilidad.
 
 \begin{DoxySeeAlso}{See also}
-\doxyref{elevator\+\_\+group\+\_\+state\+\_\+t}{p.}{structelevator__group__state__t} 
+elevator\+\_\+group\+\_\+state\+\_\+t 
 
-\doxyref{elevator\+\_\+state\+\_\+manager.\+h}{p.}{elevator__state__manager_8h} 
+elevator\+\_\+state\+\_\+manager.\+h 
 \end{DoxySeeAlso}
-\label{main__dynamic__port_8c_a8a485bed3bbf69f7556aa3167043d7e2} 
+\Hypertarget{main__dynamic__port_8c_a8a485bed3bbf69f7556aa3167043d7e2}\label{main__dynamic__port_8c_a8a485bed3bbf69f7556aa3167043d7e2} 
 \index{main\_dynamic\_port.c@{main\_dynamic\_port.c}!quit\_main\_loop@{quit\_main\_loop}}
 \index{quit\_main\_loop@{quit\_main\_loop}!main\_dynamic\_port.c@{main\_dynamic\_port.c}}
-\doxysubsubsection{quit\_main\_loop}
+\doxysubsubsection{\texorpdfstring{quit\_main\_loop}{quit\_main\_loop}}
 {\footnotesize\ttfamily volatile sig\+\_\+atomic\+\_\+t quit\+\_\+main\+\_\+loop = 0}
 
 
 
 Bandera para indicar si el bucle principal debe terminar. 
 
-Bandera global para controlar el bucle principal de la aplicación.
-
-Esta variable se declara como extern en api\+\_\+handlers.\+h y se define en \doxyref{main.\+c}{p.}{main_8c}. Es establecida por el manejador de señal (handle\+\_\+sigint\+\_\+gw) para detener el bucle principal de eventos.
+Esta variable se declara como extern en \doxylink{api__handlers_8h}{api\+\_\+handlers.\+h} y se define en \doxylink{main_8c}{main.\+c}. Es establecida por el manejador de señal (handle\+\_\+sigint\+\_\+gw) para detener el bucle principal de eventos.
 
 \begin{DoxySeeAlso}{See also}
-\doxyref{handle\+\_\+sigint\+\_\+gw()}{p.}{api__handlers_8c_a7fd01dcda5b603f45f20d97c84d9260b}
+\doxylink{api__handlers_8c_a7fd01dcda5b603f45f20d97c84d9260b}{handle\+\_\+sigint\+\_\+gw()}
 \end{DoxySeeAlso}
 Bandera para indicar si el bucle principal debe terminar.
 
 Esta bandera se establece a 1 por el manejador de señal SIGINT (handle\+\_\+sigint\+\_\+gw) para indicar que la aplicación debe terminar de manera elegante.
 
 \begin{DoxySeeAlso}{See also}
-\doxyref{handle\+\_\+sigint\+\_\+gw()}{p.}{api__handlers_8c_a7fd01dcda5b603f45f20d97c84d9260b} 
+\doxylink{api__handlers_8c_a7fd01dcda5b603f45f20d97c84d9260b}{handle\+\_\+sigint\+\_\+gw()} 
 \end{DoxySeeAlso}
