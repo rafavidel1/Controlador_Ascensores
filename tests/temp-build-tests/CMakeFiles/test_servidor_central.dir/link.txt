@@ -1,0 +1,1 @@
+/usr/bin/cc -g CMakeFiles/test_servidor_central.dir/unit/test_servidor_central.c.o -o test_servidor_central  /usr/lib/x86_64-linux-gnu/libcunit.so -lcoap-3-openssl -lcjson libelevator_system_lib.a mocks/libtest_mocks.a -lm -lpthread -lcoap-3-openssl -lcjson 

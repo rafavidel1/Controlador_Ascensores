@@ -1,0 +1,51 @@
+=== REPORTE DE PRUEBAS: SEGURIDAD PSK-DTLS ===
+Fecha: Jul 13 2025
+==================================================
+
+PRUEBA: test_psk_key_predictability_vulnerability
+Descripción: Verifica la predictibilidad de claves PSK por atacantes
+Resultado: FALLÓ
+Detalles: VULNERABLE: Claves PSK son predecibles con algoritmo determinístico
+Análisis Detallado: 🔍 ANÁLISIS DE PREDICTIBILIDAD:
+   Clave real: psk_key_0699_static_prefix
+   Clave predicha: psk_key_0699_static_prefix
+   ¿Coinciden?: SÍ
+   🚨 SISTEMA PSK: VULNERABLE - Claves predecibles
+----------------------------------------
+
+PRUEBA: test_psk_key_collision_vulnerability
+Descripción: Verifica colisiones en asignación de claves PSK
+Resultado: PASÓ
+Detalles: SEGURO: Sin colisiones detectadas
+Análisis Detallado: 📊 ANÁLISIS DE COLISIONES:
+   Colisiones encontradas: 0 de 4950 posibles
+   Ratio de colisión: 0.00%
+   ✅ SISTEMA SEGURO: Sin colisiones detectadas
+----------------------------------------
+
+PRUEBA: test_psk_scalability_limitation
+Descripción: Verifica escalabilidad del sistema PSK para despliegues grandes
+Resultado: FALLÓ
+Detalles: Entropía: 0.1000 INSUFICIENTE (umbral: 0.80). Reutilización: 10.0 ascensores/clave
+Análisis Detallado: 📈 ANÁLISIS DE ESCALABILIDAD:
+   Total ascensores: 10000
+   Claves únicas: 1000
+   Entropía del sistema: 0.1000
+   Umbral mínimo requerido: 0.80
+   Reutilización promedio: 10.0 ascensores/clave
+   🚨 SISTEMA PSK: NO ESCALABLE - Entropía insuficiente
+----------------------------------------
+
+PRUEBA: test_psk_forward_secrecy_absence
+Descripción: Verifica presencia de confidencialidad prospectiva en el sistema
+Resultado: FALLÓ
+Detalles: VULNERABLE: Sin confidencialidad prospectiva - compromiso afecta todas las comunicaciones
+Análisis Detallado: 🔐 ANÁLISIS DE CONFIDENCIALIDAD PROSPECTIVA:
+   Clave actual: psk_key_0938_static_prefix
+   Clave sesión pasada: psk_key_0938_static_prefix
+   Clave sesión futura: psk_key_0938_static_prefix
+   ¿Claves únicas por sesión?: NO
+   🚨 SISTEMA PSK: SIN CONFIDENCIALIDAD PROSPECTIVA - Compromiso afecta todas las comunicaciones
+----------------------------------------
+
+=== FIN DEL REPORTE ===

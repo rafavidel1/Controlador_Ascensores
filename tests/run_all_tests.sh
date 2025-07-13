@@ -15,6 +15,7 @@ echo "                    EJECUTOR DE PRUEBAS - SISTEMA DE ASCENSORES"
 echo "==============================================================================="
 echo ""
 echo "📁 Directorio del proyecto: $PROJECT_ROOT"
+echo "📁 Directorio de pruebas: $SCRIPT_DIR"
 echo "🔨 Directorio temporal de build: $TEMP_BUILD_DIR"
 echo "📊 Directorio de reportes: $REPORTS_DIR"
 echo ""
@@ -25,8 +26,8 @@ cleanup() {
     echo "🧹 Limpieza automática deshabilitada..."
     echo "📁 Los reportes están disponibles en: $TEMP_BUILD_DIR"
     echo "💡 Para limpiar manualmente, ejecuta: $0 --clean"
-    if [ -d "$PROJECT_ROOT" ]; then
-        cd "$PROJECT_ROOT"
+    if [ -d "$SCRIPT_DIR" ]; then
+        cd "$SCRIPT_DIR"
     fi
 }
 trap cleanup EXIT
@@ -39,6 +40,64 @@ cleanup_manual() {
         echo "✅ Directorio temporal eliminado: $TEMP_BUILD_DIR"
     fi
     echo "✅ Limpieza completada"
+}
+
+# Función para instalar dependencias automáticamente
+install_dependencies() {
+    echo "🔧 Instalando dependencias faltantes..."
+    
+    local packages_to_install=()
+    
+    # Verificar y agregar dependencias básicas
+    if ! command -v cmake >/dev/null 2>&1; then
+        packages_to_install+=("cmake")
+    fi
+    
+    if ! command -v gcc >/dev/null 2>&1; then
+        packages_to_install+=("gcc")
+    fi
+    
+    if ! command -v pkg-config >/dev/null 2>&1; then
+        packages_to_install+=("pkg-config")
+    fi
+    
+    # Dependencias de desarrollo
+    if ! pkg-config --exists libcoap-3-openssl; then
+        packages_to_install+=("libcoap-3-dev")
+    fi
+    
+    if ! pkg-config --exists libcjson; then
+        packages_to_install+=("libcjson-dev")
+    fi
+    
+    if ! ldconfig -p | grep -q libcunit; then
+        packages_to_install+=("libcunit1-dev")
+    fi
+    
+    # Dependencias adicionales que pueden faltar
+    if ! pkg-config --exists openssl; then
+        packages_to_install+=("libssl-dev")
+    fi
+    
+    if ! ldconfig -p | grep -q libm; then
+        packages_to_install+=("libc6-dev")
+    fi
+    
+    # Herramientas de desarrollo adicionales
+    packages_to_install+=("build-essential")
+    packages_to_install+=("libtool")
+    packages_to_install+=("autotools-dev")
+    packages_to_install+=("automake")
+    
+    if [ ${#packages_to_install[@]} -gt 0 ]; then
+        echo "📦 Instalando paquetes: ${packages_to_install[*]}"
+        sudo apt-get update
+        sudo apt-get install -y "${packages_to_install[@]}"
+        echo "✅ Dependencias instaladas correctamente"
+    else
+        echo "✅ Todas las dependencias ya están instaladas"
+    fi
+    echo ""
 }
 
 # Función para verificar dependencias
@@ -102,13 +161,30 @@ check_dependencies() {
         echo "✅ CUnit: Instalada"
     fi
     
-    if [ $missing_deps -gt 0 ]; then
-        echo ""
-        echo "❌ Faltan $missing_deps dependencia(s). Por favor, instálalas antes de continuar."
-        exit 1
+    # Verificar OpenSSL
+    if ! pkg-config --exists openssl; then
+        echo "❌ OpenSSL no encontrada"
+        echo "   Instalar con: sudo apt-get install libssl-dev"
+        missing_deps=$((missing_deps + 1))
+    else
+        echo "✅ OpenSSL: $(pkg-config --modversion openssl)"
     fi
     
-    echo "✅ Todas las dependencias están disponibles"
+    if [ $missing_deps -gt 0 ]; then
+        echo ""
+        echo "❌ Faltan $missing_deps dependencia(s)."
+        echo "💡 ¿Quieres instalarlas automáticamente? (y/n)"
+        read -r install_choice
+        if [ "$install_choice" = "y" ] || [ "$install_choice" = "Y" ]; then
+            install_dependencies
+        else
+            echo "Por favor, instala las dependencias manualmente antes de continuar."
+            exit 1
+        fi
+    else
+        echo "✅ Todas las dependencias están disponibles"
+    fi
+    
     echo ""
 }
 
@@ -125,13 +201,16 @@ configure_build() {
     mkdir -p "$TEMP_BUILD_DIR"
     cd "$TEMP_BUILD_DIR"
     
-    # Configurar CMake
+    # Configurar CMake - USAR EL DIRECTORIO DE TESTS, NO EL RAÍZ
     echo "🔧 Ejecutando CMake..."
+    echo "📁 Directorio fuente: $SCRIPT_DIR"
+    echo "📁 Directorio build: $TEMP_BUILD_DIR"
+    
     cmake -DBUILD_TESTS=ON \
           -DENABLE_COVERAGE=ON \
           -DCMAKE_BUILD_TYPE=Debug \
           -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
-          "$PROJECT_ROOT"
+          "$SCRIPT_DIR"
     
     echo "✅ Configuración completada"
     echo ""
@@ -173,12 +252,13 @@ run_individual_tests() {
         "test_can_bridge"
         "test_api_handlers"
         "test_servidor_central"
+        "test_psk_security"
         "test_can_to_coap"
     )
     
     for test_exe in "${test_executables[@]}"; do
-        # Buscar el ejecutable en el subdirectorio tests/
-        local test_path="tests/$test_exe"
+        # Buscar el ejecutable directamente en el directorio build
+        local test_path="$test_exe"
         if [ -f "$test_path" ]; then
             echo "▶️  Ejecutando: $test_exe"
             echo "----------------------------------------"
@@ -195,6 +275,8 @@ run_individual_tests() {
             echo ""
         else
             echo "⚠️  Ejecutable no encontrado: $test_exe (buscado en $test_path)"
+            echo "📁 Contenido del directorio build:"
+            ls -la | head -10
             echo ""
         fi
     done
@@ -285,7 +367,7 @@ generate_reports() {
             local report_name=$(basename "$report" .txt)
             
             # Extraer estadísticas del reporte de forma más robusta
-            local tests_raw=$(grep -c "^TEST:" "$report" 2>/dev/null || echo "0")
+            local tests_raw=$(grep -c "^PRUEBA:" "$report" 2>/dev/null || echo "0")
             local passed_raw=$(grep -c "Resultado: PASÓ" "$report" 2>/dev/null || echo "0")
             local failed_raw=$(grep -c "Resultado: FALLÓ" "$report" 2>/dev/null || echo "0")
             
@@ -327,9 +409,10 @@ generate_reports() {
             case "$report_name" in
                 *elevator_state_manager*) module_name="GESTOR DE ESTADO DE ASCENSORES" ;;
                 *can_bridge*) module_name="PUENTE CAN" ;;
-                *api_handlers*) module_name="API HANDLERS" ;;
+                *api_handlers*) module_name="MANEJADORES DE API" ;;
                 *servidor_central*) module_name="SERVIDOR CENTRAL" ;;
                 *can_to_coap*) module_name="INTEGRACIÓN CAN-COAP" ;;
+                *psk_security*) module_name="SEGURIDAD PSK-DTLS" ;;
             esac
             
             echo "$module_name:" >> "$consolidated_report"
@@ -358,9 +441,10 @@ generate_reports() {
             case "$report_name" in
                 *elevator_state_manager*) module_name="GESTOR DE ESTADO DE ASCENSORES" ;;
                 *can_bridge*) module_name="PUENTE CAN" ;;
-                *api_handlers*) module_name="API HANDLERS" ;;
+                *api_handlers*) module_name="MANEJADORES DE API" ;;
                 *servidor_central*) module_name="SERVIDOR CENTRAL" ;;
                 *can_to_coap*) module_name="INTEGRACIÓN CAN-COAP" ;;
+                *psk_security*) module_name="SEGURIDAD PSK-DTLS" ;;
             esac
             
             echo "" >> "$consolidated_report"

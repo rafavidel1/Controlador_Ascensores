@@ -39,7 +39,7 @@ int teardown_servidor_central_tests(void) {
 
 void write_test_result(const char* test_name, const char* description, bool passed, const char* details) {
     if (report_file) {
-        fprintf(report_file, "TEST: %s\n", test_name);
+        fprintf(report_file, "PRUEBA: %s\n", test_name);
         fprintf(report_file, "Descripción: %s\n", description);
         fprintf(report_file, "Resultado: %s\n", passed ? "PASÓ" : "FALLÓ");
         fprintf(report_file, "Detalles: %s\n", details);

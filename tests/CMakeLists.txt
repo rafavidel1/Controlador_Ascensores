@@ -1,5 +1,13 @@
 cmake_minimum_required(VERSION 3.10)
 
+# Declarar el proyecto
+project(ElevatorSystemTests VERSION 1.0.0 LANGUAGES C)
+
+# Mostrar información del proyecto
+message(STATUS "Configurando proyecto: ${PROJECT_NAME} v${PROJECT_VERSION}")
+message(STATUS "Directorio fuente: ${CMAKE_CURRENT_SOURCE_DIR}")
+message(STATUS "Directorio build: ${CMAKE_CURRENT_BINARY_DIR}")
+
 # Buscar CUnit
 find_library(CUNIT_LIBRARY cunit)
 find_path(CUNIT_INCLUDE_DIR CUnit/CUnit.h)
@@ -11,18 +19,25 @@ endif()
 message(STATUS "CUnit found: ${CUNIT_LIBRARY}")
 message(STATUS "CUnit include: ${CUNIT_INCLUDE_DIR}")
 
+# Configurar estándares y opciones del compilador
+set(CMAKE_C_STANDARD 11)
+set(CMAKE_C_STANDARD_REQUIRED ON)
+
 # Buscar dependencias del proyecto
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(LIBCOAP REQUIRED libcoap-3-openssl)
 pkg_check_modules(LIBCJSON REQUIRED libcjson)
+
+# Habilitar testing
+enable_testing()
 
 # Función helper para crear tests con reportes
 function(add_test_with_report test_name source_file)
     add_executable(${test_name} ${source_file})
     
     target_include_directories(${test_name} PRIVATE
-        ${CMAKE_SOURCE_DIR}/api_gateway/include
-        ${CMAKE_SOURCE_DIR}/servidor_central/include
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../api_gateway/include
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../servidor_central/include
         ${CMAKE_CURRENT_SOURCE_DIR}
         ${CUNIT_INCLUDE_DIR}
         ${LIBCOAP_INCLUDE_DIRS}
@@ -35,15 +50,14 @@ function(add_test_with_report test_name source_file)
         ${LIBCJSON_LIBRARIES}
         elevator_system_lib
         test_mocks
+        m      # Biblioteca matemática
+        pthread # Biblioteca de threads
     )
-    
-    # Crear directorio de reportes
-    file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/test_reports)
     
     # Añadir test con reporte XML
     add_test(NAME ${test_name} 
              COMMAND ${test_name} --automated
-             WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/test_reports)
+             WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
     
     # Configurar propiedades del test
     set_tests_properties(${test_name} PROPERTIES
@@ -54,13 +68,13 @@ endfunction()
 
 # Crear biblioteca estática con código fuente para testing
 add_library(elevator_system_lib STATIC
-    ${CMAKE_SOURCE_DIR}/api_gateway/src/elevator_state_manager.c
-    ${CMAKE_SOURCE_DIR}/api_gateway/src/can_bridge.c
-    ${CMAKE_SOURCE_DIR}/api_gateway/src/api_handlers.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/../../api_gateway/src/elevator_state_manager.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/../../api_gateway/src/can_bridge.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/../../api_gateway/src/api_handlers.c
 )
 
 target_include_directories(elevator_system_lib PUBLIC
-    ${CMAKE_SOURCE_DIR}/api_gateway/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/../../api_gateway/include
     ${LIBCOAP_INCLUDE_DIRS}
     ${LIBCJSON_INCLUDE_DIRS}
 )
@@ -68,6 +82,8 @@ target_include_directories(elevator_system_lib PUBLIC
 target_link_libraries(elevator_system_lib
     ${LIBCOAP_LIBRARIES}
     ${LIBCJSON_LIBRARIES}
+    m      # Biblioteca matemática
+    pthread # Biblioteca de threads
 )
 
 # Crear directorio para mocks
@@ -78,6 +94,7 @@ add_test_with_report(test_elevator_state_manager unit/test_elevator_state_manage
 add_test_with_report(test_can_bridge unit/test_can_bridge.c)
 add_test_with_report(test_api_handlers unit/test_api_handlers.c)
 add_test_with_report(test_servidor_central unit/test_servidor_central.c)
+add_test_with_report(test_psk_security unit/test_psk_security.c)
 
 # Pruebas de integración
 add_test_with_report(test_can_to_coap integration/test_can_to_coap.c)

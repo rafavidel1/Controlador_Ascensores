@@ -50,7 +50,7 @@ int teardown_integration_tests(void) {
 // Helper para escribir resultados al reporte
 void write_test_result(const char* test_name, const char* description, bool passed, const char* details) {
     if (report_file) {
-        fprintf(report_file, "TEST: %s\n", test_name);
+        fprintf(report_file, "PRUEBA: %s\n", test_name);
         fprintf(report_file, "Descripción: %s\n", description);
         fprintf(report_file, "Resultado: %s\n", passed ? "PASÓ" : "FALLÓ");
         if (details) {

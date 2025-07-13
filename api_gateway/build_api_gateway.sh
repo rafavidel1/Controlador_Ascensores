@@ -108,6 +108,31 @@ install_libcoap() {
     log_message $GREEN "✅ libcoap instalado correctamente en /usr/local/"
 }
 
+# Función para instalar dotenv-c desde fuente
+install_dotenv_c() {
+    log_message $BLUE "🔧 Instalando dotenv-c desde fuente..."
+    
+    # Crear directorio temporal
+    local temp_dir="/tmp/dotenv-c-build-$$"
+    mkdir -p "$temp_dir"
+    
+    # Clonar repositorio
+    run_command "git clone --depth=1 https://github.com/Isty001/dotenv-c.git $temp_dir" "Clonando repositorio dotenv-c"
+    
+    # Cambiar al directorio
+    cd "$temp_dir" || { log_message $RED "Error: No se pudo cambiar al directorio temporal"; return 1; }
+    
+    # Compilar e instalar
+    run_command "make" "Compilando dotenv-c"
+    run_command "sudo make install" "Instalando dotenv-c"
+    run_command "sudo ldconfig" "Actualizando cache de librerías"
+    
+    # Limpiar directorio temporal
+    cd / && rm -rf "$temp_dir"
+    
+    log_message $GREEN "✅ dotenv-c instalado correctamente en /usr/local/"
+}
+
 # Función principal de verificación e instalación de dependencias
 install_all_dependencies() {
     log_message $BLUE "🚀 === INSTALACIÓN AUTOMÁTICA DE DEPENDENCIAS ==="
@@ -157,6 +182,14 @@ install_all_dependencies() {
     else
         local version=$(pkg-config --modversion json-c 2>/dev/null)
         log_message $GREEN "✅ json-c ya está instalado (versión: $version)"
+    fi
+    
+    # 6. Verificar dotenv-c
+    if ! [ -f "/usr/local/include/dotenv.h" ] && ! [ -f "/usr/include/dotenv.h" ]; then
+        log_message $YELLOW "dotenv-c no está instalado. Instalando..."
+        install_dotenv_c
+    else
+        log_message $GREEN "✅ dotenv-c ya está instalado"
     fi
     
     log_message $GREEN "🎉 === TODAS LAS DEPENDENCIAS INSTALADAS CORRECTAMENTE ==="

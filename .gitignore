@@ -3,3 +3,11 @@ dotenv-c
 dotenv-c/*
 
 .mmd
+
+# Ignorar todos los archivos .md excepto README.md exactamente
+*.md
+!/README.md
+!**/README.md
+
+Prueba_certs/
+Prueba_certs/*

@@ -54,453 +54,268 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /mnt/d/AATFG/API/Codigo
+CMAKE_SOURCE_DIR = /mnt/d/AATFG/API/Codigo/git/tests
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /mnt/d/AATFG/API/Codigo/tests/temp-build-tests
+CMAKE_BINARY_DIR = /mnt/d/AATFG/API/Codigo/git/tests/temp-build-tests
 
 #=============================================================================
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: api_gateway/all
-all: servidor_central/all
-all: tests/all
+all: CMakeFiles/elevator_system_lib.dir/all
+all: CMakeFiles/test_elevator_state_manager.dir/all
+all: CMakeFiles/test_can_bridge.dir/all
+all: CMakeFiles/test_api_handlers.dir/all
+all: CMakeFiles/test_servidor_central.dir/all
+all: CMakeFiles/test_psk_security.dir/all
+all: CMakeFiles/test_can_to_coap.dir/all
+all: mocks/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
-preinstall: api_gateway/preinstall
-preinstall: servidor_central/preinstall
-preinstall: tests/preinstall
+preinstall: mocks/preinstall
 .PHONY : preinstall
 
 # The main recursive "clean" target.
-clean: CMakeFiles/run_tests.dir/clean
-clean: CMakeFiles/generate_reports.dir/clean
-clean: CMakeFiles/clean_all.dir/clean
-clean: api_gateway/clean
-clean: servidor_central/clean
-clean: tests/clean
+clean: CMakeFiles/elevator_system_lib.dir/clean
+clean: CMakeFiles/test_elevator_state_manager.dir/clean
+clean: CMakeFiles/test_can_bridge.dir/clean
+clean: CMakeFiles/test_api_handlers.dir/clean
+clean: CMakeFiles/test_servidor_central.dir/clean
+clean: CMakeFiles/test_psk_security.dir/clean
+clean: CMakeFiles/test_can_to_coap.dir/clean
+clean: mocks/clean
 .PHONY : clean
 
 #=============================================================================
-# Directory level rules for directory api_gateway
+# Directory level rules for directory mocks
 
 # Recursive "all" directory target.
-api_gateway/all: api_gateway/CMakeFiles/api_gateway.dir/all
-api_gateway/all: api_gateway/CMakeFiles/api_gateway_dynamic.dir/all
-.PHONY : api_gateway/all
+mocks/all: mocks/CMakeFiles/test_mocks.dir/all
+.PHONY : mocks/all
 
 # Recursive "preinstall" directory target.
-api_gateway/preinstall:
-.PHONY : api_gateway/preinstall
+mocks/preinstall:
+.PHONY : mocks/preinstall
 
 # Recursive "clean" directory target.
-api_gateway/clean: api_gateway/CMakeFiles/api_gateway.dir/clean
-api_gateway/clean: api_gateway/CMakeFiles/api_gateway_dynamic.dir/clean
-.PHONY : api_gateway/clean
+mocks/clean: mocks/CMakeFiles/test_mocks.dir/clean
+.PHONY : mocks/clean
 
 #=============================================================================
-# Directory level rules for directory servidor_central
-
-# Recursive "all" directory target.
-servidor_central/all: servidor_central/CMakeFiles/servidor_central.dir/all
-.PHONY : servidor_central/all
-
-# Recursive "preinstall" directory target.
-servidor_central/preinstall:
-.PHONY : servidor_central/preinstall
-
-# Recursive "clean" directory target.
-servidor_central/clean: servidor_central/CMakeFiles/servidor_central.dir/clean
-.PHONY : servidor_central/clean
-
-#=============================================================================
-# Directory level rules for directory tests
-
-# Recursive "all" directory target.
-tests/all: tests/CMakeFiles/elevator_system_lib.dir/all
-tests/all: tests/CMakeFiles/test_elevator_state_manager.dir/all
-tests/all: tests/CMakeFiles/test_can_bridge.dir/all
-tests/all: tests/CMakeFiles/test_api_handlers.dir/all
-tests/all: tests/CMakeFiles/test_servidor_central.dir/all
-tests/all: tests/CMakeFiles/test_can_to_coap.dir/all
-tests/all: tests/mocks/all
-.PHONY : tests/all
-
-# Recursive "preinstall" directory target.
-tests/preinstall: tests/mocks/preinstall
-.PHONY : tests/preinstall
-
-# Recursive "clean" directory target.
-tests/clean: tests/CMakeFiles/elevator_system_lib.dir/clean
-tests/clean: tests/CMakeFiles/test_elevator_state_manager.dir/clean
-tests/clean: tests/CMakeFiles/test_can_bridge.dir/clean
-tests/clean: tests/CMakeFiles/test_api_handlers.dir/clean
-tests/clean: tests/CMakeFiles/test_servidor_central.dir/clean
-tests/clean: tests/CMakeFiles/test_can_to_coap.dir/clean
-tests/clean: tests/mocks/clean
-.PHONY : tests/clean
-
-#=============================================================================
-# Directory level rules for directory tests/mocks
-
-# Recursive "all" directory target.
-tests/mocks/all: tests/mocks/CMakeFiles/test_mocks.dir/all
-.PHONY : tests/mocks/all
-
-# Recursive "preinstall" directory target.
-tests/mocks/preinstall:
-.PHONY : tests/mocks/preinstall
-
-# Recursive "clean" directory target.
-tests/mocks/clean: tests/mocks/CMakeFiles/test_mocks.dir/clean
-.PHONY : tests/mocks/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/run_tests.dir
+# Target rules for target CMakeFiles/elevator_system_lib.dir
 
 # All Build rule for target.
-CMakeFiles/run_tests.dir/all: tests/CMakeFiles/test_elevator_state_manager.dir/all
-CMakeFiles/run_tests.dir/all: tests/CMakeFiles/test_can_bridge.dir/all
-CMakeFiles/run_tests.dir/all: tests/CMakeFiles/test_can_to_coap.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_tests.dir/build.make CMakeFiles/run_tests.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_tests.dir/build.make CMakeFiles/run_tests.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/mnt/d/AATFG/API/Codigo/tests/temp-build-tests/CMakeFiles --progress-num=23 "Built target run_tests"
-.PHONY : CMakeFiles/run_tests.dir/all
+CMakeFiles/elevator_system_lib.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/elevator_system_lib.dir/build.make CMakeFiles/elevator_system_lib.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/elevator_system_lib.dir/build.make CMakeFiles/elevator_system_lib.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/mnt/d/AATFG/API/Codigo/git/tests/temp-build-tests/CMakeFiles --progress-num=1,2,3,4 "Built target elevator_system_lib"
+.PHONY : CMakeFiles/elevator_system_lib.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/run_tests.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/AATFG/API/Codigo/tests/temp-build-tests/CMakeFiles 15
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/run_tests.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/AATFG/API/Codigo/tests/temp-build-tests/CMakeFiles 0
-.PHONY : CMakeFiles/run_tests.dir/rule
+CMakeFiles/elevator_system_lib.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/AATFG/API/Codigo/git/tests/temp-build-tests/CMakeFiles 4
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/elevator_system_lib.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/AATFG/API/Codigo/git/tests/temp-build-tests/CMakeFiles 0
+.PHONY : CMakeFiles/elevator_system_lib.dir/rule
 
 # Convenience name for target.
-run_tests: CMakeFiles/run_tests.dir/rule
-.PHONY : run_tests
-
-# clean rule for target.
-CMakeFiles/run_tests.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_tests.dir/build.make CMakeFiles/run_tests.dir/clean
-.PHONY : CMakeFiles/run_tests.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/generate_reports.dir
-
-# All Build rule for target.
-CMakeFiles/generate_reports.dir/all: CMakeFiles/run_tests.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/generate_reports.dir/build.make CMakeFiles/generate_reports.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/generate_reports.dir/build.make CMakeFiles/generate_reports.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/mnt/d/AATFG/API/Codigo/tests/temp-build-tests/CMakeFiles --progress-num=22 "Built target generate_reports"
-.PHONY : CMakeFiles/generate_reports.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/generate_reports.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/AATFG/API/Codigo/tests/temp-build-tests/CMakeFiles 16
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/generate_reports.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/AATFG/API/Codigo/tests/temp-build-tests/CMakeFiles 0
-.PHONY : CMakeFiles/generate_reports.dir/rule
-
-# Convenience name for target.
-generate_reports: CMakeFiles/generate_reports.dir/rule
-.PHONY : generate_reports
-
-# clean rule for target.
-CMakeFiles/generate_reports.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/generate_reports.dir/build.make CMakeFiles/generate_reports.dir/clean
-.PHONY : CMakeFiles/generate_reports.dir/clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/clean_all.dir
-
-# All Build rule for target.
-CMakeFiles/clean_all.dir/all:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/clean_all.dir/build.make CMakeFiles/clean_all.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/clean_all.dir/build.make CMakeFiles/clean_all.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/mnt/d/AATFG/API/Codigo/tests/temp-build-tests/CMakeFiles --progress-num=17 "Built target clean_all"
-.PHONY : CMakeFiles/clean_all.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/clean_all.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/AATFG/API/Codigo/tests/temp-build-tests/CMakeFiles 1
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/clean_all.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/AATFG/API/Codigo/tests/temp-build-tests/CMakeFiles 0
-.PHONY : CMakeFiles/clean_all.dir/rule
-
-# Convenience name for target.
-clean_all: CMakeFiles/clean_all.dir/rule
-.PHONY : clean_all
-
-# clean rule for target.
-CMakeFiles/clean_all.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/clean_all.dir/build.make CMakeFiles/clean_all.dir/clean
-.PHONY : CMakeFiles/clean_all.dir/clean
-
-#=============================================================================
-# Target rules for target api_gateway/CMakeFiles/api_gateway.dir
-
-# All Build rule for target.
-api_gateway/CMakeFiles/api_gateway.dir/all:
-	$(MAKE) $(MAKESILENT) -f api_gateway/CMakeFiles/api_gateway.dir/build.make api_gateway/CMakeFiles/api_gateway.dir/depend
-	$(MAKE) $(MAKESILENT) -f api_gateway/CMakeFiles/api_gateway.dir/build.make api_gateway/CMakeFiles/api_gateway.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/mnt/d/AATFG/API/Codigo/tests/temp-build-tests/CMakeFiles --progress-num=1,2,3,4,5,6,7,8 "Built target api_gateway"
-.PHONY : api_gateway/CMakeFiles/api_gateway.dir/all
-
-# Build rule for subdir invocation for target.
-api_gateway/CMakeFiles/api_gateway.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/AATFG/API/Codigo/tests/temp-build-tests/CMakeFiles 8
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 api_gateway/CMakeFiles/api_gateway.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/AATFG/API/Codigo/tests/temp-build-tests/CMakeFiles 0
-.PHONY : api_gateway/CMakeFiles/api_gateway.dir/rule
-
-# Convenience name for target.
-api_gateway: api_gateway/CMakeFiles/api_gateway.dir/rule
-.PHONY : api_gateway
-
-# clean rule for target.
-api_gateway/CMakeFiles/api_gateway.dir/clean:
-	$(MAKE) $(MAKESILENT) -f api_gateway/CMakeFiles/api_gateway.dir/build.make api_gateway/CMakeFiles/api_gateway.dir/clean
-.PHONY : api_gateway/CMakeFiles/api_gateway.dir/clean
-
-#=============================================================================
-# Target rules for target api_gateway/CMakeFiles/api_gateway_dynamic.dir
-
-# All Build rule for target.
-api_gateway/CMakeFiles/api_gateway_dynamic.dir/all:
-	$(MAKE) $(MAKESILENT) -f api_gateway/CMakeFiles/api_gateway_dynamic.dir/build.make api_gateway/CMakeFiles/api_gateway_dynamic.dir/depend
-	$(MAKE) $(MAKESILENT) -f api_gateway/CMakeFiles/api_gateway_dynamic.dir/build.make api_gateway/CMakeFiles/api_gateway_dynamic.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/mnt/d/AATFG/API/Codigo/tests/temp-build-tests/CMakeFiles --progress-num=9,10,11,12,13,14,15,16 "Built target api_gateway_dynamic"
-.PHONY : api_gateway/CMakeFiles/api_gateway_dynamic.dir/all
-
-# Build rule for subdir invocation for target.
-api_gateway/CMakeFiles/api_gateway_dynamic.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/AATFG/API/Codigo/tests/temp-build-tests/CMakeFiles 8
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 api_gateway/CMakeFiles/api_gateway_dynamic.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/AATFG/API/Codigo/tests/temp-build-tests/CMakeFiles 0
-.PHONY : api_gateway/CMakeFiles/api_gateway_dynamic.dir/rule
-
-# Convenience name for target.
-api_gateway_dynamic: api_gateway/CMakeFiles/api_gateway_dynamic.dir/rule
-.PHONY : api_gateway_dynamic
-
-# clean rule for target.
-api_gateway/CMakeFiles/api_gateway_dynamic.dir/clean:
-	$(MAKE) $(MAKESILENT) -f api_gateway/CMakeFiles/api_gateway_dynamic.dir/build.make api_gateway/CMakeFiles/api_gateway_dynamic.dir/clean
-.PHONY : api_gateway/CMakeFiles/api_gateway_dynamic.dir/clean
-
-#=============================================================================
-# Target rules for target servidor_central/CMakeFiles/servidor_central.dir
-
-# All Build rule for target.
-servidor_central/CMakeFiles/servidor_central.dir/all:
-	$(MAKE) $(MAKESILENT) -f servidor_central/CMakeFiles/servidor_central.dir/build.make servidor_central/CMakeFiles/servidor_central.dir/depend
-	$(MAKE) $(MAKESILENT) -f servidor_central/CMakeFiles/servidor_central.dir/build.make servidor_central/CMakeFiles/servidor_central.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/mnt/d/AATFG/API/Codigo/tests/temp-build-tests/CMakeFiles --progress-num=24,25 "Built target servidor_central"
-.PHONY : servidor_central/CMakeFiles/servidor_central.dir/all
-
-# Build rule for subdir invocation for target.
-servidor_central/CMakeFiles/servidor_central.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/AATFG/API/Codigo/tests/temp-build-tests/CMakeFiles 2
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 servidor_central/CMakeFiles/servidor_central.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/AATFG/API/Codigo/tests/temp-build-tests/CMakeFiles 0
-.PHONY : servidor_central/CMakeFiles/servidor_central.dir/rule
-
-# Convenience name for target.
-servidor_central: servidor_central/CMakeFiles/servidor_central.dir/rule
-.PHONY : servidor_central
-
-# clean rule for target.
-servidor_central/CMakeFiles/servidor_central.dir/clean:
-	$(MAKE) $(MAKESILENT) -f servidor_central/CMakeFiles/servidor_central.dir/build.make servidor_central/CMakeFiles/servidor_central.dir/clean
-.PHONY : servidor_central/CMakeFiles/servidor_central.dir/clean
-
-#=============================================================================
-# Target rules for target tests/CMakeFiles/elevator_system_lib.dir
-
-# All Build rule for target.
-tests/CMakeFiles/elevator_system_lib.dir/all:
-	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/elevator_system_lib.dir/build.make tests/CMakeFiles/elevator_system_lib.dir/depend
-	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/elevator_system_lib.dir/build.make tests/CMakeFiles/elevator_system_lib.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/mnt/d/AATFG/API/Codigo/tests/temp-build-tests/CMakeFiles --progress-num=18,19,20,21 "Built target elevator_system_lib"
-.PHONY : tests/CMakeFiles/elevator_system_lib.dir/all
-
-# Build rule for subdir invocation for target.
-tests/CMakeFiles/elevator_system_lib.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/AATFG/API/Codigo/tests/temp-build-tests/CMakeFiles 4
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/elevator_system_lib.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/AATFG/API/Codigo/tests/temp-build-tests/CMakeFiles 0
-.PHONY : tests/CMakeFiles/elevator_system_lib.dir/rule
-
-# Convenience name for target.
-elevator_system_lib: tests/CMakeFiles/elevator_system_lib.dir/rule
+elevator_system_lib: CMakeFiles/elevator_system_lib.dir/rule
 .PHONY : elevator_system_lib
 
 # clean rule for target.
-tests/CMakeFiles/elevator_system_lib.dir/clean:
-	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/elevator_system_lib.dir/build.make tests/CMakeFiles/elevator_system_lib.dir/clean
-.PHONY : tests/CMakeFiles/elevator_system_lib.dir/clean
+CMakeFiles/elevator_system_lib.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/elevator_system_lib.dir/build.make CMakeFiles/elevator_system_lib.dir/clean
+.PHONY : CMakeFiles/elevator_system_lib.dir/clean
 
 #=============================================================================
-# Target rules for target tests/CMakeFiles/test_elevator_state_manager.dir
+# Target rules for target CMakeFiles/test_elevator_state_manager.dir
 
 # All Build rule for target.
-tests/CMakeFiles/test_elevator_state_manager.dir/all: tests/CMakeFiles/elevator_system_lib.dir/all
-tests/CMakeFiles/test_elevator_state_manager.dir/all: tests/mocks/CMakeFiles/test_mocks.dir/all
-	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_elevator_state_manager.dir/build.make tests/CMakeFiles/test_elevator_state_manager.dir/depend
-	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_elevator_state_manager.dir/build.make tests/CMakeFiles/test_elevator_state_manager.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/mnt/d/AATFG/API/Codigo/tests/temp-build-tests/CMakeFiles --progress-num=32,33 "Built target test_elevator_state_manager"
-.PHONY : tests/CMakeFiles/test_elevator_state_manager.dir/all
+CMakeFiles/test_elevator_state_manager.dir/all: CMakeFiles/elevator_system_lib.dir/all
+CMakeFiles/test_elevator_state_manager.dir/all: mocks/CMakeFiles/test_mocks.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_elevator_state_manager.dir/build.make CMakeFiles/test_elevator_state_manager.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_elevator_state_manager.dir/build.make CMakeFiles/test_elevator_state_manager.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/mnt/d/AATFG/API/Codigo/git/tests/temp-build-tests/CMakeFiles --progress-num=11,12 "Built target test_elevator_state_manager"
+.PHONY : CMakeFiles/test_elevator_state_manager.dir/all
 
 # Build rule for subdir invocation for target.
-tests/CMakeFiles/test_elevator_state_manager.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/AATFG/API/Codigo/tests/temp-build-tests/CMakeFiles 10
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/test_elevator_state_manager.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/AATFG/API/Codigo/tests/temp-build-tests/CMakeFiles 0
-.PHONY : tests/CMakeFiles/test_elevator_state_manager.dir/rule
+CMakeFiles/test_elevator_state_manager.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/AATFG/API/Codigo/git/tests/temp-build-tests/CMakeFiles 10
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_elevator_state_manager.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/AATFG/API/Codigo/git/tests/temp-build-tests/CMakeFiles 0
+.PHONY : CMakeFiles/test_elevator_state_manager.dir/rule
 
 # Convenience name for target.
-test_elevator_state_manager: tests/CMakeFiles/test_elevator_state_manager.dir/rule
+test_elevator_state_manager: CMakeFiles/test_elevator_state_manager.dir/rule
 .PHONY : test_elevator_state_manager
 
 # clean rule for target.
-tests/CMakeFiles/test_elevator_state_manager.dir/clean:
-	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_elevator_state_manager.dir/build.make tests/CMakeFiles/test_elevator_state_manager.dir/clean
-.PHONY : tests/CMakeFiles/test_elevator_state_manager.dir/clean
+CMakeFiles/test_elevator_state_manager.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_elevator_state_manager.dir/build.make CMakeFiles/test_elevator_state_manager.dir/clean
+.PHONY : CMakeFiles/test_elevator_state_manager.dir/clean
 
 #=============================================================================
-# Target rules for target tests/CMakeFiles/test_can_bridge.dir
+# Target rules for target CMakeFiles/test_can_bridge.dir
 
 # All Build rule for target.
-tests/CMakeFiles/test_can_bridge.dir/all: tests/CMakeFiles/elevator_system_lib.dir/all
-tests/CMakeFiles/test_can_bridge.dir/all: tests/mocks/CMakeFiles/test_mocks.dir/all
-	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_can_bridge.dir/build.make tests/CMakeFiles/test_can_bridge.dir/depend
-	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_can_bridge.dir/build.make tests/CMakeFiles/test_can_bridge.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/mnt/d/AATFG/API/Codigo/tests/temp-build-tests/CMakeFiles --progress-num=28,29 "Built target test_can_bridge"
-.PHONY : tests/CMakeFiles/test_can_bridge.dir/all
+CMakeFiles/test_can_bridge.dir/all: CMakeFiles/elevator_system_lib.dir/all
+CMakeFiles/test_can_bridge.dir/all: mocks/CMakeFiles/test_mocks.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_can_bridge.dir/build.make CMakeFiles/test_can_bridge.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_can_bridge.dir/build.make CMakeFiles/test_can_bridge.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/mnt/d/AATFG/API/Codigo/git/tests/temp-build-tests/CMakeFiles --progress-num=7,8 "Built target test_can_bridge"
+.PHONY : CMakeFiles/test_can_bridge.dir/all
 
 # Build rule for subdir invocation for target.
-tests/CMakeFiles/test_can_bridge.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/AATFG/API/Codigo/tests/temp-build-tests/CMakeFiles 10
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/test_can_bridge.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/AATFG/API/Codigo/tests/temp-build-tests/CMakeFiles 0
-.PHONY : tests/CMakeFiles/test_can_bridge.dir/rule
+CMakeFiles/test_can_bridge.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/AATFG/API/Codigo/git/tests/temp-build-tests/CMakeFiles 10
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_can_bridge.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/AATFG/API/Codigo/git/tests/temp-build-tests/CMakeFiles 0
+.PHONY : CMakeFiles/test_can_bridge.dir/rule
 
 # Convenience name for target.
-test_can_bridge: tests/CMakeFiles/test_can_bridge.dir/rule
+test_can_bridge: CMakeFiles/test_can_bridge.dir/rule
 .PHONY : test_can_bridge
 
 # clean rule for target.
-tests/CMakeFiles/test_can_bridge.dir/clean:
-	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_can_bridge.dir/build.make tests/CMakeFiles/test_can_bridge.dir/clean
-.PHONY : tests/CMakeFiles/test_can_bridge.dir/clean
+CMakeFiles/test_can_bridge.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_can_bridge.dir/build.make CMakeFiles/test_can_bridge.dir/clean
+.PHONY : CMakeFiles/test_can_bridge.dir/clean
 
 #=============================================================================
-# Target rules for target tests/CMakeFiles/test_api_handlers.dir
+# Target rules for target CMakeFiles/test_api_handlers.dir
 
 # All Build rule for target.
-tests/CMakeFiles/test_api_handlers.dir/all: tests/CMakeFiles/elevator_system_lib.dir/all
-tests/CMakeFiles/test_api_handlers.dir/all: tests/mocks/CMakeFiles/test_mocks.dir/all
-	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_api_handlers.dir/build.make tests/CMakeFiles/test_api_handlers.dir/depend
-	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_api_handlers.dir/build.make tests/CMakeFiles/test_api_handlers.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/mnt/d/AATFG/API/Codigo/tests/temp-build-tests/CMakeFiles --progress-num=26,27 "Built target test_api_handlers"
-.PHONY : tests/CMakeFiles/test_api_handlers.dir/all
+CMakeFiles/test_api_handlers.dir/all: CMakeFiles/elevator_system_lib.dir/all
+CMakeFiles/test_api_handlers.dir/all: mocks/CMakeFiles/test_mocks.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_api_handlers.dir/build.make CMakeFiles/test_api_handlers.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_api_handlers.dir/build.make CMakeFiles/test_api_handlers.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/mnt/d/AATFG/API/Codigo/git/tests/temp-build-tests/CMakeFiles --progress-num=5,6 "Built target test_api_handlers"
+.PHONY : CMakeFiles/test_api_handlers.dir/all
 
 # Build rule for subdir invocation for target.
-tests/CMakeFiles/test_api_handlers.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/AATFG/API/Codigo/tests/temp-build-tests/CMakeFiles 10
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/test_api_handlers.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/AATFG/API/Codigo/tests/temp-build-tests/CMakeFiles 0
-.PHONY : tests/CMakeFiles/test_api_handlers.dir/rule
+CMakeFiles/test_api_handlers.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/AATFG/API/Codigo/git/tests/temp-build-tests/CMakeFiles 10
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_api_handlers.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/AATFG/API/Codigo/git/tests/temp-build-tests/CMakeFiles 0
+.PHONY : CMakeFiles/test_api_handlers.dir/rule
 
 # Convenience name for target.
-test_api_handlers: tests/CMakeFiles/test_api_handlers.dir/rule
+test_api_handlers: CMakeFiles/test_api_handlers.dir/rule
 .PHONY : test_api_handlers
 
 # clean rule for target.
-tests/CMakeFiles/test_api_handlers.dir/clean:
-	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_api_handlers.dir/build.make tests/CMakeFiles/test_api_handlers.dir/clean
-.PHONY : tests/CMakeFiles/test_api_handlers.dir/clean
+CMakeFiles/test_api_handlers.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_api_handlers.dir/build.make CMakeFiles/test_api_handlers.dir/clean
+.PHONY : CMakeFiles/test_api_handlers.dir/clean
 
 #=============================================================================
-# Target rules for target tests/CMakeFiles/test_servidor_central.dir
+# Target rules for target CMakeFiles/test_servidor_central.dir
 
 # All Build rule for target.
-tests/CMakeFiles/test_servidor_central.dir/all: tests/CMakeFiles/elevator_system_lib.dir/all
-tests/CMakeFiles/test_servidor_central.dir/all: tests/mocks/CMakeFiles/test_mocks.dir/all
-	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_servidor_central.dir/build.make tests/CMakeFiles/test_servidor_central.dir/depend
-	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_servidor_central.dir/build.make tests/CMakeFiles/test_servidor_central.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/mnt/d/AATFG/API/Codigo/tests/temp-build-tests/CMakeFiles --progress-num=38,39 "Built target test_servidor_central"
-.PHONY : tests/CMakeFiles/test_servidor_central.dir/all
+CMakeFiles/test_servidor_central.dir/all: CMakeFiles/elevator_system_lib.dir/all
+CMakeFiles/test_servidor_central.dir/all: mocks/CMakeFiles/test_mocks.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_servidor_central.dir/build.make CMakeFiles/test_servidor_central.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_servidor_central.dir/build.make CMakeFiles/test_servidor_central.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/mnt/d/AATFG/API/Codigo/git/tests/temp-build-tests/CMakeFiles --progress-num=19,20 "Built target test_servidor_central"
+.PHONY : CMakeFiles/test_servidor_central.dir/all
 
 # Build rule for subdir invocation for target.
-tests/CMakeFiles/test_servidor_central.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/AATFG/API/Codigo/tests/temp-build-tests/CMakeFiles 10
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/test_servidor_central.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/AATFG/API/Codigo/tests/temp-build-tests/CMakeFiles 0
-.PHONY : tests/CMakeFiles/test_servidor_central.dir/rule
+CMakeFiles/test_servidor_central.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/AATFG/API/Codigo/git/tests/temp-build-tests/CMakeFiles 10
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_servidor_central.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/AATFG/API/Codigo/git/tests/temp-build-tests/CMakeFiles 0
+.PHONY : CMakeFiles/test_servidor_central.dir/rule
 
 # Convenience name for target.
-test_servidor_central: tests/CMakeFiles/test_servidor_central.dir/rule
+test_servidor_central: CMakeFiles/test_servidor_central.dir/rule
 .PHONY : test_servidor_central
 
 # clean rule for target.
-tests/CMakeFiles/test_servidor_central.dir/clean:
-	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_servidor_central.dir/build.make tests/CMakeFiles/test_servidor_central.dir/clean
-.PHONY : tests/CMakeFiles/test_servidor_central.dir/clean
+CMakeFiles/test_servidor_central.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_servidor_central.dir/build.make CMakeFiles/test_servidor_central.dir/clean
+.PHONY : CMakeFiles/test_servidor_central.dir/clean
 
 #=============================================================================
-# Target rules for target tests/CMakeFiles/test_can_to_coap.dir
+# Target rules for target CMakeFiles/test_psk_security.dir
 
 # All Build rule for target.
-tests/CMakeFiles/test_can_to_coap.dir/all: tests/CMakeFiles/elevator_system_lib.dir/all
-tests/CMakeFiles/test_can_to_coap.dir/all: tests/mocks/CMakeFiles/test_mocks.dir/all
-	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_can_to_coap.dir/build.make tests/CMakeFiles/test_can_to_coap.dir/depend
-	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_can_to_coap.dir/build.make tests/CMakeFiles/test_can_to_coap.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/mnt/d/AATFG/API/Codigo/tests/temp-build-tests/CMakeFiles --progress-num=30,31 "Built target test_can_to_coap"
-.PHONY : tests/CMakeFiles/test_can_to_coap.dir/all
+CMakeFiles/test_psk_security.dir/all: CMakeFiles/elevator_system_lib.dir/all
+CMakeFiles/test_psk_security.dir/all: mocks/CMakeFiles/test_mocks.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_psk_security.dir/build.make CMakeFiles/test_psk_security.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_psk_security.dir/build.make CMakeFiles/test_psk_security.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/mnt/d/AATFG/API/Codigo/git/tests/temp-build-tests/CMakeFiles --progress-num=17,18 "Built target test_psk_security"
+.PHONY : CMakeFiles/test_psk_security.dir/all
 
 # Build rule for subdir invocation for target.
-tests/CMakeFiles/test_can_to_coap.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/AATFG/API/Codigo/tests/temp-build-tests/CMakeFiles 10
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/test_can_to_coap.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/AATFG/API/Codigo/tests/temp-build-tests/CMakeFiles 0
-.PHONY : tests/CMakeFiles/test_can_to_coap.dir/rule
+CMakeFiles/test_psk_security.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/AATFG/API/Codigo/git/tests/temp-build-tests/CMakeFiles 10
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_psk_security.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/AATFG/API/Codigo/git/tests/temp-build-tests/CMakeFiles 0
+.PHONY : CMakeFiles/test_psk_security.dir/rule
 
 # Convenience name for target.
-test_can_to_coap: tests/CMakeFiles/test_can_to_coap.dir/rule
+test_psk_security: CMakeFiles/test_psk_security.dir/rule
+.PHONY : test_psk_security
+
+# clean rule for target.
+CMakeFiles/test_psk_security.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_psk_security.dir/build.make CMakeFiles/test_psk_security.dir/clean
+.PHONY : CMakeFiles/test_psk_security.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/test_can_to_coap.dir
+
+# All Build rule for target.
+CMakeFiles/test_can_to_coap.dir/all: CMakeFiles/elevator_system_lib.dir/all
+CMakeFiles/test_can_to_coap.dir/all: mocks/CMakeFiles/test_mocks.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_can_to_coap.dir/build.make CMakeFiles/test_can_to_coap.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_can_to_coap.dir/build.make CMakeFiles/test_can_to_coap.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/mnt/d/AATFG/API/Codigo/git/tests/temp-build-tests/CMakeFiles --progress-num=9,10 "Built target test_can_to_coap"
+.PHONY : CMakeFiles/test_can_to_coap.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/test_can_to_coap.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/AATFG/API/Codigo/git/tests/temp-build-tests/CMakeFiles 10
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test_can_to_coap.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/AATFG/API/Codigo/git/tests/temp-build-tests/CMakeFiles 0
+.PHONY : CMakeFiles/test_can_to_coap.dir/rule
+
+# Convenience name for target.
+test_can_to_coap: CMakeFiles/test_can_to_coap.dir/rule
 .PHONY : test_can_to_coap
 
 # clean rule for target.
-tests/CMakeFiles/test_can_to_coap.dir/clean:
-	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_can_to_coap.dir/build.make tests/CMakeFiles/test_can_to_coap.dir/clean
-.PHONY : tests/CMakeFiles/test_can_to_coap.dir/clean
+CMakeFiles/test_can_to_coap.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_can_to_coap.dir/build.make CMakeFiles/test_can_to_coap.dir/clean
+.PHONY : CMakeFiles/test_can_to_coap.dir/clean
 
 #=============================================================================
-# Target rules for target tests/mocks/CMakeFiles/test_mocks.dir
+# Target rules for target mocks/CMakeFiles/test_mocks.dir
 
 # All Build rule for target.
-tests/mocks/CMakeFiles/test_mocks.dir/all:
-	$(MAKE) $(MAKESILENT) -f tests/mocks/CMakeFiles/test_mocks.dir/build.make tests/mocks/CMakeFiles/test_mocks.dir/depend
-	$(MAKE) $(MAKESILENT) -f tests/mocks/CMakeFiles/test_mocks.dir/build.make tests/mocks/CMakeFiles/test_mocks.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/mnt/d/AATFG/API/Codigo/tests/temp-build-tests/CMakeFiles --progress-num=34,35,36,37 "Built target test_mocks"
-.PHONY : tests/mocks/CMakeFiles/test_mocks.dir/all
+mocks/CMakeFiles/test_mocks.dir/all:
+	$(MAKE) $(MAKESILENT) -f mocks/CMakeFiles/test_mocks.dir/build.make mocks/CMakeFiles/test_mocks.dir/depend
+	$(MAKE) $(MAKESILENT) -f mocks/CMakeFiles/test_mocks.dir/build.make mocks/CMakeFiles/test_mocks.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/mnt/d/AATFG/API/Codigo/git/tests/temp-build-tests/CMakeFiles --progress-num=13,14,15,16 "Built target test_mocks"
+.PHONY : mocks/CMakeFiles/test_mocks.dir/all
 
 # Build rule for subdir invocation for target.
-tests/mocks/CMakeFiles/test_mocks.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/AATFG/API/Codigo/tests/temp-build-tests/CMakeFiles 4
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/mocks/CMakeFiles/test_mocks.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/AATFG/API/Codigo/tests/temp-build-tests/CMakeFiles 0
-.PHONY : tests/mocks/CMakeFiles/test_mocks.dir/rule
+mocks/CMakeFiles/test_mocks.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/AATFG/API/Codigo/git/tests/temp-build-tests/CMakeFiles 4
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 mocks/CMakeFiles/test_mocks.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/AATFG/API/Codigo/git/tests/temp-build-tests/CMakeFiles 0
+.PHONY : mocks/CMakeFiles/test_mocks.dir/rule
 
 # Convenience name for target.
-test_mocks: tests/mocks/CMakeFiles/test_mocks.dir/rule
+test_mocks: mocks/CMakeFiles/test_mocks.dir/rule
 .PHONY : test_mocks
 
 # clean rule for target.
-tests/mocks/CMakeFiles/test_mocks.dir/clean:
-	$(MAKE) $(MAKESILENT) -f tests/mocks/CMakeFiles/test_mocks.dir/build.make tests/mocks/CMakeFiles/test_mocks.dir/clean
-.PHONY : tests/mocks/CMakeFiles/test_mocks.dir/clean
+mocks/CMakeFiles/test_mocks.dir/clean:
+	$(MAKE) $(MAKESILENT) -f mocks/CMakeFiles/test_mocks.dir/build.make mocks/CMakeFiles/test_mocks.dir/clean
+.PHONY : mocks/CMakeFiles/test_mocks.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

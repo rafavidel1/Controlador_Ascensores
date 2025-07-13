@@ -1,0 +1,1 @@
+/usr/bin/cc -g CMakeFiles/test_elevator_state_manager.dir/unit/test_elevator_state_manager.c.o -o test_elevator_state_manager  /usr/lib/x86_64-linux-gnu/libcunit.so -lcoap-3-openssl -lcjson libelevator_system_lib.a mocks/libtest_mocks.a -lm -lpthread -lcoap-3-openssl -lcjson 

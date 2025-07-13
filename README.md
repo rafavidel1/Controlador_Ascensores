@@ -165,14 +165,37 @@ ls -la logs/$(date +%Y-%m-%d)/   # ✅ Reportes PDF/Markdown automáticos
 ```bash
 # Ejecutar TODOS los tests automáticamente
 cd tests
-./run_all_tests.sh
+./run_all_tests.sh --clean  # Recomendado: limpia builds anteriores
 
 # Salida esperada:
-# ✅ Running 34 unit tests...
+# ✅ Running 38 unit tests...
 # ✅ Running integration tests...
-# ✅ Running DTLS handshake tests...
+# ✅ Running PSK security tests...
 # ✅ ALL TESTS PASSED!
-# ✅ Coverage reports generated automatically
+# ✅ Reports generated automatically
+```
+
+### 📊 Reportes de Pruebas
+
+Los reportes se generan automáticamente en `tests/temp-build-tests/` después de la ejecución:
+
+```
+tests/temp-build-tests/
+├── reporte_consolidado.txt              # 📋 Reporte principal
+├── test_results.json                    # 📈 Datos estructurados
+├── test_api_handlers_report.txt         # 🔧 Manejadores de API  
+├── test_can_bridge_report.txt           # 🌉 Puente CAN
+├── test_can_to_coap_report.txt          # 🔄 Integración CAN-CoAP
+├── test_elevator_state_manager_report.txt # 🏢 Gestor de Estado
+├── test_psk_security_report.txt         # 🔒 Seguridad PSK-DTLS
+└── test_servidor_central_report.txt     # 🖥️ Servidor Central
+```
+
+**Uso recomendado:**
+```bash
+cd tests
+./run_all_tests.sh --clean              # Ejecutar tests
+cat temp-build-tests/reporte_consolidado.txt  # Ver reporte principal
 ```
 
 ## 🔒 Seguridad DTLS

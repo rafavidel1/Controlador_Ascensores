@@ -57,10 +57,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /mnt/d/AATFG/API/Codigo
+CMAKE_SOURCE_DIR = /mnt/d/AATFG/API/Codigo/git/tests
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /mnt/d/AATFG/API/Codigo/tests/temp-build-tests
+CMAKE_BINARY_DIR = /mnt/d/AATFG/API/Codigo/git/tests/temp-build-tests
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -95,56 +95,11 @@ rebuild_cache:
 rebuild_cache/fast: rebuild_cache
 .PHONY : rebuild_cache/fast
 
-# Special rule for the target list_install_components
-list_install_components:
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Available install components are: \"Unspecified\""
-.PHONY : list_install_components
-
-# Special rule for the target list_install_components
-list_install_components/fast: list_install_components
-.PHONY : list_install_components/fast
-
-# Special rule for the target install
-install: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Install the project..."
-	/usr/bin/cmake -P cmake_install.cmake
-.PHONY : install
-
-# Special rule for the target install
-install/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Install the project..."
-	/usr/bin/cmake -P cmake_install.cmake
-.PHONY : install/fast
-
-# Special rule for the target install/local
-install/local: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing only the local directory..."
-	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local
-
-# Special rule for the target install/local
-install/local/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing only the local directory..."
-	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local/fast
-
-# Special rule for the target install/strip
-install/strip: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing the project stripped..."
-	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install/strip
-
-# Special rule for the target install/strip
-install/strip/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing the project stripped..."
-	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install/strip/fast
-
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/AATFG/API/Codigo/tests/temp-build-tests/CMakeFiles /mnt/d/AATFG/API/Codigo/tests/temp-build-tests//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/AATFG/API/Codigo/git/tests/temp-build-tests/CMakeFiles /mnt/d/AATFG/API/Codigo/git/tests/temp-build-tests//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/AATFG/API/Codigo/tests/temp-build-tests/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /mnt/d/AATFG/API/Codigo/git/tests/temp-build-tests/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -172,84 +127,6 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named run_tests
-
-# Build rule for target.
-run_tests: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 run_tests
-.PHONY : run_tests
-
-# fast build rule for target.
-run_tests/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/run_tests.dir/build.make CMakeFiles/run_tests.dir/build
-.PHONY : run_tests/fast
-
-#=============================================================================
-# Target rules for targets named generate_reports
-
-# Build rule for target.
-generate_reports: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 generate_reports
-.PHONY : generate_reports
-
-# fast build rule for target.
-generate_reports/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/generate_reports.dir/build.make CMakeFiles/generate_reports.dir/build
-.PHONY : generate_reports/fast
-
-#=============================================================================
-# Target rules for targets named clean_all
-
-# Build rule for target.
-clean_all: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 clean_all
-.PHONY : clean_all
-
-# fast build rule for target.
-clean_all/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/clean_all.dir/build.make CMakeFiles/clean_all.dir/build
-.PHONY : clean_all/fast
-
-#=============================================================================
-# Target rules for targets named api_gateway
-
-# Build rule for target.
-api_gateway: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 api_gateway
-.PHONY : api_gateway
-
-# fast build rule for target.
-api_gateway/fast:
-	$(MAKE) $(MAKESILENT) -f api_gateway/CMakeFiles/api_gateway.dir/build.make api_gateway/CMakeFiles/api_gateway.dir/build
-.PHONY : api_gateway/fast
-
-#=============================================================================
-# Target rules for targets named api_gateway_dynamic
-
-# Build rule for target.
-api_gateway_dynamic: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 api_gateway_dynamic
-.PHONY : api_gateway_dynamic
-
-# fast build rule for target.
-api_gateway_dynamic/fast:
-	$(MAKE) $(MAKESILENT) -f api_gateway/CMakeFiles/api_gateway_dynamic.dir/build.make api_gateway/CMakeFiles/api_gateway_dynamic.dir/build
-.PHONY : api_gateway_dynamic/fast
-
-#=============================================================================
-# Target rules for targets named servidor_central
-
-# Build rule for target.
-servidor_central: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 servidor_central
-.PHONY : servidor_central
-
-# fast build rule for target.
-servidor_central/fast:
-	$(MAKE) $(MAKESILENT) -f servidor_central/CMakeFiles/servidor_central.dir/build.make servidor_central/CMakeFiles/servidor_central.dir/build
-.PHONY : servidor_central/fast
-
-#=============================================================================
 # Target rules for targets named elevator_system_lib
 
 # Build rule for target.
@@ -259,7 +136,7 @@ elevator_system_lib: cmake_check_build_system
 
 # fast build rule for target.
 elevator_system_lib/fast:
-	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/elevator_system_lib.dir/build.make tests/CMakeFiles/elevator_system_lib.dir/build
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/elevator_system_lib.dir/build.make CMakeFiles/elevator_system_lib.dir/build
 .PHONY : elevator_system_lib/fast
 
 #=============================================================================
@@ -272,7 +149,7 @@ test_elevator_state_manager: cmake_check_build_system
 
 # fast build rule for target.
 test_elevator_state_manager/fast:
-	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_elevator_state_manager.dir/build.make tests/CMakeFiles/test_elevator_state_manager.dir/build
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_elevator_state_manager.dir/build.make CMakeFiles/test_elevator_state_manager.dir/build
 .PHONY : test_elevator_state_manager/fast
 
 #=============================================================================
@@ -285,7 +162,7 @@ test_can_bridge: cmake_check_build_system
 
 # fast build rule for target.
 test_can_bridge/fast:
-	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_can_bridge.dir/build.make tests/CMakeFiles/test_can_bridge.dir/build
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_can_bridge.dir/build.make CMakeFiles/test_can_bridge.dir/build
 .PHONY : test_can_bridge/fast
 
 #=============================================================================
@@ -298,7 +175,7 @@ test_api_handlers: cmake_check_build_system
 
 # fast build rule for target.
 test_api_handlers/fast:
-	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_api_handlers.dir/build.make tests/CMakeFiles/test_api_handlers.dir/build
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_api_handlers.dir/build.make CMakeFiles/test_api_handlers.dir/build
 .PHONY : test_api_handlers/fast
 
 #=============================================================================
@@ -311,8 +188,21 @@ test_servidor_central: cmake_check_build_system
 
 # fast build rule for target.
 test_servidor_central/fast:
-	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_servidor_central.dir/build.make tests/CMakeFiles/test_servidor_central.dir/build
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_servidor_central.dir/build.make CMakeFiles/test_servidor_central.dir/build
 .PHONY : test_servidor_central/fast
+
+#=============================================================================
+# Target rules for targets named test_psk_security
+
+# Build rule for target.
+test_psk_security: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_psk_security
+.PHONY : test_psk_security
+
+# fast build rule for target.
+test_psk_security/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_psk_security.dir/build.make CMakeFiles/test_psk_security.dir/build
+.PHONY : test_psk_security/fast
 
 #=============================================================================
 # Target rules for targets named test_can_to_coap
@@ -324,7 +214,7 @@ test_can_to_coap: cmake_check_build_system
 
 # fast build rule for target.
 test_can_to_coap/fast:
-	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/test_can_to_coap.dir/build.make tests/CMakeFiles/test_can_to_coap.dir/build
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_can_to_coap.dir/build.make CMakeFiles/test_can_to_coap.dir/build
 .PHONY : test_can_to_coap/fast
 
 #=============================================================================
@@ -337,8 +227,224 @@ test_mocks: cmake_check_build_system
 
 # fast build rule for target.
 test_mocks/fast:
-	$(MAKE) $(MAKESILENT) -f tests/mocks/CMakeFiles/test_mocks.dir/build.make tests/mocks/CMakeFiles/test_mocks.dir/build
+	$(MAKE) $(MAKESILENT) -f mocks/CMakeFiles/test_mocks.dir/build.make mocks/CMakeFiles/test_mocks.dir/build
 .PHONY : test_mocks/fast
+
+integration/test_can_to_coap.o: integration/test_can_to_coap.c.o
+.PHONY : integration/test_can_to_coap.o
+
+# target to build an object file
+integration/test_can_to_coap.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_can_to_coap.dir/build.make CMakeFiles/test_can_to_coap.dir/integration/test_can_to_coap.c.o
+.PHONY : integration/test_can_to_coap.c.o
+
+integration/test_can_to_coap.i: integration/test_can_to_coap.c.i
+.PHONY : integration/test_can_to_coap.i
+
+# target to preprocess a source file
+integration/test_can_to_coap.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_can_to_coap.dir/build.make CMakeFiles/test_can_to_coap.dir/integration/test_can_to_coap.c.i
+.PHONY : integration/test_can_to_coap.c.i
+
+integration/test_can_to_coap.s: integration/test_can_to_coap.c.s
+.PHONY : integration/test_can_to_coap.s
+
+# target to generate assembly for a file
+integration/test_can_to_coap.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_can_to_coap.dir/build.make CMakeFiles/test_can_to_coap.dir/integration/test_can_to_coap.c.s
+.PHONY : integration/test_can_to_coap.c.s
+
+mnt/d/AATFG/API/Codigo/api_gateway/src/api_handlers.o: mnt/d/AATFG/API/Codigo/api_gateway/src/api_handlers.c.o
+.PHONY : mnt/d/AATFG/API/Codigo/api_gateway/src/api_handlers.o
+
+# target to build an object file
+mnt/d/AATFG/API/Codigo/api_gateway/src/api_handlers.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/elevator_system_lib.dir/build.make CMakeFiles/elevator_system_lib.dir/mnt/d/AATFG/API/Codigo/api_gateway/src/api_handlers.c.o
+.PHONY : mnt/d/AATFG/API/Codigo/api_gateway/src/api_handlers.c.o
+
+mnt/d/AATFG/API/Codigo/api_gateway/src/api_handlers.i: mnt/d/AATFG/API/Codigo/api_gateway/src/api_handlers.c.i
+.PHONY : mnt/d/AATFG/API/Codigo/api_gateway/src/api_handlers.i
+
+# target to preprocess a source file
+mnt/d/AATFG/API/Codigo/api_gateway/src/api_handlers.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/elevator_system_lib.dir/build.make CMakeFiles/elevator_system_lib.dir/mnt/d/AATFG/API/Codigo/api_gateway/src/api_handlers.c.i
+.PHONY : mnt/d/AATFG/API/Codigo/api_gateway/src/api_handlers.c.i
+
+mnt/d/AATFG/API/Codigo/api_gateway/src/api_handlers.s: mnt/d/AATFG/API/Codigo/api_gateway/src/api_handlers.c.s
+.PHONY : mnt/d/AATFG/API/Codigo/api_gateway/src/api_handlers.s
+
+# target to generate assembly for a file
+mnt/d/AATFG/API/Codigo/api_gateway/src/api_handlers.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/elevator_system_lib.dir/build.make CMakeFiles/elevator_system_lib.dir/mnt/d/AATFG/API/Codigo/api_gateway/src/api_handlers.c.s
+.PHONY : mnt/d/AATFG/API/Codigo/api_gateway/src/api_handlers.c.s
+
+mnt/d/AATFG/API/Codigo/api_gateway/src/can_bridge.o: mnt/d/AATFG/API/Codigo/api_gateway/src/can_bridge.c.o
+.PHONY : mnt/d/AATFG/API/Codigo/api_gateway/src/can_bridge.o
+
+# target to build an object file
+mnt/d/AATFG/API/Codigo/api_gateway/src/can_bridge.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/elevator_system_lib.dir/build.make CMakeFiles/elevator_system_lib.dir/mnt/d/AATFG/API/Codigo/api_gateway/src/can_bridge.c.o
+.PHONY : mnt/d/AATFG/API/Codigo/api_gateway/src/can_bridge.c.o
+
+mnt/d/AATFG/API/Codigo/api_gateway/src/can_bridge.i: mnt/d/AATFG/API/Codigo/api_gateway/src/can_bridge.c.i
+.PHONY : mnt/d/AATFG/API/Codigo/api_gateway/src/can_bridge.i
+
+# target to preprocess a source file
+mnt/d/AATFG/API/Codigo/api_gateway/src/can_bridge.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/elevator_system_lib.dir/build.make CMakeFiles/elevator_system_lib.dir/mnt/d/AATFG/API/Codigo/api_gateway/src/can_bridge.c.i
+.PHONY : mnt/d/AATFG/API/Codigo/api_gateway/src/can_bridge.c.i
+
+mnt/d/AATFG/API/Codigo/api_gateway/src/can_bridge.s: mnt/d/AATFG/API/Codigo/api_gateway/src/can_bridge.c.s
+.PHONY : mnt/d/AATFG/API/Codigo/api_gateway/src/can_bridge.s
+
+# target to generate assembly for a file
+mnt/d/AATFG/API/Codigo/api_gateway/src/can_bridge.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/elevator_system_lib.dir/build.make CMakeFiles/elevator_system_lib.dir/mnt/d/AATFG/API/Codigo/api_gateway/src/can_bridge.c.s
+.PHONY : mnt/d/AATFG/API/Codigo/api_gateway/src/can_bridge.c.s
+
+mnt/d/AATFG/API/Codigo/api_gateway/src/elevator_state_manager.o: mnt/d/AATFG/API/Codigo/api_gateway/src/elevator_state_manager.c.o
+.PHONY : mnt/d/AATFG/API/Codigo/api_gateway/src/elevator_state_manager.o
+
+# target to build an object file
+mnt/d/AATFG/API/Codigo/api_gateway/src/elevator_state_manager.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/elevator_system_lib.dir/build.make CMakeFiles/elevator_system_lib.dir/mnt/d/AATFG/API/Codigo/api_gateway/src/elevator_state_manager.c.o
+.PHONY : mnt/d/AATFG/API/Codigo/api_gateway/src/elevator_state_manager.c.o
+
+mnt/d/AATFG/API/Codigo/api_gateway/src/elevator_state_manager.i: mnt/d/AATFG/API/Codigo/api_gateway/src/elevator_state_manager.c.i
+.PHONY : mnt/d/AATFG/API/Codigo/api_gateway/src/elevator_state_manager.i
+
+# target to preprocess a source file
+mnt/d/AATFG/API/Codigo/api_gateway/src/elevator_state_manager.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/elevator_system_lib.dir/build.make CMakeFiles/elevator_system_lib.dir/mnt/d/AATFG/API/Codigo/api_gateway/src/elevator_state_manager.c.i
+.PHONY : mnt/d/AATFG/API/Codigo/api_gateway/src/elevator_state_manager.c.i
+
+mnt/d/AATFG/API/Codigo/api_gateway/src/elevator_state_manager.s: mnt/d/AATFG/API/Codigo/api_gateway/src/elevator_state_manager.c.s
+.PHONY : mnt/d/AATFG/API/Codigo/api_gateway/src/elevator_state_manager.s
+
+# target to generate assembly for a file
+mnt/d/AATFG/API/Codigo/api_gateway/src/elevator_state_manager.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/elevator_system_lib.dir/build.make CMakeFiles/elevator_system_lib.dir/mnt/d/AATFG/API/Codigo/api_gateway/src/elevator_state_manager.c.s
+.PHONY : mnt/d/AATFG/API/Codigo/api_gateway/src/elevator_state_manager.c.s
+
+unit/test_api_handlers.o: unit/test_api_handlers.c.o
+.PHONY : unit/test_api_handlers.o
+
+# target to build an object file
+unit/test_api_handlers.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_api_handlers.dir/build.make CMakeFiles/test_api_handlers.dir/unit/test_api_handlers.c.o
+.PHONY : unit/test_api_handlers.c.o
+
+unit/test_api_handlers.i: unit/test_api_handlers.c.i
+.PHONY : unit/test_api_handlers.i
+
+# target to preprocess a source file
+unit/test_api_handlers.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_api_handlers.dir/build.make CMakeFiles/test_api_handlers.dir/unit/test_api_handlers.c.i
+.PHONY : unit/test_api_handlers.c.i
+
+unit/test_api_handlers.s: unit/test_api_handlers.c.s
+.PHONY : unit/test_api_handlers.s
+
+# target to generate assembly for a file
+unit/test_api_handlers.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_api_handlers.dir/build.make CMakeFiles/test_api_handlers.dir/unit/test_api_handlers.c.s
+.PHONY : unit/test_api_handlers.c.s
+
+unit/test_can_bridge.o: unit/test_can_bridge.c.o
+.PHONY : unit/test_can_bridge.o
+
+# target to build an object file
+unit/test_can_bridge.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_can_bridge.dir/build.make CMakeFiles/test_can_bridge.dir/unit/test_can_bridge.c.o
+.PHONY : unit/test_can_bridge.c.o
+
+unit/test_can_bridge.i: unit/test_can_bridge.c.i
+.PHONY : unit/test_can_bridge.i
+
+# target to preprocess a source file
+unit/test_can_bridge.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_can_bridge.dir/build.make CMakeFiles/test_can_bridge.dir/unit/test_can_bridge.c.i
+.PHONY : unit/test_can_bridge.c.i
+
+unit/test_can_bridge.s: unit/test_can_bridge.c.s
+.PHONY : unit/test_can_bridge.s
+
+# target to generate assembly for a file
+unit/test_can_bridge.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_can_bridge.dir/build.make CMakeFiles/test_can_bridge.dir/unit/test_can_bridge.c.s
+.PHONY : unit/test_can_bridge.c.s
+
+unit/test_elevator_state_manager.o: unit/test_elevator_state_manager.c.o
+.PHONY : unit/test_elevator_state_manager.o
+
+# target to build an object file
+unit/test_elevator_state_manager.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_elevator_state_manager.dir/build.make CMakeFiles/test_elevator_state_manager.dir/unit/test_elevator_state_manager.c.o
+.PHONY : unit/test_elevator_state_manager.c.o
+
+unit/test_elevator_state_manager.i: unit/test_elevator_state_manager.c.i
+.PHONY : unit/test_elevator_state_manager.i
+
+# target to preprocess a source file
+unit/test_elevator_state_manager.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_elevator_state_manager.dir/build.make CMakeFiles/test_elevator_state_manager.dir/unit/test_elevator_state_manager.c.i
+.PHONY : unit/test_elevator_state_manager.c.i
+
+unit/test_elevator_state_manager.s: unit/test_elevator_state_manager.c.s
+.PHONY : unit/test_elevator_state_manager.s
+
+# target to generate assembly for a file
+unit/test_elevator_state_manager.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_elevator_state_manager.dir/build.make CMakeFiles/test_elevator_state_manager.dir/unit/test_elevator_state_manager.c.s
+.PHONY : unit/test_elevator_state_manager.c.s
+
+unit/test_psk_security.o: unit/test_psk_security.c.o
+.PHONY : unit/test_psk_security.o
+
+# target to build an object file
+unit/test_psk_security.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_psk_security.dir/build.make CMakeFiles/test_psk_security.dir/unit/test_psk_security.c.o
+.PHONY : unit/test_psk_security.c.o
+
+unit/test_psk_security.i: unit/test_psk_security.c.i
+.PHONY : unit/test_psk_security.i
+
+# target to preprocess a source file
+unit/test_psk_security.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_psk_security.dir/build.make CMakeFiles/test_psk_security.dir/unit/test_psk_security.c.i
+.PHONY : unit/test_psk_security.c.i
+
+unit/test_psk_security.s: unit/test_psk_security.c.s
+.PHONY : unit/test_psk_security.s
+
+# target to generate assembly for a file
+unit/test_psk_security.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_psk_security.dir/build.make CMakeFiles/test_psk_security.dir/unit/test_psk_security.c.s
+.PHONY : unit/test_psk_security.c.s
+
+unit/test_servidor_central.o: unit/test_servidor_central.c.o
+.PHONY : unit/test_servidor_central.o
+
+# target to build an object file
+unit/test_servidor_central.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_servidor_central.dir/build.make CMakeFiles/test_servidor_central.dir/unit/test_servidor_central.c.o
+.PHONY : unit/test_servidor_central.c.o
+
+unit/test_servidor_central.i: unit/test_servidor_central.c.i
+.PHONY : unit/test_servidor_central.i
+
+# target to preprocess a source file
+unit/test_servidor_central.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_servidor_central.dir/build.make CMakeFiles/test_servidor_central.dir/unit/test_servidor_central.c.i
+.PHONY : unit/test_servidor_central.c.i
+
+unit/test_servidor_central.s: unit/test_servidor_central.c.s
+.PHONY : unit/test_servidor_central.s
+
+# target to generate assembly for a file
+unit/test_servidor_central.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_servidor_central.dir/build.make CMakeFiles/test_servidor_central.dir/unit/test_servidor_central.c.s
+.PHONY : unit/test_servidor_central.c.s
 
 # Help Target
 help:
@@ -347,25 +453,43 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... edit_cache"
-	@echo "... install"
-	@echo "... install/local"
-	@echo "... install/strip"
-	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 	@echo "... test"
-	@echo "... clean_all"
-	@echo "... generate_reports"
-	@echo "... run_tests"
-	@echo "... api_gateway"
-	@echo "... api_gateway_dynamic"
 	@echo "... elevator_system_lib"
-	@echo "... servidor_central"
 	@echo "... test_api_handlers"
 	@echo "... test_can_bridge"
 	@echo "... test_can_to_coap"
 	@echo "... test_elevator_state_manager"
 	@echo "... test_mocks"
+	@echo "... test_psk_security"
 	@echo "... test_servidor_central"
+	@echo "... integration/test_can_to_coap.o"
+	@echo "... integration/test_can_to_coap.i"
+	@echo "... integration/test_can_to_coap.s"
+	@echo "... mnt/d/AATFG/API/Codigo/api_gateway/src/api_handlers.o"
+	@echo "... mnt/d/AATFG/API/Codigo/api_gateway/src/api_handlers.i"
+	@echo "... mnt/d/AATFG/API/Codigo/api_gateway/src/api_handlers.s"
+	@echo "... mnt/d/AATFG/API/Codigo/api_gateway/src/can_bridge.o"
+	@echo "... mnt/d/AATFG/API/Codigo/api_gateway/src/can_bridge.i"
+	@echo "... mnt/d/AATFG/API/Codigo/api_gateway/src/can_bridge.s"
+	@echo "... mnt/d/AATFG/API/Codigo/api_gateway/src/elevator_state_manager.o"
+	@echo "... mnt/d/AATFG/API/Codigo/api_gateway/src/elevator_state_manager.i"
+	@echo "... mnt/d/AATFG/API/Codigo/api_gateway/src/elevator_state_manager.s"
+	@echo "... unit/test_api_handlers.o"
+	@echo "... unit/test_api_handlers.i"
+	@echo "... unit/test_api_handlers.s"
+	@echo "... unit/test_can_bridge.o"
+	@echo "... unit/test_can_bridge.i"
+	@echo "... unit/test_can_bridge.s"
+	@echo "... unit/test_elevator_state_manager.o"
+	@echo "... unit/test_elevator_state_manager.i"
+	@echo "... unit/test_elevator_state_manager.s"
+	@echo "... unit/test_psk_security.o"
+	@echo "... unit/test_psk_security.i"
+	@echo "... unit/test_psk_security.s"
+	@echo "... unit/test_servidor_central.o"
+	@echo "... unit/test_servidor_central.i"
+	@echo "... unit/test_servidor_central.s"
 .PHONY : help
 
 

@@ -1,0 +1,1 @@
+/usr/bin/cc -g CMakeFiles/test_psk_security.dir/unit/test_psk_security.c.o -o test_psk_security  /usr/lib/x86_64-linux-gnu/libcunit.so -lcoap-3-openssl -lcjson libelevator_system_lib.a mocks/libtest_mocks.a -lm -lpthread -lcoap-3-openssl -lcjson 

@@ -1,0 +1,2 @@
+/usr/bin/ar qc libelevator_system_lib.a CMakeFiles/elevator_system_lib.dir/mnt/d/AATFG/API/Codigo/api_gateway/src/elevator_state_manager.c.o CMakeFiles/elevator_system_lib.dir/mnt/d/AATFG/API/Codigo/api_gateway/src/can_bridge.c.o CMakeFiles/elevator_system_lib.dir/mnt/d/AATFG/API/Codigo/api_gateway/src/api_handlers.c.o
+/usr/bin/ranlib libelevator_system_lib.a

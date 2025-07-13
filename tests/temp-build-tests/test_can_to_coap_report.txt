@@ -1,39 +1,39 @@
 === REPORTE DE PRUEBAS: INTEGRACIÓN CAN-COAP ===
-Fecha: Thu Jun 19 19:06:57 2025
+Fecha: Sun Jul 13 16:30:13 2025
 
 ===============================================
 
-TEST: test_can_to_coap_flow
+PRUEBA: test_can_to_coap_flow
 Descripción: Verifica el flujo completo de procesamiento CAN a CoAP
 Resultado: PASÓ
 Detalles: Flujo CAN->CoAP simulado correctamente: frame ID=0x100 procesado, piso=5, dirección=DOWN
 ----------------------------------------
 
-TEST: test_coap_session_creation
+PRUEBA: test_coap_session_creation
 Descripción: Verifica la creación correcta de sesiones CoAP
 Resultado: PASÓ
 Detalles: Sesión CoAP creada correctamente: estado=ESTABLISHED, protocolo=DTLS
 ----------------------------------------
 
-TEST: test_coap_response_to_can
+PRUEBA: test_coap_response_to_can
 Descripción: Verifica el procesamiento de respuestas CoAP a CAN
 Resultado: PASÓ
 Detalles: Respuesta CoAP->CAN procesada correctamente: ID=0x180, tarea=T_456, ascensor=E1A2, tiempo=45s
 ----------------------------------------
 
-TEST: test_communication_error_handling
+PRUEBA: test_communication_error_handling
 Descripción: Verifica el manejo correcto de errores de comunicación
 Resultado: PASÓ
 Detalles: Manejo de errores correcto: fallos de CoAP y CAN manejados apropiadamente
 ----------------------------------------
 
-TEST: test_concurrent_requests_flow
+PRUEBA: test_concurrent_requests_flow
 Descripción: Verifica el manejo correcto de múltiples solicitudes concurrentes
 Resultado: PASÓ
 Detalles: Flujo concurrente procesado correctamente: 3 solicitudes recibidas y respondidas
 ----------------------------------------
 
-TEST: test_json_format_validation
+PRUEBA: test_json_format_validation
 Descripción: Verifica la validación correcta del formato JSON
 Resultado: PASÓ
 Detalles: Formato JSON validado correctamente: solicitud y respuesta con estructura válida

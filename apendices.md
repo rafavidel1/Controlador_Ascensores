@@ -340,11 +340,3 @@ kubectl logs -f deployment/servidor-central
 \end{lstlisting}
 
 Este apéndice proporciona toda la información necesaria para instalar, compilar y ejecutar el sistema de control de ascensores usando los scripts automatizados.
-
-
-
-
-
-
-
-

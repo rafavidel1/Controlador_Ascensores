@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.7.11)  11 JUL 2025 19:44
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2025.7.11)  12 JUL 2025 01:14
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -826,9 +826,7 @@ LaTeX Font Info:    Font shape `T1/phv/m/n' will be
 
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texlive/texmf-di
-st/fonts/enc/dvips/base/8r.enc}] [2
-
-]
+st/fonts/enc/dvips/base/8r.enc}]
 \tf@toc=\write6
 \openout6 = `refman.toc'.
 
@@ -856,9 +854,7 @@ LaTeX Font Info:    Font shape `T1/phv/m/n' will be
 (Font)              scaled to size 6.29996pt on input line 204.
 LaTeX Font Info:    Font shape `T1/phv/b/n' will be
 (Font)              scaled to size 6.29996pt on input line 204.
- [1] [2
-
-]
+ [1]
 Package hyperref Info: Option `pageanchor' set `true' on input line 207.
 
 Chapter 1.
@@ -904,7 +900,7 @@ File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
 ]
 Chapter 4.
 (./main_8c.tex <./main_8c__incl.pdf>
-<main_8c__incl.pdf, id=236, 1477.52pt x 165.61874pt>
+<main_8c__incl.pdf, id=230, 1477.52pt x 165.61874pt>
 File: main_8c__incl.pdf Graphic file (type pdf)
 <use main_8c__incl.pdf>
 Package pdftex.def Info: main_8c__incl.pdf  used on input line 29.
@@ -987,7 +983,7 @@ Underfull \hbox (badness 10000) detected at line 351
  []
 
 ) (./psk__validator_8c.tex <./psk__validator_8c__incl.pdf>
-<psk__validator_8c__incl.pdf, id=318, 479.7925pt x 165.61874pt>
+<psk__validator_8c__incl.pdf, id=312, 479.7925pt x 165.61874pt>
 File: psk__validator_8c__incl.pdf Graphic file (type pdf)
 <use psk__validator_8c__incl.pdf>
 Package pdftex.def Info: psk__validator_8c__incl.pdf  used on input line 18.
@@ -1109,7 +1105,6 @@ LaTeX Font Info:    Font shape `T1/phv/m/n' will be
 (Font)              scaled to size 22.39185pt on input line 1.
  [21
 
-
 ]) (./refman.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
@@ -1134,10 +1129,10 @@ ve/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texlive/texmf-dist
 /urw/helvetic/uhvb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helveti
 c/uhvb8ac.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pf
 b></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvro8a.pfb>
-Output written on refman.pdf (25 pages, 150801 bytes).
+Output written on refman.pdf (23 pages, 150498 bytes).
 PDF statistics:
- 498 PDF objects out of 1000 (max. 8388607)
- 440 compressed objects within 5 object streams
+ 491 PDF objects out of 1000 (max. 8388607)
+ 435 compressed objects within 5 object streams
  109 named destinations out of 1000 (max. 500000)
  283 words of extra memory for PDF output out of 10000 (max. 10000000)
 

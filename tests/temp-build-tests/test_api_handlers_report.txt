@@ -1,50 +1,62 @@
-=== REPORTE DE PRUEBAS: API HANDLERS ===
-Fecha: Jun 19 2025
+=== REPORTE DE PRUEBAS: MANEJADORES DE API ===
+Fecha: Jul 13 2025
 =========================================
 
-TEST: test_tracker_management_basic
+PRUEBA: test_tracker_management_basic
 Descripción: Verifica la correcta inicialización y gestión de trackers de solicitudes
 Resultado: PASÓ
 Detalles: Estructura de tracker inicializada correctamente con todos los campos válidos
+
+Análisis Detallado:
+📋 VERIFICACIÓN DE ESTRUCTURA TRACKER:
+   Message ID: 12345
+   Token length: 4
+   Token content: test
+   Log tag: TestTracker
+   Request type: 1 (FLOOR_CALL)
+   Origin floor: 1
+   Target floor: 5
+   Direction: 0 (UP)
+   ✅ Todos los campos inicializados correctamente
 ----------------------------------------
 
-TEST: test_signal_handler
+PRUEBA: test_signal_handler
 Descripción: Verifica el correcto funcionamiento del manejador de señales SIGINT
 Resultado: PASÓ
 Detalles: Señal SIGINT manejada correctamente, bandera quit_main_loop establecida
 ----------------------------------------
 
-TEST: test_json_payload_validation
+PRUEBA: test_json_payload_validation
 Descripción: Verifica la correcta validación de payloads JSON válidos e inválidos
 Resultado: PASÓ
 Detalles: JSON válido parseado correctamente; JSON inválido rechazado correctamente
 ----------------------------------------
 
-TEST: test_json_elevator_state_format
+PRUEBA: test_json_elevator_state_format
 Descripción: Verifica el correcto formato JSON para el estado de ascensores
 Resultado: PASÓ
 Detalles: Formato JSON válido: ascensor=ASC_001, piso=3, estado=IDLE
 ----------------------------------------
 
-TEST: test_elevator_state_integration
+PRUEBA: test_elevator_state_integration
 Descripción: Verifica la correcta integración con el sistema de gestión de estado de ascensores
 Resultado: PASÓ
 Detalles: Integración exitosa: grupo inicializado con 2 ascensores, JSON generado correctamente
 ----------------------------------------
 
-TEST: test_request_types
+PRUEBA: test_request_types
 Descripción: Verifica la correcta definición de tipos de solicitudes del API
 Resultado: PASÓ
 Detalles: Tipos de solicitudes válidos: FLOOR_CALL=1, CABIN_REQUEST=2
 ----------------------------------------
 
-TEST: test_movement_directions
+PRUEBA: test_movement_directions
 Descripción: Verifica la correcta definición de direcciones de movimiento de ascensores
 Resultado: PASÓ
 Detalles: Direcciones de movimiento válidas: UP=0, DOWN=1, STOPPED=2
 ----------------------------------------
 
-TEST: test_setup_teardown
+PRUEBA: test_setup_teardown
 Descripción: Verifica el correcto funcionamiento del setup y teardown de la suite de pruebas
 Resultado: PASÓ
 Detalles: Setup llamado correctamente, suite de API handlers inicializada

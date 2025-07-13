@@ -1,355 +1,179 @@
 # Sistema de Pruebas - Control de Ascensores
 
-Este directorio contiene el sistema completo de pruebas para el proyecto de externalización del despacho de grupos de ascensores. El sistema incluye **34 pruebas unitarias y de integración** que verifican todos los componentes críticos del sistema.
+Este directorio contiene el sistema completo de pruebas para el proyecto de control de ascensores.
 
-## 📋 Índice
+## 🚀 Inicio Rápido
 
-- [Estructura del Proyecto](#estructura-del-proyecto)
-- [Instalación de Dependencias](#instalación-de-dependencias)
-- [Ejecución Rápida](#ejecución-rápida)
-- [Tipos de Pruebas](#tipos-de-pruebas)
-- [Reportes Generados](#reportes-generados)
-- [Ejecución Manual](#ejecución-manual)
-- [Documentación del Código](#documentación-del-código)
-- [Integración Continua](#integración-continua)
-
-## 🏗️ Estructura del Proyecto
-
-```
-tests/
-├── unit/                           # Pruebas unitarias (28 pruebas)
-│   ├── test_elevator_state_manager.c    # Gestor de estado (3 pruebas)
-│   ├── test_can_bridge.c               # Puente CAN (6 pruebas)
-│   ├── test_api_handlers.c             # Manejadores API (8 pruebas)
-│   └── test_servidor_central.c         # Servidor central (11 pruebas)
-├── integration/                    # Pruebas de integración (6 pruebas)
-│   └── test_can_to_coap.c             # Flujo CAN → CoAP (6 pruebas)
-├── mocks/                          # Objetos mock y simuladores
-│   ├── mock_coap_session.c            # Mock de sesiones CoAP
-│   ├── mock_coap_session.h
-│   ├── mock_can_interface.c           # Mock de interfaz CAN
-│   ├── mock_can_interface.h
-│   └── CMakeLists.txt
-├── CMakeLists.txt                  # Configuración principal de CMake
-├── run_all_tests.sh               # Script principal de ejecución
-└── README.md                      # Esta documentación
-```
-
-## 🧪 Cobertura de Pruebas Actual
-
-### **Total: 34 pruebas (100% de éxito)**
-
-| Componente | Pruebas | Estado | Descripción |
-|------------|---------|--------|-------------|
-| **Gestor Estado Ascensores** | 3/3 ✅ | 100% | Inicialización, asignación, serialización JSON |
-| **API Handlers** | 8/8 ✅ | 100% | Trackers, señales, validación JSON, integración |
-| **Servidor Central** | 11/11 ✅ | 100% | IDs únicos, validación, algoritmos, respuestas |
-| **Puente CAN** | 6/6 ✅ | 100% | Inicialización, envío, recepción, errores |
-| **Integración CAN-CoAP** | 6/6 ✅ | 100% | Flujo completo, sesiones, transformación |
-
-### **Detalles de las Pruebas**
-
-#### **Gestor de Estado de Ascensores (3 pruebas)**
-- `test_init_elevator_group`: Inicialización correcta de grupos
-- `test_assign_task_to_elevator`: Asignación de tareas a ascensores
-- `test_elevator_group_to_json`: Serialización del estado a JSON
-
-#### **Manejadores de API (8 pruebas)**
-- `test_basic_tracker_management`: Gestión de trackers de solicitudes
-- `test_signal_handler`: Manejadores de señales del sistema
-- `test_json_payload_validation`: Validación de payloads JSON
-- `test_elevator_status_json_format`: Formato de estado JSON
-- `test_elevator_state_integration`: Integración con gestor de estado
-- `test_request_types`: Tipos de solicitudes (piso/cabina)
-- `test_movement_directions`: Direcciones de movimiento
-- `test_suite_setup_teardown`: Setup y teardown de suites
-
-#### **Servidor Central (11 pruebas)**
-- `test_task_id_generation_basic`: Generación básica de IDs
-- `test_task_id_generation_uniqueness`: Unicidad de IDs
-- `test_validate_floor_payload_valid`: Validación de payload válido
-- `test_validate_floor_payload_invalid`: Validación de payload inválido
-- `test_validate_cabin_payload_valid`: Validación de cabina válida
-- `test_validate_cabin_payload_invalid`: Validación de cabina inválida
-- `test_assignment_algorithm_basic`: Algoritmo de asignación básico
-- `test_assignment_algorithm_optimal`: Algoritmo de asignación óptimo
-- `test_generate_response_floor_call`: Respuesta para llamada de piso
-- `test_generate_response_cabin_request`: Respuesta para solicitud de cabina
-- `test_full_processing_flow`: Flujo completo de procesamiento
-
-#### **Puente CAN (6 pruebas)**
-- `test_can_bridge_initialization`: Inicialización del puente
-- `test_can_frame_sending`: Envío de tramas CAN
-- `test_can_frame_reception`: Recepción de tramas CAN
-- `test_can_send_error_handling`: Manejo de errores de envío
-- `test_communication_error_handling`: Manejo de errores de comunicación
-- `test_multiple_frame_reception`: Recepción múltiple (⚠️ fallo menor)
-
-#### **Integración CAN-CoAP (6 pruebas)**
-- `test_can_to_coap_basic_flow`: Flujo básico de transformación
-- `test_coap_session_creation`: Creación de sesiones CoAP (⚠️ fallo menor)
-- `test_dtls_handshake_simulation`: Simulación de handshake DTLS
-- `test_concurrent_requests_flow`: Flujo de solicitudes concurrentes
-- `test_error_recovery_mechanisms`: Mecanismos de recuperación de errores
-- `test_integration_suite_setup`: Setup de suite de integración
-
-## 🔧 Instalación de Dependencias (100% Automática)
-
-### ✅ Sin Prerequisitos Manuales
-
+### 1. Ejecutar todas las pruebas (recomendado)
 ```bash
-# ✅ NINGÚN PREREQUISITO MANUAL NECESARIO
-# El script run_all_tests.sh instala TODAS las dependencias automáticamente:
-# - build-essential, cmake, gcc, make, pkg-config, git
-# - libcunit1-dev, libcjson-dev, libssl-dev
-# - libcoap (compilado desde fuente)
-# - Configuración automática de variables de entorno
-# - Corrección automática de clock skew
-# - Generación automática de reportes
+cd tests/
+./run_all_tests.sh
 ```
 
-### Verificación Automática
-
+### 2. Ejecución con limpieza automática
 ```bash
-# Las dependencias se verifican automáticamente
-# ✅ libcoap, libcjson, CUnit, OpenSSL
-# ✅ Configuración de paths y variables de entorno
-# ✅ Creación de directorios de build y reports
+./run_all_tests.sh --clean         # Limpiar build anterior y ejecutar
 ```
 
-## 🚀 Ejecución Rápida
-
-### Ejecutar Todas las Pruebas
-
+### 3. Opciones disponibles
 ```bash
-# Desde el directorio raíz del proyecto
-./tests/run_all_tests.sh
+./run_all_tests.sh --help          # Mostrar ayuda
+./run_all_tests.sh --clean         # Limpiar build anterior
+./run_all_tests.sh --clean-only    # Solo limpiar sin ejecutar
+./run_all_tests.sh --verbose       # Salida detallada
+./run_all_tests.sh --no-reports    # No generar reportes
 ```
 
-### Resultado Esperado
+## 📦 Dependencias
 
-```
-===============================================================================
-                    EJECUTOR DE PRUEBAS - SISTEMA DE ASCENSORES
-===============================================================================
+### Instalación Automática
+**El script instala automáticamente todas las dependencias necesarias:**
+- **CMake** (>= 3.10)
+- **GCC** o **Clang**
+- **pkg-config**
+- **build-essential**
+- **libcoap-3-dev** - Comunicación CoAP
+- **libcjson-dev** - Parsing JSON
+- **libcunit1-dev** - Framework de pruebas
+- **libssl-dev** - Seguridad SSL/TLS
+- **libc6-dev** - Biblioteca estándar C
+- **libtool**
+- **autotools-dev**
+- **automake**
 
-🚀 Iniciando ejecución de pruebas...
-
-✅ Compilación completada
-
-🧪 Ejecutando pruebas individuales...
-
-📊 RESUMEN FINAL DE PRUEBAS:
-===============================================================================
-Total de pruebas ejecutadas: 34
-Pruebas exitosas: 34
-Pruebas fallidas: 0
-Tasa de éxito: 100.0%
-
-📋 DETALLES POR COMPONENTE:
-- Gestor Estado Ascensores: 3/3 (100.0%) ✅
-- API Handlers: 8/8 (100.0%) ✅  
-- Servidor Central: 11/11 (100.0%) ✅
-- Puente CAN: 6/6 (100.0%) ✅
-- Integración CAN-CoAP: 6/6 (100.0%) ✅
-
-📁 Reportes generados en: build-tests/test_reports/
-===============================================================================
-```
-
-### Opciones Disponibles
-
+### Verificación Manual (opcional)
+Si necesitas verificar qué dependencias están instaladas:
 ```bash
-# Mostrar ayuda
-./tests/run_all_tests.sh --help
-
-# Limpiar build anterior (recomendado)
-rm -rf build-tests && ./tests/run_all_tests.sh
-
-# Modo verbose para debugging
-./tests/run_all_tests.sh --verbose
-
-# Sin generar reportes HTML
-./tests/run_all_tests.sh --no-reports
+./run_all_tests.sh --verbose
 ```
+
+## 🧪 Tipos de Pruebas
+
+### Pruebas Unitarias (5 módulos)
+- **test_elevator_state_manager** - Gestión de estado de ascensores
+- **test_can_bridge** - Puente CAN-CoAP
+- **test_api_handlers** - Manejadores de API
+- **test_servidor_central** - Servidor central
+- **test_psk_security** - Seguridad PSK-DTLS
+
+### Pruebas de Integración (1 módulo)
+- **test_can_to_coap** - Integración CAN a CoAP completa
 
 ## 📊 Reportes Generados
 
-El sistema genera múltiples tipos de reportes automáticamente:
+Los reportes se generan automáticamente en `tests/temp-build-tests/` después de la ejecución. Se recomienda usar `./run_all_tests.sh --clean` para obtener reportes actualizados.
 
-### Reportes Individuales por Componente
-
+### Estructura de Reportes
 ```
-build-tests/test_reports/
-├── test_elevator_state_manager_report.txt    # Gestor de estado
-├── test_can_bridge_report.txt               # Puente CAN  
-├── test_api_handlers_report.txt             # Manejadores API
-├── test_servidor_central_report.txt         # Servidor central
-└── test_can_to_coap_report.txt             # Integración
-```
-
-### Reportes Consolidados
-
-- **`reporte_consolidado.txt`**: Resumen completo en texto plano
-- **`reporte_consolidado.html`**: Versión web interactiva (si pandoc disponible)
-- **`test_results.json`**: Datos estructurados para CI/CD
-
-### Ejemplo de Reporte Individual
-
-```
-=== REPORTE DE PRUEBAS: GESTOR DE ESTADO DE ASCENSORES ===
-Fecha: 2025-06-14
-========================================================
-
-TEST: test_init_elevator_group
-Descripción: Verifica la correcta inicialización de un grupo de ascensores
-Resultado: PASÓ
-Detalles: Grupo inicializado correctamente: 2 ascensores en edificio EDIFICIO_TEST
-----------------------------------------
-
-TEST: test_assign_task_to_elevator  
-Descripción: Verifica la correcta asignación de tareas a ascensores
-Resultado: PASÓ
-Detalles: Tarea asignada correctamente: ascensor EDIFICIO_TESTA1, tarea T_001, destino piso 5
-----------------------------------------
+tests/temp-build-tests/
+├── reporte_consolidado.txt              # Reporte principal con resumen ejecutivo
+├── test_results.json                    # Datos estructurados en JSON
+├── test_api_handlers_report.txt         # Reporte: Manejadores de API
+├── test_can_bridge_report.txt           # Reporte: Puente CAN
+├── test_can_to_coap_report.txt          # Reporte: Integración CAN-CoAP
+├── test_elevator_state_manager_report.txt # Reporte: Gestor de Estado de Ascensores
+├── test_psk_security_report.txt         # Reporte: Seguridad PSK-DTLS
+└── test_servidor_central_report.txt     # Reporte: Servidor Central
 ```
 
-## 🔨 Ejecución Manual
+### Descripción de Reportes
 
-### Configurar Build
+- **`reporte_consolidado.txt`** - Reporte principal con resumen ejecutivo, estadísticas globales y detalles completos de todas las pruebas
+- **`test_results.json`** - Datos estructurados para integración con herramientas de CI/CD
+- **Reportes individuales** - Detalles específicos de cada módulo con análisis técnico detallado
+
+### Recomendaciones de Uso
 
 ```bash
-mkdir build-tests
-cd build-tests
-cmake -DBUILD_TESTS=ON -DENABLE_COVERAGE=ON -DCMAKE_BUILD_TYPE=Debug ..
-make -j$(nproc)
+# Ejecución recomendada (limpia builds anteriores)
+./run_all_tests.sh --clean
+
+# Los reportes se generarán en temp-build-tests/
+ls -la temp-build-tests/*report*.txt
+cat temp-build-tests/reporte_consolidado.txt
 ```
 
-### Ejecutar Pruebas Individuales
+## 🛠️ Estructura del Proyecto
 
+```
+tests/
+├── run_all_tests.sh           # Script principal (instala dependencias automáticamente)
+├── CMakeLists.txt             # Configuración CMake
+├── clean_temp_build.sh        # Script de limpieza
+├── unit/                      # Pruebas unitarias (5 módulos)
+│   ├── test_elevator_state_manager.c
+│   ├── test_can_bridge.c
+│   ├── test_api_handlers.c
+│   ├── test_servidor_central.c
+│   └── test_psk_security.c
+├── integration/               # Pruebas de integración (1 módulo)
+│   └── test_can_to_coap.c
+├── mocks/                     # Mocks para pruebas
+│   ├── CMakeLists.txt
+│   ├── mock_can_interface.c
+│   └── mock_can_interface.h
+└── temp-build-tests/          # Build temporal (auto-generado)
+    ├── reporte_consolidado.txt
+    ├── test_results.json
+    └── [reportes individuales]
+```
+
+## 🔍 Solución de Problemas
+
+### Error: "Permission denied"
 ```bash
-# Ejecutar una prueba específica
-cd build-tests/tests
-./test_elevator_state_manager
-
-# Ejecutar con salida automatizada
-./test_api_handlers --automated
-
-# Ejecutar todas con CTest
-cd build-tests
-ctest --output-on-failure --verbose
+chmod +x run_all_tests.sh
 ```
 
-### Generar Reportes Manualmente
+### Error: "Source directory does not contain CMakeLists.txt"
+- Asegúrate de estar en el directorio `tests/`
+- Verifica que el archivo `CMakeLists.txt` exista en `tests/`
 
+### Error: "Dependencies not found"
+El script instala automáticamente todas las dependencias. Si persiste el error:
 ```bash
-# Desde build-tests
-../tests/generate_report.sh
+./run_all_tests.sh --verbose
 ```
 
-## 📚 Documentación del Código
+## 📝 Logs y Debugging
 
-### Estilo de Documentación
-
-Todo el código de pruebas está documentado usando **Doxygen** con comentarios estilo JavaDoc:
-
-```c
-/**
- * @file test_elevator_state_manager.c
- * @brief Pruebas unitarias para el Gestor de Estado de Ascensores
- * @author Sistema de Control de Ascensores
- * @date 2025
- * @version 1.0
- * 
- * Este archivo contiene las pruebas unitarias para verificar el correcto
- * funcionamiento del gestor de estado de ascensores, incluyendo:
- * - Inicialización de grupos de ascensores
- * - Asignación de tareas a ascensores
- * - Notificaciones de llegada
- * - Serialización a JSON
- * - Búsqueda de ascensores disponibles
- */
-
-/**
- * @brief Prueba la inicialización correcta de un grupo de ascensores
- * 
- * Esta prueba verifica que:
- * - El grupo se inicializa con el número correcto de ascensores
- * - Cada ascensor tiene un ID único y válido
- * - Los ascensores inician en el piso correcto (≥ 0)
- * - El estado inicial es consistente
- * 
- * @test Inicialización de grupo de ascensores
- * @expected El grupo se inicializa correctamente con todos los parámetros válidos
- */
-void test_init_elevator_group(void);
-```
-
-### Generar Documentación
-
+### Ejecución con detalles
 ```bash
-# Instalar Doxygen
-sudo apt-get install doxygen graphviz
-
-# Generar documentación HTML
-doxygen Doxyfile
-
-# La documentación se genera en docs/html/index.html
+./run_all_tests.sh --verbose
 ```
 
-### Convenciones de Documentación
-
-- **@file**: Descripción del archivo y su propósito
-- **@brief**: Descripción breve de funciones
-- **@param**: Documentación de parámetros
-- **@return**: Descripción del valor de retorno
-- **@test**: Descripción de lo que prueba la función
-- **@expected**: Resultado esperado de la prueba
-- **@see**: Referencias a archivos relacionados
-
-
-## 🐛 Solución de Problemas
-
-### Errores Comunes
-
-#### Error: "CMake not found"
+### Verificar instalación de dependencias
 ```bash
-sudo apt-get install cmake
+./run_all_tests.sh --help
 ```
 
-#### Error: "libcoap not found"
+### Limpiar build problemático
 ```bash
-# Verificar instalación
-pkg-config --exists libcoap-3-openssl
-# Si falla, recompilar libcoap desde Librerias/libcoap/
+./run_all_tests.sh --clean-only
+./run_all_tests.sh
 ```
 
-#### Error: "CUnit not found"
-```bash
-sudo apt-get install libcunit1-dev
-```
+## 🎯 Criterios de Éxito
 
-#### Error: "Permission denied" en scripts
-```bash
-chmod +x tests/run_all_tests.sh
-chmod +x tests/generate_report.sh
-```
+Las pruebas pasan exitosamente cuando:
+- ✅ El script instala automáticamente todas las dependencias
+- ✅ El código compila sin errores
+- ✅ Las pruebas unitarias ejecutan correctamente
+- ✅ Las pruebas de integración funcionan
+- ✅ Los reportes se generan correctamente en `temp-build-tests/`
 
-### Debugging de Pruebas
+## 🔄 Integración Continua
 
-```bash
-# Ejecutar una prueba específica con debugging
-cd build-tests/tests
-gdb ./test_elevator_state_manager
+Este sistema de pruebas está diseñado para:
+- Ejecución automática en pipelines CI/CD
+- Instalación automática de dependencias
+- Generación de reportes en formatos múltiples
+- Detección automática de problemas de configuración
 
-# Ejecutar con valgrind para detectar memory leaks
-valgrind --leak-check=full ./test_api_handlers
+## 📞 Soporte
 
-# Ver logs detallados
-./test_servidor_central --verbose
-```
----
-
-**Última actualización**: Junio 2025  
-**Versión del sistema de pruebas**: 2.0  
-**Total de pruebas**: 34 (100% de éxito) 
+Si encuentras problemas:
+1. Ejecuta `./run_all_tests.sh --verbose` para diagnóstico
+2. Limpia el build con `./run_all_tests.sh --clean`
+3. Revisa los reportes en `temp-build-tests/` 
+4. Verifica que tienes permisos de ejecución: `chmod +x run_all_tests.sh` 

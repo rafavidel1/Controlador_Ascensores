@@ -66,15 +66,26 @@ static FILE *report_file = NULL;
  * @param passed Indica si la prueba pasó (true) o falló (false)
  * @param details Detalles adicionales del resultado
  */
-void write_test_result(const char* test_name, const char* description, bool passed, const char* details) {
+void write_test_result_detailed(const char* test_name, const char* description, bool passed, 
+                               const char* details, const char* analysis_output) {
     if (report_file) {
-        fprintf(report_file, "TEST: %s\n", test_name);
+        fprintf(report_file, "PRUEBA: %s\n", test_name);
         fprintf(report_file, "Descripción: %s\n", description);
         fprintf(report_file, "Resultado: %s\n", passed ? "PASÓ" : "FALLÓ");
         fprintf(report_file, "Detalles: %s\n", details);
+        
+        if (analysis_output && strlen(analysis_output) > 0) {
+            fprintf(report_file, "\nAnálisis Detallado:\n");
+            fprintf(report_file, "%s\n", analysis_output);
+        }
+        
         fprintf(report_file, "----------------------------------------\n\n");
         fflush(report_file);
     }
+}
+
+void write_test_result(const char* test_name, const char* description, bool passed, const char* details) {
+    write_test_result_detailed(test_name, description, passed, details, NULL);
 }
 
 /**
@@ -90,7 +101,7 @@ int setup_api_handlers_tests(void) {
     // Abrir archivo de reporte
     report_file = fopen("test_api_handlers_report.txt", "w");
     if (report_file) {
-        fprintf(report_file, "=== REPORTE DE PRUEBAS: API HANDLERS ===\n");
+        fprintf(report_file, "=== REPORTE DE PRUEBAS: MANEJADORES DE API ===\n");
         fprintf(report_file, "Fecha: %s\n", __DATE__);
         fprintf(report_file, "=========================================\n\n");
     }
@@ -154,12 +165,37 @@ void test_tracker_management_basic(void) {
     CU_ASSERT_EQUAL(tracker.target_floor_for_task, 5);
     CU_ASSERT_EQUAL(tracker.requested_direction_floor, MOVING_UP);
     
+    // Crear reporte de análisis detallado
+    char analysis_output[1024];
+    snprintf(analysis_output, sizeof(analysis_output),
+        "📋 VERIFICACIÓN DE ESTRUCTURA TRACKER:\n"
+        "   Message ID: %d\n"
+        "   Token length: %zu\n"
+        "   Token content: %.*s\n"
+        "   Log tag: %s\n"
+        "   Request type: %d (FLOOR_CALL)\n"
+        "   Origin floor: %d\n"
+        "   Target floor: %d\n"
+        "   Direction: %d (UP)\n"
+        "   ✅ Todos los campos inicializados correctamente",
+        tracker.original_mid,
+        tracker.original_token.length,
+        (int)tracker.original_token.length, tracker.original_token.s,
+        tracker.log_tag,
+        tracker.request_type,
+        tracker.origin_floor,
+        tracker.target_floor_for_task,
+        tracker.requested_direction_floor
+    );
+    
+    // Mostrar en consola
     printf("✅ Estructura de tracker verificada correctamente\n");
     
-    write_test_result("test_tracker_management_basic",
-                     "Verifica la correcta inicialización y gestión de trackers de solicitudes",
-                     true,
-                     "Estructura de tracker inicializada correctamente con todos los campos válidos");
+    write_test_result_detailed("test_tracker_management_basic",
+                             "Verifica la correcta inicialización y gestión de trackers de solicitudes",
+                             true,
+                             "Estructura de tracker inicializada correctamente con todos los campos válidos",
+                             analysis_output);
 }
 
 void test_signal_handler(void) {

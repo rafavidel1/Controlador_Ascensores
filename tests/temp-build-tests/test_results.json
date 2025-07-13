@@ -1,9 +1,9 @@
 {
-  "timestamp": "2025-06-19T19:07:04+02:00",
+  "timestamp": "2025-07-13T16:30:20+02:00",
   "project": "SistemaControlAscensores",
-  "reports_processed": 5,
-  "total_tests": 34,
-  "total_passed": 34,
-  "total_failures": 0,
-  "success": true
+  "reports_processed": 6,
+  "total_tests": 38,
+  "total_passed": 35,
+  "total_failures": 3,
+  "success": false
 }

@@ -1,21 +1,21 @@
 === REPORTE DE PRUEBAS: GESTOR DE ESTADO DE ASCENSORES ===
-Fecha: Thu Jun 19 19:06:57 2025
+Fecha: Sun Jul 13 16:30:12 2025
 
 ========================================================
 
-TEST: test_init_elevator_group
+PRUEBA: test_init_elevator_group
 Descripción: Verifica la correcta inicialización de un grupo de ascensores
 Resultado: PASÓ
 Detalles: Grupo inicializado correctamente: 3 ascensores en edificio E1, piso inicial=0
 ----------------------------------------
 
-TEST: test_assign_task_to_elevator
+PRUEBA: test_assign_task_to_elevator
 Descripción: Verifica la correcta asignación de tareas a ascensores
 Resultado: PASÓ
 Detalles: Tarea asignada correctamente: ascensor E1A1, tarea T_001, destino piso 5, dirección UP
 ----------------------------------------
 
-TEST: test_elevator_group_to_json
+PRUEBA: test_elevator_group_to_json
 Descripción: Verifica la correcta serialización del estado del grupo a JSON
 Resultado: PASÓ
 Detalles: JSON generado correctamente con id_edificio='E1' y piso_origen_llamada=3

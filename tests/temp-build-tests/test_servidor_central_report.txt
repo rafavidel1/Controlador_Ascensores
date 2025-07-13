@@ -1,68 +1,68 @@
 === REPORTE DE PRUEBAS: SERVIDOR CENTRAL ===
-Fecha: Jun 19 2025
+Fecha: Jul 13 2025
 =============================================
 
-TEST: test_task_id_generation_basic
+PRUEBA: test_task_id_generation_basic
 Descripción: Verifica la correcta generación de IDs únicos de tareas
 Resultado: PASÓ
-Detalles: IDs generados correctamente: T_1750352817623 y T_1750352817624, formato válido y únicos
+Detalles: IDs generados correctamente: T_1752417012883 y T_1752417012884, formato válido y únicos
 ----------------------------------------
 
-TEST: test_task_id_generation_uniqueness
+PRUEBA: test_task_id_generation_uniqueness
 Descripción: Verifica que los IDs de tareas generados son únicos entre múltiples llamadas
 Resultado: PASÓ
 Detalles: Generados 10 IDs únicos de 10 intentos, todos diferentes
 ----------------------------------------
 
-TEST: test_floor_call_payload_validation_valid
+PRUEBA: test_floor_call_payload_validation_valid
 Descripción: Verifica la correcta validación de payloads JSON válidos para peticiones de piso
 Resultado: PASÓ
 Detalles: Payload válido: edificio=EDIFICIO_001, piso=3, dirección=UP, ascensores=1
 ----------------------------------------
 
-TEST: test_floor_call_payload_validation_invalid
+PRUEBA: test_floor_call_payload_validation_invalid
 Descripción: Verifica la correcta detección de payloads JSON inválidos
 Resultado: PASÓ
 Detalles: Payload con campos faltantes detectado correctamente
 ----------------------------------------
 
-TEST: test_cabin_request_payload_validation
+PRUEBA: test_cabin_request_payload_validation
 Descripción: Verifica la correcta validación de payloads de solicitudes de cabina
 Resultado: PASÓ
 Detalles: Solicitud de cabina válida: edificio=EDIFICIO_001, ascensor=ASC_001, destino=7
 ----------------------------------------
 
-TEST: test_elevator_assignment_algorithm_simple
+PRUEBA: test_elevator_assignment_algorithm_simple
 Descripción: Verifica el correcto funcionamiento del algoritmo de asignación de ascensores
 Resultado: PASÓ
 Detalles: Asignación exitosa: ascensor ASC_001 seleccionado
 ----------------------------------------
 
-TEST: test_elevator_assignment_no_elevators
+PRUEBA: test_elevator_assignment_no_elevators
 Descripción: Verifica el manejo correcto cuando no hay ascensores disponibles
 Resultado: PASÓ
 Detalles: Detectado correctamente: array de ascensores vacío
 ----------------------------------------
 
-TEST: test_response_generation_success
+PRUEBA: test_response_generation_success
 Descripción: Verifica la correcta generación de respuestas JSON exitosas
 Resultado: PASÓ
-Detalles: Respuesta JSON generada correctamente: tarea_id=T_1750352817646, ascensor=ASC_001
+Detalles: Respuesta JSON generada correctamente: tarea_id=T_1752417012907, ascensor=ASC_001
 ----------------------------------------
 
-TEST: test_response_generation_error
+PRUEBA: test_response_generation_error
 Descripción: Verifica la correcta generación de respuestas de error
 Resultado: PASÓ
 Detalles: Respuesta de error generada correctamente
 ----------------------------------------
 
-TEST: test_complete_floor_call_flow
+PRUEBA: test_complete_floor_call_flow
 Descripción: Verifica el flujo completo de procesamiento de peticiones de piso
 Resultado: PASÓ
-Detalles: Flujo completo exitoso: edificio=EDIFICIO_TEST, piso=3, tarea=T_1750352817646, ascensor=ASC_TEST
+Detalles: Flujo completo exitoso: edificio=EDIFICIO_TEST, piso=3, tarea=T_1752417012907, ascensor=ASC_TEST
 ----------------------------------------
 
-TEST: test_setup_teardown_servidor
+PRUEBA: test_setup_teardown_servidor
 Descripción: Verifica el correcto funcionamiento del setup y teardown de la suite
 Resultado: PASÓ
 Detalles: Setup llamado correctamente, suite inicializada
