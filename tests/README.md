@@ -162,18 +162,3 @@ Las pruebas pasan exitosamente cuando:
 - ✅ Las pruebas de integración funcionan
 - ✅ Los reportes se generan correctamente en `temp-build-tests/`
 
-## 🔄 Integración Continua
-
-Este sistema de pruebas está diseñado para:
-- Ejecución automática en pipelines CI/CD
-- Instalación automática de dependencias
-- Generación de reportes en formatos múltiples
-- Detección automática de problemas de configuración
-
-## 📞 Soporte
-
-Si encuentras problemas:
-1. Ejecuta `./run_all_tests.sh --verbose` para diagnóstico
-2. Limpia el build con `./run_all_tests.sh --clean`
-3. Revisa los reportes en `temp-build-tests/` 
-4. Verifica que tienes permisos de ejecución: `chmod +x run_all_tests.sh` 

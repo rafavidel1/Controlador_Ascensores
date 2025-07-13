@@ -4,6 +4,10 @@ dotenv-c/*
 
 .mmd
 
+
+algo.md
+apendices.md
+
 # Ignorar todos los archivos .md excepto README.md exactamente
 *.md
 !/README.md
@@ -13,5 +17,3 @@ Prueba_certs/
 Prueba_certs/*
 
 
-algo.md
-apendices.md
