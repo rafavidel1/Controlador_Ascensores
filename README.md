@@ -105,7 +105,7 @@ cd servidor_central
 ./deploy.sh                      # ✅ Despliega automáticamente en K8s
 
 # Luego ejecutar API Gateway
-cd ../api_gateway
+cd ../api_gateway/build
 ./api_gateway                    # ✅ Se conecta al servidor en K8s
 ```
 
