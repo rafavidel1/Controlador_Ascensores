@@ -3,7 +3,7 @@
                     Sistema de Control de Ascensores
 ===============================================================================
 
-Fecha de generación: 2025-07-13 16:30:18
+Fecha de generación: 2025-07-14 13:10:54
 Proyecto: SistemaControlAscensores
 
 ===============================================================================
@@ -63,7 +63,7 @@ SERVIDOR CENTRAL:
 -------------------------------------------------------------------------------
 
 === REPORTE DE PRUEBAS: MANEJADORES DE API ===
-Fecha: Jul 13 2025
+Fecha: Jul 14 2025
 =========================================
 
 PRUEBA: test_tracker_management_basic
@@ -133,7 +133,7 @@ Detalles: Setup llamado correctamente, suite de API handlers inicializada
 -------------------------------------------------------------------------------
 
 === REPORTE DE PRUEBAS: PUENTE CAN ===
-Fecha: Sun Jul 13 16:30:12 2025
+Fecha: Mon Jul 14 13:10:49 2025
 
 ======================================
 
@@ -182,7 +182,7 @@ Detalles: Recepción múltiple correcta: 3 frames procesados, cola vacía
 -------------------------------------------------------------------------------
 
 === REPORTE DE PRUEBAS: INTEGRACIÓN CAN-COAP ===
-Fecha: Sun Jul 13 16:30:13 2025
+Fecha: Mon Jul 14 13:10:49 2025
 
 ===============================================
 
@@ -231,7 +231,7 @@ Detalles: Formato JSON validado correctamente: solicitud y respuesta con estruct
 -------------------------------------------------------------------------------
 
 === REPORTE DE PRUEBAS: GESTOR DE ESTADO DE ASCENSORES ===
-Fecha: Sun Jul 13 16:30:12 2025
+Fecha: Mon Jul 14 13:10:49 2025
 
 ========================================================
 
@@ -261,7 +261,7 @@ Detalles: JSON generado correctamente con id_edificio='E1' y piso_origen_llamada
 -------------------------------------------------------------------------------
 
 === REPORTE DE PRUEBAS: SEGURIDAD PSK-DTLS ===
-Fecha: Jul 13 2025
+Fecha: Jul 14 2025
 ==================================================
 
 PRUEBA: test_psk_key_predictability_vulnerability
@@ -318,13 +318,13 @@ Análisis Detallado: 🔐 ANÁLISIS DE CONFIDENCIALIDAD PROSPECTIVA:
 -------------------------------------------------------------------------------
 
 === REPORTE DE PRUEBAS: SERVIDOR CENTRAL ===
-Fecha: Jul 13 2025
+Fecha: Jul 14 2025
 =============================================
 
 PRUEBA: test_task_id_generation_basic
 Descripción: Verifica la correcta generación de IDs únicos de tareas
 Resultado: PASÓ
-Detalles: IDs generados correctamente: T_1752417012883 y T_1752417012884, formato válido y únicos
+Detalles: IDs generados correctamente: T_1752491449175 y T_1752491449177, formato válido y únicos
 ----------------------------------------
 
 PRUEBA: test_task_id_generation_uniqueness
@@ -366,7 +366,7 @@ Detalles: Detectado correctamente: array de ascensores vacío
 PRUEBA: test_response_generation_success
 Descripción: Verifica la correcta generación de respuestas JSON exitosas
 Resultado: PASÓ
-Detalles: Respuesta JSON generada correctamente: tarea_id=T_1752417012907, ascensor=ASC_001
+Detalles: Respuesta JSON generada correctamente: tarea_id=T_1752491449199, ascensor=ASC_001
 ----------------------------------------
 
 PRUEBA: test_response_generation_error
@@ -378,7 +378,7 @@ Detalles: Respuesta de error generada correctamente
 PRUEBA: test_complete_floor_call_flow
 Descripción: Verifica el flujo completo de procesamiento de peticiones de piso
 Resultado: PASÓ
-Detalles: Flujo completo exitoso: edificio=EDIFICIO_TEST, piso=3, tarea=T_1752417012907, ascensor=ASC_TEST
+Detalles: Flujo completo exitoso: edificio=EDIFICIO_TEST, piso=3, tarea=T_1752491449200, ascensor=ASC_TEST
 ----------------------------------------
 
 PRUEBA: test_setup_teardown_servidor
@@ -399,7 +399,7 @@ Total de reportes procesados: 6
 Total de pruebas ejecutadas: 38
 Total de pruebas exitosas: 35
 Total de fallos detectados: 3
-Fecha de finalización: 2025-07-13 16:30:20
+Fecha de finalización: 2025-07-14 13:10:56
 
 ❌ RESULTADO: SE DETECTARON FALLOS EN LAS PRUEBAS
 

@@ -35,9 +35,17 @@ enable_testing()
 function(add_test_with_report test_name source_file)
     add_executable(${test_name} ${source_file})
     
+    # Buscar directorios de includes
+    set(SERVIDOR_CENTRAL_INC_DIR)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../servidor_central/include")
+        set(SERVIDOR_CENTRAL_INC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../servidor_central/include")
+    elseif(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../../servidor_central/include")
+        set(SERVIDOR_CENTRAL_INC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../servidor_central/include")
+    endif()
+    
     target_include_directories(${test_name} PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/../../api_gateway/include
-        ${CMAKE_CURRENT_SOURCE_DIR}/../../servidor_central/include
+        ${API_GATEWAY_INC_DIR}
+        ${SERVIDOR_CENTRAL_INC_DIR}
         ${CMAKE_CURRENT_SOURCE_DIR}
         ${CUNIT_INCLUDE_DIR}
         ${LIBCOAP_INCLUDE_DIRS}
@@ -67,14 +75,38 @@ function(add_test_with_report test_name source_file)
 endfunction()
 
 # Crear biblioteca estática con código fuente para testing
+# Buscar archivos fuente en ubicaciones relativas posibles
+set(API_GATEWAY_SRC_DIR)
+
+# Buscar directorio de fuentes del API Gateway
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../api_gateway/src")
+    set(API_GATEWAY_SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../api_gateway/src")
+elseif(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../../api_gateway/src")
+    set(API_GATEWAY_SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../api_gateway/src")
+else()
+    message(FATAL_ERROR "No se encontró el directorio src del API Gateway")
+endif()
+
+message(STATUS "Usando archivos fuente del API Gateway desde: ${API_GATEWAY_SRC_DIR}")
+
 add_library(elevator_system_lib STATIC
-    ${CMAKE_CURRENT_SOURCE_DIR}/../../api_gateway/src/elevator_state_manager.c
-    ${CMAKE_CURRENT_SOURCE_DIR}/../../api_gateway/src/can_bridge.c
-    ${CMAKE_CURRENT_SOURCE_DIR}/../../api_gateway/src/api_handlers.c
+    ${API_GATEWAY_SRC_DIR}/elevator_state_manager.c
+    ${API_GATEWAY_SRC_DIR}/can_bridge.c
+    ${API_GATEWAY_SRC_DIR}/api_handlers.c
 )
 
+# Buscar directorio de includes del API Gateway
+set(API_GATEWAY_INC_DIR)
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../api_gateway/include")
+    set(API_GATEWAY_INC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../api_gateway/include")
+elseif(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../../api_gateway/include")
+    set(API_GATEWAY_INC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../api_gateway/include")
+else()
+    message(FATAL_ERROR "No se encontró el directorio include del API Gateway")
+endif()
+
 target_include_directories(elevator_system_lib PUBLIC
-    ${CMAKE_CURRENT_SOURCE_DIR}/../../api_gateway/include
+    ${API_GATEWAY_INC_DIR}
     ${LIBCOAP_INCLUDE_DIRS}
     ${LIBCJSON_INCLUDE_DIRS}
 )

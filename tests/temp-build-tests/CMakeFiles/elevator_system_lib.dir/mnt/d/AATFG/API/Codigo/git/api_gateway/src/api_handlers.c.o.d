@@ -1,4 +1,4 @@
-CMakeFiles/api_gateway.dir/src/api_handlers.c.o: \
+CMakeFiles/elevator_system_lib.dir/mnt/d/AATFG/API/Codigo/git/api_gateway/src/api_handlers.c.o: \
  /mnt/d/AATFG/API/Codigo/git/api_gateway/src/api_handlers.c \
  /usr/include/stdc-predef.h \
  /mnt/d/AATFG/API/Librerias/libcoap-install-linux/include/coap3/coap.h \
@@ -112,7 +112,7 @@ CMakeFiles/api_gateway.dir/src/api_handlers.c.o: \
  /mnt/d/AATFG/API/Librerias/libcoap-install-linux/include/coap3/coap_uri.h \
  /mnt/d/AATFG/API/Librerias/libcoap-install-linux/include/coap3/coap_ws.h \
  /mnt/d/AATFG/API/Librerias/libcoap-install-linux/include/coap3/coap_session.h \
- /mnt/d/AATFG/API/Codigo/git/api_gateway/include/api_gateway/api_handlers.h \
+ /mnt/d/AATFG/API/Codigo/git/tests/../api_gateway/include/api_gateway/api_handlers.h \
  /usr/include/signal.h \
  /usr/include/x86_64-linux-gnu/bits/signum-generic.h \
  /usr/include/x86_64-linux-gnu/bits/signum-arch.h \
@@ -134,8 +134,8 @@ CMakeFiles/api_gateway.dir/src/api_handlers.c.o: \
  /usr/include/x86_64-linux-gnu/bits/types/struct_sigstack.h \
  /usr/include/x86_64-linux-gnu/bits/sigthread.h \
  /usr/include/x86_64-linux-gnu/bits/signal_ext.h \
- /mnt/d/AATFG/API/Codigo/git/api_gateway/include/api_gateway/api_common_defs.h \
- /mnt/d/AATFG/API/Codigo/git/api_gateway/include/api_gateway/logging_gw.h \
+ /mnt/d/AATFG/API/Codigo/git/tests/../api_gateway/include/api_gateway/api_common_defs.h \
+ /mnt/d/AATFG/API/Codigo/git/tests/../api_gateway/include/api_gateway/logging_gw.h \
  /usr/include/stdio.h /usr/lib/gcc/x86_64-linux-gnu/13/include/stdarg.h \
  /usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h \
@@ -145,12 +145,12 @@ CMakeFiles/api_gateway.dir/src/api_handlers.c.o: \
  /usr/include/x86_64-linux-gnu/bits/types/struct_FILE.h \
  /usr/include/x86_64-linux-gnu/bits/types/cookie_io_functions_t.h \
  /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
- /mnt/d/AATFG/API/Codigo/git/api_gateway/include/api_gateway/elevator_state_manager.h \
+ /mnt/d/AATFG/API/Codigo/git/tests/../api_gateway/include/api_gateway/elevator_state_manager.h \
  /usr/include/cjson/cJSON.h \
  /usr/lib/gcc/x86_64-linux-gnu/13/include/stdbool.h \
- /mnt/d/AATFG/API/Codigo/git/api_gateway/include/api_gateway/elevator_state_manager.h \
- /mnt/d/AATFG/API/Codigo/git/api_gateway/include/api_gateway/can_bridge.h \
+ /mnt/d/AATFG/API/Codigo/git/tests/../api_gateway/include/api_gateway/elevator_state_manager.h \
+ /mnt/d/AATFG/API/Codigo/git/tests/../api_gateway/include/api_gateway/can_bridge.h \
  /usr/include/cjson/cJSON.h \
- /mnt/d/AATFG/API/Codigo/git/api_gateway/include/api_gateway/api_common_defs.h \
+ /mnt/d/AATFG/API/Codigo/git/tests/../api_gateway/include/api_gateway/api_common_defs.h \
  /usr/include/arpa/inet.h /usr/include/ctype.h \
- /mnt/d/AATFG/API/Codigo/git/api_gateway/include/api_gateway/execution_logger.h
+ /mnt/d/AATFG/API/Codigo/git/tests/../api_gateway/include/api_gateway/execution_logger.h

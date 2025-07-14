@@ -80,7 +80,7 @@ El **Sistema de Control de Ascensores** es una solución distribuida de alta dis
 ```bash
 # Clonar y compilar 
 git clone https://github.com/rafavidel1/Controlador_Ascensores
-cd sistema-control-ascensores
+cd Controlador_Ascensores
 
 # 1. Compilar API Gateway (incluye libcoap automáticamente)
 cd api_gateway

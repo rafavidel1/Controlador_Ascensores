@@ -1,5 +1,5 @@
 === REPORTE DE PRUEBAS: INTEGRACIÓN CAN-COAP ===
-Fecha: Sun Jul 13 16:30:13 2025
+Fecha: Mon Jul 14 13:10:49 2025
 
 ===============================================
 

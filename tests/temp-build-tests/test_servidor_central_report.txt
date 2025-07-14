@@ -1,11 +1,11 @@
 === REPORTE DE PRUEBAS: SERVIDOR CENTRAL ===
-Fecha: Jul 13 2025
+Fecha: Jul 14 2025
 =============================================
 
 PRUEBA: test_task_id_generation_basic
 Descripción: Verifica la correcta generación de IDs únicos de tareas
 Resultado: PASÓ
-Detalles: IDs generados correctamente: T_1752417012883 y T_1752417012884, formato válido y únicos
+Detalles: IDs generados correctamente: T_1752491449175 y T_1752491449177, formato válido y únicos
 ----------------------------------------
 
 PRUEBA: test_task_id_generation_uniqueness
@@ -47,7 +47,7 @@ Detalles: Detectado correctamente: array de ascensores vacío
 PRUEBA: test_response_generation_success
 Descripción: Verifica la correcta generación de respuestas JSON exitosas
 Resultado: PASÓ
-Detalles: Respuesta JSON generada correctamente: tarea_id=T_1752417012907, ascensor=ASC_001
+Detalles: Respuesta JSON generada correctamente: tarea_id=T_1752491449199, ascensor=ASC_001
 ----------------------------------------
 
 PRUEBA: test_response_generation_error
@@ -59,7 +59,7 @@ Detalles: Respuesta de error generada correctamente
 PRUEBA: test_complete_floor_call_flow
 Descripción: Verifica el flujo completo de procesamiento de peticiones de piso
 Resultado: PASÓ
-Detalles: Flujo completo exitoso: edificio=EDIFICIO_TEST, piso=3, tarea=T_1752417012907, ascensor=ASC_TEST
+Detalles: Flujo completo exitoso: edificio=EDIFICIO_TEST, piso=3, tarea=T_1752491449200, ascensor=ASC_TEST
 ----------------------------------------
 
 PRUEBA: test_setup_teardown_servidor

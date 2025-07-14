@@ -1,55 +1,55 @@
 [
 {
   "directory": "/mnt/d/AATFG/API/Codigo/git/tests/temp-build-tests",
-  "command": "/usr/bin/cc  -I/mnt/d/AATFG/API/Codigo/git/tests/../../api_gateway/include -I/mnt/d/AATFG/API/Librerias/libcoap-install-linux/include -I/usr/include/cjson -g -std=gnu11 -o CMakeFiles/elevator_system_lib.dir/mnt/d/AATFG/API/Codigo/api_gateway/src/elevator_state_manager.c.o -c /mnt/d/AATFG/API/Codigo/api_gateway/src/elevator_state_manager.c",
-  "file": "/mnt/d/AATFG/API/Codigo/api_gateway/src/elevator_state_manager.c",
-  "output": "CMakeFiles/elevator_system_lib.dir/mnt/d/AATFG/API/Codigo/api_gateway/src/elevator_state_manager.c.o"
+  "command": "/usr/bin/cc  -I/mnt/d/AATFG/API/Codigo/git/tests/../api_gateway/include -I/mnt/d/AATFG/API/Librerias/libcoap-install-linux/include -I/usr/include/cjson -g -std=gnu11 -o CMakeFiles/elevator_system_lib.dir/mnt/d/AATFG/API/Codigo/git/api_gateway/src/elevator_state_manager.c.o -c /mnt/d/AATFG/API/Codigo/git/api_gateway/src/elevator_state_manager.c",
+  "file": "/mnt/d/AATFG/API/Codigo/git/api_gateway/src/elevator_state_manager.c",
+  "output": "CMakeFiles/elevator_system_lib.dir/mnt/d/AATFG/API/Codigo/git/api_gateway/src/elevator_state_manager.c.o"
 },
 {
   "directory": "/mnt/d/AATFG/API/Codigo/git/tests/temp-build-tests",
-  "command": "/usr/bin/cc  -I/mnt/d/AATFG/API/Codigo/git/tests/../../api_gateway/include -I/mnt/d/AATFG/API/Librerias/libcoap-install-linux/include -I/usr/include/cjson -g -std=gnu11 -o CMakeFiles/elevator_system_lib.dir/mnt/d/AATFG/API/Codigo/api_gateway/src/can_bridge.c.o -c /mnt/d/AATFG/API/Codigo/api_gateway/src/can_bridge.c",
-  "file": "/mnt/d/AATFG/API/Codigo/api_gateway/src/can_bridge.c",
-  "output": "CMakeFiles/elevator_system_lib.dir/mnt/d/AATFG/API/Codigo/api_gateway/src/can_bridge.c.o"
+  "command": "/usr/bin/cc  -I/mnt/d/AATFG/API/Codigo/git/tests/../api_gateway/include -I/mnt/d/AATFG/API/Librerias/libcoap-install-linux/include -I/usr/include/cjson -g -std=gnu11 -o CMakeFiles/elevator_system_lib.dir/mnt/d/AATFG/API/Codigo/git/api_gateway/src/can_bridge.c.o -c /mnt/d/AATFG/API/Codigo/git/api_gateway/src/can_bridge.c",
+  "file": "/mnt/d/AATFG/API/Codigo/git/api_gateway/src/can_bridge.c",
+  "output": "CMakeFiles/elevator_system_lib.dir/mnt/d/AATFG/API/Codigo/git/api_gateway/src/can_bridge.c.o"
 },
 {
   "directory": "/mnt/d/AATFG/API/Codigo/git/tests/temp-build-tests",
-  "command": "/usr/bin/cc  -I/mnt/d/AATFG/API/Codigo/git/tests/../../api_gateway/include -I/mnt/d/AATFG/API/Librerias/libcoap-install-linux/include -I/usr/include/cjson -g -std=gnu11 -o CMakeFiles/elevator_system_lib.dir/mnt/d/AATFG/API/Codigo/api_gateway/src/api_handlers.c.o -c /mnt/d/AATFG/API/Codigo/api_gateway/src/api_handlers.c",
-  "file": "/mnt/d/AATFG/API/Codigo/api_gateway/src/api_handlers.c",
-  "output": "CMakeFiles/elevator_system_lib.dir/mnt/d/AATFG/API/Codigo/api_gateway/src/api_handlers.c.o"
+  "command": "/usr/bin/cc  -I/mnt/d/AATFG/API/Codigo/git/tests/../api_gateway/include -I/mnt/d/AATFG/API/Librerias/libcoap-install-linux/include -I/usr/include/cjson -g -std=gnu11 -o CMakeFiles/elevator_system_lib.dir/mnt/d/AATFG/API/Codigo/git/api_gateway/src/api_handlers.c.o -c /mnt/d/AATFG/API/Codigo/git/api_gateway/src/api_handlers.c",
+  "file": "/mnt/d/AATFG/API/Codigo/git/api_gateway/src/api_handlers.c",
+  "output": "CMakeFiles/elevator_system_lib.dir/mnt/d/AATFG/API/Codigo/git/api_gateway/src/api_handlers.c.o"
 },
 {
   "directory": "/mnt/d/AATFG/API/Codigo/git/tests/temp-build-tests",
-  "command": "/usr/bin/cc  -I/mnt/d/AATFG/API/Codigo/git/tests/../../api_gateway/include -I/mnt/d/AATFG/API/Codigo/git/tests/../../servidor_central/include -I/mnt/d/AATFG/API/Codigo/git/tests -I/mnt/d/AATFG/API/Librerias/libcoap-install-linux/include -I/usr/include/cjson -I/mnt/d/AATFG/API/Codigo/git/tests/mocks -I/mnt/d/AATFG/API/Codigo/git/tests/mocks/../../api_gateway/include -g -std=gnu11 -o CMakeFiles/test_elevator_state_manager.dir/unit/test_elevator_state_manager.c.o -c /mnt/d/AATFG/API/Codigo/git/tests/unit/test_elevator_state_manager.c",
+  "command": "/usr/bin/cc  -I/mnt/d/AATFG/API/Codigo/git/tests/../api_gateway/include -I/mnt/d/AATFG/API/Codigo/git/tests/../servidor_central/include -I/mnt/d/AATFG/API/Codigo/git/tests -I/mnt/d/AATFG/API/Librerias/libcoap-install-linux/include -I/usr/include/cjson -I/mnt/d/AATFG/API/Codigo/git/tests/mocks -I/mnt/d/AATFG/API/Codigo/git/tests/mocks/../../api_gateway/include -g -std=gnu11 -o CMakeFiles/test_elevator_state_manager.dir/unit/test_elevator_state_manager.c.o -c /mnt/d/AATFG/API/Codigo/git/tests/unit/test_elevator_state_manager.c",
   "file": "/mnt/d/AATFG/API/Codigo/git/tests/unit/test_elevator_state_manager.c",
   "output": "CMakeFiles/test_elevator_state_manager.dir/unit/test_elevator_state_manager.c.o"
 },
 {
   "directory": "/mnt/d/AATFG/API/Codigo/git/tests/temp-build-tests",
-  "command": "/usr/bin/cc  -I/mnt/d/AATFG/API/Codigo/git/tests/../../api_gateway/include -I/mnt/d/AATFG/API/Codigo/git/tests/../../servidor_central/include -I/mnt/d/AATFG/API/Codigo/git/tests -I/mnt/d/AATFG/API/Librerias/libcoap-install-linux/include -I/usr/include/cjson -I/mnt/d/AATFG/API/Codigo/git/tests/mocks -I/mnt/d/AATFG/API/Codigo/git/tests/mocks/../../api_gateway/include -g -std=gnu11 -o CMakeFiles/test_can_bridge.dir/unit/test_can_bridge.c.o -c /mnt/d/AATFG/API/Codigo/git/tests/unit/test_can_bridge.c",
+  "command": "/usr/bin/cc  -I/mnt/d/AATFG/API/Codigo/git/tests/../api_gateway/include -I/mnt/d/AATFG/API/Codigo/git/tests/../servidor_central/include -I/mnt/d/AATFG/API/Codigo/git/tests -I/mnt/d/AATFG/API/Librerias/libcoap-install-linux/include -I/usr/include/cjson -I/mnt/d/AATFG/API/Codigo/git/tests/mocks -I/mnt/d/AATFG/API/Codigo/git/tests/mocks/../../api_gateway/include -g -std=gnu11 -o CMakeFiles/test_can_bridge.dir/unit/test_can_bridge.c.o -c /mnt/d/AATFG/API/Codigo/git/tests/unit/test_can_bridge.c",
   "file": "/mnt/d/AATFG/API/Codigo/git/tests/unit/test_can_bridge.c",
   "output": "CMakeFiles/test_can_bridge.dir/unit/test_can_bridge.c.o"
 },
 {
   "directory": "/mnt/d/AATFG/API/Codigo/git/tests/temp-build-tests",
-  "command": "/usr/bin/cc  -I/mnt/d/AATFG/API/Codigo/git/tests/../../api_gateway/include -I/mnt/d/AATFG/API/Codigo/git/tests/../../servidor_central/include -I/mnt/d/AATFG/API/Codigo/git/tests -I/mnt/d/AATFG/API/Librerias/libcoap-install-linux/include -I/usr/include/cjson -I/mnt/d/AATFG/API/Codigo/git/tests/mocks -I/mnt/d/AATFG/API/Codigo/git/tests/mocks/../../api_gateway/include -g -std=gnu11 -o CMakeFiles/test_api_handlers.dir/unit/test_api_handlers.c.o -c /mnt/d/AATFG/API/Codigo/git/tests/unit/test_api_handlers.c",
+  "command": "/usr/bin/cc  -I/mnt/d/AATFG/API/Codigo/git/tests/../api_gateway/include -I/mnt/d/AATFG/API/Codigo/git/tests/../servidor_central/include -I/mnt/d/AATFG/API/Codigo/git/tests -I/mnt/d/AATFG/API/Librerias/libcoap-install-linux/include -I/usr/include/cjson -I/mnt/d/AATFG/API/Codigo/git/tests/mocks -I/mnt/d/AATFG/API/Codigo/git/tests/mocks/../../api_gateway/include -g -std=gnu11 -o CMakeFiles/test_api_handlers.dir/unit/test_api_handlers.c.o -c /mnt/d/AATFG/API/Codigo/git/tests/unit/test_api_handlers.c",
   "file": "/mnt/d/AATFG/API/Codigo/git/tests/unit/test_api_handlers.c",
   "output": "CMakeFiles/test_api_handlers.dir/unit/test_api_handlers.c.o"
 },
 {
   "directory": "/mnt/d/AATFG/API/Codigo/git/tests/temp-build-tests",
-  "command": "/usr/bin/cc  -I/mnt/d/AATFG/API/Codigo/git/tests/../../api_gateway/include -I/mnt/d/AATFG/API/Codigo/git/tests/../../servidor_central/include -I/mnt/d/AATFG/API/Codigo/git/tests -I/mnt/d/AATFG/API/Librerias/libcoap-install-linux/include -I/usr/include/cjson -I/mnt/d/AATFG/API/Codigo/git/tests/mocks -I/mnt/d/AATFG/API/Codigo/git/tests/mocks/../../api_gateway/include -g -std=gnu11 -o CMakeFiles/test_servidor_central.dir/unit/test_servidor_central.c.o -c /mnt/d/AATFG/API/Codigo/git/tests/unit/test_servidor_central.c",
+  "command": "/usr/bin/cc  -I/mnt/d/AATFG/API/Codigo/git/tests/../api_gateway/include -I/mnt/d/AATFG/API/Codigo/git/tests/../servidor_central/include -I/mnt/d/AATFG/API/Codigo/git/tests -I/mnt/d/AATFG/API/Librerias/libcoap-install-linux/include -I/usr/include/cjson -I/mnt/d/AATFG/API/Codigo/git/tests/mocks -I/mnt/d/AATFG/API/Codigo/git/tests/mocks/../../api_gateway/include -g -std=gnu11 -o CMakeFiles/test_servidor_central.dir/unit/test_servidor_central.c.o -c /mnt/d/AATFG/API/Codigo/git/tests/unit/test_servidor_central.c",
   "file": "/mnt/d/AATFG/API/Codigo/git/tests/unit/test_servidor_central.c",
   "output": "CMakeFiles/test_servidor_central.dir/unit/test_servidor_central.c.o"
 },
 {
   "directory": "/mnt/d/AATFG/API/Codigo/git/tests/temp-build-tests",
-  "command": "/usr/bin/cc  -I/mnt/d/AATFG/API/Codigo/git/tests/../../api_gateway/include -I/mnt/d/AATFG/API/Codigo/git/tests/../../servidor_central/include -I/mnt/d/AATFG/API/Codigo/git/tests -I/mnt/d/AATFG/API/Librerias/libcoap-install-linux/include -I/usr/include/cjson -I/mnt/d/AATFG/API/Codigo/git/tests/mocks -I/mnt/d/AATFG/API/Codigo/git/tests/mocks/../../api_gateway/include -g -std=gnu11 -o CMakeFiles/test_psk_security.dir/unit/test_psk_security.c.o -c /mnt/d/AATFG/API/Codigo/git/tests/unit/test_psk_security.c",
+  "command": "/usr/bin/cc  -I/mnt/d/AATFG/API/Codigo/git/tests/../api_gateway/include -I/mnt/d/AATFG/API/Codigo/git/tests/../servidor_central/include -I/mnt/d/AATFG/API/Codigo/git/tests -I/mnt/d/AATFG/API/Librerias/libcoap-install-linux/include -I/usr/include/cjson -I/mnt/d/AATFG/API/Codigo/git/tests/mocks -I/mnt/d/AATFG/API/Codigo/git/tests/mocks/../../api_gateway/include -g -std=gnu11 -o CMakeFiles/test_psk_security.dir/unit/test_psk_security.c.o -c /mnt/d/AATFG/API/Codigo/git/tests/unit/test_psk_security.c",
   "file": "/mnt/d/AATFG/API/Codigo/git/tests/unit/test_psk_security.c",
   "output": "CMakeFiles/test_psk_security.dir/unit/test_psk_security.c.o"
 },
 {
   "directory": "/mnt/d/AATFG/API/Codigo/git/tests/temp-build-tests",
-  "command": "/usr/bin/cc  -I/mnt/d/AATFG/API/Codigo/git/tests/../../api_gateway/include -I/mnt/d/AATFG/API/Codigo/git/tests/../../servidor_central/include -I/mnt/d/AATFG/API/Codigo/git/tests -I/mnt/d/AATFG/API/Librerias/libcoap-install-linux/include -I/usr/include/cjson -I/mnt/d/AATFG/API/Codigo/git/tests/mocks -I/mnt/d/AATFG/API/Codigo/git/tests/mocks/../../api_gateway/include -g -std=gnu11 -o CMakeFiles/test_can_to_coap.dir/integration/test_can_to_coap.c.o -c /mnt/d/AATFG/API/Codigo/git/tests/integration/test_can_to_coap.c",
+  "command": "/usr/bin/cc  -I/mnt/d/AATFG/API/Codigo/git/tests/../api_gateway/include -I/mnt/d/AATFG/API/Codigo/git/tests/../servidor_central/include -I/mnt/d/AATFG/API/Codigo/git/tests -I/mnt/d/AATFG/API/Librerias/libcoap-install-linux/include -I/usr/include/cjson -I/mnt/d/AATFG/API/Codigo/git/tests/mocks -I/mnt/d/AATFG/API/Codigo/git/tests/mocks/../../api_gateway/include -g -std=gnu11 -o CMakeFiles/test_can_to_coap.dir/integration/test_can_to_coap.c.o -c /mnt/d/AATFG/API/Codigo/git/tests/integration/test_can_to_coap.c",
   "file": "/mnt/d/AATFG/API/Codigo/git/tests/integration/test_can_to_coap.c",
   "output": "CMakeFiles/test_can_to_coap.dir/integration/test_can_to_coap.c.o"
 },

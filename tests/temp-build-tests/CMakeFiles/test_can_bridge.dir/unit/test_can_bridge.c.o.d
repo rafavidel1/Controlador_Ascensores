@@ -72,7 +72,7 @@ CMakeFiles/test_can_bridge.dir/unit/test_can_bridge.c.o: \
  /usr/include/x86_64-linux-gnu/bits/time.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct_tm.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h \
- /mnt/d/AATFG/API/Codigo/git/tests/../../api_gateway/include/api_gateway/can_bridge.h \
+ /mnt/d/AATFG/API/Codigo/git/tests/../api_gateway/include/api_gateway/can_bridge.h \
  /usr/lib/gcc/x86_64-linux-gnu/13/include/stdint.h /usr/include/stdint.h \
  /usr/include/x86_64-linux-gnu/bits/wchar.h \
  /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
@@ -139,8 +139,8 @@ CMakeFiles/test_can_bridge.dir/unit/test_can_bridge.c.o: \
  /mnt/d/AATFG/API/Librerias/libcoap-install-linux/include/coap3/coap_uri.h \
  /mnt/d/AATFG/API/Librerias/libcoap-install-linux/include/coap3/coap_ws.h \
  /usr/include/cjson/cJSON.h \
- /mnt/d/AATFG/API/Codigo/git/tests/../../api_gateway/include/api_gateway/elevator_state_manager.h \
+ /mnt/d/AATFG/API/Codigo/git/tests/../api_gateway/include/api_gateway/elevator_state_manager.h \
  /usr/include/cjson/cJSON.h \
- /mnt/d/AATFG/API/Codigo/git/tests/../../api_gateway/include/api_gateway/api_common_defs.h \
- /mnt/d/AATFG/API/Codigo/git/tests/../../api_gateway/include/api_gateway/logging_gw.h \
+ /mnt/d/AATFG/API/Codigo/git/tests/../api_gateway/include/api_gateway/api_common_defs.h \
+ /mnt/d/AATFG/API/Codigo/git/tests/../api_gateway/include/api_gateway/logging_gw.h \
  /mnt/d/AATFG/API/Codigo/git/tests/unit/../mocks/mock_can_interface.h

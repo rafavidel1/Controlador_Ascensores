@@ -1,21 +1,27 @@
-CMakeFiles/elevator_system_lib.dir/mnt/d/AATFG/API/Codigo/api_gateway/src/api_handlers.c.o: \
- /mnt/d/AATFG/API/Codigo/api_gateway/src/api_handlers.c \
+CMakeFiles/elevator_system_lib.dir/mnt/d/AATFG/API/Codigo/git/api_gateway/src/can_bridge.c.o: \
+ /mnt/d/AATFG/API/Codigo/git/api_gateway/src/can_bridge.c \
  /usr/include/stdc-predef.h \
- /mnt/d/AATFG/API/Librerias/libcoap-install-linux/include/coap3/coap.h \
- /mnt/d/AATFG/API/Librerias/libcoap-install-linux/include/coap3/libcoap.h \
- /usr/include/netinet/in.h /usr/include/features.h \
- /usr/include/features-time64.h \
+ /mnt/d/AATFG/API/Codigo/git/tests/../api_gateway/include/api_gateway/can_bridge.h \
+ /usr/lib/gcc/x86_64-linux-gnu/13/include/stdint.h /usr/include/stdint.h \
+ /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
+ /usr/include/features.h /usr/include/features-time64.h \
  /usr/include/x86_64-linux-gnu/bits/wordsize.h \
  /usr/include/x86_64-linux-gnu/bits/timesize.h \
  /usr/include/x86_64-linux-gnu/sys/cdefs.h \
  /usr/include/x86_64-linux-gnu/bits/long-double.h \
  /usr/include/x86_64-linux-gnu/gnu/stubs.h \
  /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
- /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
  /usr/include/x86_64-linux-gnu/bits/types.h \
  /usr/include/x86_64-linux-gnu/bits/typesizes.h \
  /usr/include/x86_64-linux-gnu/bits/time64.h \
- /usr/include/x86_64-linux-gnu/sys/socket.h \
+ /usr/include/x86_64-linux-gnu/bits/wchar.h \
+ /usr/include/x86_64-linux-gnu/bits/stdint-intn.h \
+ /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
+ /usr/include/x86_64-linux-gnu/bits/stdint-least.h \
+ /usr/lib/gcc/x86_64-linux-gnu/13/include/stdbool.h \
+ /mnt/d/AATFG/API/Librerias/libcoap-install-linux/include/coap3/coap.h \
+ /mnt/d/AATFG/API/Librerias/libcoap-install-linux/include/coap3/libcoap.h \
+ /usr/include/netinet/in.h /usr/include/x86_64-linux-gnu/sys/socket.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct_iovec.h \
  /usr/lib/gcc/x86_64-linux-gnu/13/include/stddef.h \
  /usr/include/x86_64-linux-gnu/bits/socket.h \
@@ -23,8 +29,7 @@ CMakeFiles/elevator_system_lib.dir/mnt/d/AATFG/API/Codigo/api_gateway/src/api_ha
  /usr/include/x86_64-linux-gnu/bits/types/clock_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/clockid_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/time_t.h \
- /usr/include/x86_64-linux-gnu/bits/types/timer_t.h \
- /usr/include/x86_64-linux-gnu/bits/stdint-intn.h /usr/include/endian.h \
+ /usr/include/x86_64-linux-gnu/bits/types/timer_t.h /usr/include/endian.h \
  /usr/include/x86_64-linux-gnu/bits/endian.h \
  /usr/include/x86_64-linux-gnu/bits/endianness.h \
  /usr/include/x86_64-linux-gnu/bits/byteswap.h \
@@ -57,11 +62,7 @@ CMakeFiles/elevator_system_lib.dir/mnt/d/AATFG/API/Codigo/api_gateway/src/api_ha
  /usr/include/x86_64-linux-gnu/bits/in.h \
  /mnt/d/AATFG/API/Librerias/libcoap-install-linux/include/coap3/coap_forward_decls.h \
  /mnt/d/AATFG/API/Librerias/libcoap-install-linux/include/coap3/coap_address.h \
- /usr/include/assert.h /usr/lib/gcc/x86_64-linux-gnu/13/include/stdint.h \
- /usr/include/stdint.h \
- /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
- /usr/include/x86_64-linux-gnu/bits/wchar.h \
- /usr/include/x86_64-linux-gnu/bits/stdint-least.h /usr/include/string.h \
+ /usr/include/assert.h /usr/include/string.h \
  /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
  /usr/include/strings.h \
@@ -111,8 +112,21 @@ CMakeFiles/elevator_system_lib.dir/mnt/d/AATFG/API/Codigo/api_gateway/src/api_ha
  /mnt/d/AATFG/API/Librerias/libcoap-install-linux/include/coap3/coap_time.h \
  /mnt/d/AATFG/API/Librerias/libcoap-install-linux/include/coap3/coap_uri.h \
  /mnt/d/AATFG/API/Librerias/libcoap-install-linux/include/coap3/coap_ws.h \
- /mnt/d/AATFG/API/Librerias/libcoap-install-linux/include/coap3/coap_session.h \
- /mnt/d/AATFG/API/Codigo/git/tests/../../api_gateway/include/api_gateway/api_handlers.h \
+ /usr/include/cjson/cJSON.h \
+ /mnt/d/AATFG/API/Codigo/git/tests/../api_gateway/include/api_gateway/elevator_state_manager.h \
+ /usr/include/cjson/cJSON.h \
+ /mnt/d/AATFG/API/Codigo/git/tests/../api_gateway/include/api_gateway/api_common_defs.h \
+ /mnt/d/AATFG/API/Codigo/git/tests/../api_gateway/include/api_gateway/logging_gw.h \
+ /usr/include/stdio.h /usr/lib/gcc/x86_64-linux-gnu/13/include/stdarg.h \
+ /usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/__fpos64_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/__FILE.h \
+ /usr/include/x86_64-linux-gnu/bits/types/FILE.h \
+ /usr/include/x86_64-linux-gnu/bits/types/struct_FILE.h \
+ /usr/include/x86_64-linux-gnu/bits/types/cookie_io_functions_t.h \
+ /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
+ /mnt/d/AATFG/API/Codigo/git/tests/../api_gateway/include/api_gateway/api_handlers.h \
  /usr/include/signal.h \
  /usr/include/x86_64-linux-gnu/bits/signum-generic.h \
  /usr/include/x86_64-linux-gnu/bits/signum-arch.h \
@@ -134,25 +148,7 @@ CMakeFiles/elevator_system_lib.dir/mnt/d/AATFG/API/Codigo/api_gateway/src/api_ha
  /usr/include/x86_64-linux-gnu/bits/types/struct_sigstack.h \
  /usr/include/x86_64-linux-gnu/bits/sigthread.h \
  /usr/include/x86_64-linux-gnu/bits/signal_ext.h \
- /mnt/d/AATFG/API/Codigo/git/tests/../../api_gateway/include/api_gateway/api_common_defs.h \
- /mnt/d/AATFG/API/Codigo/git/tests/../../api_gateway/include/api_gateway/logging_gw.h \
- /usr/include/stdio.h /usr/lib/gcc/x86_64-linux-gnu/13/include/stdarg.h \
- /usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h \
- /usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h \
- /usr/include/x86_64-linux-gnu/bits/types/__fpos64_t.h \
- /usr/include/x86_64-linux-gnu/bits/types/__FILE.h \
- /usr/include/x86_64-linux-gnu/bits/types/FILE.h \
- /usr/include/x86_64-linux-gnu/bits/types/struct_FILE.h \
- /usr/include/x86_64-linux-gnu/bits/types/cookie_io_functions_t.h \
- /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
- /mnt/d/AATFG/API/Codigo/git/tests/../../api_gateway/include/api_gateway/elevator_state_manager.h \
- /usr/include/cjson/cJSON.h \
- /usr/lib/gcc/x86_64-linux-gnu/13/include/stdbool.h \
- /mnt/d/AATFG/API/Codigo/git/tests/../../api_gateway/include/api_gateway/coap_config.h \
- /mnt/d/AATFG/API/Codigo/git/tests/../../api_gateway/include/api_gateway/elevator_state_manager.h \
- /mnt/d/AATFG/API/Codigo/git/tests/../../api_gateway/include/api_gateway/dtls_common_config.h \
- /mnt/d/AATFG/API/Codigo/git/tests/../../api_gateway/include/api_gateway/can_bridge.h \
- /usr/include/cjson/cJSON.h \
- /mnt/d/AATFG/API/Codigo/git/tests/../../api_gateway/include/api_gateway/api_common_defs.h \
- /usr/include/arpa/inet.h /usr/include/ctype.h \
- /mnt/d/AATFG/API/Codigo/git/tests/../../api_gateway/include/api_gateway/execution_logger.h
+ /mnt/d/AATFG/API/Codigo/git/tests/../api_gateway/include/api_gateway/api_common_defs.h \
+ /mnt/d/AATFG/API/Codigo/git/tests/../api_gateway/include/api_gateway/elevator_state_manager.h \
+ /mnt/d/AATFG/API/Codigo/git/tests/../api_gateway/include/api_gateway/execution_logger.h \
+ /usr/include/arpa/inet.h

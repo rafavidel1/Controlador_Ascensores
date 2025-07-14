@@ -97,7 +97,7 @@ CMakeFiles/test_api_handlers.dir/unit/test_api_handlers.c.o: \
  /usr/include/x86_64-linux-gnu/bits/signal_ext.h \
  /usr/include/cjson/cJSON.h \
  /usr/lib/gcc/x86_64-linux-gnu/13/include/stdbool.h \
- /mnt/d/AATFG/API/Codigo/git/tests/../../api_gateway/include/api_gateway/api_handlers.h \
+ /mnt/d/AATFG/API/Codigo/git/tests/../api_gateway/include/api_gateway/api_handlers.h \
  /mnt/d/AATFG/API/Librerias/libcoap-install-linux/include/coap3/coap.h \
  /mnt/d/AATFG/API/Librerias/libcoap-install-linux/include/coap3/libcoap.h \
  /usr/include/netinet/in.h \
@@ -165,7 +165,7 @@ CMakeFiles/test_api_handlers.dir/unit/test_api_handlers.c.o: \
  /mnt/d/AATFG/API/Librerias/libcoap-install-linux/include/coap3/coap_time.h \
  /mnt/d/AATFG/API/Librerias/libcoap-install-linux/include/coap3/coap_uri.h \
  /mnt/d/AATFG/API/Librerias/libcoap-install-linux/include/coap3/coap_ws.h \
- /mnt/d/AATFG/API/Codigo/git/tests/../../api_gateway/include/api_gateway/api_common_defs.h \
- /mnt/d/AATFG/API/Codigo/git/tests/../../api_gateway/include/api_gateway/logging_gw.h \
- /mnt/d/AATFG/API/Codigo/git/tests/../../api_gateway/include/api_gateway/elevator_state_manager.h \
- /mnt/d/AATFG/API/Codigo/git/tests/../../api_gateway/include/api_gateway/elevator_state_manager.h
+ /mnt/d/AATFG/API/Codigo/git/tests/../api_gateway/include/api_gateway/api_common_defs.h \
+ /mnt/d/AATFG/API/Codigo/git/tests/../api_gateway/include/api_gateway/logging_gw.h \
+ /mnt/d/AATFG/API/Codigo/git/tests/../api_gateway/include/api_gateway/elevator_state_manager.h \
+ /mnt/d/AATFG/API/Codigo/git/tests/../api_gateway/include/api_gateway/elevator_state_manager.h

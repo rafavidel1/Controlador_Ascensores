@@ -4,7 +4,56 @@
 GREEN='\033[0;32m'
 RED='\033[0;31m'
 YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
 NC='\033[0m' # Sin color
+
+# Variable global para controlar qué comando kubectl usar
+KUBECTL_CMD="kubectl"
+
+# Función para ejecutar kubectl con fallback automático
+kubectl_with_fallback() {
+  # Si ya estamos usando minikube kubectl, usar directamente
+  if [ "$KUBECTL_CMD" = "minikube kubectl --" ]; then
+    minikube kubectl -- "$@"
+    return $?
+  fi
+  
+  # Intentar con kubectl normal primero usando command para evitar recursión
+  if command kubectl "$@" 2>/dev/null; then
+    return 0
+  else
+    # Capturar el error específico
+    local error_output=$(command kubectl "$@" 2>&1)
+    
+    # Verificar si el error es específicamente por kubectl no disponible o problemas de conexión
+    if echo "$error_output" | grep -q -E "(command not found|connection refused|Unable to connect|The connection to the server.*was refused)" || ! command -v kubectl &> /dev/null; then
+      echo -e "${YELLOW}⚠ kubectl falló, intentando con 'minikube kubectl --'...${NC}"
+      
+      # Cambiar globalmente a minikube kubectl
+      KUBECTL_CMD="minikube kubectl --"
+      
+      # Ejecutar con minikube kubectl
+      minikube kubectl -- "$@"
+      local result=$?
+      
+      if [ $result -eq 0 ]; then
+        echo -e "${GREEN}✓ Comando ejecutado exitosamente con 'minikube kubectl --'${NC}"
+        echo -e "${BLUE}💡 Usando 'minikube kubectl --' para el resto de la sesión${NC}"
+      fi
+      
+      return $result
+    else
+      # Si no es un problema de kubectl, mostrar el error original
+      echo "$error_output" >&2
+      return 1
+    fi
+  fi
+}
+
+# Función wrapper que reemplaza kubectl
+kubectl() {
+  kubectl_with_fallback "$@"
+}
 
 # Función para reinstalar MetalLB completamente cuando esté en mal estado
 reinstall_metallb() {
@@ -118,12 +167,15 @@ reinstall_metallb() {
 # Función para verificar comandos
 check_command() {
   if ! command -v $1 &> /dev/null; then
-    echo -e "${RED}Error: $1 no está instalado. Por favor, instálalo.${NC}"
-    exit 1
+    if [ "$1" = "kubectl" ]; then
+      echo -e "${YELLOW}⚠ kubectl no encontrado, se usará 'minikube kubectl --' automáticamente${NC}"
+      KUBECTL_CMD="minikube kubectl --"
+    else
+      echo -e "${RED}Error: $1 no está instalado. Por favor, instálalo.${NC}"
+      exit 1
+    fi
   fi
 }
-
-
 
 # Función para detectar archivos en el directorio actual
 detect_files() {
@@ -706,8 +758,8 @@ else
   echo -e "${GREEN}Metrics Server ya está instalado.${NC}"
 fi
 
-# 6. Configuración PSK simple (sin Keycloak)
-echo "Usando configuración PSK simple..."
+# 6. Configuración PSK 
+echo "Usando configuración PSK"
 
 # Función para manejar redeploy forzado después de actualizar imagen
 handle_forced_redeploy() {
@@ -860,7 +912,7 @@ fi
 echo -e "${GREEN}✓ Configuración PSK simple activada${NC}"
 
 echo -e "\n${GREEN}=== CONFIGURACIÓN COMPLETADA ===${NC}"
-echo "Sistema configurado con PSK simple (sin Keycloak)."
+echo "Sistema configurado con PSK."
 
 echo -e "\n${GREEN}=== FUNCIONALIDAD MEJORADA ===${NC}"
 echo -e "${BLUE}💡 Redeploy Automático Activado:${NC}"
@@ -868,6 +920,12 @@ echo "  • Cuando se construye/actualiza la imagen del servidor central"
 echo "  • Se elimina automáticamente el deployment existente"
 echo "  • Se fuerza la creación de un nuevo pod con la imagen actualizada"
 echo "  • Ya no necesitas hacer 'kubectl delete deployment' manualmente"
+echo ""
+echo -e "${BLUE}🔧 Autodetección kubectl/minikube:${NC}"
+echo "  • Intenta usar 'kubectl' primero automáticamente"
+echo "  • Si kubectl falla, cambia a 'minikube kubectl --' automáticamente"
+echo "  • Funciona tanto si tienes kubectl independiente como solo minikube"
+echo "  • Sin configuración manual necesaria"
 echo ""
 echo -e "${BLUE}🔧 Autorecuperación de MetalLB:${NC}"
 echo "  • Detecta automáticamente cuando MetalLB está en mal estado"

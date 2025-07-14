@@ -6,12 +6,55 @@
 # 100% Autónomo - Instala todas las dependencias automáticamente
 # Sin prerrequisitos manuales - Zero configuration
 
-# Colores para la salida
-GREEN='\033[0;32m'
+# Configuración de colores
 RED='\033[0;31m'
+GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
-NC='\033[0m' # Sin color
+NC='\033[0m' # No Color
+
+# Función para detectar soporte de colores
+detect_color_support() {
+    # Verificar si el terminal soporta colores
+    if [[ -t 1 ]] && [[ "${TERM:-}" != "dumb" ]] && command -v tput >/dev/null 2>&1; then
+        # Terminal interactivo con capacidades avanzadas
+        local colors=$(tput colors 2>/dev/null || echo 0)
+        if [[ $colors -ge 8 ]]; then
+            # Terminal soporta colores
+            return 0
+        fi
+    fi
+    
+    # Verificar variables de entorno que indican soporte de colores
+    if [[ "${COLORTERM:-}" == "truecolor" ]] || [[ "${COLORTERM:-}" == "24bit" ]]; then
+        return 0
+    fi
+    
+    # Verificar si NO_COLOR está definido (estándar para deshabilitar colores)
+    if [[ -n "${NO_COLOR:-}" ]]; then
+        return 1
+    fi
+    
+    # Por defecto, no usar colores si hay dudas
+    return 1
+}
+
+# Configurar colores basado en el soporte del terminal
+if detect_color_support; then
+    # Terminal soporta colores - usar códigos ANSI
+    RED='\033[0;31m'
+    GREEN='\033[0;32m'
+    YELLOW='\033[1;33m'
+    BLUE='\033[0;34m'
+    NC='\033[0m'
+else
+    # Terminal no soporta colores o usuario prefiere texto plano
+    RED=''
+    GREEN=''
+    YELLOW=''
+    BLUE=''
+    NC=''
+fi
 
 # Directorios base
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

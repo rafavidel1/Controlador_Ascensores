@@ -142,12 +142,12 @@ CMakeFiles/test_can_to_coap.dir/integration/test_can_to_coap.c.o: \
  /usr/include/x86_64-linux-gnu/bits/getopt_posix.h \
  /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
  /usr/include/x86_64-linux-gnu/bits/unistd_ext.h \
- /mnt/d/AATFG/API/Codigo/git/tests/../../api_gateway/include/api_gateway/can_bridge.h \
+ /mnt/d/AATFG/API/Codigo/git/tests/../api_gateway/include/api_gateway/can_bridge.h \
  /usr/lib/gcc/x86_64-linux-gnu/13/include/stdbool.h \
  /usr/include/cjson/cJSON.h \
- /mnt/d/AATFG/API/Codigo/git/tests/../../api_gateway/include/api_gateway/elevator_state_manager.h \
+ /mnt/d/AATFG/API/Codigo/git/tests/../api_gateway/include/api_gateway/elevator_state_manager.h \
  /usr/include/cjson/cJSON.h \
- /mnt/d/AATFG/API/Codigo/git/tests/../../api_gateway/include/api_gateway/api_common_defs.h \
- /mnt/d/AATFG/API/Codigo/git/tests/../../api_gateway/include/api_gateway/logging_gw.h \
+ /mnt/d/AATFG/API/Codigo/git/tests/../api_gateway/include/api_gateway/api_common_defs.h \
+ /mnt/d/AATFG/API/Codigo/git/tests/../api_gateway/include/api_gateway/logging_gw.h \
  /mnt/d/AATFG/API/Codigo/git/tests/integration/../mocks/mock_can_interface.h \
  /mnt/d/AATFG/API/Codigo/git/tests/integration/../mocks/mock_coap_session.h
