@@ -43,7 +43,8 @@
  */
 typedef enum {
     PETICION_LLAMADA_PISO,    /**< Llamada de piso desde botón externo */
-    PETICION_SOLICITUD_CABINA /**< Solicitud desde interior de cabina */
+    PETICION_SOLICITUD_CABINA,/**< Solicitud desde interior de cabina */
+    PETICION_LLAMADA_EMERGENCIA /**< Solicitud de emergencia desde ascensor */
 } tipo_peticion_t;
 
 /**
@@ -62,6 +63,14 @@ typedef struct {
     // Para solicitudes de cabina
     int indice_ascensor;          /**< Índice del ascensor (0-based) */
     int piso_destino;             /**< Piso destino solicitado */
+    
+    // Para llamadas de emergencia
+    char id_edificio[16];         /**< ID del edificio en emergencia */
+    char ascensor_id_emergencia[32]; /**< ID específico del ascensor */
+    char tipo_emergencia[32];     /**< Tipo de emergencia (EMERGENCY_STOP, etc.) */
+    int piso_actual_emergencia;   /**< Piso actual del ascensor en emergencia */
+    char timestamp_emergencia[64]; /**< Timestamp de la emergencia */
+    char descripcion_emergencia[256]; /**< Descripción detallada */
 } peticion_simulacion_t;
 
 /**

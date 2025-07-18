@@ -142,6 +142,8 @@ static central_request_entry_t pending_central_requests[MAX_PENDING_REQUESTS_TO_
  */
 static int num_pending_central_requests = 0;
 
+
+
 /**
  * @brief Añade un tracker a la lista de solicitudes pendientes
  * @param token_to_central Token de la solicitud enviada al servidor central
@@ -591,4 +593,6 @@ hnd_floor_call_from_elevator_gw(coap_resource_t *resource,
     
     LOG_DEBUG_GW("[FloorCallHandler] Procesando llamada de piso desde ascensor.");
 }
+
+
 

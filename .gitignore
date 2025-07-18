@@ -1,5 +1,8 @@
 libcoap-install-linux/*
-dotenv-c
+
+/libcoap-install-linux
+
+/dotenv-c
 dotenv-c/*
 
 .mmd
@@ -8,6 +11,8 @@ dotenv-c/*
 # Ignorar todos los archivos .md excepto README.md exactamente
 *.md
 !/README.md
+!/ESPECIFICACION_INTEGRACION_NUEVOS_ENDPOINTS.md
+
 !**/README.md
 
 Prueba_certs/

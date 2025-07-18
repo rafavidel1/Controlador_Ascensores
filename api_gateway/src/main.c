@@ -729,6 +729,9 @@ int main(int argc, char *argv[]) {
            "(Ctrl+C to quit)\n", 
            listen_ip, listen_port);
 
+    // EXPERIMENTO: Eliminando recursos CoAP servidor (no se usan actualmente)
+    LOG_INFO_GW("[Main] Modo experimental: Sin recursos CoAP servidor. Solo cliente hacia servidor central.");
+
     // Inicializar el estado del grupo de ascensores
     // NOTA: La inicialización se hará desde la simulación JSON, no aquí
     // Por ejemplo, Edificio E1 con 4 ascensores y 14 plantas

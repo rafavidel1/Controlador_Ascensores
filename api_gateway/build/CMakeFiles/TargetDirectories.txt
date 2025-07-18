@@ -1,0 +1,4 @@
+/mnt/d/AATFG/API/Codigo/git/api_gateway/build/CMakeFiles/api_gateway.dir
+/mnt/d/AATFG/API/Codigo/git/api_gateway/build/CMakeFiles/api_gateway_dynamic.dir
+/mnt/d/AATFG/API/Codigo/git/api_gateway/build/CMakeFiles/edit_cache.dir
+/mnt/d/AATFG/API/Codigo/git/api_gateway/build/CMakeFiles/rebuild_cache.dir

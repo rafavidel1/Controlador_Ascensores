@@ -20,6 +20,7 @@
  * - 0x100: Llamadas de piso (floor calls) con dirección
  * - 0x200: Solicitudes de cabina (cabin requests) con destino
  * - 0x300: Notificaciones de llegada de ascensores
+ * - 0x400: Llamadas de emergencia desde ascensores
  * 
  * El puente mantiene un buffer circular de trackers para correlacionar
  * respuestas del servidor central con las solicitudes CAN originales.
@@ -150,6 +151,10 @@ void ag_can_bridge_register_send_callback(can_send_callback_t callback);
  * - **0x300 - Notificación de llegada**:
  *   - data[0]: Índice del ascensor (0-based)
  *   - data[1]: Piso actual (0-255)
+ * - **0x400 - Llamada de emergencia**:
+ *   - data[0]: Índice del ascensor (0-based)
+ *   - data[1]: Piso donde está el ascensor en emergencia
+ *   - data[2]: Tipo de emergencia (enum)
  * 
  * **Procesamiento realizado:**
  * 1. Validación del formato y longitud de datos

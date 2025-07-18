@@ -19,6 +19,7 @@
  * **Recursos CoAP disponibles:**
  * - `POST /peticion_piso`: Solicitudes de llamada desde pisos
  * - `POST /peticion_cabina`: Solicitudes desde cabinas de ascensores
+ * - `POST /llamada_emergencia`: Solicitudes de emergencia desde ascensores
  * 
  * **Seguridad:**
  * - Cifrado DTLS para todas las comunicaciones
@@ -213,6 +214,14 @@ static const coap_bin_const_t *get_psk_info(coap_bin_const_t *identity,
  * cabina (cabin requests) desde el interior de los ascensores.
  */
 #define RESOURCE_CABIN_REQUEST "peticion_cabina"
+
+/**
+ * @brief Ruta del recurso CoAP para llamadas de emergencia
+ * 
+ * Define la ruta del endpoint CoAP que maneja las solicitudes de
+ * emergencia desde ascensores. Activa protocolos de emergencia.
+ */
+#define RESOURCE_EMERGENCY_CALL "llamada_emergencia"
 
 /**
  * @brief Dirección IP de escucha del servidor
@@ -1147,6 +1156,249 @@ static void hnd_cabin_request(coap_resource_t *resource, coap_session_t *session
     }
 }
 
+/**
+ * @brief Manejador CoAP para solicitudes de emergencia
+ * 
+ * @param[in] resource Recurso CoAP que recibió la solicitud
+ * @param[in] session Sesión CoAP del cliente
+ * @param[in] request PDU de la solicitud CoAP
+ * @param[in] query Parámetros de consulta (no utilizado)
+ * @param[out] response PDU de respuesta CoAP
+ * 
+ * @details Procesa solicitudes de emergencia activando protocolos especializados
+ * según el tipo de emergencia detectada. Notifica a servicios externos y
+ * coordina respuestas de ascensores auxiliares.
+ */
+static void hnd_emergency_call(coap_resource_t *resource, coap_session_t *session,
+                              const coap_pdu_t *request, const coap_string_t *query,
+                              coap_pdu_t *response) {
+    
+    SRV_LOG_INFO("=== MANEJADOR EMERGENCY CALL EJECUTÁNDOSE ===");
+    
+    // Verificar sesión DTLS
+    if (coap_session_get_state(session) != COAP_SESSION_STATE_ESTABLISHED) {
+        SRV_LOG_ERROR("Unauthorized emergency request: Session not properly connected via DTLS");
+        coap_pdu_set_code(response, COAP_RESPONSE_CODE_UNAUTHORIZED);
+        
+        cJSON *error_json = cJSON_CreateObject();
+        cJSON_AddStringToObject(error_json, "error", "Unauthorized");
+        cJSON_AddStringToObject(error_json, "message", "DTLS connection required for emergency calls");
+        
+        char *error_str = cJSON_PrintUnformatted(error_json);
+        coap_add_option(response, COAP_OPTION_CONTENT_FORMAT, 
+                       coap_encode_var_safe((uint8_t[2]){0}, 2, COAP_MEDIATYPE_APPLICATION_JSON), 
+                       (uint8_t[2]){0});
+        coap_add_data(response, strlen(error_str), (const uint8_t*)error_str);
+        
+        cJSON_Delete(error_json);
+        free(error_str);
+        return;
+    }
+
+    const uint8_t *data;
+    size_t data_len;
+    
+    if (coap_get_data(request, &data_len, &data)) {
+        SRV_LOG_DEBUG("Emergency Call Payload: %.*s", (int)data_len, (char*)data);
+
+        cJSON *json_payload = cJSON_ParseWithLength((const char*)data, data_len);
+        if (!json_payload) {
+            SRV_LOG_ERROR("Error parsing JSON payload for emergency call: %s", cJSON_GetErrorPtr());
+            coap_pdu_set_code(response, COAP_RESPONSE_CODE_BAD_REQUEST);
+            
+            cJSON *error_json = cJSON_CreateObject();
+            cJSON_AddStringToObject(error_json, "error", "Invalid JSON payload for emergency call");
+            cJSON_AddStringToObject(error_json, "details", cJSON_GetErrorPtr());
+            
+            char *error_str = cJSON_PrintUnformatted(error_json);
+            coap_add_option(response, COAP_OPTION_CONTENT_FORMAT, 
+                           coap_encode_var_safe((uint8_t[2]){0}, 2, COAP_MEDIATYPE_APPLICATION_JSON), 
+                           (uint8_t[2]){0});
+            coap_add_data(response, strlen(error_str), (const uint8_t*)error_str);
+            
+            cJSON_Delete(error_json);
+            free(error_str);
+            return;
+        }
+
+        // Extraer campos obligatorios
+        cJSON *j_id_edificio = cJSON_GetObjectItemCaseSensitive(json_payload, "id_edificio");
+        cJSON *j_ascensor_id = cJSON_GetObjectItemCaseSensitive(json_payload, "ascensor_id_emergencia");
+        cJSON *j_tipo_emergencia = cJSON_GetObjectItemCaseSensitive(json_payload, "tipo_emergencia");
+        cJSON *j_piso_actual = cJSON_GetObjectItemCaseSensitive(json_payload, "piso_actual_emergencia");
+        cJSON *j_timestamp = cJSON_GetObjectItemCaseSensitive(json_payload, "timestamp_emergencia");
+        cJSON *j_descripcion = cJSON_GetObjectItemCaseSensitive(json_payload, "descripcion_emergencia");
+        cJSON *j_elevadores_estado = cJSON_GetObjectItemCaseSensitive(json_payload, "elevadores_estado");
+
+        // Validar campos obligatorios
+        if (!cJSON_IsString(j_id_edificio) || !cJSON_IsString(j_ascensor_id) ||
+            !cJSON_IsString(j_tipo_emergencia) || !cJSON_IsNumber(j_piso_actual) ||
+            !cJSON_IsString(j_timestamp) || !cJSON_IsArray(j_elevadores_estado)) {
+            
+            SRV_LOG_ERROR("Missing required fields in emergency call");
+            coap_pdu_set_code(response, COAP_RESPONSE_CODE_BAD_REQUEST);
+            
+            cJSON *error_json = cJSON_CreateObject();
+            cJSON_AddStringToObject(error_json, "error", "Missing required fields");
+            cJSON_AddStringToObject(error_json, "required", "id_edificio, ascensor_id_emergencia, tipo_emergencia, piso_actual_emergencia, timestamp_emergencia, elevadores_estado");
+            
+            char *error_str = cJSON_PrintUnformatted(error_json);
+            coap_add_option(response, COAP_OPTION_CONTENT_FORMAT, 
+                           coap_encode_var_safe((uint8_t[2]){0}, 2, COAP_MEDIATYPE_APPLICATION_JSON), 
+                           (uint8_t[2]){0});
+            coap_add_data(response, strlen(error_str), (const uint8_t*)error_str);
+            
+            cJSON_Delete(error_json);
+            free(error_str);
+            cJSON_Delete(json_payload);
+            return;
+        }
+
+        // Extraer valores
+        char *id_edificio = j_id_edificio->valuestring;
+        char *ascensor_id = j_ascensor_id->valuestring;
+        char *tipo_emergencia = j_tipo_emergencia->valuestring;
+        int piso_actual = j_piso_actual->valueint;
+        char *timestamp = j_timestamp->valuestring;
+        char *descripcion = j_descripcion ? j_descripcion->valuestring : "Sin descripción";
+
+        // Validar tipo de emergencia
+        if (strcmp(tipo_emergencia, "EMERGENCY_STOP") != 0 &&
+            strcmp(tipo_emergencia, "POWER_FAILURE") != 0 &&
+            strcmp(tipo_emergencia, "PEOPLE_TRAPPED") != 0 &&
+            strcmp(tipo_emergencia, "MECHANICAL_FAILURE") != 0 &&
+            strcmp(tipo_emergencia, "FIRE_ALARM") != 0) {
+            
+            SRV_LOG_ERROR("Invalid emergency type: %s", tipo_emergencia);
+            coap_pdu_set_code(response, COAP_RESPONSE_CODE_BAD_REQUEST);
+            
+            cJSON *error_json = cJSON_CreateObject();
+            cJSON_AddStringToObject(error_json, "error", "Invalid emergency type");
+            cJSON_AddStringToObject(error_json, "received_type", tipo_emergencia);
+            cJSON_AddStringToObject(error_json, "valid_types", 
+                                   "EMERGENCY_STOP, POWER_FAILURE, PEOPLE_TRAPPED, MECHANICAL_FAILURE, FIRE_ALARM");
+            
+            char *error_str = cJSON_PrintUnformatted(error_json);
+            coap_add_option(response, COAP_OPTION_CONTENT_FORMAT, 
+                           coap_encode_var_safe((uint8_t[2]){0}, 2, COAP_MEDIATYPE_APPLICATION_JSON), 
+                           (uint8_t[2]){0});
+            coap_add_data(response, strlen(error_str), (const uint8_t*)error_str);
+            
+            cJSON_Delete(error_json);
+            free(error_str);
+            cJSON_Delete(json_payload);
+            return;
+        }
+
+        SRV_LOG_WARN("🚨 EMERGENCIA DETECTADA: %s en edificio %s, ascensor %s, piso %d", 
+                     tipo_emergencia, id_edificio, ascensor_id, piso_actual);
+        SRV_LOG_INFO("Descripción: %s", descripcion);
+        SRV_LOG_INFO("Timestamp: %s", timestamp);
+
+        // Generar ID de emergencia
+        char emergency_id[32];
+        struct timeval tv;
+        gettimeofday(&tv, NULL);
+        snprintf(emergency_id, sizeof(emergency_id), "EMG_%ld%03ld", 
+                (long)tv.tv_sec, (long)(tv.tv_usec / 1000));
+
+        // Determinar protocolo y servicios según tipo de emergencia
+        const char *protocolo_activado;
+        const char *servicios_notificados[10];
+        int num_servicios = 0;
+        int tiempo_respuesta = 15; // Default
+
+        if (strcmp(tipo_emergencia, "PEOPLE_TRAPPED") == 0) {
+            protocolo_activado = "RESCUE_PROTOCOL";
+            servicios_notificados[num_servicios++] = "BOMBEROS";
+            servicios_notificados[num_servicios++] = "MANTENIMIENTO";
+            servicios_notificados[num_servicios++] = "SEGURIDAD";
+            tiempo_respuesta = 10; // Prioridad alta
+        } else if (strcmp(tipo_emergencia, "FIRE_ALARM") == 0) {
+            protocolo_activado = "FIRE_EVACUATION";
+            servicios_notificados[num_servicios++] = "BOMBEROS";
+            servicios_notificados[num_servicios++] = "EVACUACION";
+            servicios_notificados[num_servicios++] = "POLICIA";
+            tiempo_respuesta = 5; // Prioridad crítica
+        } else if (strcmp(tipo_emergencia, "POWER_FAILURE") == 0) {
+            protocolo_activado = "POWER_BACKUP";
+            servicios_notificados[num_servicios++] = "MANTENIMIENTO";
+            servicios_notificados[num_servicios++] = "ELECTRICIDAD";
+            tiempo_respuesta = 20;
+        } else {
+            protocolo_activado = "MAINTENANCE_ALERT";
+            servicios_notificados[num_servicios++] = "MANTENIMIENTO";
+            servicios_notificados[num_servicios++] = "SEGURIDAD";
+            tiempo_respuesta = 15;
+        }
+
+        // Encontrar ascensores disponibles para apoyo
+        cJSON *ascensores_apoyo = cJSON_CreateArray();
+        int array_size = cJSON_GetArraySize(j_elevadores_estado);
+        for (int i = 0; i < array_size; i++) {
+            cJSON *ascensor = cJSON_GetArrayItem(j_elevadores_estado, i);
+            cJSON *j_id = cJSON_GetObjectItemCaseSensitive(ascensor, "id_ascensor");
+            cJSON *j_disponible = cJSON_GetObjectItemCaseSensitive(ascensor, "disponible");
+            
+            if (cJSON_IsString(j_id) && cJSON_IsBool(j_disponible) && 
+                cJSON_IsTrue(j_disponible) && 
+                strcmp(j_id->valuestring, ascensor_id) != 0) {
+                cJSON_AddItemToArray(ascensores_apoyo, cJSON_CreateString(j_id->valuestring));
+            }
+        }
+
+        // Crear respuesta JSON
+        cJSON *response_json = cJSON_CreateObject();
+        cJSON_AddStringToObject(response_json, "emergencia_id", emergency_id);
+        cJSON_AddStringToObject(response_json, "protocolo_activado", protocolo_activado);
+        cJSON_AddNumberToObject(response_json, "tiempo_respuesta_estimado", tiempo_respuesta);
+        
+        cJSON *servicios_array = cJSON_CreateArray();
+        for (int i = 0; i < num_servicios; i++) {
+            cJSON_AddItemToArray(servicios_array, cJSON_CreateString(servicios_notificados[i]));
+        }
+        cJSON_AddItemToObject(response_json, "servicios_notificados", servicios_array);
+        cJSON_AddItemToObject(response_json, "ascensores_redirection", ascensores_apoyo);
+
+        char *response_str = cJSON_PrintUnformatted(response_json);
+        if (!response_str) {
+            SRV_LOG_ERROR("Error creating emergency response JSON");
+            coap_pdu_set_code(response, COAP_RESPONSE_CODE_INTERNAL_ERROR);
+            cJSON_Delete(response_json);
+            cJSON_Delete(json_payload);
+            return;
+        }
+
+        coap_pdu_set_code(response, COAP_RESPONSE_CODE_CONTENT);
+        coap_add_option(response, COAP_OPTION_CONTENT_FORMAT, 
+                       coap_encode_var_safe((uint8_t[2]){0}, 2, COAP_MEDIATYPE_APPLICATION_JSON), 
+                       (uint8_t[2]){0});
+        coap_add_data(response, strlen(response_str), (const uint8_t *)response_str);
+
+        SRV_LOG_INFO("🚨 EMERGENCIA PROCESADA: %s", emergency_id);
+
+        cJSON_Delete(response_json);
+        free(response_str);
+        cJSON_Delete(json_payload);
+
+    } else {
+        SRV_LOG_ERROR("Received emergency call with no payload");
+        coap_pdu_set_code(response, COAP_RESPONSE_CODE_BAD_REQUEST);
+        
+        cJSON *error_json = cJSON_CreateObject();
+        cJSON_AddStringToObject(error_json, "error", "Missing payload for emergency call");
+        
+        char *error_str = cJSON_PrintUnformatted(error_json);
+        coap_add_option(response, COAP_OPTION_CONTENT_FORMAT, 
+                       coap_encode_var_safe((uint8_t[2]){0}, 2, COAP_MEDIATYPE_APPLICATION_JSON), 
+                       (uint8_t[2]){0});
+        coap_add_data(response, strlen(error_str), (const uint8_t*)error_str);
+        
+        cJSON_Delete(error_json);
+        free(error_str);
+    }
+}
+
 
 
 /**
@@ -1204,12 +1456,14 @@ static void hnd_cabin_request(coap_resource_t *resource, coap_session_t *session
  * @see psk_validator_init()
  * @see hnd_floor_call()
  * @see hnd_cabin_request()
+ * @see hnd_emergency_call()
  */
 int main(int argc, char **argv) {
     coap_context_t  *ctx = NULL;
     coap_address_t   serv_addr;
     coap_resource_t *r_floor_call = NULL;
     coap_resource_t *r_cabin_request = NULL;
+    coap_resource_t *r_emergency_call = NULL;
 
     signal(SIGINT, handle_sigint);
     SRV_LOG_INFO(ANSI_COLOR_GREEN "--- Servidor Central Ascensores CoAP (Stateless Dispatcher) ---" ANSI_COLOR_RESET);
@@ -1309,6 +1563,15 @@ int main(int argc, char **argv) {
     coap_register_handler(r_cabin_request, COAP_REQUEST_POST, hnd_cabin_request);
     coap_add_resource(ctx, r_cabin_request);
     SRV_LOG_INFO("Registered resource: POST /%s", RESOURCE_CABIN_REQUEST);
+
+    r_emergency_call = coap_resource_init(coap_make_str_const(RESOURCE_EMERGENCY_CALL), 0);
+    if (!r_emergency_call) {
+        SRV_LOG_ERROR("Failed to init resource /%s. Exiting.", RESOURCE_EMERGENCY_CALL);
+        goto finish;
+    }
+    coap_register_handler(r_emergency_call, COAP_REQUEST_POST, hnd_emergency_call);
+    coap_add_resource(ctx, r_emergency_call);
+    SRV_LOG_INFO("Registered resource: POST /%s", RESOURCE_EMERGENCY_CALL);
 
     SRV_LOG_INFO(ANSI_COLOR_GREEN "Stateless CoAP dispatcher server started. Waiting for requests... (Ctrl+C to stop)" ANSI_COLOR_RESET);
 

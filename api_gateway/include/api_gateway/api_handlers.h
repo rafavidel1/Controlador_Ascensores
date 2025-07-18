@@ -80,37 +80,7 @@ coap_response_t hnd_central_server_response_gw(coap_session_t *session_from_serv
 
 // --- Resource Handlers (for requests FROM Clients TO Gateway) ---
 
-/**
- * @brief Handler for legacy elevator API requests (e.g., /peticion_ascensor).
- * Currently logs and discards such requests.
- */
-void hnd_elevator_api_request_gw(coap_resource_t *resource,
-                               coap_session_t *elevator_session,
-                               const coap_pdu_t *elevator_request_pdu,
-                               const coap_string_t *query,
-                               coap_pdu_t *response_placeholder);
 
-/**
- * @brief Handler for cabin requests from elevator clients.
- * Path: GW_CABIN_REQUEST_PATH (e.g., /solicitud_cabina_gw)
- * Parses query params: elevator_id, target_floor
- */
-void hnd_cabin_request_from_elevator_gw(coap_resource_t *resource,
-                                      coap_session_t *elevator_session,
-                                      const coap_pdu_t *elevator_request_pdu,
-                                      const coap_string_t *query,
-                                      coap_pdu_t *response_placeholder);
-
-/**
- * @brief Handler for floor calls from elevator clients/external.
- * Path: GW_FLOOR_CALL_PATH (e.g., /llamada_piso_gw)
- * Parses query params: floor, dir (UP/DOWN)
- */
-void hnd_floor_call_from_elevator_gw(coap_resource_t *resource,
-                                     coap_session_t *elevator_session, 
-                                     const coap_pdu_t *elevator_request_pdu, 
-                                     const coap_string_t *query, 
-                                     coap_pdu_t *response_placeholder);
 
 
 

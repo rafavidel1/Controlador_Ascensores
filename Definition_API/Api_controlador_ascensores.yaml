@@ -119,6 +119,54 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
 
+  /llamada_emergencia:
+    post:
+      summary: Procesar llamadas de emergencia desde ascensores
+      description: |
+        Procesa solicitudes de emergencia originadas desde cabinas o controladores
+        de ascensores. Activa protocolos de emergencia y notifica a servicios
+        de mantenimiento y sistemas de seguridad.
+        
+        Tipos de emergencia soportados:
+        - EMERGENCY_STOP: Botón de parada activado
+        - POWER_FAILURE: Fallo de alimentación detectado
+        - PEOPLE_TRAPPED: Personas atrapadas en cabina
+        - MECHANICAL_FAILURE: Fallo mecánico del ascensor
+        - FIRE_ALARM: Alarma de incendios activada
+        
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmergencyCallRequest'
+      
+      responses:
+        '200':
+          description: Solicitud de emergencia procesada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmergencyResponse'
+        '400':
+          description: Error en la solicitud
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: No autorizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
 components:
   schemas:
     DoorState:
@@ -307,4 +355,99 @@ components:
           example: 0
       required:
         - error
-        - message 
+        - message
+
+    EmergencyType:
+      type: string
+      enum: [EMERGENCY_STOP, POWER_FAILURE, PEOPLE_TRAPPED, MECHANICAL_FAILURE, FIRE_ALARM]
+      description: |
+        Tipos de emergencia que el sistema puede procesar
+      example: PEOPLE_TRAPPED
+
+    EmergencyCallRequest:
+      type: object
+      description: Solicitud de emergencia desde ascensor
+      properties:
+        id_edificio:
+          type: string
+          description: ID del edificio donde ocurre la emergencia
+          pattern: '^E[0-9]+$'
+          example: E1
+          maxLength: 23
+        ascensor_id_emergencia:
+          type: string
+          description: ID del ascensor que reporta la emergencia
+          pattern: '^E[0-9]+A[0-9]+$'
+          example: E1A1
+          maxLength: 23
+        tipo_emergencia:
+          $ref: '#/components/schemas/EmergencyType'
+        piso_actual_emergencia:
+          type: integer
+          description: Piso donde está el ascensor en emergencia
+          minimum: 0
+          maximum: 50
+          example: 5
+        descripcion_emergencia:
+          type: string
+          description: Descripción detallada de la emergencia
+          maxLength: 500
+          example: "Personas atrapadas, puerta no abre"
+        timestamp_emergencia:
+          type: string
+          format: date-time
+          description: Cuándo ocurrió la emergencia
+          example: "2024-01-15T10:30:00Z"
+        elevadores_estado:
+          type: array
+          items:
+            $ref: '#/components/schemas/ElevatorState'
+          description: Estado de todos los ascensores del edificio
+          minItems: 1
+          maxItems: 6
+      required:
+        - id_edificio
+        - ascensor_id_emergencia
+        - tipo_emergencia
+        - piso_actual_emergencia
+        - timestamp_emergencia
+        - elevadores_estado
+
+    EmergencyResponse:
+      type: object
+      description: Respuesta a una solicitud de emergencia
+      properties:
+        emergencia_id:
+          type: string
+          description: ID único generado para esta emergencia
+          pattern: '^EMG_[0-9]+$'
+          example: EMG_1640995200123
+          maxLength: 31
+        protocolo_activado:
+          type: string
+          description: Protocolo de emergencia que se activó
+          enum: [RESCUE_PROTOCOL, MAINTENANCE_ALERT, FIRE_EVACUATION, POWER_BACKUP]
+          example: RESCUE_PROTOCOL
+        tiempo_respuesta_estimado:
+          type: integer
+          description: Tiempo estimado de respuesta en minutos
+          minimum: 1
+          maximum: 60
+          example: 15
+        servicios_notificados:
+          type: array
+          items:
+            type: string
+          description: Lista de servicios que fueron notificados
+          example: ["BOMBEROS", "MANTENIMIENTO", "SEGURIDAD"]
+        ascensores_redirection:
+          type: array
+          items:
+            type: string
+          description: Ascensores redirigidos para asistencia
+          example: ["E1A2", "E1A3"]
+      required:
+        - emergencia_id
+        - protocolo_activado
+        - tiempo_respuesta_estimado
+        - servicios_notificados 

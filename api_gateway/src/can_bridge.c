@@ -20,6 +20,7 @@
  * - **0x100**: Llamadas de piso (floor calls) con dirección
  * - **0x200**: Solicitudes de cabina (cabin requests) con destino
  * - **0x300**: Notificaciones de llegada de ascensores
+ * - **0x400**: Llamadas de emergencia desde ascensores
  * 
  * El puente mantiene un buffer circular de trackers para correlacionar
  * respuestas del servidor central con las solicitudes CAN originales.
@@ -41,6 +42,7 @@
 #include <string.h>
 #include <stdlib.h> // Para atoi
 #include <arpa/inet.h> // <--- AÑADIR PARA inet_pton
+#include <time.h> // Para time(), gmtime(), strftime()
 
 /**
  * @brief Longitud máxima de datos en un frame CAN estándar
@@ -270,6 +272,19 @@ static void forward_can_originated_request_to_central_server(
     movement_direction_enum_t requested_direction_floor_param
 ); // Definición más abajo
 
+// Declaración adelantada de función específica para emergencias
+static void forward_can_emergency_request_to_central_server(
+    coap_context_t *ctx,
+    uint32_t original_can_id,
+    const char *central_server_path,
+    const char *log_tag_param,
+    const char *elevator_id,
+    int emergency_floor,
+    api_gateway_coap_para_sistema_de_ascensores_emergency_type__e emergency_type,
+    const char *description,
+    const char *timestamp
+); // Definición más abajo
+
 
 /**
  * @brief Procesa un frame CAN entrante y lo convierte a solicitud CoAP
@@ -432,6 +447,64 @@ void ag_can_bridge_process_incoming_frame(simulated_can_frame_t* frame, coap_con
             }
             break;
 
+        case 0x400: // Nuevo: Llamada de emergencia
+            if (frame->dlc >= 3) { // Necesitamos al menos 3 bytes de datos
+                // Decodificar datos del frame CAN
+                int elevator_index = frame->data[0];  // Índice del ascensor (0-based)
+                int emergency_floor = frame->data[1]; // Piso donde está el ascensor
+                int emergency_type_int = frame->data[2]; // Tipo de emergencia
+                
+                // Construir ID del ascensor
+                char elevator_id_str[atoi(getenv("ID_STRING_MAX_LEN"))];
+                int max_building_id_len = atoi(getenv("ID_STRING_MAX_LEN")) - 1 /*null*/ - 1 /*A*/ - 3 /*NNN for elevator number*/;
+                if (max_building_id_len < 1) max_building_id_len = 1; // ensure at least 1 char for building id part
+                
+                snprintf(elevator_id_str, sizeof(elevator_id_str), "%.*sA%d", 
+                         max_building_id_len,
+                         managed_elevator_group.edificio_id_str_grupo, 
+                         elevator_index + 1);
+                
+                // Convertir tipo de emergencia (ajustar offset +1 porque enum empieza en 1, no 0)
+                api_gateway_coap_para_sistema_de_ascensores_emergency_type__e emergency_type;
+                switch (emergency_type_int) {
+                    case 0: emergency_type = api_gateway_coap_para_sistema_de_ascensores_emergency_type__EMERGENCY_STOP; break;
+                    case 1: emergency_type = api_gateway_coap_para_sistema_de_ascensores_emergency_type__POWER_FAILURE; break;
+                    case 2: emergency_type = api_gateway_coap_para_sistema_de_ascensores_emergency_type__PEOPLE_TRAPPED; break;
+                    case 3: emergency_type = api_gateway_coap_para_sistema_de_ascensores_emergency_type__MECHANICAL_FAILURE; break;
+                    case 4: emergency_type = api_gateway_coap_para_sistema_de_ascensores_emergency_type__FIRE_ALARM; break;
+                    default: emergency_type = api_gateway_coap_para_sistema_de_ascensores_emergency_type__NULL; break;
+                }
+                
+                // Generar timestamp
+                char timestamp_str[32];
+                time_t now = time(NULL);
+                struct tm *utc_time = gmtime(&now);
+                strftime(timestamp_str, sizeof(timestamp_str), "%Y-%m-%dT%H:%M:%SZ", utc_time);
+                
+                // Crear descripción
+                char description[512];
+                snprintf(description, sizeof(description), 
+                         "Emergencia reportada por ascensor %s en piso %d", 
+                         elevator_id_str, emergency_floor);
+                
+                LOG_WARN_GW("[CAN_Bridge] 🚨 EMERGENCIA CAN: Ascensor %s, Piso %d, Tipo %s", 
+                           elevator_id_str, emergency_floor, emergency_type_to_string(emergency_type));
+                
+                // Usar implementación especial para emergencias que llena todos los campos
+                forward_can_emergency_request_to_central_server(
+                    coap_ctx, frame->id,
+                    getenv("EMERGENCY_CALL_RESOURCE") ?: "/llamada_emergencia",
+                    "CAN_Emergency", 
+                    elevator_id_str,
+                    emergency_floor,
+                    emergency_type,
+                    description,
+                    timestamp_str);
+            } else {
+                LOG_WARN_GW("[CAN_Bridge] Frame CAN 0x400 (Emergencia) con DLC insuficiente: %d", frame->dlc);
+            }
+            break;
+
         default:
             LOG_WARN_GW("[CAN_Bridge] ID de frame CAN simulado desconocido: 0x%X", frame->id);
             break;
@@ -580,6 +653,7 @@ forward_can_originated_request_to_central_server(
             }
             json_details.target_floor_cr = target_floor_for_task_param;
             break;
+        // GW_REQUEST_TYPE_EMERGENCY_CALL usa función específica forward_can_emergency_request_to_central_server
         default: break;
     }
     
@@ -737,5 +811,156 @@ forward_can_originated_request_to_central_server(
         LOG_INFO_GW(ANSI_COLOR_GREEN "[%s] Gateway (Origen CAN ID: 0x%X) -> Central: Solicitud enviada, esperando rsp..." ANSI_COLOR_RESET "\n", log_tag_param, original_can_id);
         // El tracker CAN está almacenado. La respuesta se asociará a través del token.
         // La sesión DTLS global no se libera aquí.
+    }
+}
+
+// Función específica para emergencias que llena todos los campos necesarios
+static void forward_can_emergency_request_to_central_server(
+    coap_context_t *ctx,
+    uint32_t original_can_id,
+    const char *central_server_path,
+    const char *log_tag_param,
+    const char *elevator_id,
+    int emergency_floor,
+    api_gateway_coap_para_sistema_de_ascensores_emergency_type__e emergency_type,
+    const char *description,
+    const char *timestamp
+) {
+    if (!central_server_path || !log_tag_param || !elevator_id || !description || !timestamp) {
+        LOG_ERROR_GW("[CAN_Emergency] Error: Parámetros NULL en función de emergencia.");
+        return;
+    }
+    if (!ctx) {
+        LOG_ERROR_GW("[%s] Error: No se pudo obtener contexto CoAP.", log_tag_param);
+        return;
+    }
+
+    LOG_INFO_GW("[%s] Gateway (Emergencia CAN ID: 0x%X): Preparando solicitud de emergencia para Servidor Central.", log_tag_param, original_can_id);
+
+    // Crear estructura de detalles para emergencia
+    api_request_details_for_json_t json_details;
+    memset(&json_details, 0, sizeof(api_request_details_for_json_t));
+    
+    // Llenar campos específicos de emergencia
+    strncpy(json_details.emergency_elevator_id, elevator_id, ID_STRING_MAX_LEN - 1);
+    json_details.emergency_elevator_id[ID_STRING_MAX_LEN - 1] = '\0';
+    json_details.emergency_floor = emergency_floor;
+    strncpy(json_details.emergency_description, description, sizeof(json_details.emergency_description) - 1);
+    json_details.emergency_description[sizeof(json_details.emergency_description) - 1] = '\0';
+    strncpy(json_details.emergency_timestamp, timestamp, sizeof(json_details.emergency_timestamp) - 1);
+    json_details.emergency_timestamp[sizeof(json_details.emergency_timestamp) - 1] = '\0';
+    json_details.emergency_type = emergency_type;
+    
+    // Generar Payload JSON para emergencia
+    char *json_payload_str = NULL;
+    cJSON *json_payload_obj = elevator_group_to_json_for_server(&managed_elevator_group, GW_REQUEST_TYPE_EMERGENCY_CALL, &json_details);
+    if (!json_payload_obj) {
+        LOG_ERROR_GW("[%s] Error: Fallo al generar JSON para emergencia CAN.", log_tag_param);
+        return;
+    }
+    json_payload_str = cJSON_PrintUnformatted(json_payload_obj);
+    cJSON_Delete(json_payload_obj);
+    if (!json_payload_str) {
+        LOG_ERROR_GW("[%s] Error: Fallo al convertir JSON de emergencia a string.", log_tag_param);
+        return;
+    }
+    LOG_DEBUG_GW("[%s] Payload de emergencia para Servidor Central (CAN ID: 0x%X): %s", log_tag_param, original_can_id, json_payload_str);
+
+    // Sesión con el servidor central (DTLS)
+    coap_session_t *session_to_central = get_or_create_central_server_dtls_session(ctx);
+    if (!session_to_central) {
+        LOG_ERROR_GW("[%s] Error creando/obteniendo sesión DTLS con servidor central para emergencia CAN.", log_tag_param);
+        free(json_payload_str);
+        return;
+    }
+
+    // Crear PDU para enviar al servidor central
+    coap_pdu_t *pdu_to_central = coap_new_pdu(COAP_MESSAGE_CON, COAP_REQUEST_CODE_POST, session_to_central);
+    if (!pdu_to_central) {
+        LOG_ERROR_GW("[%s] Error creando PDU para servidor central (emergencia CAN).", log_tag_param);
+        free(json_payload_str);
+        return;
+    }
+
+    // Añadir Token NUEVO a la PDU para el servidor central
+    uint8_t token_data[8]; 
+    size_t token_length = sizeof(token_data);
+    coap_session_new_token(session_to_central, &token_length, token_data);
+    
+    if (!coap_add_token(pdu_to_central, token_length, token_data)) {
+         LOG_WARN_GW("[%s] Advertencia: Fallo al añadir NUEVO token a PDU (emergencia CAN).", log_tag_param);
+    }
+    coap_bin_const_t pdu_token_to_central = coap_pdu_get_token(pdu_to_central);
+
+    // Guardar el tracker para esta solicitud de emergencia CAN
+    store_can_tracker(pdu_token_to_central, original_can_id, GW_REQUEST_TYPE_EMERGENCY_CALL, emergency_floor, emergency_floor, elevator_id);
+
+    // Añadir Opciones de URI (Uri-Path)
+    char qualified_target_path[256];
+    const char* path_to_use = central_server_path;
+    
+    if (path_to_use[0] == '/') {
+        strncpy(qualified_target_path, path_to_use, sizeof(qualified_target_path) - 1);
+        qualified_target_path[sizeof(qualified_target_path) - 1] = '\0';
+    } else {
+        snprintf(qualified_target_path, sizeof(qualified_target_path), "/%s", path_to_use);
+    }
+
+    coap_uri_t *uri_obj = coap_new_uri((const uint8_t *)qualified_target_path, strlen(qualified_target_path));
+    if (uri_obj) {
+        coap_optlist_t *optlist_head = NULL;
+        const coap_address_t *remote_addr = coap_session_get_addr_remote(session_to_central);
+        if (remote_addr) {
+            if (coap_uri_into_optlist(uri_obj, remote_addr, &optlist_head, 1) == 1) {
+                coap_add_optlist_pdu(pdu_to_central, &optlist_head);
+                coap_delete_optlist(optlist_head);
+            } else {
+                LOG_ERROR_GW("[%s] Error creando lista de opciones desde URI (emergencia CAN): %s", log_tag_param, qualified_target_path);
+            }
+        } else {
+            LOG_ERROR_GW("[%s] Error obteniendo dirección remota de la sesión DTLS para URI (emergencia CAN).", log_tag_param);
+        }
+        coap_delete_uri(uri_obj);
+    } else {
+         LOG_ERROR_GW("[%s] Error creando objeto URI desde path (emergencia CAN): %s", log_tag_param, qualified_target_path);
+    }
+
+    // Añadir Opción Content-Format (application/json)
+    uint8_t ct_buf[2];
+    coap_add_option(pdu_to_central, COAP_OPTION_CONTENT_FORMAT, 
+                    coap_encode_var_safe(ct_buf, sizeof(ct_buf), COAP_MEDIATYPE_APPLICATION_JSON), ct_buf);
+
+    // Añadir Payload JSON
+    if (json_payload_str && strlen(json_payload_str) > 0) {
+        if (!coap_add_data(pdu_to_central, strlen(json_payload_str), (const uint8_t *)json_payload_str)) {
+            LOG_ERROR_GW("[%s] Error: añadiendo payload JSON a PDU (emergencia CAN).", log_tag_param);
+            coap_delete_pdu(pdu_to_central);
+            free(json_payload_str);
+            return;
+        }
+    }
+
+    // Verificar estado de sesión antes de enviar
+    coap_session_state_t session_state = coap_session_get_state(session_to_central);
+    if (session_state != COAP_SESSION_STATE_ESTABLISHED) {
+        LOG_ERROR_GW("[%s] Error: Sesión DTLS no establecida (estado: %d). No se puede enviar petición de emergencia.", log_tag_param, session_state);
+        coap_delete_pdu(pdu_to_central);
+        free(json_payload_str);
+        return;
+    }
+    
+    // Enviar PDU
+    LOG_INFO_GW("[%s] Gateway (Emergencia CAN ID: 0x%X) -> Central: Enviando solicitud de emergencia...", log_tag_param, original_can_id);
+    
+    // Registrar petición CoAP en el logger
+    char method[] = "POST";
+    exec_logger_log_coap_sent(method, qualified_target_path, json_payload_str);
+    
+    free(json_payload_str);
+
+    if (coap_send(session_to_central, pdu_to_central) == COAP_INVALID_MID) {
+        LOG_ERROR_GW("[%s] Error: enviando petición de emergencia a servidor central (CAN).", log_tag_param);
+    } else {
+        LOG_INFO_GW("[%s] Gateway (Emergencia CAN ID: 0x%X) -> Central: Solicitud de emergencia enviada, esperando respuesta...", log_tag_param, original_can_id);
     }
 } 

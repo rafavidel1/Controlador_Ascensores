@@ -290,6 +290,57 @@ void simular_solicitud_cabina_via_can(int indice_ascensor, int piso_destino) {
 }
 
 /**
+ * @brief Simula una llamada de emergencia enviando un frame CAN al API Gateway
+ * 
+ * @param[in] indice_ascensor Índice del ascensor en emergencia (0-based)
+ * @param[in] piso_actual Piso actual donde está el ascensor
+ * @param[in] tipo_emergencia Tipo de emergencia como string
+ * 
+ * @details Genera un frame CAN con ID 0x400 que será procesado por el 
+ * bridge CAN para crear una solicitud CoAP al servidor central.
+ */
+void simular_emergencia_via_can(int indice_ascensor, int piso_actual, const char* tipo_emergencia) {
+    if (!g_coap_context) {
+        printf("[SIM_ASCENSOR] Error: Contexto CoAP de Gateway no disponible.\n");
+        return;
+    }
+    
+    printf("[SIM_ASCENSOR] 🚨 Enviando EMERGENCIA a GW (vía CAN): Ascensor idx %d, Piso %d, Tipo: %s\n", 
+           indice_ascensor, piso_actual, tipo_emergencia);
+    
+    simulated_can_frame_t frame;
+    frame.id = 0x400; // ID CAN para emergencias
+    frame.data[0] = (uint8_t)indice_ascensor; // Índice del ascensor (0-based)
+    frame.data[1] = (uint8_t)piso_actual;     // Piso actual del ascensor
+    
+    // Convertir tipo de emergencia a enumeración
+    uint8_t tipo_enum = 0; // EMERGENCY_STOP por defecto
+    if (strcmp(tipo_emergencia, "EMERGENCY_STOP") == 0) {
+        tipo_enum = 0;
+    } else if (strcmp(tipo_emergencia, "POWER_FAILURE") == 0) {
+        tipo_enum = 1;
+    } else if (strcmp(tipo_emergencia, "PEOPLE_TRAPPED") == 0) {
+        tipo_enum = 2;
+    } else if (strcmp(tipo_emergencia, "MECHANICAL_FAILURE") == 0) {
+        tipo_enum = 3;
+    } else if (strcmp(tipo_emergencia, "FIRE_ALARM") == 0) {
+        tipo_enum = 4;
+    }
+    
+    frame.data[2] = tipo_enum;               // Tipo de emergencia (enumeración)
+    frame.dlc = 3;
+
+    // Registrar frame CAN en el logger
+    char description[256];
+    snprintf(description, sizeof(description), 
+             "🚨 EMERGENCIA: %s desde ascensor índice %d en piso %d", 
+             tipo_emergencia, indice_ascensor, piso_actual);
+    exec_logger_log_can_sent(frame.id, frame.dlc, frame.data, description);
+
+    ag_can_bridge_process_incoming_frame(&frame, g_coap_context);
+}
+
+/**
  * @brief Ejecuta una secuencia de eventos simulados de ascensor desde JSON de forma no-bloqueante
  * 
  * Esta función reemplaza la simulación bloqueante anterior. Ahora la simulación
@@ -428,6 +479,16 @@ bool procesar_siguiente_peticion_simulacion(void) {
                peticion->indice_ascensor, peticion->piso_destino);
 
         simular_solicitud_cabina_via_can(peticion->indice_ascensor, peticion->piso_destino);
+
+    } else if (peticion->tipo == PETICION_LLAMADA_EMERGENCIA) {
+        printf("[SIM_ASCENSOR] 🚨 Ejecutando llamada de emergencia: %s en %s\n", 
+               peticion->tipo_emergencia, peticion->ascensor_id_emergencia);
+        printf("[SIM_ASCENSOR]    Piso actual: %d, Descripción: %s\n", 
+               peticion->piso_actual_emergencia, peticion->descripcion_emergencia);
+
+        // Simular emergencia vía CAN (usar el índice del ascensor extraído del ID)
+        int ascensor_index = peticion->indice_ascensor; // Ya se extrae en simulation_loader
+        simular_emergencia_via_can(ascensor_index, peticion->piso_actual_emergencia, peticion->tipo_emergencia);
 
     } else {
         printf("[SIM_ASCENSOR] Advertencia: Tipo de petición desconocido: %d\n", peticion->tipo);

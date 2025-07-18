@@ -86,6 +86,39 @@ const char* movement_direction_to_string(movement_direction_enum_t direction) {
 }
 
 /**
+ * @brief Convierte un tipo de emergencia a su representación en string
+ * @param emergency_type Tipo de emergencia a convertir
+ * @return String representando el tipo de emergencia
+ * 
+ * Esta función proporciona una representación legible del tipo
+ * de emergencia para logging y serialización JSON.
+ * 
+ * Tipos soportados:
+ * - EMERGENCY_STOP: "EMERGENCY_STOP"
+ * - POWER_FAILURE: "POWER_FAILURE"
+ * - PEOPLE_TRAPPED: "PEOPLE_TRAPPED"
+ * - MECHANICAL_FAILURE: "MECHANICAL_FAILURE"
+ * - FIRE_ALARM: "FIRE_ALARM"
+ * - Otros: "UNKNOWN"
+ */
+const char* emergency_type_to_string(api_gateway_coap_para_sistema_de_ascensores_emergency_type__e emergency_type) {
+    switch (emergency_type) {
+        case api_gateway_coap_para_sistema_de_ascensores_emergency_type__EMERGENCY_STOP:
+            return "EMERGENCY_STOP";
+        case api_gateway_coap_para_sistema_de_ascensores_emergency_type__POWER_FAILURE:
+            return "POWER_FAILURE";
+        case api_gateway_coap_para_sistema_de_ascensores_emergency_type__PEOPLE_TRAPPED:
+            return "PEOPLE_TRAPPED";
+        case api_gateway_coap_para_sistema_de_ascensores_emergency_type__MECHANICAL_FAILURE:
+            return "MECHANICAL_FAILURE";
+        case api_gateway_coap_para_sistema_de_ascensores_emergency_type__FIRE_ALARM:
+            return "FIRE_ALARM";
+        default:
+            return "UNKNOWN";
+    }
+}
+
+/**
  * @brief Inicializa un grupo de ascensores con configuración específica
  * @param group Puntero al grupo de ascensores a inicializar
  * @param edificio_id_str ID del edificio al que pertenece el grupo
@@ -202,6 +235,13 @@ cJSON* elevator_group_to_json_for_server(const elevator_group_state_t *group,
             case GW_REQUEST_TYPE_CABIN_REQUEST:
                 cJSON_AddStringToObject(root, "solicitando_ascensor_id", details->requesting_elevator_id_cr);
                 cJSON_AddNumberToObject(root, "piso_destino_solicitud", details->target_floor_cr);
+                break;
+            case GW_REQUEST_TYPE_EMERGENCY_CALL:
+                cJSON_AddStringToObject(root, "ascensor_id_emergencia", details->emergency_elevator_id);
+                cJSON_AddNumberToObject(root, "piso_actual_emergencia", details->emergency_floor);
+                cJSON_AddStringToObject(root, "descripcion_emergencia", details->emergency_description);
+                cJSON_AddStringToObject(root, "timestamp_emergencia", details->emergency_timestamp);
+                cJSON_AddStringToObject(root, "tipo_emergencia", emergency_type_to_string(details->emergency_type));
                 break;
             case GW_REQUEST_TYPE_UNKNOWN:
             default:

@@ -31,6 +31,9 @@
 #include <cJSON.h>
 #include <stdbool.h> // Para bool
 
+// Include para tipos de emergencia generados automáticamente
+#include "../../../Definition_API/api_controlador-c/model/emergency_type.h"
+
 /**
  * @brief Número máximo de ascensores por gateway
  * 
@@ -100,7 +103,8 @@ typedef enum {
 typedef enum {
     GW_REQUEST_TYPE_UNKNOWN = 0,    ///< Tipo de solicitud desconocido
     GW_REQUEST_TYPE_FLOOR_CALL,     ///< Llamada de piso (botón externo)
-    GW_REQUEST_TYPE_CABIN_REQUEST   ///< Solicitud de cabina (botón interno)
+    GW_REQUEST_TYPE_CABIN_REQUEST,  ///< Solicitud de cabina (botón interno)
+    GW_REQUEST_TYPE_EMERGENCY_CALL  ///< Llamada de emergencia desde ascensor
 } gw_request_type_t;
 
 /**
@@ -147,7 +151,12 @@ typedef struct {
     char requesting_elevator_id_cr[ID_STRING_MAX_LEN];  ///< ID del ascensor solicitante
     int target_floor_cr;                                ///< Piso destino solicitado
 
-    // Otros tipos de solicitud pueden añadir sus campos aquí si es necesario.
+    // Para Emergency Call (GW_REQUEST_TYPE_EMERGENCY_CALL)
+    char emergency_elevator_id[ID_STRING_MAX_LEN];      ///< ID del ascensor en emergencia
+    int emergency_floor;                                ///< Piso donde está el ascensor en emergencia
+    char emergency_description[512];                    ///< Descripción detallada de la emergencia
+    char emergency_timestamp[32];                       ///< Timestamp en formato ISO 8601
+    api_gateway_coap_para_sistema_de_ascensores_emergency_type__e emergency_type; ///< Tipo de emergencia
 } api_request_details_for_json_t;
 
 // --- Prototipos de Funciones ---
@@ -227,5 +236,17 @@ const char* door_state_to_string(door_state_enum_t state);
  * @see movement_direction_enum_t
  */
 const char* movement_direction_to_string(movement_direction_enum_t direction);
+
+/**
+ * @brief Convierte un tipo de emergencia a su representación en string
+ * @param emergency_type Tipo de emergencia a convertir
+ * @return String representando el tipo de emergencia
+ * 
+ * Función helper para convertir enumeraciones de tipo de emergencia
+ * a strings legibles para JSON y logging.
+ * 
+ * @see api_gateway_coap_para_sistema_de_ascensores_emergency_type__e
+ */
+const char* emergency_type_to_string(api_gateway_coap_para_sistema_de_ascensores_emergency_type__e emergency_type);
 
 #endif // ELEVATOR_STATE_MANAGER_H 

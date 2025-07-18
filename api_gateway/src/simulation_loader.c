@@ -230,6 +230,52 @@ bool cargar_datos_simulacion(const char *archivo_json, datos_simulacion_t *datos
                 }
                 peticion->piso_destino = destino_json->valueint;
 
+            } else if (strcmp(tipo_json->valuestring, "llamada_emergencia") == 0) {
+                peticion->tipo = PETICION_LLAMADA_EMERGENCIA;
+
+                // Procesar campos de emergencia
+                cJSON *id_edificio_json = cJSON_GetObjectItemCaseSensitive(peticion_json, "id_edificio");
+                if (cJSON_IsString(id_edificio_json)) {
+                    strncpy(peticion->id_edificio, id_edificio_json->valuestring, sizeof(peticion->id_edificio) - 1);
+                }
+
+                cJSON *ascensor_id_json = cJSON_GetObjectItemCaseSensitive(peticion_json, "ascensor_id_emergencia");
+                if (cJSON_IsString(ascensor_id_json)) {
+                    strncpy(peticion->ascensor_id_emergencia, ascensor_id_json->valuestring, sizeof(peticion->ascensor_id_emergencia) - 1);
+                }
+
+                cJSON *tipo_emergencia_json = cJSON_GetObjectItemCaseSensitive(peticion_json, "tipo_emergencia");
+                if (cJSON_IsString(tipo_emergencia_json)) {
+                    strncpy(peticion->tipo_emergencia, tipo_emergencia_json->valuestring, sizeof(peticion->tipo_emergencia) - 1);
+                }
+
+                cJSON *piso_actual_json = cJSON_GetObjectItemCaseSensitive(peticion_json, "piso_actual_emergencia");
+                if (cJSON_IsNumber(piso_actual_json)) {
+                    peticion->piso_actual_emergencia = piso_actual_json->valueint;
+                }
+
+                cJSON *timestamp_json = cJSON_GetObjectItemCaseSensitive(peticion_json, "timestamp_emergencia");
+                if (cJSON_IsString(timestamp_json)) {
+                    strncpy(peticion->timestamp_emergencia, timestamp_json->valuestring, sizeof(peticion->timestamp_emergencia) - 1);
+                }
+
+                cJSON *descripcion_json = cJSON_GetObjectItemCaseSensitive(peticion_json, "descripcion_emergencia");
+                if (cJSON_IsString(descripcion_json)) {
+                    strncpy(peticion->descripcion_emergencia, descripcion_json->valuestring, sizeof(peticion->descripcion_emergencia) - 1);
+                }
+
+                // Extraer índice del ascensor del ID (ej: "ASC_E001_02" -> índice 2)
+                if (strlen(peticion->ascensor_id_emergencia) > 0) {
+                    char *last_underscore = strrchr(peticion->ascensor_id_emergencia, '_');
+                    if (last_underscore && strlen(last_underscore) > 1) {
+                        peticion->indice_ascensor = atoi(last_underscore + 1);
+                    }
+                }
+
+                printf("[SIMULATION] 🚨 Emergencia cargada: %s en %s (ascensor %s [idx:%d], piso %d)\n",
+                       peticion->tipo_emergencia, peticion->id_edificio,
+                       peticion->ascensor_id_emergencia, peticion->indice_ascensor, peticion->piso_actual_emergencia);
+
             } else {
                 printf("[SIMULATION] Error: Tipo '%s' desconocido en %s[%d]\n", 
                        tipo_json->valuestring, edificio->id_edificio, peticion_idx);
